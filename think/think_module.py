@@ -72,6 +72,12 @@ def think(context):
     cycle_count["count"] += 1
     save_json(CYCLE_COUNT_FILE, cycle_count)
 
+    # --- DREAM EVERY 5 CYCLES ---
+    if cycle_count["count"] % 5 == 0:
+        dream_text = dream()
+        if dream_text:
+            update_working_memory("Dream: " + dream_text.strip())
+
     # --- Emotion drift, behavior generation ---
     check_emotion_drift()
     generate_behavior_from_integration()
