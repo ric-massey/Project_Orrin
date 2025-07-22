@@ -1,6 +1,7 @@
 ORRIN: Autonomous AI Agent & AGI Experimentation Framework
 
-Not open source. For research/demonstration only. No redistribution or modification allowed without written consent.
+NOT OPEN SOURCE. For research/demonstration only.  
+No redistribution or modification allowed without written consent.
 
 ─────────────────────────────
 
@@ -14,44 +15,56 @@ Orrin combines persistent long-term memory, recursive self-reflection, dynamic g
 GETTING STARTED
 
   1. Clone the Repo:
-     git clone https://github.com/ric-massey/Project_Orrin.git
-     cd Project_Orrin
+       git clone https://github.com/ric-massey/Project_Orrin.git
+       cd Project_Orrin
 
   2. Set up Python (highly recommended: use a virtual environment):
-     python3 -m venv venv
-     source venv/bin/activate
-     pip install -r requirements.txt
+       python3 -m venv venv
+       source venv/bin/activate
+       pip install -r requirements.txt
 
-  3. Add your OpenAI API key
-     Create a .env file in the project root:
-       OPENAI_API_KEY=sk-xxxxxx…
-     (Never share or commit your real API key!)
+  3. Add your OpenAI API key:
+       Create a .env file in the project root:
+         OPENAI_API_KEY=sk-xxxxxx…
+       (Never share or commit your real API key!)
 
   4. Run Orrin:
-     python main.py
+       python main.py
      (Or, depending on your setup:)
-     python ORRIN.py
+       python ORRIN.py
 
 ─────────────────────────────
 
 WHAT TO WATCH (WHEN RUNNING ORRIN):
 
   • All private thoughts, internal reflections, and dreams:
-      - private_thoughts.txt (persistent narrative of Orrin’s “mind”)
+      - `private_thoughts.txt` (persistent narrative of Orrin’s mind)
   • If you want to talk to Orrin:
-      - Write your message into user_input.txt. He will process it on his next loop.
+      - Write your message into `user_input.txt`. He will process it on his next loop.
   • All LLM prompts/responses and system-level behavior:
-      - llm_prompt.txt
+      - `llm_prompt.txt`
   • Errors and failed model outputs:
-      - error_log.txt and model_failures.json
+      - `error_log.txt` and `model_failures.json`
   • Long-term memory:
-      - long_memory.json
+      - `long_memory.json`
   • All goal information (current, completed, abandoned):
-      - goals.json, completed_goals.json, abandoned_goals.json
+      - `goals.json`, `completed_goals.json`, `abandoned_goals.json`
   • Goal focus for each loop:
-      - focus_goal.json (NOTE: see issues below)
+      - `focus_goal.json` (NOTE: see issues below)
 
-Demo logs and transcripts are in the logs/ folder. See private_thoughts.txt for examples of Orrin’s persistent narrative.
+Demo logs and transcripts are in the `logs/` folder.  
+See `private_thoughts.txt` for examples of Orrin’s persistent narrative.
+
+─────────────────────────────
+
+RESETTING ORRIN’S MEMORY (OPTIONAL)
+
+To start Orrin “fresh,” empty out the following files before launching:
+  - `private_thoughts.txt`
+  - `long_memory.json`
+  - `goals.json`, `completed_goals.json`, `abandoned_goals.json`
+
+This will clear his memory, goals, and persistent narrative.
 
 ─────────────────────────────
 
@@ -68,7 +81,7 @@ WHAT MAKES ORRIN DIFFERENT?
   • Dreams & Imagination:
       - Simulates dream-like or counterfactual scenarios to evolve values or propose new ideas.
   • (Experimental) Self-Modification:
-      - Can propose and, if allowed, write and save new Python functions—including for his own           cognitive routines.
+      - Can propose and, if allowed, generate and save new Python functions—including for his            own cognitive routines.
   • Fully Autonomous Loop:
       - Once started, Orrin runs, reflects, dreams, and evolves on his own. User interaction is          optional.
 
@@ -77,10 +90,10 @@ WHAT MAKES ORRIN DIFFERENT?
 KNOWN ISSUES & LIMITATIONS
 
   • Looping / Stagnation:
-      - Orrin can get stuck in recursive self-reflection loops, particularly around                      reflect_on_self_beliefs.
+      - Orrin can get stuck in recursive self-reflection loops, particularly around                      `reflect_on_self_beliefs`.
       - This often occurs when the LLM lacks confidence or memory and goal mechanisms fail to            generate fresh directions, causing cognitive stagnation.
   • Goal Focus Not Updating:
-      - The focus_goal.json file may not reliably update or reflect Orrin’s current priorities.
+      - The `focus_goal.json` file may not reliably update or reflect Orrin’s current priorities.
       - Orrin can create and suggest goals but struggles to maintain consistent focus or                 demonstrate meaningful progression through them.
   • Goal Completion Logic Needs Work:
       - Determining when a goal is genuinely complete remains problematic.
@@ -93,9 +106,12 @@ KNOWN ISSUES & LIMITATIONS
   • Memory Management & Bloat:
       - Persistent long-term memory enables continuity but also leads to bloat.
       - Without effective pruning, memory growth negatively impacts performance and LLM prompt           size, causing errors and slowdowns.
+      - Consider manual cleanup if running long-term or in low-storage environments.
   • LLM Parsing and Robustness:
       - Orrin encounters frequent issues with incomplete or malformed JSON from the language             model.
       - Parsing failures trigger error handling routines but occasionally cause lost information         or stalled cognition.
+  • Prompt Size/LLM Limitations:
+      - Some operations (like reflection or dream generation) may hit LLM prompt length limits,          resulting in errors or lost output. Reduce memory or trim logs to resolve.
   • Code Self-Modification Risks:
       - Experimental self-modification is enabled but rarely exercised.
       - Dynamic code generation carries safety, stability, and integration risks that are only           partially mitigated.
@@ -134,3 +150,11 @@ Copyright © 2025 Ric Massey. All rights reserved.
 Not open source — no redistribution or modification allowed without written permission.
 
 Contact: ricmassey.work@gmail.com
+
+─────────────────────────────
+
+TL;DR:  
+Orrin is an experimental autonomous AI agent designed for AGI research.  
+He thinks, reflects, dreams, sets goals, and can rewrite his own code (sometimes).
+
+─────────────────────────────
