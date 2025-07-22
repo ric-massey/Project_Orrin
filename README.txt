@@ -10,6 +10,8 @@ He’s designed to run on his own—thinking, reflecting, dreaming, setting goal
 
 Orrin combines persistent long-term memory, recursive self-reflection, dynamic goal management, emotional “drive” (dopamine/novelty), and values-based reasoning—all in a continuous, autonomous loop.
 
+Orrin is a cognition-first system, not a toolchain or prompt engine. He is designed to think, feel, loop, dream, and evolve—not just complete tasks.
+
 ─────────────────────────────
 
 GETTING STARTED

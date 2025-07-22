@@ -5,18 +5,17 @@ from paths import (
 )
 
 def log_error(content):
-    with open(ERROR_FILE, "a", encoding="utf-8") as f:
+    with ERROR_FILE.open("a", encoding="utf-8", newline="\n") as f:
         f.write(f"\n[{datetime.now(timezone.utc).isoformat()}] {content}\n")
 
 def log_model_issue(message):
-    with open(MODEL_FAILURE, "a", encoding="utf-8") as f:
+    with MODEL_FAILURE.open("a", encoding="utf-8", newline="\n") as f:
         f.write(f"[{datetime.now(timezone.utc).isoformat()}] {message}\n")
 
 def log_activity(message):
-    with open(ACTIVITY_LOG, "a", encoding="utf-8") as f:
+    with ACTIVITY_LOG.open("a", encoding="utf-8", newline="\n") as f:
         f.write(f"[{datetime.now(timezone.utc).isoformat()}] {message}\n")
 
 def log_private(message):
-    with open(PRIVATE_THOUGHTS_FILE, "a", encoding="utf-8") as f:
+    with PRIVATE_THOUGHTS_FILE.open("a", encoding="utf-8", newline="\n") as f:
         f.write(f"[{datetime.now(timezone.utc).isoformat()}] {message}\n")
-

@@ -1,5 +1,5 @@
 import json
-import os
+from pathlib import Path
 
 from utils.json_utils import load_json
 from utils.log import (
@@ -13,8 +13,8 @@ from paths import (
 
 def load_model_config():
     try:
-        if os.path.exists(MODEL_CONFIG_FILE):
-            with open(MODEL_CONFIG_FILE, "r") as f:
+        if MODEL_CONFIG_FILE.exists():
+            with MODEL_CONFIG_FILE.open("r", encoding="utf-8") as f:
                 return json.load(f)
     except Exception as e:
         log_model_issue(f"[load_model_config] Failed to load model config: {e}")
@@ -28,8 +28,14 @@ def load_model_config():
 def load_context():
     return load_json(CONTEXT, default_type=dict)
 
+
 def load_all_known_json(data_dir="."):
+    """
+    Loads all known JSON files from a given directory and returns them as a dict.
+    Each file is inferred by filename -> expected default type.
+    """
     known = {}
+    data_path = Path(data_dir)
 
     # Map of expected file base names to their default types
     expected_types = {
@@ -61,14 +67,12 @@ def load_all_known_json(data_dir="."):
         "mode": dict
     }
 
-    for filename in os.listdir(data_dir):
-        if filename.endswith(".json"):
-            try:
-                path = os.path.join(data_dir, filename)
-                key = filename.replace(".json", "")
-                default_type = expected_types.get(key, dict)  # Default guess: dict
-                known[key] = load_json(path, default_type=default_type)
-            except Exception as e:
-                log_error(f"⚠️ Failed to load {filename}: {e}")
+    for file_path in data_path.glob("*.json"):
+        key = file_path.stem
+        default_type = expected_types.get(key, dict)
+        try:
+            known[key] = load_json(file_path, default_type=default_type)
+        except Exception as e:
+            log_error(f"⚠️ Failed to load {file_path.name}: {e}")
 
     return known

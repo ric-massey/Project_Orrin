@@ -1,8 +1,8 @@
-# ==Imports
+# == Imports
 from utils.json_utils import load_json
-from paths import LONG_MEMORY_FILE
+from paths import LONG_MEMORY_FILE  # ← already a Path object
 
-# ==Functions 
+# == Functions
 def summarize_recent_thoughts(n: int = 5) -> str:
     """
     Returns a short summary of the most recent reflections from long-term memory.
@@ -17,6 +17,7 @@ def summarize_recent_thoughts(n: int = 5) -> str:
     ]
 
     return "\n".join(summary_lines) if summary_lines else "No recent thoughts with content."
+
 
 def summarize_self_model(self_model: dict) -> dict:
     """

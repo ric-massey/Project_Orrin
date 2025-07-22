@@ -2,6 +2,9 @@ import os
 import re
 import time
 import random
+from dotenv import load_dotenv
+from openai import OpenAI
+
 from utils.json_utils import (
     load_json, 
     save_json,
@@ -9,11 +12,10 @@ from utils.json_utils import (
 )
 from config.settings import model_roles
 from utils.log import log_model_issue
-from dotenv import load_dotenv
 from utils.generate_response import generate_response, get_thinking_model
+from paths import KNOWLEDGE  # ✅ Cross-platform path to knowledge base
 
 load_dotenv()
-from openai import OpenAI
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def get_human_model():
@@ -28,8 +30,8 @@ def extract_knowledge_from_reflection(reflection_text):
     try:
         knowledge = extract_json(response)
         if isinstance(knowledge, list):
-            existing = load_json("KNOWLEDGE", default_type=list)
-            save_json("KNOWLEDGE", existing + knowledge)
+            existing = load_json(KNOWLEDGE, default_type=list)
+            save_json(KNOWLEDGE, existing + knowledge)
     except Exception as e:
         log_model_issue(f"[extract_knowledge_from_reflection] Failed to parse or save: {e}")
 

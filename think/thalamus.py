@@ -40,7 +40,7 @@ def process_inputs(raw_signals, context):
     goal_words = [w.lower() for w in directive.get("motivations", []) if isinstance(w, str)]
 
     # === Novelty Context — last 20 signal contents ===
-    recent_signals = load_json("logs/attention_history.json", default_type=list)[-20:]
+    recent_signals = load_json(ATTENTION_HISTORY, default_type=list)[-20:]
     recent_contents = [r.get("content", "") for r in recent_signals if r.get("content")]
 
     prioritized = []

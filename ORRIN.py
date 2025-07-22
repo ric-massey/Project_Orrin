@@ -6,6 +6,8 @@ from datetime import datetime, timezone
 from dotenv import load_dotenv
 import openai
 
+from pathlib import Path
+
 from think.think_module import think
 from cognition.manager import load_custom_cognition
 from think.thalamus import process_inputs
@@ -25,6 +27,10 @@ from paths import (
     PROMPT_FILE
 )
 
+# === Ensure all directories exist ===
+for file_path in [RELATIONSHIPS_FILE, MODEL_CONFIG_FILE, CYCLE_COUNT_FILE, PROMPT_FILE]:
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+
 # === Load OpenAI API Key ===
 load_dotenv()
 openai.api_key = os.getenv("OPENAI_API_KEY")
@@ -41,7 +47,7 @@ max_tokens = selected_model_config.get("max_tokens", 32000)
 system_prompt = selected_model_config.get("system_prompt", "")
 
 # === Initialize Relationships File ===
-if not os.path.exists(RELATIONSHIPS_FILE) or os.path.getsize(RELATIONSHIPS_FILE) == 0:
+if not RELATIONSHIPS_FILE.exists() or RELATIONSHIPS_FILE.stat().st_size == 0:
     default_relationships = {
         "user": {
             "impression": "an intense and curious human I am learning from",
@@ -54,7 +60,7 @@ if not os.path.exists(RELATIONSHIPS_FILE) or os.path.getsize(RELATIONSHIPS_FILE)
             "recent_emotional_effect": "cautious curiosity"
         }
     }
-    with open(RELATIONSHIPS_FILE, "w") as f:
+    with RELATIONSHIPS_FILE.open("w", encoding="utf-8", newline="\n") as f:
         json.dump(default_relationships, f, indent=2)
 
 # === Main Brainstem Runtime Loop ===
@@ -81,8 +87,8 @@ if __name__ == "__main__":
 
             # === Gather external input
             raw_signals = []
-            if os.path.exists(PROMPT_FILE):
-                with open(PROMPT_FILE, "r", encoding="utf-8") as f:
+            if PROMPT_FILE.exists():
+                with PROMPT_FILE.open("r", encoding="utf-8", newline=None) as f:
                     user_input = f.read().strip()
                 if user_input:
                     dynamic_signal_strength = 0.3 + 0.4 * emotional_state.get("curiosity", 0.5)
@@ -92,7 +98,7 @@ if __name__ == "__main__":
                         "signal_strength": round(dynamic_signal_strength, 3),
                         "tags": ["user_input", "novelty"]
                     })
-                with open(PROMPT_FILE, "w", encoding="utf-8") as f:
+                with PROMPT_FILE.open("w", encoding="utf-8", newline="\n") as f:
                     f.write("")
 
             top_signals, attention_mode = process_inputs(raw_signals, context)
