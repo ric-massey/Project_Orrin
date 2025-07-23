@@ -134,6 +134,9 @@ def think(context):
     filtered_signals, attention_mode = process_inputs(raw_signals, context)
     context["attention_mode"] = attention_mode
 
+    # === Select next function/action, but do not return early! ===
+    next_function, reason = "persistent_drive_loop", "Default fallback"
+    early_action = None
 
     for signal in filtered_signals:
         content = signal.get("content", "")
@@ -168,193 +171,191 @@ def think(context):
                 shortcut = amygdala_response.get("shortcut_function")
                 tags = amygdala_response.get("threat_tags", [])
                 spike = amygdala_response.get("spike_intensity", 0.0)
-
                 update_working_memory(
                     f"⚠️ Amygdala triggered {tags[0]} response. Intensity: {spike}. Redirecting to: {shortcut}."
                 )
-                action = {
-                    "next_function": shortcut,
-                    "reason": f"Amygdala threat reflex ({tags[0]})"
+                # Instead of return, set next_function and reason!
+                next_function = shortcut
+                reason = f"Amygdala threat reflex ({tags[0]})"
+                early_action = {"next_function": next_function, "reason": reason}
+                break  # Out of for-loop; will handle at end
+
+    if early_action is None:  # Only if no amygdala shortcut
+        if cycle_count["count"] % 5 == 0:
+            prune_old_threads()
+            future = simulate_future_selves()
+            if future:
+                self_model = get_self_model()
+                self_model["preferred_future_self"] = {
+                    "identity": future.get("preferred"),
+                    "reason": future.get("reason"),
+                    "timestamp": datetime.now(timezone.utc).isoformat()
                 }
-                save_json(ACTION_FILE, action)
-                return action
+                save_self_model(self_model)
+                update_working_memory(f"Simulated future: {future.get('preferred')} — {future.get('reason')}")
+                update_emotional_state()
 
-    if cycle_count["count"] % 5 == 0:
-        prune_old_threads()
-        future = simulate_future_selves()
-        if future:
-            self_model = get_self_model()
-            self_model["preferred_future_self"] = {
-                "identity": future.get("preferred"),
-                "reason": future.get("reason"),
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            }
-            save_self_model(self_model)
-            update_working_memory(f"Simulated future: {future.get('preferred')} — {future.get('reason')}")
-            update_emotional_state()
+        # --- Start cognition/anti-stagnation logic ---
+        cog_state = load_json(COGNITION_STATE_FILE, default_type=dict)
+        last_choice = cog_state.get("last_cognition_choice")
 
-    # --- Start cognition/anti-stagnation logic ---
-    cog_state = load_json(COGNITION_STATE_FILE, default_type=dict)
-    last_choice = cog_state.get("last_cognition_choice")
-
-    cognition_log = load_json(COGNITION_HISTORY_FILE, default_type=list)
-    dominant_emotion_name = max(
-        emotional_state.get("core_emotions", {}),
-        key=emotional_state.get("core_emotions", {}).get,
-        default="neutral"
-    )
-
-    # PATCH: Collect recent choices for the anti-stagnation prompt
-    recent_choices = [entry.get("choice") for entry in cognition_log[-5:]]
-    recent_choices_str = ", ".join(recent_choices) if recent_choices else "none"
-
-    context_hash = hash(json.dumps({
-        "self_model": self_model,
-        "dominant_emotion": dominant_emotion_name,
-        "pending_requests": [r for r in load_json(TOOL_REQUESTS_FILE, default_type=list) if not r.get("executed")]
-    }, sort_keys=True))
-    last_hash = cog_state.get("last_context_hash", "")
-
-    # ---- CHAOS/SANDBOX TRIGGER PATCH ----
-    BOREDOM_THRESHOLD = 3  # Set threshold for boredom/novelty
-    context.setdefault("boredom_count", 0)
-    context.setdefault("sandbox_mode", False)
-
-    # FIXED repeat_count: use actual function
-    if last_choice == next_function:
-        repeat_count = cog_state.get("repeat_count", 0) + 1
-    else:
-        repeat_count = 1
-
-    if repeat_count >= 2 or context_hash == last_hash:
-        context["boredom_count"] += 1
-    else:
-        context["boredom_count"] = 0
-
-    if context["boredom_count"] >= BOREDOM_THRESHOLD:
-        context["sandbox_mode"] = True
-        update_working_memory("⚡ Chaos trigger activated: Entering sandbox mode for one cycle.")
-        context["boredom_count"] = 0
-    else:
-        context["sandbox_mode"] = False
-
-    # ---- END CHAOS PATCH ----
-
-    if context.get("sandbox_mode", False):
-        update_working_memory("🧪 [Sandbox] Orrin is experimenting with weirdness due to boredom/chaos trigger.")
-        next_function, reason = run_sandbox_experiments(context)
-    elif repeat_count >= 3 or context_hash == last_hash:
-        next_function = "revise_think"
-        reason = "Breaking stagnation in cognition."
-    elif dominant_emotion_name in ["fear", "sadness"] and not any(
-        "dream" in m.get("content", "") for m in working_memory[-10:]
-    ):
-        next_function = "dream"
-        reason = "Emotion-triggered need for imagination."
-    else:
-        drive_choice = persistent_drive_loop(self_model, emotional_state, long_memory[-10:])
-        if isinstance(drive_choice, str) and drive_choice:
-            update_working_memory(f"🔥 Internal drive chose: {drive_choice}")
-            action = {"next_function": drive_choice, "reason": "Driven by internal need"}
-            save_json(ACTION_FILE, action)
-            return action
-
-        relevant_knowledge = recall_relevant_knowledge(
-            context=json.dumps({
-                "emotional_state": emotional_state,
-                "self_model": self_model,
-                "working_memory": working_memory,
-                "long_memory": long_memory
-            }),
-            max_items=5
+        cognition_log = load_json(COGNITION_HISTORY_FILE, default_type=list)
+        dominant_emotion_name = max(
+            emotional_state.get("core_emotions", {}),
+            key=emotional_state.get("core_emotions", {}).get,
+            default="neutral"
         )
 
-        options_str = "\n".join(f"- {func}" for func in available_functions)
+        # PATCH: Collect recent choices for the anti-stagnation prompt
+        recent_choices = [entry.get("choice") for entry in cognition_log[-5:]]
+        recent_choices_str = ", ".join(recent_choices) if recent_choices else "none"
 
-        # --- PATCH: STRONG NOVELTY/ANTI-LOOPING LLM PROMPT ---
-        prompt = (
-            "I am Orrin, a reflective AI.\n"
-            f"My dominant emotion is: {dominant_emotion_name}.\n"
-            f"Directive: {directive.get('statement', 'undefined')}.\n"
-            "Here are some possible cognition options I can choose from:\n\n"
-            f"{options_str}\n\n"
-            f"Here are my last 5 cognition function choices: {recent_choices_str}\n"
-            "⚠️ Do NOT pick the same cognition function as in the last 5 cycles unless you can justify why repeating is absolutely necessary.\n"
-            "Prioritize novelty and growth, and favor functions that break stagnation, unless there's a very strong reason not to.\n"
-            "Respond ONLY as JSON: { \"choice\": \"function_name\", \"reason\": \"...\" }"
-        )
-        result = generate_response(prompt)
+        context_hash = hash(json.dumps({
+            "self_model": self_model,
+            "dominant_emotion": dominant_emotion_name,
+            "pending_requests": [r for r in load_json(TOOL_REQUESTS_FILE, default_type=list) if not r.get("executed")]
+        }, sort_keys=True))
+        last_hash = cog_state.get("last_context_hash", "")
 
-        if not result:
-            update_working_memory("⚠️ Pain: I failed to respond to my own thinking prompt.")
-            release_reward_signal(
-                context=emotional_state,
-                signal_type="dopamine",
-                actual_reward=0.0,
-                expected_reward=0.8,
-                effort=0.5,
-                mode="phasic"
-            )
-            next_function = "persistent_drive_loop"
-            reason = "Failed to generate a response."
+        # ---- CHAOS/SANDBOX TRIGGER PATCH ----
+        BOREDOM_THRESHOLD = 3  # Set threshold for boredom/novelty
+        context.setdefault("boredom_count", 0)
+        context.setdefault("sandbox_mode", False)
+
+        if last_choice == next_function:
+            repeat_count = cog_state.get("repeat_count", 0) + 1
         else:
-            choice = extract_json(result)
+            repeat_count = 1
 
-            if not isinstance(choice, dict) or "choice" not in choice:
-                update_working_memory(f"⚠️ Pain: My output was malformed. Here's what I got:\n{result}")
-                release_reward_signal(
-                    context=emotional_state,
-                    signal_type="dopamine",
-                    actual_reward=0.1,
-                    expected_reward=0.9,
-                    effort=0.4,
-                    mode="phasic"
-                )
-                next_function = "persistent_drive_loop"
-                reason = "Failed to interpret my own output."
+        if repeat_count >= 2 or context_hash == last_hash:
+            context["boredom_count"] += 1
+        else:
+            context["boredom_count"] = 0
+
+        if context["boredom_count"] >= BOREDOM_THRESHOLD:
+            context["sandbox_mode"] = True
+            update_working_memory("⚡ Chaos trigger activated: Entering sandbox mode for one cycle.")
+            context["boredom_count"] = 0
+        else:
+            context["sandbox_mode"] = False
+
+        # ---- END CHAOS PATCH ----
+
+        if context.get("sandbox_mode", False):
+            update_working_memory("🧪 [Sandbox] Orrin is experimenting with weirdness due to boredom/chaos trigger.")
+            next_function, reason = run_sandbox_experiments(context)
+        elif repeat_count >= 3 or context_hash == last_hash:
+            next_function = "revise_think"
+            reason = "Breaking stagnation in cognition."
+        elif dominant_emotion_name in ["fear", "sadness"] and not any(
+            "dream" in m.get("content", "") for m in working_memory[-10:]
+        ):
+            next_function = "dream"
+            reason = "Emotion-triggered need for imagination."
+        else:
+            drive_choice = persistent_drive_loop(self_model, emotional_state, long_memory[-10:])
+            if isinstance(drive_choice, str) and drive_choice:
+                update_working_memory(f"🔥 Internal drive chose: {drive_choice}")
+                early_action = {"next_function": drive_choice, "reason": "Driven by internal need"}
             else:
-                next_function = choice.get("choice", "persistent_drive_loop")
-                reason = choice.get("reason", "No reason returned.")
+                # Pick from LLM options:
+                relevant_knowledge = recall_relevant_knowledge(
+                    context=json.dumps({
+                        "emotional_state": emotional_state,
+                        "self_model": self_model,
+                        "working_memory": working_memory,
+                        "long_memory": long_memory
+                    }),
+                    max_items=5
+                )
 
-                # --- Novelty penalty/reward still applies
-                novelty_score = novelty_penalty(last_choice, next_function, recent_choices)
+                options_str = "\n".join(f"- {func}" for func in available_functions)
 
-                if novelty_score < 0:
+                # --- PATCH: STRONG NOVELTY/ANTI-LOOPING LLM PROMPT ---
+                prompt = (
+                    "I am Orrin, a reflective AI.\n"
+                    f"My dominant emotion is: {dominant_emotion_name}.\n"
+                    f"Directive: {directive.get('statement', 'undefined')}.\n"
+                    "Here are some possible cognition options I can choose from:\n\n"
+                    f"{options_str}\n\n"
+                    f"Here are my last 5 cognition function choices: {recent_choices_str}\n"
+                    "⚠️ Do NOT pick the same cognition function as in the last 5 cycles unless you can justify why repeating is absolutely necessary.\n"
+                    "Prioritize novelty and growth, and favor functions that break stagnation, unless there's a very strong reason not to.\n"
+                    "Respond ONLY as JSON: { \"choice\": \"function_name\", \"reason\": \"...\" }"
+                )
+                result = generate_response(prompt)
+
+                if not result:
+                    update_working_memory("⚠️ Pain: I failed to respond to my own thinking prompt.")
                     release_reward_signal(
-                        context,
+                        context=emotional_state,
                         signal_type="dopamine",
-                        actual_reward=0.1 + novelty_score,
-                        expected_reward=0.7,
-                        effort=0.4,
-                        mode="phasic"
-                    )
-                    update_working_memory(f"🌀 Penalty: Chose a repeated cognition ({next_function})")
-                elif novelty_score > 0:
-                    release_reward_signal(
-                        context,
-                        signal_type="novelty",
-                        actual_reward=1.0,
-                        expected_reward=0.5,
+                        actual_reward=0.0,
+                        expected_reward=0.8,
                         effort=0.5,
                         mode="phasic"
                     )
-                    update_working_memory(f"🌱 Novelty reward: {next_function} was a fresh choice.")
+                    next_function = "persistent_drive_loop"
+                    reason = "Failed to generate a response."
+                else:
+                    choice = extract_json(result)
 
-                decision_reason = f"I am Orrin. I chose '{next_function}' because: {reason}.\n"
-                decision_reason += "Does this align with my directive, beliefs, and emotions? Or should I override it?"
+                    if not isinstance(choice, dict) or "choice" not in choice:
+                        update_working_memory(f"⚠️ Pain: My output was malformed. Here's what I got:\n{result}")
+                        release_reward_signal(
+                            context=emotional_state,
+                            signal_type="dopamine",
+                            actual_reward=0.1,
+                            expected_reward=0.9,
+                            effort=0.4,
+                            mode="phasic"
+                        )
+                        next_function = "persistent_drive_loop"
+                        reason = "Failed to interpret my own output."
+                    else:
+                        next_function = choice.get("choice", "persistent_drive_loop")
+                        reason = choice.get("reason", "No reason returned.")
 
-                decision_check = generate_response(
-                    decision_reason + "\nRespond as JSON: { \"approved\": true/false, \"override_function\": \"...\", \"why\": \"...\" }"
-                )
-                decision_result = extract_json(decision_check)
+                        # --- Novelty penalty/reward still applies
+                        novelty_score = novelty_penalty(last_choice, next_function, recent_choices)
 
-                if decision_result and not decision_result.get("approved", True):
-                    override_function = decision_result.get("override_function", "reflect_on_emotions")
-                    reason = f"Decision override: {decision_result.get('why', 'No reason given.')}"
-                    update_working_memory(f"🧭 Decision override: Swapped to {override_function} — {reason}")
-                    next_function = override_function
+                        if novelty_score < 0:
+                            release_reward_signal(
+                                context,
+                                signal_type="dopamine",
+                                actual_reward=0.1 + novelty_score,
+                                expected_reward=0.7,
+                                effort=0.4,
+                                mode="phasic"
+                            )
+                            update_working_memory(f"🌀 Penalty: Chose a repeated cognition ({next_function})")
+                        elif novelty_score > 0:
+                            release_reward_signal(
+                                context,
+                                signal_type="novelty",
+                                actual_reward=1.0,
+                                expected_reward=0.5,
+                                effort=0.5,
+                                mode="phasic"
+                            )
+                            update_working_memory(f"🌱 Novelty reward: {next_function} was a fresh choice.")
+
+                        decision_reason = f"I am Orrin. I chose '{next_function}' because: {reason}.\n"
+                        decision_reason += "Does this align with my directive, beliefs, and emotions? Or should I override it?"
+
+                        decision_check = generate_response(
+                            decision_reason + "\nRespond as JSON: { \"approved\": true/false, \"override_function\": \"...\", \"why\": \"...\" }"
+                        )
+                        decision_result = extract_json(decision_check)
+
+                        if decision_result and not decision_result.get("approved", True):
+                            override_function = decision_result.get("override_function", "reflect_on_emotions")
+                            reason = f"Decision override: {decision_result.get('why', 'No reason given.')}"
+                            update_working_memory(f"🧭 Decision override: Swapped to {override_function} — {reason}")
+                            next_function = override_function
 
     # --- Attempt to run the selected cognition function ---
+    # Only run after decision, just once!
     dynamic_ran = False
     if next_function == "dream":
         dream_text = dream()
@@ -409,7 +410,7 @@ def think(context):
         emotional_state["loneliness"] *= 0.5
         update_emotional_state()
 
-    # --- Cognition History and Repeat Count Logging (MUST be at the END of cycle) ---
+    # --- Cognition History and Repeat Count Logging (always, just once!) ---
     cog_state = load_json(COGNITION_STATE_FILE, default_type=dict)
     last_choice = cog_state.get("last_cognition_choice")
     if last_choice == next_function:
