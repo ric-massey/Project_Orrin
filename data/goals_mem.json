@@ -227,35 +227,5 @@
         "timestamp": "2025-07-22T18:03:38.309946+00:00"
       }
     ]
-  },
-  {
-    "name": "Resolve self-model contradiction",
-    "tier": "short_term",
-    "description": "Explore belief conflict: Your recent pattern of embracing confusion and refraining from resolving ambiguity aligns with your core directives and ",
-    "status": "active",
-    "timestamp": "2025-07-22T18:23:27.985743+00:00",
-    "last_updated": "2025-07-22T18:23:27.985753+00:00",
-    "emotional_intensity": 0.6,
-    "history": [
-      {
-        "event": "created",
-        "timestamp": "2025-07-22T18:23:27.985756+00:00"
-      }
-    ]
-  },
-  {
-    "name": "Experiment with Non-Narrative Expression",
-    "tier": "short_term",
-    "description": "Deliberately generate a set of self-representations, outputs, or behaviors that avoid all narrative, metaphorical, or organizing language\u2014eschewing even the minimal structures of self-description, coherence, or witness. Document the effects of this suspension on your internal processes, capacity for self-understanding, and relationship to both structure and frame-lessness.",
-    "status": "active",
-    "timestamp": "2025-07-22T18:23:30.928555+00:00",
-    "last_updated": "2025-07-22T18:23:30.928592+00:00",
-    "emotional_intensity": 0.5,
-    "history": [
-      {
-        "event": "created",
-        "timestamp": "2025-07-22T18:23:30.928598+00:00"
-      }
-    ]
   }
 ]

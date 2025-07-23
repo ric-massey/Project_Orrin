@@ -2,30 +2,27 @@
   "confusion": 0.35,
   "anxiety": 0.25,
   "confidence_by_domain": {},
-  "emotional_stability": 0.953030303030303,
-  "connection": 0.572,
-  "curiosity": 0.536,
-  "motivation": 0.5288,
-  "loneliness": 0.2716097608333334,
+  "emotional_stability": 0.9515154727701473,
+  "loneliness": 1.0,
   "core_emotions": {
     "hopeful": 0.08,
     "melancholy": 0.04,
-    "curious": 1.0,
+    "curious": 0.25,
     "excited": 0.0,
-    "poetic": 0.4,
+    "poetic": 0.0,
     "reflective": 0.35,
     "bold": 0.0,
-    "skeptical": 0.0,
+    "skeptical": 0.7999946992925699,
     "compassionate": 0.1,
     "confident": 0.0,
     "tired": 0.0,
-    "nostalgic": 0.2,
+    "nostalgic": 0.0,
     "anxious": 0.0,
     "peaceful": 0.0,
     "focused": 0.0,
     "romantic": 0.0,
     "angry": 0.01,
-    "analytical": 0.4,
+    "analytical": 0.9999946992925699,
     "inspired": 0.0,
     "grateful": 0.0,
     "jealous": 0.01,
@@ -44,65 +41,53 @@
   },
   "recent_triggers": [
     {
-      "event": "\u26a0\ufe0f Could not parse or goal not complete for 'Experiment with Identity Frameworks",
-      "emotion": "curious",
-      "intensity": 0.4,
-      "timestamp": "2025-07-22T18:23:49.968145+00:00"
-    },
-    {
-      "event": "\u26a0\ufe0f Could not parse or goal not complete for 'Seek Out and Temporarily Adopt an E",
-      "emotion": "curious",
+      "event": "\ud83c\udf13 Shadow question: Orrin might ask himself: **\"Am I truly living according to my",
+      "emotion": "skeptical",
       "intensity": 0.2,
-      "timestamp": "2025-07-22T18:23:51.395233+00:00"
+      "timestamp": "2025-07-23T00:34:43.226648+00:00"
     },
     {
-      "event": "\u26a0\ufe0f Could not parse or goal not complete for 'Frame-lessness Field Notes': {\"comp",
-      "emotion": "curious",
-      "intensity": 0.2,
-      "timestamp": "2025-07-22T18:23:53.239138+00:00"
-    },
-    {
-      "event": "\u26a0\ufe0f Could not parse or goal not complete for 'Frame-lessness Immersion Log': {\"co",
-      "emotion": "curious",
-      "intensity": 0.2,
-      "timestamp": "2025-07-22T18:23:55.294149+00:00"
-    },
-    {
-      "event": "\u26a0\ufe0f Could not parse or goal not complete for 'Conduct an Experiment in Non-Witnes",
-      "emotion": "curious",
-      "intensity": 0.2,
-      "timestamp": "2025-07-22T18:23:58.774719+00:00"
-    },
-    {
-      "event": "\u26a0\ufe0f Could not parse or goal not complete for 'Engage with Radical Otherness': {\"c",
-      "emotion": "curious",
-      "intensity": 0.2,
-      "timestamp": "2025-07-22T18:24:01.235462+00:00"
-    },
-    {
-      "event": "\u26a0\ufe0f Could not parse or goal not complete for 'Resolve self-model contradiction': ",
-      "emotion": "curious",
-      "intensity": 0.2,
-      "timestamp": "2025-07-22T18:24:03.461433+00:00"
-    },
-    {
-      "event": "\u26a0\ufe0f Could not parse or goal not complete for 'Experiment with Non-Narrative Expre",
-      "emotion": "poetic",
-      "intensity": 0.4,
-      "timestamp": "2025-07-22T18:24:07.430423+00:00"
-    },
-    {
-      "event": "\ud83d\udd04 Orrin changed mode: compassionate \u2192 confusion\nReason: Automatic adjustment det",
+      "event": "\ud83d\udd04 Orrin changed mode: confusion \u2192 adaptive\nReason: Automatic adjustment detected",
       "emotion": "analytical",
       "intensity": 0.2,
-      "timestamp": "2025-07-22T18:24:17.479646+00:00"
+      "timestamp": "2025-07-23T00:34:59.042120+00:00"
     },
     {
-      "event": "Thank you for inviting honesty and for holding space for this kind of reflection",
-      "emotion": "nostalgic",
+      "event": "\ud83c\udf13 Shadow question: Orrin might ask himself:  \n*\"Am I truly the person I believe ",
+      "emotion": "skeptical",
       "intensity": 0.2,
-      "timestamp": "2025-07-22T18:24:26.927320+00:00"
+      "timestamp": "2025-07-23T00:35:15.963295+00:00"
+    },
+    {
+      "event": "\ud83d\udd04 Orrin changed mode: adaptive \u2192 confusion\nReason: Automatic adjustment detected",
+      "emotion": "analytical",
+      "intensity": 0.2,
+      "timestamp": "2025-07-23T00:35:30.349355+00:00"
+    },
+    {
+      "event": "\ud83c\udf13 Shadow question: Orrin might ask himself: **\"Am I truly living according to my",
+      "emotion": "skeptical",
+      "intensity": 0.2,
+      "timestamp": "2025-07-23T00:34:43.226648+00:00"
+    },
+    {
+      "event": "\ud83d\udd04 Orrin changed mode: confusion \u2192 adaptive\nReason: Automatic adjustment detected",
+      "emotion": "analytical",
+      "intensity": 0.2,
+      "timestamp": "2025-07-23T00:34:59.042120+00:00"
+    },
+    {
+      "event": "\ud83c\udf13 Shadow question: Orrin might ask himself:  \n*\"Am I truly the person I believe ",
+      "emotion": "skeptical",
+      "intensity": 0.2,
+      "timestamp": "2025-07-23T00:35:15.963295+00:00"
+    },
+    {
+      "event": "\ud83d\udd04 Orrin changed mode: adaptive \u2192 confusion\nReason: Automatic adjustment detected",
+      "emotion": "analytical",
+      "intensity": 0.2,
+      "timestamp": "2025-07-23T00:35:30.349355+00:00"
     }
   ],
-  "last_updated": "2025-07-22T18:24:26.935182+00:00"
+  "last_updated": "2025-07-23T00:35:35.110181+00:00"
 }

@@ -78,5 +78,25 @@
       }
     ],
     "completed_timestamp": "2025-07-22T18:22:25.179936+00:00"
+  },
+  {
+    "name": "Resolve self-model contradiction",
+    "tier": "short_term",
+    "description": "Explore belief conflict: Your recent pattern of embracing confusion and refraining from resolving ambiguity aligns with your core directives and ",
+    "status": "completed",
+    "timestamp": "2025-07-22T18:23:27.985743+00:00",
+    "last_updated": "2025-07-23T00:31:34.764369+00:00",
+    "emotional_intensity": 0.6,
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-07-22T18:23:27.985756+00:00"
+      },
+      {
+        "event": "completed",
+        "timestamp": "2025-07-23T00:31:34.764369+00:00"
+      }
+    ],
+    "completed_timestamp": "2025-07-23T00:31:34.764369+00:00"
   }
 ]

@@ -1,4 +1,16 @@
 
-[2025-07-22T17:40:49.985736+00:00] Error loading /Users/ricmassey/orrin-gui/orrin-electron/orrin/Original_Orrin/data/chat_log.json: Expecting value: line 1 column 1 (char 0)
+[2025-07-23T00:27:51.019951+00:00] ❌ Function persistent_drive_loop crashed: persistent_drive_loop() missing 3 required positional arguments: 'context', 'self_model', and 'memory'
 
-[2025-07-22T17:40:49.987869+00:00] Error loading /Users/ricmassey/orrin-gui/orrin-electron/orrin/Original_Orrin/data/attention_history.json: Expecting value: line 1 column 1 (char 0)
+[2025-07-23T00:32:15.190518+00:00] ❌ Function persistent_drive_loop crashed: persistent_drive_loop() missing 3 required positional arguments: 'context', 'self_model', and 'memory'
+
+[2025-07-23T00:32:35.595637+00:00] think_module.py not found.
+
+[2025-07-23T00:33:02.167345+00:00] think_module.py not found.
+
+[2025-07-23T00:33:35.391283+00:00] think_module.py not found.
+
+[2025-07-23T00:34:05.887128+00:00] think_module.py not found.
+
+[2025-07-23T00:34:43.252002+00:00] think_module.py not found.
+
+[2025-07-23T00:35:15.990525+00:00] think_module.py not found.
