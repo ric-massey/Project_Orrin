@@ -193,35 +193,38 @@ def think(context):
             update_working_memory(f"Simulated future: {future.get('preferred')} — {future.get('reason')}")
             update_emotional_state()
 
+    # --- Start cognition/anti-stagnation logic ---
     cog_state = load_json(COGNITION_STATE_FILE, default_type=dict)
     last_choice = cog_state.get("last_cognition_choice")
-    repeat_count = cog_state.get("repeat_count", 0) + 1 if last_choice == "think" else 0
 
     cognition_log = load_json(COGNITION_HISTORY_FILE, default_type=list)
-    dominant_emotion_name = max(emotional_state.get("core_emotions", {}), key=emotional_state.get("core_emotions", {}).get, default="neutral")
+    dominant_emotion_name = max(
+        emotional_state.get("core_emotions", {}),
+        key=emotional_state.get("core_emotions", {}).get,
+        default="neutral"
+    )
 
     # PATCH: Collect recent choices for the anti-stagnation prompt
     recent_choices = [entry.get("choice") for entry in cognition_log[-5:]]
     recent_choices_str = ", ".join(recent_choices) if recent_choices else "none"
-
-    cognition_log.append({
-        "choice": "think",
-        "reason": f"Dominant emotion: {dominant_emotion_name}",
-        "timestamp": datetime.now(timezone.utc).isoformat()
-    })
 
     context_hash = hash(json.dumps({
         "self_model": self_model,
         "dominant_emotion": dominant_emotion_name,
         "pending_requests": [r for r in load_json(TOOL_REQUESTS_FILE, default_type=list) if not r.get("executed")]
     }, sort_keys=True))
-
     last_hash = cog_state.get("last_context_hash", "")
 
     # ---- CHAOS/SANDBOX TRIGGER PATCH ----
     BOREDOM_THRESHOLD = 3  # Set threshold for boredom/novelty
     context.setdefault("boredom_count", 0)
     context.setdefault("sandbox_mode", False)
+
+    # FIXED repeat_count: use actual function
+    if last_choice == next_function:
+        repeat_count = cog_state.get("repeat_count", 0) + 1
+    else:
+        repeat_count = 1
 
     if repeat_count >= 2 or context_hash == last_hash:
         context["boredom_count"] += 1
@@ -243,7 +246,9 @@ def think(context):
     elif repeat_count >= 3 or context_hash == last_hash:
         next_function = "revise_think"
         reason = "Breaking stagnation in cognition."
-    elif dominant_emotion_name in ["fear", "sadness"] and not any("dream" in m.get("content", "") for m in working_memory[-10:]):
+    elif dominant_emotion_name in ["fear", "sadness"] and not any(
+        "dream" in m.get("content", "") for m in working_memory[-10:]
+    ):
         next_function = "dream"
         reason = "Emotion-triggered need for imagination."
     else:
@@ -252,7 +257,6 @@ def think(context):
             update_working_memory(f"🔥 Internal drive chose: {drive_choice}")
             action = {"next_function": drive_choice, "reason": "Driven by internal need"}
             save_json(ACTION_FILE, action)
-            
             return action
 
         relevant_knowledge = recall_relevant_knowledge(
@@ -405,12 +409,26 @@ def think(context):
         emotional_state["loneliness"] *= 0.5
         update_emotional_state()
 
+    # --- Cognition History and Repeat Count Logging (MUST be at the END of cycle) ---
+    cog_state = load_json(COGNITION_STATE_FILE, default_type=dict)
+    last_choice = cog_state.get("last_cognition_choice")
+    if last_choice == next_function:
+        repeat_count = cog_state.get("repeat_count", 0) + 1
+    else:
+        repeat_count = 1
+    cognition_log = load_json(COGNITION_HISTORY_FILE, default_type=list)
+    cognition_log.append({
+        "choice": next_function,
+        "reason": reason,
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    })
+    save_json(COGNITION_HISTORY_FILE, cognition_log)
     save_json(COGNITION_STATE_FILE, {
         "last_cognition_choice": next_function,
         "repeat_count": repeat_count,
         "last_context_hash": context_hash
     })
-    save_json(COGNITION_HISTORY_FILE, cognition_log)
+    print(f"Cognition log now has {len(cognition_log)} entries. Last: {cognition_log[-1]}")
 
     action = {"next_function": next_function, "reason": reason}
     save_json(ACTION_FILE, action)

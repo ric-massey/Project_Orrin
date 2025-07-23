@@ -4,7 +4,6 @@ from utils.generate_response import generate_response, get_thinking_model
 from utils.coerce_to_string import coerce_to_string
 from utils.log import log_model_issue
 from paths import (
-    SELF_MODEL_FILE, 
     LONG_MEMORY_FILE, 
     MODEL_CONFIG_FILE,
     DREAMSCAPE, 

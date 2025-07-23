@@ -128,10 +128,10 @@ class OrrinSpeaker:
 
         # === ENFORCE BREVITY HERE ===
         import re
-        sentences = re.split(r'(?<=[.!?])\s+', rephrased)
-        rephrased = " ".join(sentences[:2]).strip()
-        if len(rephrased) > 240:
-            rephrased = rephrased[:237] + "..."
+        #sentences = re.split(r'(?<=[.!?])\s+', rephrased)
+        #rephrased = " ".join(sentences[:2]).strip()
+        if len(rephrased) > 400:
+            rephrased = rephrased[:397] + "..."
 
         self.last_spoken_thoughts.append(rephrased)
         self.conversation_history.append({"thought": thought, "tone": tone_data.get("tone")})

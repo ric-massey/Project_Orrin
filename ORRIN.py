@@ -71,8 +71,9 @@ if __name__ == "__main__":
         COGNITIVE_FUNCTIONS.update(load_custom_cognition())
 
         cycle_data = load_json(CYCLE_COUNT_FILE, default_type=dict)
-        cycle_data["count"] = cycle_data.get("count", 0)
-        save_json(CYCLE_COUNT_FILE, cycle_data)
+        if "count" not in cycle_data:
+            cycle_data["count"] = 0
+            # DO NOT save here—wait until you actually increment!
 
         while True:
             cycle_data["count"] += 1
