@@ -40,7 +40,7 @@ def plan_self_evolution():
             f"My recent reflections:\n{reflections}\n\n"
             f"My simulated future selves:\n{all_futures}\n\n"
             f"Preferred future self to pursue:\n\"{preferred_self}\"\nReason: {future_reason}\n\n"
-            f"My current goals:\n{json.dumps(FOCUS_GOAL(), indent=2)}\n\n"
+            f"My current goals:\n{json.dumps(load_json(GOALS_FILE, default_type=list), indent=2)}\n\n"
             "Plan how I can evolve:\n"
             "- What reasoning modes or cognitive habits am I underusing?\n"
             "- What should I enhance in the short term vs long term?\n"
@@ -75,7 +75,7 @@ def plan_self_evolution():
         save_json("evolution_roadmaps.json", evolution_history)
 
         # === Register short-term steps as new pending goals ===
-        current_goals = GOALS_FILE()
+        current_goals = load_json(GOALS_FILE, default_type=list)
         now = datetime.now(timezone.utc).isoformat()
 
         for step in roadmap.get("short_term", []):
@@ -91,7 +91,7 @@ def plan_self_evolution():
             }
             current_goals.append(new_goal)
 
-        GOALS_FILE(current_goals)
+        save_json(GOALS_FILE, current_goals)
 
         return "✅ Self-evolution roadmap generated and saved."
 

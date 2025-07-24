@@ -5,7 +5,7 @@ import importlib
 
 
 def load_custom_cognition():
-    directory = os.path.abspath("custom_cognition")
+    directory = os.path.abspath("cognition/custom_cognition")
     functions = {}
 
     if not os.path.exists(directory):

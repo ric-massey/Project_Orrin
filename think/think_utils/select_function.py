@@ -8,7 +8,7 @@ from utils.knowledge_utils import recall_relevant_knowledge
 from utils.emotion_utils import detect_emotion, dominant_emotion
 from emotion.reward_signals.reward_signals import release_reward_signal, novelty_penalty
 from cognition.drive import persistent_drive_loop
-from paths import EMOTION_FUNCTION_MAP_FILE
+from paths import EMOTION_FUNCTION_MAP_FILE, COGNITIVE_FUNCTIONS_LIST_FILE
 
 def select_function(
     context,
@@ -47,7 +47,6 @@ def select_function(
                 if spoken:
                     context["update_working_memory"](spoken)
                     context["update_emotional_state"]()
-                    
             contradiction = context.get("repair_contradictions", lambda x: {})(response)
             if contradiction.get("repair_attempt"):
                 context.get("update_working_memory", lambda x: None)(contradiction["repair_attempt"])
@@ -130,30 +129,41 @@ def select_function(
         context.get("update_working_memory", lambda x: None)(f"🔥 Internal drive chose: {drive_choice}")
         return drive_choice, "Driven by internal need"
 
-    # === LLM-Based Planning Fallback ===
-    options_str = "\n".join(f"- {func}" for func in available_functions)
+    # === LLM-Based Planning Fallback with Forced Validation ===
+    try:
+        func_descriptions = load_json(COGNITIVE_FUNCTIONS_LIST_FILE, default_type=list)
+        formatted_options = [
+            f"- {entry['name']}: {entry.get('summary', 'No summary.')}"
+            for entry in func_descriptions
+            if entry['name'] in available_functions
+        ]
+        if not formatted_options:
+            raise ValueError("No valid function descriptions matched available_functions.")
+        options_str = "\n".join(formatted_options)
+    except Exception as e:
+        log_error(f"⚠️ Failed to load function summaries for fallback prompt: {e}")
+        options_str = "\n".join(f"- {func}" for func in available_functions)
 
-    prompt = (
-        "I am Orrin, a reflective AI.\n"
-        f"My top emotions are: {', '.join(top_emotion_names)}.\n"
-        f"Directive: {self_model.get('core_directive', {}).get('statement', 'undefined')}.\n"
-        f"Here are my cognition function options:\n{options_str}\n"
-        f"Here are my last 5 choices: {recent_choices_str}\n"
-        "⚠️ Avoid repeating functions unless justified. Prioritize novelty.\n"
-        "Choose the function that best fits my internal state.\n"
-        "Respond as JSON: { \"choice\": \"function_name\", \"reason\": \"...\" }"
-    )
-
-    result = generate_response(prompt)
-    choice = extract_json(result) if result else {}
-
-    if not isinstance(choice, dict) or "choice" not in choice:
-        context.get("update_working_memory", lambda x: None)(f"⚠️ Bad response: {result}")
-        release_reward_signal(context, "dopamine", 0.1, 0.9, 0.4, "phasic")
-        log_error(
-            f"[Fallback Triggered] Bad LLM response at cycle {context.get('cycle_count', '?')}:\n{result}"
+    def strict_choice_prompt(warning=""):
+        prompt = (
+            "I am Orrin, a reflective AI.\n"
+            f"My top emotions are: {', '.join(top_emotion_names)}.\n"
+            f"Directive: {self_model.get('core_directive', {}).get('statement', 'undefined')}.\n"
+            f"Here are my cognition function options:\n{options_str}\n"
+            f"Here are my last 5 choices: {recent_choices_str}\n"
+            f"{warning}\n"
+            "Respond ONLY as JSON: { \"choice\": \"function_name\", \"reason\": \"...\" }\n"
+            "The function name MUST be chosen from the list above EXACTLY."
         )
-        return "persistent_drive_loop", "Fallback on malformed output."
+        result = generate_response(prompt)
+        return extract_json(result) if result else {}
+
+    choice = strict_choice_prompt("⚠️ Choose ONLY from the list above.")
+    if not isinstance(choice, dict) or "choice" not in choice or choice["choice"] not in available_functions:
+        choice = strict_choice_prompt("❌ Invalid choice. Try again. Use EXACTLY one of the options above.")
+        if not isinstance(choice, dict) or "choice" not in choice or choice["choice"] not in available_functions:
+            log_error("🚫 LLM hallucinated twice in fallback decision.")
+            return "persistent_drive_loop", "Fallback: hallucination protection triggered."
 
     next_function = choice["choice"]
     reason = choice.get("reason", "No reason returned.")
@@ -173,7 +183,7 @@ def select_function(
             update_emotion_function_map(top_emotions[0][0], next_function, reward_signal="novelty")
         else:
             context.get("update_working_memory", lambda x: None)(
-            f"⚠️ Skipped emotion-function map update: no top emotions available."
+                f"⚠️ Skipped emotion-function map update: no top emotions available."
             )
         context.get("update_working_memory", lambda x: None)(
             f"🌱 Novelty reward: {next_function} — It just felt good."

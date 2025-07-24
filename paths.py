@@ -43,6 +43,7 @@ WORLD_MODEL            = BASE_DIR / "world_model.json"
 WORLD_MODEL_ARCHIVE    = BASE_DIR / "world_model_archive.json"
 REFLECTION             = BASE_DIR / "reflection_log.json"
 ATTENTION_HISTORY      = BASE_DIR / "attention_history.json"
+COGNITIVE_FUNCTIONS_LIST_FILE = BASE_DIR / "cognitive_functions.json"
 
 # === Tools ===
 TOOLS_FILE             = BASE_DIR / "tools_catalog.json"

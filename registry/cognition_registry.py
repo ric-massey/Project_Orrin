@@ -1,57 +1,82 @@
 import os
 import importlib.util
 import inspect
+import json
 from utils.log import log_error
+from utils.generate_response import generate_response
+from paths import COGNITIVE_FUNCTIONS_LIST_FILE
 
 COGNITIVE_FUNCTIONS = {}
-_last_mtime_map = {}
 
 def discover_cognitive_functions(package):
     """
-    Discovers and loads all callable cognitive functions from the given package.
-    Only refreshes if source files have changed.
+    Scans all cognitive function files every time.
+    Only generates summaries for new functions.
+    Ensures JSON file is always up to date without re-summarizing.
     """
-    global COGNITIVE_FUNCTIONS, _last_mtime_map
+    global COGNITIVE_FUNCTIONS
+
+    # Load existing summaries
+    try:
+        with open(COGNITIVE_FUNCTIONS_LIST_FILE, "r") as f:
+            existing_entries = json.load(f)
+    except:
+        existing_entries = []
+
+    existing_summaries = {
+        entry["name"]: entry.get("summary", "")
+        for entry in existing_entries
+        if "name" in entry
+    }
+
+    found_functions = {}
+    updated_entries = []
 
     base_path = package.__path__[0]
-    updated_mtime_map = {}
-    files_to_reload = []
 
-    # Check for changes
     for root, _, files in os.walk(base_path):
         for file in files:
-            if (
-                file.endswith(".py")
-                and not file.startswith("_")
-                and file != "__init__.py"
-            ):
+            if file.endswith(".py") and not file.startswith("_") and file != "__init__.py":
                 full_path = os.path.join(root, file)
-                mtime = os.path.getmtime(full_path)
-                updated_mtime_map[full_path] = mtime
+                rel_path = os.path.relpath(full_path, base_path)
+                module_name = f"{package.__name__}." + rel_path.replace(os.sep, ".").replace(".py", "")
 
-                if _last_mtime_map.get(full_path) != mtime:
-                    files_to_reload.append(full_path)
+                try:
+                    spec = importlib.util.spec_from_file_location(module_name, full_path)
+                    module = importlib.util.module_from_spec(spec)
+                    spec.loader.exec_module(module)
 
-    if not files_to_reload:
-        return  # No changes detected
+                    for name, func in inspect.getmembers(module, inspect.isfunction):
+                        if not name.startswith("_"):
+                            COGNITIVE_FUNCTIONS[name] = func
+                            found_functions[name] = func
 
-    # Refresh functions
-    COGNITIVE_FUNCTIONS = {}
+                            if name in existing_summaries:
+                                summary = existing_summaries[name]
+                            else:
+                                try:
+                                    code = inspect.getsource(func)
+                                    prompt = f"Explain this Python function in one sentence:\n\n{code}\n\nSummary:"
+                                    summary = generate_response(prompt).strip()
+                                except Exception as e:
+                                    summary = f"⚠️ Failed to summarize: {e}"
 
-    for full_path in files_to_reload:
-        rel_path = os.path.relpath(full_path, base_path)
-        module_name = f"{package.__name__}." + rel_path.replace(os.sep, ".").replace(".py", "")
+                            updated_entries.append({"name": name, "summary": summary})
 
-        try:
-            spec = importlib.util.spec_from_file_location(module_name, full_path)
-            module = importlib.util.module_from_spec(spec)
-            spec.loader.exec_module(module)
+                except Exception as e:
+                    log_error(f"⚠️ Failed to load {module_name}: {e}")
 
-            for name, func in inspect.getmembers(module, inspect.isfunction):
-                if not name.startswith("_"):
-                    COGNITIVE_FUNCTIONS[name] = func
+    # Add untouched summaries for functions that still exist
+    untouched_entries = [
+        {"name": name, "summary": summary}
+        for name, summary in existing_summaries.items()
+        if name not in found_functions
+    ]
 
-        except Exception as e:
-            log_error(f"⚠️ Failed to load {module_name}: {e}")
+    all_entries = sorted(updated_entries + untouched_entries, key=lambda x: x["name"])
 
-    _last_mtime_map = updated_mtime_map
+    try:
+        with open(COGNITIVE_FUNCTIONS_LIST_FILE, "w") as f:
+            json.dump(all_entries, f, indent=2)
+    except Exception as e:
+        log_error(f"⚠️ Failed to write cognitive functions list: {e}")

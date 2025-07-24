@@ -1,1 +1,9 @@
-{}
+{
+  "confusion": 0.35,
+  "anxiety": 0.25,
+  "confidence_by_domain": {},
+  "emotional_stability": 0.51575,
+  "connection": 0.572,
+  "curiosity": 0.536,
+  "motivation": 0.5288
+}

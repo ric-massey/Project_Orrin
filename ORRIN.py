@@ -53,7 +53,6 @@ if __name__ == "__main__":
 
     except Exception as e:
         log_error(f"⚠️ Failed to load cognitive functions: {e}")
-        COGNITIVE_FUNCTIONS = {}
 
     cycle_data = load_json(CYCLE_COUNT_FILE, default_type=dict)
     if "count" not in cycle_data:

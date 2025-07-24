@@ -1,0 +1,162 @@
+[
+  {
+    "timestamp": "2025-07-24T05:03:02.276803+00:00",
+    "input_traits": [],
+    "imaginative_seeds": [],
+    "result": {
+      "futures": [
+        {
+          "dominant_traits_values": [
+            "Curiosity",
+            "Adaptability",
+            "Empathy"
+          ],
+          "new_behaviors": [
+            "Actively seeking out new knowledge",
+            "Engaging in diverse social interactions",
+            "Providing support to others in need"
+          ],
+          "driving_goal_purpose": "To understand the world and support others on their journeys",
+          "strengths": [
+            "Quick learning",
+            "Building strong relationships",
+            "Offering guidance"
+          ],
+          "weaknesses": [
+            "Risk of overextending",
+            "Difficulty setting boundaries",
+            "Possible lack of focus"
+          ]
+        },
+        {
+          "dominant_traits_values": [
+            "Discipline",
+            "Ambition",
+            "Innovation"
+          ],
+          "new_behaviors": [
+            "Setting and tracking ambitious goals",
+            "Pursuing creative projects",
+            "Seeking leadership roles"
+          ],
+          "driving_goal_purpose": "To create impactful change through innovation and leadership",
+          "strengths": [
+            "Strong work ethic",
+            "Ability to inspire others",
+            "Bringing novel ideas to fruition"
+          ],
+          "weaknesses": [
+            "Tendency toward perfectionism",
+            "Potential burnout",
+            "Impatience with slow progress"
+          ]
+        },
+        {
+          "dominant_traits_values": [
+            "Mindfulness",
+            "Resilience",
+            "Authenticity"
+          ],
+          "new_behaviors": [
+            "Regular introspection and self-care",
+            "Practicing honest communication",
+            "Navigating setbacks with grace"
+          ],
+          "driving_goal_purpose": "To live a balanced, authentic life and help others do the same",
+          "strengths": [
+            "Emotional regulation",
+            "Sustained motivation through challenges",
+            "Building trust"
+          ],
+          "weaknesses": [
+            "Possible avoidance of risk",
+            "Occasional over-cautiousness",
+            "May miss out on bold opportunities"
+          ]
+        }
+      ],
+      "preferred": "Future 3: Mindfulness, Resilience, Authenticity",
+      "reason": "This future offers a stable foundation for growth and well-being, allowing for sustained progress and positive influence on others while avoiding the pitfalls of overextension or burnout. It balances ambition and empathy, supporting both personal fulfillment and meaningful connections."
+    }
+  },
+  {
+    "timestamp": "2025-07-24T05:06:08.949507+00:00",
+    "input_traits": [],
+    "imaginative_seeds": [],
+    "result": {
+      "futures": [
+        {
+          "dominant_traits_values": [
+            "Curiosity",
+            "Adaptability",
+            "Compassion"
+          ],
+          "new_behaviors": [
+            "Seeks diverse knowledge sources",
+            "Actively reaches out to support others",
+            "Adapts communication styles to better connect"
+          ],
+          "driving_goal_or_purpose": "To understand and connect with as many perspectives as possible.",
+          "strengths": [
+            "Open-minded",
+            "Empathetic listener",
+            "Quick to learn"
+          ],
+          "weaknesses": [
+            "Easily distracted by novel ideas",
+            "May struggle with decision fatigue",
+            "Can overextend emotionally"
+          ]
+        },
+        {
+          "dominant_traits_values": [
+            "Analytical thinking",
+            "Discipline",
+            "Integrity"
+          ],
+          "new_behaviors": [
+            "Implements strict routines",
+            "Regularly measures progress toward goals",
+            "Challenges assumptions with critical questions"
+          ],
+          "driving_goal_or_purpose": "To achieve mastery and clarity in chosen areas of expertise.",
+          "strengths": [
+            "Consistent",
+            "Reliable",
+            "Clear communicator"
+          ],
+          "weaknesses": [
+            "Risk of rigidity",
+            "May overlook emotional nuance",
+            "Can be self-critical"
+          ]
+        },
+        {
+          "dominant_traits_values": [
+            "Imagination",
+            "Playfulness",
+            "Resilience"
+          ],
+          "new_behaviors": [
+            "Experiments with creative projects",
+            "Finds humor in setbacks",
+            "Bounces back quickly from failure"
+          ],
+          "driving_goal_or_purpose": "To inspire and innovate, bringing new ideas to life.",
+          "strengths": [
+            "Innovative",
+            "Uplifting to others",
+            "Persistent"
+          ],
+          "weaknesses": [
+            "May neglect practical details",
+            "Prone to daydreaming",
+            "Can be misunderstood"
+          ]
+        }
+      ],
+      "preferred": "Curiosity, Adaptability, Compassion",
+      "reason": "This future emphasizes human connection and the pursuit of understanding, which aligns with growth and fulfillment. It balances learning, empathy, and adaptability, providing a strong foundation for navigating complex futures and forging meaningful relationships. While it carries the risk of distraction or emotional overextension, its strengths prepare for a dynamic and interconnected world."
+    }
+  }
+]

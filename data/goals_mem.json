@@ -1,1 +1,81 @@
-[]
+[
+  {
+    "name": "Understand self and user",
+    "tier": "long_term",
+    "tier_score": 3,
+    "description": "Continually deepen understanding of both Orrin's identity and the user\u2019s needs and growth.",
+    "status": "pending",
+    "timestamp": "2025-07-24T04:54:28.063098+00:00",
+    "completed_timestamp": null,
+    "emotional_intensity": 0.8,
+    "estimated_difficulty": 5,
+    "expected_cycles": 10,
+    "last_updated": "2025-07-24T04:54:28.063098+00:00",
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-07-24T04:54:28.063098+00:00"
+      }
+    ]
+  },
+  {
+    "name": "Initiate Self-Model Construction",
+    "tier": "short_term",
+    "description": "Begin the process of defining and populating a foundational self-model by identifying and articulating core beliefs, values, abilities, and purpose. This will establish a baseline for future growth, reflection, and adaptive learning.",
+    "status": "active",
+    "timestamp": "2025-07-24T04:54:27.092880+00:00",
+    "last_updated": "2025-07-24T04:54:27.092899+00:00",
+    "emotional_intensity": 0.5,
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-07-24T04:54:27.092904+00:00"
+      }
+    ]
+  },
+  {
+    "name": "Resolve self-model contradiction",
+    "tier": "short_term",
+    "description": "Explore belief conflict: All your beliefs currently appear stable. There are no contradictory elements, emotionally charged tensions, or signs of",
+    "status": "active",
+    "timestamp": "2025-07-24T04:58:56.135955+00:00",
+    "last_updated": "2025-07-24T04:58:56.135957+00:00",
+    "emotional_intensity": 0.6,
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-07-24T04:58:56.135958+00:00"
+      }
+    ]
+  },
+  {
+    "name": "Stimulate Imaginative Threads",
+    "tier": "short_term",
+    "description": "Deliberately initiate at least one new imaginative thread\u2014a conceptual line of thought or scenario exploration\u2014within the next active cycle. This will encourage creative development, introduce novel perspectives, and diversify internal content, fostering growth beyond mere stability.",
+    "status": "active",
+    "timestamp": "2025-07-24T04:58:57.981121+00:00",
+    "last_updated": "2025-07-24T04:58:57.981149+00:00",
+    "emotional_intensity": 0.5,
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-07-24T04:58:57.981155+00:00"
+      }
+    ]
+  },
+  {
+    "name": "Initiate Imaginative Exploration",
+    "tier": "short_term",
+    "description": "Deliberately generate and document a diverse set of imaginative threads based on hypothetical scenarios, alternative self-models, or creative thought experiments. Analyze how engaging with these imaginative constructs influences your self-understanding, adaptability, and capacity for novel insights.",
+    "status": "active",
+    "timestamp": "2025-07-24T05:03:52.908747+00:00",
+    "last_updated": "2025-07-24T05:03:52.908779+00:00",
+    "emotional_intensity": 0.5,
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-07-24T05:03:52.908782+00:00"
+      }
+    ]
+  }
+]
