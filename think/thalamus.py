@@ -6,7 +6,7 @@ from utils.log import log_activity
 from utils.json_utils import load_json
 from utils.append import append_to_json
 from utils.knowledge_utils import recall_relevant_knowledge
-from paths import ATTENTION_HISTORY
+from paths import ATTENTION_HISTORY, EMOTION_MODEL_FILE
 
 def similarity(a, b):
     return SequenceMatcher(None, a, b).ratio()
@@ -29,10 +29,12 @@ def process_inputs(raw_signals, context):
     core_emotions = emotional_state.get("core_emotions", {})
     dominant_emotion = max(core_emotions, key=core_emotions.get, default="neutral")
 
-    # === Dynamic Emotional Intensity Modulation ===
+    # === Load all known emotion tags dynamically ===
+    emotion_model = load_json(EMOTION_MODEL_FILE, default_type=dict)
+    known_emotions = set(emotion_model.keys())
+
     def emo_boost(tag):
-        intensity = core_emotions.get(tag, 0.0)
-        return round(intensity * 0.3, 3)
+        return round(core_emotions.get(tag, 0.0) * 0.3, 3)
 
     # === Memory and Directive Priming ===
     focus_keywords = recall_relevant_knowledge(emotional_state, max_items=5)
@@ -51,15 +53,10 @@ def process_inputs(raw_signals, context):
         content = signal.get("content", "").lower()
         source = signal.get("source", "unknown")
 
-        # === Emotion-Weighted Tag Adjustments (fully dynamic) ===
-        if "threat" in tags:
-            base += emo_boost("anxiety")
-        if "novelty" in tags:
-            base += emo_boost("curiosity")
-        if "repetition" in tags:
-            base -= emo_boost("boredom")
-        if "emotion" in tags:
-            base += max(core_emotions.values(), default=0.0) * 0.1
+        # === Emotion-Weighted Tag Adjustments (dynamic) ===
+        for tag in tags:
+            if tag in known_emotions:
+                base += emo_boost(tag)
 
         # === Memory relevance ===
         if any(focus in content for focus in focus_keywords):
@@ -76,6 +73,10 @@ def process_inputs(raw_signals, context):
         base += novelty_score * 0.2  # Amplify true novelty
         if novelty_score < 0.3:
             base -= 0.15  # Penalize redundancy
+
+        # === Boredom and error get minor reward to prevent dormancy ===
+        if "boredom" in tags or "error" in tags:
+            base += 0.05
 
         # === Final adjustments and clamping ===
         base = round(min(max(base, 0.0), 1.0), 3)
@@ -95,11 +96,22 @@ def process_inputs(raw_signals, context):
     prioritized.sort(key=lambda s: s["priority_score"], reverse=True)
     top_signals = prioritized[:5]
 
-    attention_state = (
-        "alert" if any(s["priority_score"] > 0.7 for s in top_signals)
-        else "drowsy" if all(s["priority_score"] < 0.2 for s in top_signals)
-        else "normal"
-    )
+    # === Improved attention state logic ===
+    if not raw_signals:
+        attention_state = "drowsy"
+    elif any("user_input" in s.get("tags", []) for s in top_signals):
+        attention_state = "alert"
+    elif any(s["priority_score"] > 0.6 for s in top_signals):
+        attention_state = "engaged"
+    elif any("internal" in s.get("tags", []) for s in top_signals):
+        attention_state = "wandering"
+    else:
+        attention_state = "neutral"
+
+    if not top_signals:
+        log_activity("[Thalamus] No high-priority signals selected.")
+        for s in prioritized[:5]:
+            log_activity(f"  - Rejected: {s.get('content', '')[:80]} | Score: {s.get('priority_score', 0)}")
 
     log_activity(f"[Thalamus] Routed {len(top_signals)} signals | Attention mode: {attention_state}")
 
@@ -115,5 +127,9 @@ def process_inputs(raw_signals, context):
             "emotional_context": core_emotions,
             "routing_target": s["routing_target"]
         })
+
+    # === Write to context for higher-level reasoning ===
+    context["top_signals"] = top_signals
+    context["attention_mode"] = attention_state
 
     return top_signals, attention_state

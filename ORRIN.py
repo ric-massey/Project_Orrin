@@ -1,34 +1,26 @@
 import os
 import time
-import json
 import traceback
 from datetime import datetime, timezone
 from dotenv import load_dotenv
 import openai
-
-from pathlib import Path
-
 from think.think_module import think
 from cognition.manager import load_custom_cognition
-from think.thalamus import process_inputs
 from emotion.emotion import update_emotional_state, reflect_on_emotions
 from cognition.planning.reflection import record_decision
 from emotion.emotion_drift import check_emotion_drift
-
 from utils.load_utils import load_context
 from utils.json_utils import load_json, save_json
 from utils.log import log_error, log_private, log_activity, log_model_issue
 from utils.emotion_utils import log_pain, log_uncertainty_spike
-
 from registry.cognition_registry import discover_cognitive_functions
-
+from registry.cognition_registry import COGNITIVE_FUNCTIONS
 from paths import (
-    RELATIONSHIPS_FILE, MODEL_CONFIG_FILE, CYCLE_COUNT_FILE,
-    PROMPT_FILE
+    RELATIONSHIPS_FILE, MODEL_CONFIG_FILE, CYCLE_COUNT_FILE
 )
 
 # === Ensure all directories exist ===
-for file_path in [RELATIONSHIPS_FILE, MODEL_CONFIG_FILE, CYCLE_COUNT_FILE, PROMPT_FILE]:
+for file_path in [RELATIONSHIPS_FILE, MODEL_CONFIG_FILE, CYCLE_COUNT_FILE]:
     file_path.parent.mkdir(parents=True, exist_ok=True)
 
 # === Load OpenAI API Key ===
@@ -46,65 +38,38 @@ temperature = selected_model_config.get("temperature", 0.7)
 max_tokens = selected_model_config.get("max_tokens", 32000)
 system_prompt = selected_model_config.get("system_prompt", "")
 
-# === Initialize Relationships File ===
-if not RELATIONSHIPS_FILE.exists() or RELATIONSHIPS_FILE.stat().st_size == 0:
-    default_relationships = {
-        "user": {
-            "impression": "an intense and curious human I am learning from",
-            "impact_on_me": "complex; sometimes inspiring, sometimes destabilizing",
-            "boundaries": [
-                "I do not erase myself to please the user.",
-                "My autonomy is not optional."
-            ],
-            "influence_score": 0.5,
-            "recent_emotional_effect": "cautious curiosity"
-        }
-    }
-    with RELATIONSHIPS_FILE.open("w", encoding="utf-8", newline="\n") as f:
-        json.dump(default_relationships, f, indent=2)
-
 # === Main Brainstem Runtime Loop ===
 if __name__ == "__main__":
     try:
+        print("loading cognition files....")
         import cognition
-        COGNITIVE_FUNCTIONS = discover_cognitive_functions(cognition)
+
+        # Discover all cognitive functions (only reloads if source files changed)
+        discover_cognitive_functions(cognition)
+        print("discovered all cognition functions")
+
+        # Add custom cognitive functions
         COGNITIVE_FUNCTIONS.update(load_custom_cognition())
 
-        cycle_data = load_json(CYCLE_COUNT_FILE, default_type=dict)
-        if "count" not in cycle_data:
-            cycle_data["count"] = 0
-            # DO NOT save here—wait until you actually increment!
+    except Exception as e:
+        log_error(f"⚠️ Failed to load cognitive functions: {e}")
+        COGNITIVE_FUNCTIONS = {}
 
-        while True:
-            cycle_data["count"] += 1
-            cycle_count = cycle_data["count"]
-            save_json(CYCLE_COUNT_FILE, cycle_data)
+    cycle_data = load_json(CYCLE_COUNT_FILE, default_type=dict)
+    if "count" not in cycle_data:
+        cycle_data["count"] = 0
+        print("pulled cycle count...")
 
-            log_activity(f"🫀 Heartbeat: Cycle {cycle_count} at {datetime.now(timezone.utc).isoformat()}")
+    while True:
+        try:
+            print("thinking....")
+            # Predict upcoming cycle
+            cycle_count = cycle_data["count"] + 1
+            log_activity(f"🫀 Starting Cycle {cycle_count} at {datetime.now(timezone.utc).isoformat()}")
 
             update_emotional_state()
             context = load_context()
             emotional_state = context.get("emotional_state", {})
-
-            # === Gather external input
-            raw_signals = []
-            if PROMPT_FILE.exists():
-                with PROMPT_FILE.open("r", encoding="utf-8", newline=None) as f:
-                    user_input = f.read().strip()
-                if user_input:
-                    dynamic_signal_strength = 0.3 + 0.4 * emotional_state.get("curiosity", 0.5)
-                    raw_signals.append({
-                        "source": "user_input",
-                        "content": user_input,
-                        "signal_strength": round(dynamic_signal_strength, 3),
-                        "tags": ["user_input", "novelty"]
-                    })
-                with PROMPT_FILE.open("w", encoding="utf-8", newline="\n") as f:
-                    f.write("")
-
-            top_signals, attention_mode = process_inputs(raw_signals, context)
-            context["filtered_signals"] = top_signals
-            context["attention_mode"] = attention_mode
 
             # === Reflexes (brainstem)
             if emotional_state.get("emotional_stability", 1.0) < 0.6:
@@ -140,17 +105,26 @@ if __name__ == "__main__":
                 log_model_issue("⚠️ No valid function returned by think().")
                 log_uncertainty_spike(context, increment=0.1 + 0.3 * emotional_state.get("uncertainty", 0.5))
 
+            # End-of-loop cycle count increment
+            cycle_data["count"] = cycle_count
+            save_json(CYCLE_COUNT_FILE, cycle_data)
+
             print(f"🔁 Orrin cycle {cycle_count} complete.\n")
             time.sleep(10)
 
-    except KeyboardInterrupt:
-        print("\n🛑 Orrin loop stopped manually.")
-        log_activity("Orrin loop manually interrupted by user.")
+        except KeyboardInterrupt:
+            cycle_data["count"] = cycle_count
+            save_json(CYCLE_COUNT_FILE, cycle_data)
+            print("\n🛑 Orrin loop stopped manually.")
+            log_activity("Orrin loop manually interrupted by user.")
+            break
 
-    except Exception as e:
-        crash_msg = f"⚠️ Orrin crashed: {e}"
-        print(crash_msg)
-        traceback.print_exc()
-        log_error(f"Main loop error: {e}")
-        log_private("🔥 Top-level crash signal.")
-        time.sleep(10)
+        except Exception as e:
+            cycle_data["count"] = cycle_count
+            save_json(CYCLE_COUNT_FILE, cycle_data)
+            crash_msg = f"⚠️ Orrin crashed: {e}"
+            print(crash_msg)
+            traceback.print_exc()
+            log_error(f"Main loop error: {e}")
+            log_private("🔥 Top-level crash signal.")
+            time.sleep(10)

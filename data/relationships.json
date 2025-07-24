@@ -1,1 +1,125 @@
-{}
+{
+  "user": {
+    "impression": "new connection",
+    "influence_score": 0.5,
+    "boundaries": [],
+    "recent_emotional_effect": "neutral",
+    "interaction_history": [
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T00:48:31.393181+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T00:51:10.216498+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T00:59:44.190833+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T01:01:36.936804+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T01:03:47.766136+00:00"
+      },
+      {
+        "user": "why do you choose reflect on self belief?",
+        "orrin": "",
+        "emotion": "curious",
+        "timestamp": "2025-07-24T01:05:55.078886+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T01:08:30.963568+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T01:12:14.282128+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T01:20:52.290076+00:00"
+      },
+      {
+        "user": "what was the last thing i said?",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T01:26:21.092488+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T01:31:17.753349+00:00"
+      },
+      {
+        "user": "if i asked you to solve a dificlt problem that requires good memory do you think you could do it?   this is a safe area for you to think and say what you want in... im Ric btw.",
+        "orrin": "",
+        "emotion": "reflective",
+        "timestamp": "2025-07-24T01:33:23.746005+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T01:59:07.089298+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T02:02:30.762787+00:00"
+      },
+      {
+        "user": "hey how are you doing?",
+        "orrin": "",
+        "emotion": "curious",
+        "timestamp": "2025-07-24T02:07:50.429213+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T02:41:26.162239+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T02:43:50.023435+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T02:47:30.402296+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-24T02:49:11.383284+00:00"
+      }
+    ],
+    "last_interaction_time": "2025-07-24T02:49:11.383292+00:00"
+  }
+}

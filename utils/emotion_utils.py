@@ -4,11 +4,10 @@ from utils.json_utils import load_json, save_json
 from utils.log import log_private, log_error, log_activity
 from emotion.model import load_emotion_keywords
 from emotion.reward_signals.reward_signals import release_reward_signal
-from utils.self_model import get_self_model, save_self_model
+from utils.self_model import get_self_model
 from paths import (
     WORKING_MEMORY_FILE,
     EMOTIONAL_STATE_FILE,
-    SELF_MODEL_FILE,
     MODE_FILE
 )
 
@@ -206,3 +205,9 @@ def contextual_emotion_priming(context, persist=True):
 
     context["emotional_state"] = emotional_state
     log_activity("[Priming] Contextual emotion priming dynamically updated emotional profile.")
+
+def dominant_emotion(emotional_state):
+    if not isinstance(emotional_state, dict):
+        return "neutral"
+    weights = {k: v for k, v in emotional_state.items() if isinstance(v, (int, float))}
+    return max(weights, key=weights.get) if weights else "neutral"

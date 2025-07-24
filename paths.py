@@ -77,6 +77,7 @@ EMOTION_DRIFT               = BASE_DIR / "emotion_drift.json"
 CUSTOM_EMOTION              = BASE_DIR / "custom_emotion.json"
 MODE_FILE                   = BASE_DIR / "mode.json"
 SPEAKER_STATE_FILE          = BASE_DIR / "speaker_state.json"
+EMOTION_FUNCTION_MAP_FILE   = BASE_DIR / "emotion_function_map.json"
 
 # === Cycle/Meta ===
 CYCLE_COUNT_FILE       = BASE_DIR / "cycle_count.json"

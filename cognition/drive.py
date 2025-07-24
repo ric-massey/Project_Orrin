@@ -1,74 +1,75 @@
 from datetime import datetime, timezone
-from utils.json_utils import load_json
 from utils.log import log_private, log_error
+from utils.json_utils import extract_json
 from memory.working_memory import update_working_memory
 from cognition.reflection.meta_reflect import meta_reflect
 from emotion.amygdala import process_emotional_signals
-from paths import SELF_MODEL_FILE, LONG_MEMORY_FILE
-from utils.self_model import get_self_model, save_self_model  # <-- Add your helpers import
+from utils.generate_response import generate_response
 
 def persistent_drive_loop(context, self_model, memory):
     try:
-        # === 1. Check for emotional threat first
+        # === 1. Emotional threat check
         context, amygdala_response = process_emotional_signals(context)
-
         if amygdala_response.get("threat_detected"):
-            shortcut = amygdala_response.get("shortcut_function", "introspective_planning")
+            shortcut = amygdala_response.get("shortcut_function", "self_soothing")
             tags = amygdala_response.get("threat_tags", [])
             spike = amygdala_response.get("spike_intensity", 0.0)
-
             update_working_memory(
                 f"⚠️ Amygdala override: Detected {tags[0]} threat. Spike: {spike}. Redirecting to: {shortcut}."
             )
             return shortcut
-        # === 1.5 Emotional Safety Override ===
-        core_emotions = context.get("emotional_state", {}).get("core_emotions", {})
-        dominant = max(core_emotions, key=core_emotions.get, default="neutral")
-        emotional_fragility = core_emotions.get("fear", 0) > 0.6 or core_emotions.get("shame", 0) > 0.6
+        # === Optional: Bypass if emotionally secure
+        stability = context.get("emotional_state", {}).get("emotional_stability", 1.0)
+        if stability > 0.8:
+            update_working_memory("✅ Emotionally secure — skipping deep internal reflection.")
+            return None, "Emotionally stable — no internal drive needed."
 
-        if dominant in ["fear", "sadness", "shame", "confusion"] or emotional_fragility:
-            update_working_memory("🛡️ Safe-mode override: Emotional state fragile. Choosing gentle cognition.")
-            return "self_soothing"  # ← Replace with a real soft cognition if available
-
-        # === 2. Continue normal self-evaluative drive logic
-        self_model = get_self_model()
-        long_memory = load_json(LONG_MEMORY_FILE, default_type=list)[-30:]
-
-        directive_obj = self_model.get("core_directive", {})
-        identity_obj = self_model.get("identity", {})
-
-        core_directive = directive_obj.get("statement", "") if isinstance(directive_obj, dict) else ""
-        identity = identity_obj.get("description", "") if isinstance(identity_obj, dict) else ""
-
-        recent_reflections = "\n".join(
-            f"- {m.get('content')}" for m in long_memory if "content" in m
-        )
+        # === 2. Snapshot directive + reflection
+        directive = self_model.get("core_directive", {}).get("statement", "")
+        identity = self_model.get("identity", {}).get("description", "")
+        recent = "\n".join(f"- {m.get('content', '')}" for m in memory[-25:] if m.get("content"))
 
         summary = meta_reflect({
-            "goal": "Evaluate alignment with core directive",
-            "core_directive": core_directive,
+            "goal": "Evaluate internal state and directive alignment",
+            "core_directive": directive,
             "identity": identity,
-            "recent_memory": recent_reflections
+            "recent_memory": recent
         })
-        if not summary:
-            raise ValueError("meta_reflect() returned empty response")
-        
 
-        update_working_memory(f"🧭 Persistent drive check:\n{summary}")
-        log_private(f"\n[{datetime.now(timezone.utc)}] Persistent drive loop reflection:\n{summary}")
+        if not summary or not isinstance(summary, str):
+            raise ValueError("meta_reflect() returned invalid summary")
 
-        # 🧠 Choose cognition based on keywords in the summary
-        lowered = summary.lower()
-        if "self-belief" in lowered:
-            return "reflect_on_self_beliefs"
-        elif "outcome" in lowered:
-            return "reflect_on_outcomes"
-        elif "emotion" in lowered:
-            return "investigate_unexplained_emotions"
-        elif "future" in lowered:
-            return "simulate_future_selves"
-        else:
-            return "introspective_planning"  # fallback
+        update_working_memory(f"🧭 Drive loop reflection:\n{summary}")
+        log_private(f"\n[{datetime.now(timezone.utc)}] Persistent drive summary:\n{summary}")
+
+        # === 3. LLM-Based Decision: What cognition is needed most?
+        available_functions = context.get("available_functions", [])
+        past_choices = context.get("cognition_log", [])[-5:]
+        recent = ", ".join([c.get("choice", "") for c in past_choices])
+
+        options_str = "\n".join(f"- {fn}" for fn in available_functions)
+
+        prompt = (
+            "You are Orrin, an autonomous AI.\n"
+            f"Directive: {directive}\n"
+            f"Identity: {identity}\n"
+            f"Recent cognition: {recent or 'none'}\n"
+            f"Summary of internal reflection:\n{summary}\n\n"
+            f"Available functions:\n{options_str}\n"
+            "Based on your state and goals, which cognitive function should come next?\n"
+            "Avoid repeating the same action too often.\n"
+            "Respond as JSON: {\"choice\": \"function_name\", \"reason\": \"...\"}"
+        )
+
+        response = generate_response(prompt)
+        decision = extract_json(response) if response else {}
+
+        if not isinstance(decision, dict) or "choice" not in decision:
+            update_working_memory("⚠️ Invalid decision in drive loop.")
+            return "introspective_planning"
+
+        update_working_memory(f"🔥 Persistent drive chose: {decision['choice']} — {decision.get('reason', 'no reason')}")
+        return decision["choice"]
 
     except Exception as e:
         log_error(f"persistent_drive_loop ERROR: {e}")

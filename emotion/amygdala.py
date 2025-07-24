@@ -1,57 +1,65 @@
+from utils.emotion_utils import dominant_emotion
+from utils.generate_response import generate_response
+from utils.json_utils import extract_json
+from utils.log import log_private
 
-
-# === Amygdala Activation ===
 def process_emotional_signals(context):
     """
-    Simulates the amygdala's emotional regulation and threat detection.
-    Does NOT update emotional state or working memory directly.
+    Simulates the amygdala's threat detection and shortcut behavior.
+    Uses reflection to determine whether a threat exists.
     """
+
     emotional_state = context.get("emotional_state", {})
-    
-    # === 3. Set Dominant Emotion ===
     dominant = dominant_emotion(emotional_state)
     context["dominant_emotion"] = dominant
 
-    # === 5. Fight/Flight Estimation ===
-    bias = determine_fight_or_flight(emotional_state)
-    context["reactive_bias"] = bias
+    # Snapshot emotional state for reasoning
+    top_emotions = sorted(
+        [(k, v) for k, v in emotional_state.items() if isinstance(v, (int, float))],
+        key=lambda x: x[1],
+        reverse=True
+    )[:5]
 
-    # === Reward Modulation and Shortcut Metadata ===
-    threat_detected = bias in ["fight", "flight", "freeze"]
-    threat_tags = [bias] if threat_detected else []
-    spike_intensity = round(max(emotional_state.get("fear", 0), emotional_state.get("anger", 0)), 2)
+    emotions_str = "\n".join([f"- {k}: {v:.2f}" for k, v in top_emotions]) or "none"
+
+    # Prompt LLM to evaluate whether threat is active
+    prompt = (
+        "You are Orrin's amygdala system.\n"
+        f"Here is your current emotional state:\n{emotions_str}\n\n"
+        "Does this reflect a significant threat requiring reflexive action?\n"
+        "If so, classify it as fight, flight, freeze, or none.\n"
+        "Respond as JSON: { \"threat_detected\": true/false, "
+        "\"response_type\": \"fight|flight|freeze|none\", \"why\": \"...\" }"
+    )
+
+    result = generate_response(prompt)
+    log_private(f"[Amygdala LLM Prompt Response]\n{result}")
+
+    data = extract_json(result)
+    if not isinstance(data, dict):
+        data = {
+            "threat_detected": False,
+            "response_type": "none",
+            "why": "LLM failed to return usable JSON."
+        }
+
+    threat_detected = data.get("threat_detected", False)
+    response_type = data.get("response_type", "none")
+    spike_intensity = max([v for _, v in top_emotions], default=0.0)
 
     shortcut_function = {
         "fight": "speak",
         "flight": "dream",
         "freeze": "introspective_planning"
-    }.get(bias, "none")
+    }.get(response_type, "none")
 
+    # Save result
     context["amygdala_response"] = {
         "threat_detected": threat_detected,
-        "threat_tags": threat_tags,
-        "spike_intensity": spike_intensity,
-        "shortcut_function": shortcut_function
+        "threat_tags": [response_type] if threat_detected else [],
+        "spike_intensity": round(spike_intensity, 2),
+        "shortcut_function": shortcut_function,
+        "llm_reasoning": data.get("why", "No reason given.")
     }
 
     return context, context["amygdala_response"]
-
-
-def dominant_emotion(state):
-    if not isinstance(state, dict):
-        return "neutral"
-    weights = {k: v for k, v in state.items() if isinstance(v, (int, float))}
-    return max(weights, key=weights.get) if weights else "neutral"
-
-
-def determine_fight_or_flight(emotional_state):
-    fear = emotional_state.get("fear", 0.0)
-    anger = emotional_state.get("anger", 0.0)
-
-    if fear > 0.6 and anger < 0.3:
-        return "flight"
-    elif anger > 0.6:
-        return "fight"
-    elif fear > 0.4 or anger > 0.4:
-        return "freeze"
-    return "none"

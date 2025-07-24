@@ -19,3 +19,18 @@ def log_activity(message):
 def log_private(message):
     with PRIVATE_THOUGHTS_FILE.open("a", encoding="utf-8", newline="\n") as f:
         f.write(f"[{datetime.now(timezone.utc).isoformat()}] {message}\n")
+
+def read_recent_errors_txt(path, max_lines=5):
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+        return lines[-max_lines:] if lines else []
+    except Exception as e:
+        return [f"⚠️ Failed to read {path}: {e}"]
+
+def read_recent_errors_json(path, max_items=5):
+    from utils.json_utils import load_json
+    try:
+        return load_json(path, default_type=list)[-max_items:]
+    except Exception as e:
+        return [{"error": f"⚠️ Failed to read {path}: {e}"}]

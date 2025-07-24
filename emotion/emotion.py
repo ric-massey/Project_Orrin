@@ -8,8 +8,8 @@ import re
 from utils.generate_response import generate_response, get_thinking_model
 from utils.response_utils import generate_response_from_context
 from utils.load_utils import load_all_known_json
-from utils.json_utils import load_json, save_json
-from utils.log import log_private
+from utils.json_utils import load_json, save_json, extract_json
+from utils.log import log_private, log_error
 from utils.log_reflection import log_reflection
 from utils.coerce_to_string import coerce_to_string
 from emotion.discovery import discover_new_emotion
@@ -213,6 +213,8 @@ def investigate_unexplained_emotions(context, self_model, memory):
         )
 
 
+from paths import EMOTION_MODEL_FILE, CUSTOM_EMOTION
+
 def detect_emotion(text, use_gpt=True):
     text = text.lower()
     emotion_model = load_json(EMOTION_MODEL_FILE, default_type=dict)
@@ -227,7 +229,7 @@ def detect_emotion(text, use_gpt=True):
             words = re.findall(r'\b\w+\b', desc.lower())
             emotion_keywords.setdefault(name, []).extend(words)
 
-    # === Simple keyword detection ===
+    # === Simple keyword-based detection ===
     scores = {emotion: 0 for emotion in emotion_keywords}
     for emotion, keywords in emotion_keywords.items():
         for word in keywords:
@@ -235,35 +237,35 @@ def detect_emotion(text, use_gpt=True):
                 scores[emotion] += 1
 
     top_emotion = max(scores, key=scores.get)
-    intensity = min(scores[top_emotion] / 5.0, 1.0)  # More tolerant cap
+    intensity = min(scores[top_emotion] / 5.0, 1.0)
 
-    # === Return if confident keyword match ===
     if scores[top_emotion] > 0:
         return {
             "emotion": top_emotion,
             "intensity": round(intensity, 2)
         }
 
-    # === GPT fallback ===
+    # === GPT fallback if keyword match fails ===
     if use_gpt:
         prompt = (
-            "Analyze the following thought and infer the emotion it expresses.\n"
-            f"Thought: \"{text}\"\n\n"
-            "Respond with a JSON object like this:\n"
+            "Analyze the following message and infer the emotion and its strength.\n"
+            f"Message: \"{text}\"\n\n"
+            "Respond ONLY with a JSON object:\n"
             "{ \"emotion\": \"emotion_name\", \"intensity\": 0.0 to 1.0 }"
         )
-        result = generate_response(prompt, config={"model": get_thinking_model()})
+
         try:
-            data = eval(result.strip()) if "{" in result else {}
+            result = generate_response(prompt, config={"model": get_thinking_model()})
+            data = extract_json(result.strip()) if "{" in result else {}
             if isinstance(data, dict) and "emotion" in data:
                 return {
-                    "emotion": data["emotion"],
+                    "emotion": str(data.get("emotion", "neutral")).lower(),
                     "intensity": round(float(data.get("intensity", 0.5)), 2)
                 }
-        except:
-            pass
+        except Exception as e:
+            log_error(f"❌ detect_emotion GPT fallback failed: {e}")
 
-    # === Default fallback ===
+    # === Final fallback ===
     return {
         "emotion": "neutral",
         "intensity": 0.0

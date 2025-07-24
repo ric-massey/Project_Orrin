@@ -2,6 +2,8 @@ import time
 import json
 import random
 import re
+from datetime import datetime, timezone
+from memory.chat_log import log_raw_user_input, wrap_text
 from utils.log import log_private, log_activity, log_error
 from utils.generate_response import generate_response, get_thinking_model
 from utils.json_utils import load_json, save_json
@@ -50,11 +52,10 @@ class OrrinSpeaker:
         
         if not user_present and not force_speak:
             if random.random() < 0.15:
-                log_private("🤫 Speaking out loud to self — random chance triggered.")
+                log_private("🤫 Speaking out loud to self")
                 tone_data = self.tone_shaping(thought, emotional_state, context)
                 return self.speak_final(thought, tone_data, context)
             else:
-                log_private("🛑 Alone — skipping self-talk this time.")
                 return ""
         
         if not user_present:
@@ -126,12 +127,10 @@ class OrrinSpeaker:
         else:
             rephrased = self.rephrase_with_tone(thought, tone_data, context)
 
-        # === ENFORCE BREVITY HERE ===
-        import re
-        #sentences = re.split(r'(?<=[.!?])\s+', rephrased)
-        #rephrased = " ".join(sentences[:2]).strip()
         if len(rephrased) > 400:
             rephrased = rephrased[:397] + "..."
+
+        rephrased_wrapped = wrap_text(rephrased, width=85)
 
         self.last_spoken_thoughts.append(rephrased)
         self.conversation_history.append({"thought": thought, "tone": tone_data.get("tone")})
@@ -146,9 +145,22 @@ class OrrinSpeaker:
         }
         save_json(SPEAKER_STATE_FILE, speaker_state)
 
-        log_activity(f"🗣️ I will speak.\nFinal Output: {rephrased}")
-        print(rephrased) 
-        return rephrased
+        log_activity(f"🗣️ I will speak.\nFinal Output:\n{rephrased_wrapped}")
+
+        user_input = context.get("latest_user_input", "—")
+        if not user_input.strip():
+            user_input = "(no user input)"
+
+        log_raw_user_input({
+            "user": user_input,
+            "orrin": rephrased_wrapped,
+            "influence": context.get("relationship", {}).get("influence_score", 0.5),
+            "emotional_effect": context.get("relationship", {}).get("recent_emotional_effect", "neutral"),
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        })
+
+        return rephrased_wrapped
+    
     def tone_shaping(self, thought, emotional_state, context):
         emotions = emotional_state.get("core_emotions", {})
         fear = emotions.get("fear", 0)
