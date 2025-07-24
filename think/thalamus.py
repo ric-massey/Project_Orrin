@@ -1,27 +1,17 @@
-# cognition/thalamus.py
-
 from datetime import datetime, timezone
-from difflib import SequenceMatcher
-from utils.log import log_activity
-from utils.json_utils import load_json
+from utils.load_utils import load_json
 from utils.append import append_to_json
+from utils.log import log_activity
 from utils.knowledge_utils import recall_relevant_knowledge
-from paths import ATTENTION_HISTORY, EMOTION_MODEL_FILE
+from paths import EMOTION_MODEL_FILE, ATTENTION_HISTORY
 
-def similarity(a, b):
-    return SequenceMatcher(None, a, b).ratio()
-
-def calculate_novelty(content, recent_contents):
-    if not recent_contents:
-        return 1.0
-    similarities = [similarity(content.lower(), r.lower()) for r in recent_contents]
-    return round(1.0 - max(similarities, default=0.0), 3)
-
-def process_inputs(raw_signals, context):
+def process_inputs(context):
     """
     Orrin's thalamus: biologically inspired signal prioritization based on emotion,
     novelty, memory relevance, and dynamic goal context.
+    Pulls signals from context["raw_signals"] and injects results back into context.
     """
+    raw_signals = context.get("raw_signals", [])
     emotional_state = context.get("emotional_state", {})
     self_model = context.get("self_model", {})
     mode = context.get("mode", {}).get("mode", "neutral")
@@ -68,13 +58,15 @@ def process_inputs(raw_signals, context):
         if mode in content:
             base += 0.1
 
-        # === Content-based Novelty Decay ===
-        novelty_score = calculate_novelty(content, recent_contents)
-        base += novelty_score * 0.2  # Amplify true novelty
+        # === Content-based Novelty Decay (approximate) ===
+        similar_contents = [c for c in recent_contents if c and c in content]
+        novelty_score = max(0.0, 1.0 - (len(similar_contents) / max(1, len(recent_contents))))  # crude similarity proxy
+        # TODO: Replace with semantic similarity for better novelty judgment
+        base += novelty_score * 0.2
         if novelty_score < 0.3:
-            base -= 0.15  # Penalize redundancy
+            base -= 0.15
 
-        # === Boredom and error get minor reward to prevent dormancy ===
+        # === Mild boost for boredom/errors ===
         if "boredom" in tags or "error" in tags:
             base += 0.05
 
@@ -92,11 +84,11 @@ def process_inputs(raw_signals, context):
 
         prioritized.append(signal)
 
-    # === Sort + select ===
+    # === Sort and slice ===
     prioritized.sort(key=lambda s: s["priority_score"], reverse=True)
     top_signals = prioritized[:5]
 
-    # === Improved attention state logic ===
+    # === Attention mode logic ===
     if not raw_signals:
         attention_state = "drowsy"
     elif any("user_input" in s.get("tags", []) for s in top_signals):
@@ -128,8 +120,6 @@ def process_inputs(raw_signals, context):
             "routing_target": s["routing_target"]
         })
 
-    # === Write to context for higher-level reasoning ===
+    # === Inject back into context ===
     context["top_signals"] = top_signals
     context["attention_mode"] = attention_state
-
-    return top_signals, attention_state

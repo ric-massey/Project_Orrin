@@ -59,7 +59,7 @@ def select_function(
                 context.get("update_working_memory", lambda x: None)(
                     f"⚠️ Amygdala triggered {tags[0]} response. Intensity: {spike}. Redirecting to: {shortcut}."
                 )
-                return shortcut, f"Amygdala threat reflex ({tags[0]})"
+                return shortcut, f"Amygdala threat reflex ({tags[0]})", False
 
     # === Anti-stagnation Check ===
     core_emotions = emotional_state.get("core_emotions", {})
@@ -97,9 +97,10 @@ def select_function(
         context.get("update_working_memory", lambda x: None)(
             "🧪 [Sandbox] Orrin is experimenting with weirdness due to boredom."
         )
-        return context.get("run_sandbox_experiments", lambda ctx: ("persistent_drive_loop", "sandbox"))(context)
+        func_name, reason = context.get("run_sandbox_experiments", lambda ctx: ("persistent_drive_loop", "sandbox"))(context)
+        return func_name, reason, False
     elif repeat_count >= 3 or context_hash == last_hash:
-        return "revise_think", "Breaking stagnation."
+        return "revise_think", "Breaking stagnation.", False
 
     # === Gradient Emotion Mapping ===
     try:
@@ -115,19 +116,21 @@ def select_function(
             context.get("update_working_memory", lambda x: None)(
                 f"🎯 Weighted emotion-linked function: {chosen} from emotions {top_emotion_names}"
             )
-            return chosen, f"Emotion-weighted decision: {chosen} via {top_emotion_names}"
+            is_action = available_functions.get(chosen, {}).get("is_action", False)
+            return chosen, f"Emotion-weighted decision: {chosen} via {top_emotion_names}", is_action
     except Exception as e:
         context.get("update_working_memory", lambda x: None)(f"⚠️ Emotion map load failed: {e}")
 
     # === Internal Drive Check ===
     if "fear" in top_emotion_names or "sadness" in top_emotion_names:
         if not any("dream" in m.get("content", "") for m in working_memory[-10:]):
-            return "dream", "Emotion-triggered dream."
+            return "dream", "Emotion-triggered dream.", False
 
     drive_choice = persistent_drive_loop(self_model, emotional_state, long_memory[-10:])
     if isinstance(drive_choice, str) and drive_choice:
         context.get("update_working_memory", lambda x: None)(f"🔥 Internal drive chose: {drive_choice}")
-        return drive_choice, "Driven by internal need"
+        is_action = available_functions.get(drive_choice, {}).get("is_action", False)
+        return drive_choice, "Driven by internal need", is_action
 
     # === LLM-Based Planning Fallback with Forced Validation ===
     try:
@@ -163,10 +166,11 @@ def select_function(
         choice = strict_choice_prompt("❌ Invalid choice. Try again. Use EXACTLY one of the options above.")
         if not isinstance(choice, dict) or "choice" not in choice or choice["choice"] not in available_functions:
             log_error("🚫 LLM hallucinated twice in fallback decision.")
-            return "persistent_drive_loop", "Fallback: hallucination protection triggered."
+            return "persistent_drive_loop", "Fallback: hallucination protection triggered.", False
 
     next_function = choice["choice"]
     reason = choice.get("reason", "No reason returned.")
+    is_action = available_functions.get(next_function, {}).get("is_action", False)
 
     novelty_score = novelty_penalty(last_choice, next_function, recent_choices)
     if novelty_score < 0:
@@ -201,7 +205,7 @@ def select_function(
         context.get("update_working_memory", lambda x: None)(
             f"🧭 Overridden to {override}: {result.get('why', '')}"
         )
-        return override, f"Override: {result.get('why', '')}"
+        return override, f"Override: {result.get('why', '')}", False
 
     if last_choice == next_function:
         repeat_count = context.get("repeat_count", 0) + 1
@@ -211,4 +215,4 @@ def select_function(
     context["last_cognition_choice"] = next_function
     context["repeat_count"] = repeat_count
     context["last_context_hash"] = context_hash
-    return next_function, reason
+    return next_function, reason, is_action

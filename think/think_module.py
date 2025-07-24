@@ -1,6 +1,5 @@
 from utils.manage_cycle_count import manage_cycle_count
 from think.think_utils.dreams_emotional_logic import dreams_and_emotional_logic
-from think.think_utils.user_input import handle_user_input
 from think.think_utils.reflect_on_directive import reflect_on_directive
 from think.think_utils.select_function import select_function
 from think.think_utils.finalize import finalize_cycle
@@ -44,20 +43,29 @@ def think(context):
     # === 2. DREAMS & EMOTIONAL LOGIC ===
     context, emotional_state, amygdala_response = dreams_and_emotional_logic(context)
 
-    # === 3. HANDLE USER INPUT ===
-    signals, context = handle_user_input(
-        context,
-        cycle_count,
-        long_memory,
-        working_memory,
-        relationships,
-        speaker
-    )
-    context["filtered_signals"] = signals
+    # === 3. Handle prioritized signals (already processed by thalamus) ===
+    top_signals = context.get("top_signals", [])
+    attention_mode = context.get("attention_mode", "neutral")
+    context["filtered_signals"] = top_signals  # backwards compatibility with prior use
+
+    # Optional: Update relationship model based on recent interaction patterns
     update_relationship_model(context)
 
     # === 4. REFLECT ON DIRECTIVE ===
     reflect_on_directive(self_model)
+
+    # === 4.5 BASAL GANGLIA: ACTION SELECTION ===
+    from think.think_utils.action_gate import evaluate_and_act_if_needed
+
+    action_result = evaluate_and_act_if_needed(
+        context,
+        emotional_state=emotional_state,
+        long_memory=long_memory,
+        speaker=speaker
+    )
+
+    if isinstance(action_result, dict) and "action" in action_result:
+        return action_result  # Let main loop handle it
 
     # === 5. SELECT FUNCTION ===
     available_functions = context.get("available_functions") or COGNITIVE_FUNCTIONS
@@ -78,7 +86,7 @@ def think(context):
         speaker=speaker
     )
 
-    # === 7. FINALIZE CYCLE ===
+    # === 6. FINALIZE CYCLE ===
     user_input = context.get("latest_user_input")
     context_hash = hash(str(self_model) + str(emotional_state) + str(long_memory[-5:]))
     action = finalize_cycle(
