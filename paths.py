@@ -64,6 +64,7 @@ GOALS_FILE             = BASE_DIR / "goals_mem.json"
 COMPLETED_GOALS_FILE   = BASE_DIR / "comp_goals.json"
 FOCUS_GOAL             = BASE_DIR / "focus_goals.json"
 PROPOSED_GOALS         = BASE_DIR / "proposed_goals.json"
+EVOLUTION_FUTURES      = BASE_DIR / "evolution_futures.json"
 
 # === Feedback/Reward ===
 FEEDBACK_LOG           = BASE_DIR / "feedback_log.json"

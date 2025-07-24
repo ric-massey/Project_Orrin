@@ -5,7 +5,7 @@ from utils.generate_response import generate_response, get_thinking_model
 from utils.log import log_model_issue, log_error
 from utils.self_model import get_self_model, save_self_model
 from paths import (
-    PRIVATE_THOUGHTS_FILE, FOCUS_GOAL, GOALS_FILE, DREAMSCAPE
+    PRIVATE_THOUGHTS_FILE, EVOLUTION_FUTURES, GOALS_FILE, DREAMSCAPE
 )
 from utils.summarizers import summarize_recent_thoughts, summarize_self_model
 from memory.working_memory import update_working_memory
@@ -138,7 +138,7 @@ def simulate_future_selves(save_to_history: bool = True):
 
         # Optional history logging
         if save_to_history:
-            history_path = "evolution_futures.json"
+            history_path = EVOLUTION_FUTURES
             try:
                 existing = load_json(history_path, default_type=list)
             except Exception:
