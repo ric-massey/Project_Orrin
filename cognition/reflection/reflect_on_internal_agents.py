@@ -16,13 +16,24 @@ def reflect_on_internal_agents():
     """
     Reviews existing internal agents within Orrin's self-model and updates their current views
     based on recent internal events, cognitive/emotional state, and belief consistency.
+    Ignores/repairs any agents that are not proper dicts.
     """
     self_model = get_self_model()
     data = load_all_known_json()
     agents = self_model.get("internal_agents", [])
     updated = False
+    cleaned_agents = []
 
     for agent in agents:
+        # Make sure each agent is a dict; fix or skip if not
+        if not isinstance(agent, dict):
+            print(f"⚠️ Skipping invalid agent (not a dict): {repr(agent)}")
+            # Optionally: auto-convert if it's a string
+            # agent = {"name": str(agent), "beliefs": "", "thought_log": [], "current_view": ""}
+            # cleaned_agents.append(agent)
+            continue
+        cleaned_agents.append(agent)
+
         recent_thoughts = agent.get("thought_log", [])[-3:]
         name = agent.get("name", "Unknown")
         belief = agent.get("beliefs", "")
@@ -57,14 +68,14 @@ def reflect_on_internal_agents():
             updated = True
 
     if updated:
-        self_model["internal_agents"] = agents
+        self_model["internal_agents"] = cleaned_agents
         save_self_model(self_model)
         log_private("🧠 Orrin updated internal agent perspectives.")
-        log_reflection(f"Self-belief reflection: {json.dumps(agents)}")
+        log_reflection(f"Self-belief reflection: {json.dumps(cleaned_agents)}")
         update_working_memory("Orrin revised one or more internal agent views.")
     else:
         update_working_memory("No changes made to internal agent views.")
-
+        
 def reflect_as_agents(topic: str):
     """
     Invokes internal agent dialogue about a given topic.

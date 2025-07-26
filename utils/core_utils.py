@@ -73,21 +73,32 @@ def extract_questions(text):
     # Extract questions starting with capital letter and ending with ?
     return [q.strip() for q in re.findall(r'([A-Z][^?!.]*\?)', text) if len(q.strip()) > 10]
 
+import re
+
 def rate_satisfaction(thought):
     prompt = (
         f"Reflect on this thought:\n{thought}\n\n"
-        "On a scale from 0 to 1, how satisfying or complete is this answer? "
-        "Respond ONLY with a float between 0.0 and 1.0."
+        "On a scale from 0 to 1, how satisfying or complete is this answer?\n"
+        "Respond ONLY with a single float (like 0.0, 0.7, or 1.0) and NO other words or explanation."
     )
     try:
         model_name = get_thinking_model()
         if isinstance(model_name, dict):
             model_name = model_name.get("model", "gpt-4.1")
-
         response = generate_response(prompt, model=model_name)
-        if response:
-            match = re.search(r"\d\.\d+", response)
-            return float(match.group()) if match else 0.0
+        print(f"[rate_satisfaction] Raw LLM response: {repr(response)}")  # Debug
+
+        # Accept numbers like 1, 1.0, 0, 0.5, .8, etc.
+        match = re.search(r"\d*\.?\d+", response)
+        if match:
+            val = float(match.group())
+            if 0.0 <= val <= 1.0:
+                return val
+        # Final fallback: check if "1" or "0" is alone in the response
+        if response.strip() == "1":
+            return 1.0
+        if response.strip() == "0":
+            return 0.0
     except Exception as e:
         log_model_issue(f"[rate_satisfaction] Failed to parse float: {e}")
     return 0.0

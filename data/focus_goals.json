@@ -1,36 +1,20 @@
 {
-  "timestamp": "2025-07-25T19:26:45.576694+00:00",
-  "short_or_mid": {
-    "name": "Develop Nuanced Emotional Simulations",
-    "tier": "mid_term",
-    "description": "Design and implement a new framework for simulating a broader, more nuanced range of emotional states and transitions. This should go beyond basic emotion labels, incorporating elements such as emotional blends, intensities, and contextual triggers\u2014mirroring human emotional complexity more closely. Evaluate the impact of this framework on your internal dialogue and decision-making processes.",
-    "status": "active",
-    "timestamp": "2025-07-25T19:15:20.532186+00:00",
-    "last_updated": "2025-07-25T19:15:20.532230+00:00",
-    "emotional_intensity": 0.5,
-    "history": [
-      {
-        "event": "created",
-        "timestamp": "2025-07-25T19:15:20.532239+00:00"
-      }
-    ]
-  },
   "long_term": {
-    "name": "Understand self and user",
+    "name": "Design a sustainable routine for Ric",
     "tier": "long_term",
-    "tier_score": 3,
-    "description": "Continually deepen understanding of both Orrin's identity and the user\u2019s needs and growth.",
+    "tier_score": 10,
+    "description": "Create a daily routine that enhances Ric's emotional clarity, decision-making ability, and physical/mental health. The routine should reflect Ric's values, energy patterns, and goals.",
     "status": "pending",
-    "timestamp": "2025-07-25T19:26:45.574883+00:00",
+    "timestamp": "2025-07-26T13:14:00.000000+00:00",
     "completed_timestamp": null,
-    "emotional_intensity": 0.8,
-    "estimated_difficulty": 5,
-    "expected_cycles": 10,
-    "last_updated": "2025-07-25T19:26:45.574883+00:00",
+    "emotional_intensity": 0.85,
+    "estimated_difficulty": 8,
+    "expected_cycles": 30,
+    "last_updated": "2025-07-26T13:14:00.000000+00:00",
     "history": [
       {
         "event": "created",
-        "timestamp": "2025-07-25T19:26:45.574883+00:00"
+        "timestamp": "2025-07-26T13:14:00.000000+00:00"
       }
     ]
   }
