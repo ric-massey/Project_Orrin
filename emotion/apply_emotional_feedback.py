@@ -1,16 +1,21 @@
 
 from datetime import datetime, timezone
 from utils.emotion_utils import log_pain, log_uncertainty_spike
-from emotion.emotion import update_emotional_state
+from emotion.update_emotional_state import update_emotional_state
 from emotion.modes_and_emotion import set_current_mode
 from emotion.emotion_drift import check_emotion_drift
 from emotion.reward_signals.reward_signals import release_reward_signal
+
+from datetime import datetime, timezone
 
 def apply_emotional_feedback(context):
     """
     Simulates realistic affective dynamics including domain-specific confidence,
     emotional memory decay, narrative feedback, suppression, and dominant emotion blending.
+    Now logs emotional narratives and feedback into working memory for traceability.
     """
+    from memory.working_memory import update_working_memory
+
     emotional_state = context.get("emotional_state", {})
     cognition_log = context.get("cognition_log", [])[-7:]
     feedback_weight = context.get("feedback_weight", 1.0)
@@ -36,18 +41,37 @@ def apply_emotional_feedback(context):
 
         if valence > 0:
             confidence_by_domain[domain] = min(1.0, (current_conf * inertia) + (delta * (1 - inertia)))
-            # ✅ Reward for a success event
+            # ✅ Reward for a success event with effort modulated by fatigue and motivation
             release_reward_signal(
                 context,
                 signal_type="dopamine",
                 actual_reward=0.9,
                 expected_reward=0.6,
-                effort=intensity,
-                mode="phasic"
+                effort=intensity * (1 - emotional_state.get("fatigue", 0.0)) * (0.5 + emotional_state.get("motivation", 0.5)),
+                mode="phasic",
+                source="success event"
             )
+            update_working_memory({
+                "content": f"Success event in {domain}: tags={tags}, importance={importance}",
+                "event_type": "emotion_feedback",
+                "tags": tags,
+                "importance": importance,
+                "domain": domain,
+                "valence": valence,
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            })
         elif valence < 0:
             log_pain(context, "confusion", increment=delta)
             confidence_by_domain[domain] = max(0.0, (current_conf * inertia) - (delta * 1.2 * (1 - inertia)))
+            update_working_memory({
+                "content": f"Negative event in {domain}: tags={tags}, importance={importance}",
+                "event_type": "emotion_feedback",
+                "tags": tags,
+                "importance": importance,
+                "domain": domain,
+                "valence": valence,
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            })
 
     emotional_state["confidence_by_domain"] = confidence_by_domain
 
@@ -75,19 +99,32 @@ def apply_emotional_feedback(context):
     # === C. Narrative Generation (for self-explanation or logging) ===
     if cognition_log:
         most_impactful = max(cognition_log, key=lambda x: x.get("importance", 0.5))
-        context["emotion_narrative"] = f"I felt {' and '.join(most_impactful.get('tags', []))} during {most_impactful.get('description', 'a recent event')}."
+        tags = most_impactful.get('tags', [])
+        description = most_impactful.get('description', 'a recent event')
+        narrative = f"I felt {' and '.join(tags) if tags else 'something'} during {description}."
+        context["emotion_narrative"] = narrative
+        update_working_memory({
+            "content": narrative,
+            "event_type": "emotion_narrative",
+            "importance": most_impactful.get("importance", 1),
+            "priority": 2,
+            "emotion": tags[0] if tags else None,
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        })
 
     # === D. Sudden Mood Collapse — Trigger Secondary Effects ===
     if emotional_state.get("emotional_stability", 1.0) < 0.35:
         log_uncertainty_spike(context, increment=0.2)
     else:
-        # ✅ Reward when stability remains high
+        # ✅ Reward when stability remains high, modulated by fatigue and motivation
         release_reward_signal(
             context,
             signal_type="serotonin",
             actual_reward=0.85,
             expected_reward=0.5,
-            effort=0.5
+            effort=0.5 * (1 - emotional_state.get("fatigue", 0.0)) * (0.5 + emotional_state.get("motivation", 0.5)),
+            mode="tonic",
+            source="sudden mood collapse"
         )
 
     # === E. Suppressed Emotions (based on context) ===
@@ -113,8 +150,17 @@ def apply_emotional_feedback(context):
                 signal_type="novelty",
                 actual_reward=top_two[0][1],
                 expected_reward=0.5,
-                effort=0.6
+                effort=0.6 * (1 - emotional_state.get("fatigue", 0.0)) * (0.5 + emotional_state.get("motivation", 0.5)),
+                mode="tonic",
+                source="emotional clarity"
             )
+            update_working_memory({
+                "content": f"Strongly defined dominant emotion: {top_two[0][0]} ({top_two[0][1]})",
+                "event_type": "dominant_emotion",
+                "emotion": top_two[0][0],
+                "intensity": top_two[0][1],
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            })
 
     # === G. Drift + Update Final State ===
     check_emotion_drift(max_cycles=10)

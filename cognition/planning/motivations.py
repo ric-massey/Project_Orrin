@@ -102,7 +102,8 @@ def adjust_goal_weights(context=None):
             actual_reward=reward,
             expected_reward=0.7,
             effort=goal.get("effort", 0.5),
-            mode="phasic"
+            mode="phasic",
+            source="adjusted priority"
         )
 
     for tier in ["short_term", "mid_term", "long_term"]:

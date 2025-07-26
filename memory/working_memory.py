@@ -9,6 +9,18 @@ from paths import WORKING_MEMORY_FILE
 
 MAX_WORKING_LOGS = 300
 
+from datetime import datetime, timezone
+from emotion.emotion import detect_emotion
+from utils.json_utils import save_json, load_json
+from utils.log import log_private
+from utils.embedder import get_embedding  # <-- YOU NEED THIS: a function to get an embedding vector for text
+import uuid
+import numpy as np
+
+MAX_WORKING_LOGS = 60  # adjust as needed
+WORKING_MEMORY_FILE = "working_memory.json"
+
+
 def update_working_memory(
     new,
     emotion=None,
@@ -17,51 +29,59 @@ def update_working_memory(
     importance=1,
     priority=1,
     referenced=False,
-    pin=False
+    pin=False,
+    related_memory_ids=None
 ):
-    from emotion.emotion import detect_emotion
     """
-    Log an event to working memory.  
-    Maintains a short-term, high-priority, self-pruning buffer for immediate context and reasoning.
-
-    Args:
-        new (str|dict): Thought or event content.
-        emotion (str, optional): Override detected emotion.
-        event_type (str): 'thought', 'input', 'response', etc.
-        agent (str): Who originated this entry.
-        importance (int): Subjective impact (1=default, higher=more important).
-        priority (int): For sorting—higher = less likely to prune.
-        referenced (bool|int): Was this memory referenced during current reasoning?
-        pin (bool): If True, cannot be pruned.
+    Adds a new memory to working memory with human-like metadata for deep recall.
     """
     memories = load_json(WORKING_MEMORY_FILE, default_type=list)
     if not isinstance(memories, list):
         memories = []
 
-    # ---- 1. Create Entry ----
+    now = datetime.now(timezone.utc).isoformat()
     if isinstance(new, dict):
         entry = new.copy()
-        entry.setdefault("timestamp", datetime.now(timezone.utc).isoformat())
+        entry.setdefault("id", str(uuid.uuid4()))
+        entry.setdefault("timestamp", now)
         entry.setdefault("emotion", emotion or detect_emotion(entry.get("content", "")))
         entry.setdefault("event_type", event_type)
         entry.setdefault("agent", agent)
         entry.setdefault("importance", importance)
         entry.setdefault("priority", priority)
-        entry.setdefault("referenced", entry.get("referenced", 1 if referenced else 0))
+        entry.setdefault("referenced", int(referenced))
+        entry.setdefault("recall_count", 0)
         entry.setdefault("pin", pin)
-        entry.setdefault("decay", entry.get("decay", 1.0))
+        entry.setdefault("decay", 1.0)
+        entry.setdefault("related_memory_ids", related_memory_ids or [])
+        # ---- Embedding ----
+        emb = get_embedding(entry.get("content", ""))
+        if isinstance(emb, np.ndarray):
+            emb = emb.tolist()
+        elif isinstance(emb, list) and emb and isinstance(emb[0], np.ndarray):
+            emb = emb[0].tolist()
+        entry["embedding"] = emb
     elif isinstance(new, str):
+        emb = get_embedding(new)
+        if isinstance(emb, np.ndarray):
+            emb = emb.tolist()
+        elif isinstance(emb, list) and emb and isinstance(emb[0], np.ndarray):
+            emb = emb[0].tolist()
         entry = {
+            "id": str(uuid.uuid4()),
             "content": new.strip(),
             "emotion": emotion or detect_emotion(new),
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": now,
             "event_type": event_type,
             "agent": agent,
             "importance": importance,
             "priority": priority,
-            "referenced": 1 if referenced else 0,
+            "referenced": int(referenced),
+            "recall_count": 0,
             "pin": pin,
-            "decay": 1.0
+            "decay": 1.0,
+            "related_memory_ids": related_memory_ids or [],
+            "embedding": emb,
         }
     else:
         return
@@ -70,13 +90,11 @@ def update_working_memory(
     for m in memories:
         if not m.get("pin", False):
             m["decay"] = max(0.0, m.get("decay", 1.0) - 0.02)
-        # Boost ref count/decay if referenced (by text match; can be fuzzy in future)
         if m.get("content", "") == entry.get("content", ""):
             m["referenced"] = m.get("referenced", 0) + entry.get("referenced", 0)
             m["decay"] = min(1.0, m.get("decay", 1.0) + 0.1)
 
     # ---- 3. Append and Pin Deduplication ----
-    # Remove duplicates if same pin/content before append (no double pins)
     if entry.get("pin", False):
         memories = [
             m for m in memories
@@ -85,7 +103,6 @@ def update_working_memory(
     memories.append(entry)
 
     # ---- 4. Sorting: Pins First, Then Priority/Importance/Decay ----
-    # Pin==True sorts first, then priority, importance, decay, then recent
     memories = sorted(
         memories,
         key=lambda m: (
@@ -98,24 +115,20 @@ def update_working_memory(
         reverse=True
     )
 
-    # ---- 5. Pruning (but keep all pins!) ----
+    # ---- 5. Pruning (pins stay, others summarized/promoted to long-term) ----
     if len(memories) > MAX_WORKING_LOGS:
-        # Pins are not dropped—can temporarily exceed MAX_WORKING_LOGS by pin count
         pins = [m for m in memories if m.get("pin", False)]
         non_pins = [m for m in memories if not m.get("pin", False)]
         dropped = non_pins[MAX_WORKING_LOGS - len(pins):]
         kept = non_pins[:MAX_WORKING_LOGS - len(pins)] + pins
 
         if dropped:
-            summarize_and_promote_working_memory(dropped)  # Summarize dropped memories to long-term
-            log_private(f"[working_memory] Promoted {len(dropped)} old entries to long-term memory summary.")  # For demo/logging
+            summarize_and_promote_working_memory(dropped)
+            log_private(f"[working_memory] Promoted {len(dropped)} old entries to long-term memory summary.")
 
-        # Reassemble (pins always at end in chronological sort)
         memories = kept + pins
 
-    # ---- 6. Optional Final Chronological Sort (if needed for replay/debug) ----
+    # ---- 6. Final chronological sort ----
     memories = sorted(memories, key=lambda m: m.get("timestamp", ""))
 
     save_json(WORKING_MEMORY_FILE, memories)
-
-

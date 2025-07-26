@@ -53,9 +53,13 @@ def set_current_mode(mode: str, reason: str = None):
         with open(PRIVATE_THOUGHTS_FILE, "a") as f:
             f.write(f"\n[Mode Transition]\n{json.dumps(transition, indent=2)}\n")
 
-        update_working_memory(
-            f"🔄 Orrin changed mode: {old_mode} → {mode}\nReason: {reason}"
-        )
+        update_working_memory({
+            "content": f"🔄 Orrin changed mode: {old_mode} → {mode}\nReason: {reason}",
+            "event_type": "mode_change",
+            "agent": "orrin",
+            "importance": 2,
+            "priority": 2
+        })
         log_activity(f"Mode change recorded: {old_mode} → {mode}")
     except Exception as e:
         log_error(f"⚠️ Failed to set mode: {e}")

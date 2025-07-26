@@ -21,25 +21,64 @@ def get_user_input(prompt="You: "):
     except Exception:
         return ""
 
+def append_to_json(filepath, obj):
+    import json
+    import os
+
+    # If file does not exist, create and write list
+    if not os.path.exists(filepath):
+        with open(filepath, "w") as f:
+            json.dump([obj], f, indent=2)
+        return
+
+    # If file exists, try to load and append
+    try:
+        with open(filepath, "r") as f:
+            try:
+                data = json.load(f)
+                if not isinstance(data, list):
+                    data = []
+            except Exception:
+                data = []
+        data.append(obj)
+        with open(filepath, "w") as f:
+            json.dump(data, f, indent=2)
+    except Exception as e:
+        print(f"Failed to append to {filepath}: {e}")
+
 def log_raw_user_input(entry):
     """
-    Append user-Orrin dialogue entry to chat log JSON.
+    Append user and Orrin dialogue entries separately to chat log JSON.
     Accepts either a string (user-only) or a dict with user/orrin fields.
     """
     try:
         if isinstance(entry, str):
-            entry = {
-                "content": f"User: {entry}",
+            user_entry = {
+                "speaker": "user",
+                "content": entry,
                 "emotion": detect_emotion(entry),
                 "timestamp": datetime.now(timezone.utc).isoformat()
             }
+            append_to_json(CHAT_LOG_FILE, user_entry)
+
         elif isinstance(entry, dict) and "user" in entry and "orrin" in entry:
-            entry = {
-                "content": f"User: {entry['user']}\nOrrin: {entry['orrin']}",
+            user_entry = {
+                "speaker": "user",
+                "content": entry["user"],
                 "emotion": detect_emotion(entry["user"]),
                 "timestamp": entry.get("timestamp") or datetime.now(timezone.utc).isoformat()
             }
-        append_to_json(CHAT_LOG_FILE, entry)
+            orrin_entry = {
+                "speaker": "orrin",
+                "content": entry["orrin"],
+                "emotion": detect_emotion(entry["orrin"]),
+                "timestamp": entry.get("timestamp") or datetime.now(timezone.utc).isoformat()
+            }
+            append_to_json(CHAT_LOG_FILE, user_entry)
+            append_to_json(CHAT_LOG_FILE, orrin_entry)
+
+        else:
+            log_error("Invalid entry format for log_raw_user_input.")
     except Exception as e:
         log_error(f"Error logging user input: {e}")
 
@@ -70,12 +109,27 @@ def summarize_chat_to_long_memory(cycle_count, chat_log_file, long_memory_file):
         if not summary:
             return
 
-        # Save summary to long-term memory
+        # Optionally, extract main emotion from all recent chats for summary
+        from emotion.emotion import detect_emotion
+        emotions = [entry.get("emotion") for entry in recent_chats if entry.get("emotion")]
+        # Choose the most common emotion or default to 'neutral'
+        emotion = max(set(emotions), key=emotions.count) if emotions else "neutral"
+
+        # Save summary to long-term memory with all schema fields
         long_memory = load_json(long_memory_file, default_type=list)
         new_memory = {
             "content": summary.strip(),
+            "emotion": emotion,
             "timestamp": datetime.now(timezone.utc).isoformat(),
-            "type": "chat_summary"
+            "event_type": "chat_summary",
+            "agent": "orrin",
+            "importance": 2,
+            "priority": 2,
+            "referenced": sum(entry.get("referenced", 0) for entry in recent_chats),
+            "pin": False,
+            "decay": 1.0,
+            "recall_count": 0,
+            "related_memory_ids": [entry.get("id") for entry in recent_chats if entry.get("id")],
         }
         long_memory.append(new_memory)
         save_json(long_memory_file, long_memory)
@@ -86,8 +140,7 @@ def summarize_chat_to_long_memory(cycle_count, chat_log_file, long_memory_file):
 
     except Exception as e:
         log_error(f"Error summarizing chat to long memory: {e}")
-
-import textwrap
-
+    
 def wrap_text(text, width=85):
+    import textwrap
     return "\n".join(textwrap.wrap(text, width=width))

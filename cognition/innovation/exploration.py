@@ -35,22 +35,26 @@ def curiosity_loop():
         prompt = (
             "What am I currently curious about? What questions do I have about myself, the user, or the world?"
         )
-        new_qs = generate_response(prompt, config={"model": get_thinking_model()})
-        for q in extract_questions(new_qs):
-            curiosity.append({
-                "question": q,
-                "status": "open",
-                "attempts": 0,
-                "satisfaction": 0.0,
-                "last_thought": datetime.now(timezone.utc).isoformat()
-            })
-        save_json(CURIOUS_GEORGE, curiosity)
+        # Pass model as a string to generate_response for consistency
+        new_qs = generate_response(prompt, model=get_thinking_model())
+        if new_qs:
+            for q in extract_questions(new_qs):
+                curiosity.append({
+                    "question": q,
+                    "status": "open",
+                    "attempts": 0,
+                    "satisfaction": 0.0,
+                    "last_thought": datetime.now(timezone.utc).isoformat()
+                })
+            save_json(CURIOUS_GEORGE, curiosity)
 
     open_qs = [q for q in curiosity if q.get("status") == "open"]
     if not open_qs:
         return
 
     top_q = sorted(open_qs, key=lambda q: -q.get("satisfaction", 0))[0]
+
+    # Again, pass model as string
     thought = generate_response(
         f"Think deeply about this question:\n{top_q['question']}",
         model=get_thinking_model()

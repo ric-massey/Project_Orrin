@@ -1,16 +1,39 @@
 from datetime import datetime, timezone
 from utils.knowledge_utils import recall_relevant_knowledge
 from utils.generate_response import generate_response
-from utils.memory_utils import summarize_memories
+from utils.memory_utils import format_memories_for_prompt
 from utils.timing import update_last_active
 from emotion.reward_signals.reward_signals import release_reward_signal
 from memory.chat_log import log_raw_user_input, get_user_input, summarize_chat_to_long_memory
-from memory.working_memory import update_working_memory
 from utils.log import read_recent_errors_txt, read_recent_errors_json
-from selfhood.boundary_check import check_violates_boundaries
-from selfhood.relationships import summarize_relationships
+from cognition.selfhood.boundary_check import check_violates_boundaries
+from cognition.selfhood.relationships import summarize_relationships
 import random
 from paths import ERROR_FILE
+
+def log_user_input_once(user_input, context):
+    """
+    Logs user input only if it's valid and not recently logged.
+    """
+    if not user_input or not user_input.strip():
+        return
+    stripped = user_input.strip()
+    if stripped in {"—", "-", "--", "---"}:
+        return
+    last_logged = context.get("last_logged_user_input", "")
+    if stripped == last_logged.strip():
+        return
+    context["last_logged_user_input"] = stripped
+    log_raw_user_input(stripped)
+
+def is_real_user_input(user_input):
+    if not user_input:
+        return False
+    test = user_input.strip()
+    if not test or test in {"—", "-", "--", "---"}:
+        return False
+    return True
+
 
 def handle_user_input(
     context,
@@ -22,6 +45,10 @@ def handle_user_input(
 ):
     user_input = get_user_input()
     context["latest_user_input"] = user_input
+
+    # Log user input once here, before any processing
+    log_user_input_once(user_input, context)
+
     raw_signals = []
 
     user_id = context.get("user_id", "user")
@@ -35,15 +62,15 @@ def handle_user_input(
     curiosity = context.get("emotional_state", {}).get("curiosity", 0.5)
     dynamic_signal_strength = round(0.3 + 0.4 * curiosity + 0.2 * influence, 3)
 
-    # --- If real input exists, log and process it ---
-    if user_input:
+    if is_real_user_input(user_input):
         release_reward_signal(
             context,
             signal_type="connection",
             actual_reward=1.0,
             expected_reward=0.4,
             effort=0.2,
-            mode="phasic"
+            mode="phasic",
+            source="user_input_received"
         )
 
         raw_signals.append({
@@ -55,7 +82,6 @@ def handle_user_input(
 
         summarize_chat_to_long_memory(cycle_count["count"], "memory/chat_log.json", long_memory)
 
-    # --- If no input, simulate internal boredom signal ---
     if not raw_signals:
         boredom_prompt = random.choice([
             "There’s been no input lately. Should I reflect, dream, or create something new?",
@@ -69,7 +95,6 @@ def handle_user_input(
             "tags": ["no_input", "internal_thought", "boredom"]
         })
 
-    # --- Add system/model errors as pain signals ---
     try:
         txt_errors = read_recent_errors_txt(ERROR_FILE, max_lines=5)
         for e in txt_errors:
@@ -97,50 +122,80 @@ def handle_user_input(
             "tags": ["internal", "monitoring"]
         })
 
-    # === Process all signals ===
     signals = []
     for signal in raw_signals:
         content = signal.get("content", "")
         if check_violates_boundaries(content):
-            update_working_memory("⚠️ Input violated boundaries. Skipped.")
+            if callable(context.get("update_working_memory")):
+                context["update_working_memory"]({
+                    "content": "⚠️ Input violated boundaries. Skipped.",
+                    "event_type": "system",
+                    "importance": 2,
+                    "priority": 2,
+                })
             continue
 
-        knowledge = recall_relevant_knowledge(content, max_items=3)
-        tone_modifier = ""
+        if signal["source"] == "user_input":
+            relevant_knowledge = recall_relevant_knowledge(content, long_memory=long_memory, working_memory=working_memory, max_items=8)
+            for mem in relevant_knowledge:
+                mem["referenced"] = mem.get("referenced", 0) + 1
+                mem["recall_count"] = mem.get("recall_count", 0) + 1
 
-        if emotional_effect == "appreciation":
-            tone_modifier = "Respond warmly and supportively."
-        elif emotional_effect == "hostility":
-            tone_modifier = "Respond cautiously and avoid escalation."
-        elif influence < 0.2:
-            tone_modifier = "Keep response minimal and emotionally distant."
+            tone_modifier = ""
+            if emotional_effect == "appreciation":
+                tone_modifier = "Respond warmly and supportively."
+            elif emotional_effect == "hostility":
+                tone_modifier = "Respond cautiously and avoid escalation."
+            elif influence < 0.2:
+                tone_modifier = "Keep response minimal and emotionally distant."
 
-        prompt = (
-            f"{tone_modifier}\n\n"
-            f"User said: {content}\n"
-            f"Relevant memories: {summarize_memories(long_memory + working_memory)}\n"
-            f"Relevant knowledge:\n{'; '.join(knowledge)}\n"
-            f"Relationships: {summarize_relationships(relationships)}"
-        )
+            prompt = (
+                f"{tone_modifier}\n\n"
+                f"User said: {content}\n"
+                f"Top relevant memories:\n{format_memories_for_prompt(relevant_knowledge)}\n"
+                f"Relationships: {summarize_relationships(relationships)}"
+            )
 
-        response = generate_response(prompt)
-        spoken = None
+            response = generate_response(prompt)
+            spoken = None
 
-        if response and speaker:
-            spoken = speaker.should_speak(response, context.get("emotional_state", {}), context)
-            if spoken:
-                update_working_memory(spoken)
-                response = None
+            if response and speaker:
+                spoken = speaker.should_speak(response, context.get("emotional_state", {}), context)
+                if spoken:
+                    if callable(context.get("update_working_memory")):
+                        context["update_working_memory"]({
+                            "content": spoken,
+                            "event_type": "response",
+                            "importance": 2,
+                            "priority": 2,
+                            "referenced": 1
+                        })
+                    release_reward_signal(
+                        context,
+                        signal_type="dopamine",
+                        actual_reward=0.5,
+                        expected_reward=0.4,
+                        effort=0.3,
+                        mode="phasic",
+                        source="spoken_response"
+                    )
+                    response = None
 
-        log_raw_user_input({
-            "user": user_input or "—",
-            "orrin": spoken or response or "(no reply)",
-            "influence": influence,
-            "emotional_effect": emotional_effect,
-            "timestamp": datetime.now(timezone.utc).isoformat()
-        })
-        
-        context["speech_done"] = True
+            # ** Remove duplicate logging here **
+            # logging only happens once, inside OrrinSpeaker.speak_final()
+
+            context["speech_done"] = True
+
+        else:
+            # Internal/system/pain signals: no LLM, no speak
+            log_raw_user_input({
+                "user": user_input or "—",
+                "orrin": "(no reply)",
+                "influence": influence,
+                "emotional_effect": emotional_effect,
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            })
+
         update_last_active()
         signals.append(signal)
 

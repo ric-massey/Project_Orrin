@@ -2,11 +2,11 @@ import json
 from datetime import datetime, timezone
 from utils.json_utils import load_json, save_json
 from utils.generate_response import generate_response, get_thinking_model
-from emotion.emotion import update_emotional_state
+from emotion.update_emotional_state import update_emotional_state
 from memory.working_memory import update_working_memory
 from utils.log import log_error, log_private
 from utils.log_reflection import log_reflection
-from maintenance.self_modeling import self_model_maintenance_cycle
+from cognition.maintenance.self_modeling import self_model_maintenance_cycle
 from utils.self_model import get_self_model, save_self_model
 from cognition.planning.goals import maybe_complete_goals
 from emotion.reward_signals.reward_signals import release_reward_signal
@@ -68,7 +68,7 @@ def evolve_core_value(self_model):
                     v["justification"] = justification
         save_self_model(self_model)
         update_working_memory(f"🌱 Value evolved: '{value}' — {justification}")
-        release_reward_signal({}, signal_type="novelty", actual_reward=1.2, expected_reward=0.6, effort=0.8, mode="phasic")
+        release_reward_signal({}, signal_type="novelty", actual_reward=1.2, expected_reward=0.6, effort=0.8, mode="phasic", source="evolved core value")
         return f"🌱 Evolved core value: {value} — {justification}"
     return "⚠️ No new value produced."
 
@@ -185,7 +185,8 @@ def reflect_on_self_beliefs():
         # Load goals and check for active contradiction goal
         goals = load_json(GOALS_FILE, default_type=list)
         contradiction_goal_exists = any(
-            g.get("name") == "Resolve self-model contradiction" and g.get("status") in ["pending", "in_progress", "active"]
+            g.get("name") == "Resolve self-model contradiction" and 
+            g.get("status") in ["pending", "in_progress", "active"]
             for g in goals
         )
 

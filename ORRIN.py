@@ -1,4 +1,5 @@
 import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 import time
 import traceback
 from datetime import datetime, timezone
@@ -6,8 +7,9 @@ from dotenv import load_dotenv
 import openai
 
 from think.think_module import think
-from cognition.manager import load_custom_cognition
-from emotion.emotion import update_emotional_state, reflect_on_emotions
+from core.manager import load_custom_cognition
+from emotion.update_emotional_state import update_emotional_state
+from emotion.reflect_on_emotions import reflect_on_emotions
 from cognition.planning.reflection import record_decision
 from emotion.emotion_drift import check_emotion_drift
 
@@ -16,6 +18,7 @@ from utils.json_utils import load_json
 from utils.log import log_error, log_private, log_activity, log_model_issue
 from utils.emotion_utils import log_pain, log_uncertainty_spike
 from registry.cognition_registry import discover_cognitive_functions, COGNITIVE_FUNCTIONS
+from registry.behavior_registry import discover_behavioral_functions, BEHAVIORAL_FUNCTIONS
 from think.thalamus import process_inputs
 
 from paths import RELATIONSHIPS_FILE, MODEL_CONFIG_FILE
@@ -48,6 +51,15 @@ try:
 except Exception as e:
     log_error(f"⚠️ Failed to load cognitive functions: {e}")
 
+# === Load Behavioral Functions ===
+try:
+    print("loading behavioral functions....")
+    import behavior
+    discover_behavioral_functions(behavior)
+    print("discovered all behavioral functions")
+except Exception as e:
+    log_error(f"⚠️ Failed to load behavioral functions: {e}")
+
 # === Main Runtime Loop ===
 if __name__ == "__main__":
     while True:
@@ -64,52 +76,71 @@ if __name__ == "__main__":
             if emotional_state.get("emotional_stability", 1.0) < 0.6:
                 reflect_on_emotions(context, context.get("self_model", {}), context.get("long_memory", []))
             if not context.get("working_memory"):
-                log_pain(context, "confusion", increment=0.2 + 0.3 * (1.0 - emotional_state.get("confidence", 0.5)))
+                log_pain(context, "confused", increment=0.4)
+                # Optionally log the *reason* somewhere else:
+                from memory.working_memory import update_working_memory
+                update_working_memory("⚠️ Confusion spike: No working memory available.")
             if not context.get("long_memory"):
-                log_pain(context, "anxiety", increment=0.15 + 0.2 * emotional_state.get("uncertainty", 0.5))
-
+                log_pain(context, "anxious", increment=0.3)
+                update_working_memory("⚠️ Anxiety spike: No long-term memory available.")
+                
             # === Thalamus: Signal Processing ===
-            raw_signals = context.get("raw_signals", [])
-            top_signals, attention_mode = process_inputs(raw_signals, context)
+            top_signals, attention_mode = process_inputs(context)
             context["top_signals"] = top_signals
             context["attention_mode"] = attention_mode
+
+            # === Fire Alarm (Emergency Interrupt) ===
+            if context.get("emergency_action"):
+                emergency = context["emergency_action"]
+                log_error(f"🔥 EMERGENCY ACTION TRIGGERED: {emergency.get('reason', str(emergency))}")
+                log_private(f"🔥 EMERGENCY ACTION: {emergency}")
+                print(f"🔥 EMERGENCY: {emergency.get('reason', str(emergency))}")
+                break
 
             # === Cortical Layer ===
             result = think(context)
 
-            if isinstance(result, dict):
+            if isinstance(result, dict) and "action" in result:
                 from think.think_utils.action_gate import take_action
+                action = result["action"]
                 speaker = context.get("speaker")
-                
-                # === Immediate Motor Output ===
-                if "action" in result:
+                action_type = action.get("type")
+                # ---- DEFENSIVE: Only execute valid behavioral function ----
+                if action_type not in BEHAVIORAL_FUNCTIONS:
+                    log_error(f"⚠️ Unknown action type: {action_type}. Skipping action.")
+                    log_model_issue(f"⚠️ Unknown action type attempted: {action_type}")
+                else:
                     try:
-                        take_action(result["action"], context, speaker)
-                        log_activity(f"🎤 Action Taken: {result['action']['type']}")
-                        continue  # Skip function selection if action occurred
+                        success = take_action(action, context, speaker)
+                        if success:
+                            log_activity(f"🎤 Action Taken: {action_type}")
+                        else:
+                            log_error("⚠️ take_action returned False")
+                            log_pain(context, "frustration", increment=0.3)
                     except Exception as e:
                         log_error(f"❌ Action execution failed: {e}")
                         log_pain(context, "frustration", increment=0.3)
 
-                # === Function-Based Thinking ===
-                if "next_function" in result:
-                    fn_name = result["next_function"]
-                    record_decision(fn_name, result.get("reason", "No reason given."))
-                    check_emotion_drift(max_cycles=10)
-                    fn = COGNITIVE_FUNCTIONS.get(fn_name)
-                    if fn:
-                        try:
-                            fn()
-                            log_activity(f"✅ Executed: {fn_name}")
-                        except Exception as e:
-                            log_error(f"❌ Function {fn_name} crashed: {e}")
-                            log_private("⚠️ Pain signal: Function execution failed.")
-                            log_pain(context, "frustration", increment=0.3 + 0.3 * emotional_state.get("anger", 0.4))
-                    else:
-                        log_model_issue(f"⚠️ Unknown function requested: {fn_name}")
+            # === Function-Based Thinking ===
+            if isinstance(result, dict) and "next_function" in result:
+                fn_name = result["next_function"]
+                record_decision(fn_name, result.get("reason", "No reason given."))
+                check_emotion_drift(max_cycles=10)
+                fn = COGNITIVE_FUNCTIONS.get(fn_name)
+                if fn:
+                    try:
+                        fn["function"]()
+                        log_activity(f"✅ Executed: {fn_name}")
+                    except Exception as e:
+                        log_error(f"❌ Function {fn_name} crashed: {e}")
+                        log_private("⚠️ Pain signal: Function execution failed.")
+                        log_pain(context, "frustration", increment=0.3 + 0.3 * emotional_state.get("anger", 0.4))
                 else:
-                    log_model_issue("⚠️ No valid instruction returned by think().")
-                    log_uncertainty_spike(context, increment=0.1)
+                    log_model_issue(f"⚠️ Unknown function requested: {fn_name}")
+                    print("running else loop")
+            elif isinstance(result, dict):
+                log_model_issue("⚠️ No valid instruction returned by think().")
+                log_uncertainty_spike(context, increment=0.1)
 
             print("🔁 Orrin cycle complete.\n")
             time.sleep(10)

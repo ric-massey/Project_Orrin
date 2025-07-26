@@ -14,14 +14,23 @@ def persistent_drive_loop(context, self_model, memory):
             shortcut = amygdala_response.get("shortcut_function", "self_soothing")
             tags = amygdala_response.get("threat_tags", [])
             spike = amygdala_response.get("spike_intensity", 0.0)
-            update_working_memory(
-                f"⚠️ Amygdala override: Detected {tags[0]} threat. Spike: {spike}. Redirecting to: {shortcut}."
-            )
+            update_working_memory({
+                "content": f"⚠️ Amygdala override: Detected {tags[0]} threat. Spike: {spike}. Redirecting to: {shortcut}.",
+                "event_type": "amygdala_override",
+                "intensity": spike,
+                "priority": 3,
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            })
             return shortcut
         # === Optional: Bypass if emotionally secure
         stability = context.get("emotional_state", {}).get("emotional_stability", 1.0)
         if stability > 0.8:
-            update_working_memory("✅ Emotionally secure — skipping deep internal reflection.")
+            update_working_memory({
+                "content": "✅ Emotionally secure — skipping deep internal reflection.",
+                "event_type": "security_check",
+                "priority": 1,
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            })
             return None, "Emotionally stable — no internal drive needed."
 
         # === 2. Snapshot directive + reflection
@@ -39,15 +48,20 @@ def persistent_drive_loop(context, self_model, memory):
         if not summary or not isinstance(summary, str):
             raise ValueError("meta_reflect() returned invalid summary")
 
-        update_working_memory(f"🧭 Drive loop reflection:\n{summary}")
+        update_working_memory({
+            "content": f"🧭 Drive loop reflection:\n{summary}",
+            "event_type": "reflection",
+            "importance": 2,
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        })
         log_private(f"\n[{datetime.now(timezone.utc)}] Persistent drive summary:\n{summary}")
 
         # === 3. LLM-Based Decision: What cognition is needed most?
-        available_functions = context.get("available_functions", [])
+        available_functions = context.get("available_functions", {})
         past_choices = context.get("cognition_log", [])[-5:]
         recent = ", ".join([c.get("choice", "") for c in past_choices])
 
-        options_str = "\n".join(f"- {fn}" for fn in available_functions)
+        options_str = "\n".join(f"- {fn}" for fn in available_functions.keys())
 
         prompt = (
             "You are Orrin, an autonomous AI.\n"
@@ -65,13 +79,28 @@ def persistent_drive_loop(context, self_model, memory):
         decision = extract_json(response) if response else {}
 
         if not isinstance(decision, dict) or "choice" not in decision:
-            update_working_memory("⚠️ Invalid decision in drive loop.")
+            update_working_memory({
+                "content": "⚠️ Invalid decision in drive loop.",
+                "event_type": "drive_loop",
+                "priority": 2,
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            })
             return "introspective_planning"
 
-        update_working_memory(f"🔥 Persistent drive chose: {decision['choice']} — {decision.get('reason', 'no reason')}")
+        update_working_memory({
+            "content": f"🔥 Persistent drive chose: {decision['choice']} — {decision.get('reason', 'no reason')}",
+            "event_type": "drive_choice",
+            "importance": 2,
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        })
         return decision["choice"]
 
     except Exception as e:
         log_error(f"persistent_drive_loop ERROR: {e}")
-        update_working_memory("⚠️ Persistent drive loop failed.")
+        update_working_memory({
+            "content": "⚠️ Persistent drive loop failed.",
+            "event_type": "error",
+            "priority": 3,
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        })
         return "introspective_planning"

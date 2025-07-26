@@ -81,28 +81,36 @@ def imagine_opposite_self(context):
     return {"type": "imagine_opposite_self", "opposite_self": opposite}
 
 def reflect_on_sandbox_experiment(context):
+    """
+    Reflect on the impact of a recent sandbox experiment and log the results
+    to both working and long-term memory using the new memory conventions.
+    """
+    from memory.long_memory import remember
+    from memory.working_memory import update_working_memory
+    from datetime import datetime, timezone
+
     prompt = (
         "You just ran a wild sandbox experiment. What did you learn? Was anything surprising or disturbing? "
         "Is there anything you wish you would have done? "
         "Summarize the impact on your self-model."
     )
     reflection = generate_response(prompt)
-    
-    # --- Log to long-term memory
-    from memory.long_memory import remember
-    from datetime import datetime, timezone
+    timestamp = datetime.now(timezone.utc).isoformat()
     self_model = context.get("self_model") or get_self_model()
-    
-    remember({
+
+    # Build memory entry for new format (content is always present)
+    memory_entry = {
         "type": "reflect_on_sandbox_experiment",
+        "content": reflection,
         "reflection": reflection,
         "self_model": json.dumps(self_model, indent=2)[:400],
-        "timestamp": datetime.now(timezone.utc).isoformat()
-    })
-    
-    # (optional) You could also update working memory, etc. here if needed.
-    return {"type": "reflect_on_sandbox_experiment", "reflection": reflection}
+        "timestamp": timestamp,
+        "tags": ["sandbox", "reflection", "self-model"]
+    }
+    remember(memory_entry)                  # Long-term memory
+    update_working_memory(memory_entry)     # Working memory (optional but useful)
 
+    return memory_entry
 # --- Logging Helper ---
 
 def _append_playground_log(entry):

@@ -6,7 +6,7 @@ from utils.json_utils import extract_json, load_json, save_json
 from utils.summarizers import summarize_self_model, summarize_recent_thoughts
 from utils.log import log_error
 from memory.working_memory import update_working_memory
-from utils.self_model import get_self_model  # <--- Use the helper!
+from utils.self_model import get_self_model
 from paths import (
     FOCUS_GOAL,
     PRIVATE_THOUGHTS_FILE

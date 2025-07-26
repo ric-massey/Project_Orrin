@@ -23,6 +23,7 @@ CASUAL_RULES           = BASE_DIR / "casual_rules.txt"
 SANDBOX_LOG            = BASE_DIR / "sandbox_log.json"
 USER_INPUT             = BASE_DIR / "user_input.txt"
 LLM_PROMPT             = BASE_DIR / "llm_prompt.txt"
+BEHAVIORAL_FUNCTIONS_LIST_FILE = BASE_DIR / "behavioral_functions_list.json"
 
 # === Model/Config/Concepts ===
 SELF_MODEL_FILE        = BASE_DIR / "self_model.json"
@@ -65,6 +66,7 @@ COMPLETED_GOALS_FILE   = BASE_DIR / "comp_goals.json"
 FOCUS_GOAL             = BASE_DIR / "focus_goals.json"
 PROPOSED_GOALS         = BASE_DIR / "proposed_goals.json"
 EVOLUTION_FUTURES      = BASE_DIR / "evolution_futures.json"
+EVOLUTION_ROADMAPS     = BASE_DIR / "evolution_roadmaps.json"
 
 # === Feedback/Reward ===
 FEEDBACK_LOG           = BASE_DIR / "feedback_log.json"

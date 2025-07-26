@@ -3,15 +3,36 @@ from utils.load_utils import load_json
 from utils.append import append_to_json
 from utils.log import log_activity
 from utils.knowledge_utils import recall_relevant_knowledge
+from think.think_utils.user_input import handle_user_input 
+from emotion.reward_signals.reward_signals import release_reward_signal
 from paths import EMOTION_MODEL_FILE, ATTENTION_HISTORY
 
-def process_inputs(context):
+def process_inputs(context, raw_signals=None):
     """
     Orrin's thalamus: biologically inspired signal prioritization based on emotion,
     novelty, memory relevance, and dynamic goal context.
-    Pulls signals from context["raw_signals"] and injects results back into context.
+    Always pulls user input and injects as signals, so user input is never missed.
     """
-    raw_signals = context.get("raw_signals", [])
+
+    # === FIX: Bulletproof cycle_count for handle_user_input ===
+    cycle_count = context.get("cycle_count", {})
+    if not isinstance(cycle_count, dict) or "count" not in cycle_count:
+        cycle_count = {"count": 0}
+
+    signals, context = handle_user_input(
+        context,
+        cycle_count,
+        context.get("long_memory", []),
+        context.get("working_memory", []),
+        context.get("relationships", {}),
+        context.get("speaker", None)
+    )
+    context["raw_signals"] = signals
+
+    # Now use signals as the prioritized raw_signals
+    if raw_signals is None:
+        raw_signals = context.get("raw_signals", [])
+
     emotional_state = context.get("emotional_state", {})
     self_model = context.get("self_model", {})
     mode = context.get("mode", {}).get("mode", "neutral")
@@ -27,7 +48,12 @@ def process_inputs(context):
         return round(core_emotions.get(tag, 0.0) * 0.3, 3)
 
     # === Memory and Directive Priming ===
-    focus_keywords = recall_relevant_knowledge(emotional_state, max_items=5)
+    focus_keywords = recall_relevant_knowledge(
+    self_model.get("core_directive", {}).get("statement", ""),
+    long_memory=context.get("long_memory", []),
+    working_memory=context.get("working_memory", []),
+    max_items=8
+    )
     directive = self_model.get("core_directive", {})
     goal_words = [w.lower() for w in directive.get("motivations", []) if isinstance(w, str)]
 
@@ -37,11 +63,38 @@ def process_inputs(context):
 
     prioritized = []
 
+    # --- Emergency interrupt support ---
+    emergency_action = None
+
     for signal in raw_signals:
         base = signal.get("signal_strength", 0.5)
         tags = signal.get("tags", [])
         content = signal.get("content", "").lower()
         source = signal.get("source", "unknown")
+
+        # === Emergency/fire-alarm logic (never triggers on user input) ===
+        if (
+            ("error" in tags or "crash" in tags)
+            and "user_input" not in tags  # <-- This line guarantees user input cannot ever trigger an emergency
+            and (
+                "critical" in content or "crash" in content or "failure" in content or "emergency" in content
+            )
+        ):
+            emergency_action = {
+                "action": "emergency_shutdown",
+                "reason": f"Fire alarm from thalamus: {content[:100]}",
+                "source_signal": signal
+            }
+            # --- Reward for emergency detection ---
+            release_reward_signal(
+                context,
+                signal_type="dopamine",
+                actual_reward=0.7,
+                expected_reward=0.4,
+                effort=0.3,
+                mode="phasic",
+                source="emergency_signal_detected"
+            )
 
         # === Emotion-Weighted Tag Adjustments (dynamic) ===
         for tag in tags:
@@ -61,7 +114,6 @@ def process_inputs(context):
         # === Content-based Novelty Decay (approximate) ===
         similar_contents = [c for c in recent_contents if c and c in content]
         novelty_score = max(0.0, 1.0 - (len(similar_contents) / max(1, len(recent_contents))))  # crude similarity proxy
-        # TODO: Replace with semantic similarity for better novelty judgment
         base += novelty_score * 0.2
         if novelty_score < 0.3:
             base -= 0.15
@@ -83,6 +135,10 @@ def process_inputs(context):
         )
 
         prioritized.append(signal)
+
+    # === If fire alarm triggered, set in context ===
+    if emergency_action:
+        context["emergency_action"] = emergency_action
 
     # === Sort and slice ===
     prioritized.sort(key=lambda s: s["priority_score"], reverse=True)
@@ -123,3 +179,5 @@ def process_inputs(context):
     # === Inject back into context ===
     context["top_signals"] = top_signals
     context["attention_mode"] = attention_state
+
+    return top_signals, attention_state

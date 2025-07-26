@@ -11,7 +11,13 @@ def reflect_on_emotion_model(context, self_model, memory):
     emotion_model = all_data.get("emotion_model", {})
 
     if not emotion_model:
-        update_working_memory("No emotion model available for reflection.")
+        update_working_memory({
+            "content": "No emotion model available for reflection.",
+            "event_type": "system",
+            "importance": 1,
+            "priority": 1,
+            "agent": "orrin",
+        })
         return
 
     summary = "\n".join(
@@ -37,13 +43,19 @@ def reflect_on_emotion_model(context, self_model, memory):
     response = generate_response_from_context(context)
 
     if response:
-        update_working_memory("emotion model reflection: " + response)
+        update_working_memory({
+            "content": "emotion model reflection: " + response,
+            "event_type": "emotion_model_reflection",
+            "importance": 2,
+            "priority": 2,
+            "agent": "orrin",
+        })
         log_private(f"[{datetime.now(timezone.utc)}] Orrin reflected on his emotion model:\n{response}")
         log_reflection(f"Self-belief reflection: {response.strip()}")
 
         effort = 0.7 if len(emotion_model) > 8 else 0.5
         release_reward_signal(
-            context=all_data.get("emotional_state", {}),
+            context=context,  # Pass full context here
             signal_type="dopamine",
             actual_reward=0.65,
             expected_reward=0.5,
@@ -51,9 +63,15 @@ def reflect_on_emotion_model(context, self_model, memory):
             mode="phasic"
         )
     else:
-        update_working_memory("⚠️ Emotion model reflection failed or returned nothing.")
+        update_working_memory({
+            "content": "⚠️ Emotion model reflection failed or returned nothing.",
+            "event_type": "emotion_model_reflection",
+            "importance": 1,
+            "priority": 1,
+            "agent": "orrin",
+        })
         release_reward_signal(
-            context=all_data.get("emotional_state", {}),
+            context=context,  # Pass full context here as well
             signal_type="dopamine",
             actual_reward=0.2,
             expected_reward=0.5,

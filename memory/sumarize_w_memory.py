@@ -23,6 +23,14 @@ def summarize_and_promote_working_memory(memories):
         extra += f"\nPinned items: {[m['content'][:40] for m in pins]}"
     if topics:
         extra += f"\nEvent types: {', '.join(topics)}"
+
+    # === New fields for traceability ===
+    related_ids = [m.get("id") for m in memories if m.get("id")]  # If you have unique IDs
+    referenced_sum = sum(m.get("referenced", 0) for m in memories)
+    pin_flag = any(m.get("pin", False) for m in memories)
+    decay_avg = sum(m.get("decay", 1.0) for m in memories) / max(1, len(memories))
+    recall_count = sum(m.get("recall_count", 0) for m in memories)
+
     summary_entry = {
         "content": f"📝 Working memory summary: {summary_text}{extra}",
         "emotion": detect_emotion(summary_text),
@@ -31,6 +39,11 @@ def summarize_and_promote_working_memory(memories):
         "agent": "orrin",
         "importance": 2,
         "priority": 2,
+        "referenced": referenced_sum,
+        "pin": pin_flag,
+        "decay": decay_avg,
+        "recall_count": recall_count,
+        "related_memory_ids": related_ids,
     }
     # Only add if not a duplicate summary (prevents summary spam on rapid calls)
     # Rely on update_long_memory to do any needed duplicate checking/pruning

@@ -1,19 +1,21 @@
 import os
 import re
 import time
+from datetime import datetime, timezone
 import random
+import uuid
 from dotenv import load_dotenv
 from openai import OpenAI
-
+from emotion.emotion import detect_emotion
 from utils.json_utils import (
     load_json, 
     save_json,
     extract_json
 )
-from config.settings import model_roles
+from core.config.settings import model_roles
 from utils.log import log_model_issue
 from utils.generate_response import generate_response, get_thinking_model
-from paths import KNOWLEDGE  # ✅ Cross-platform path to knowledge base
+from paths import KNOWLEDGE 
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -28,14 +30,47 @@ def extract_knowledge_from_reflection(reflection_text):
     )
     response = generate_response(prompt)
     try:
-        knowledge = extract_json(response)
-        if isinstance(knowledge, list):
-            existing = load_json(KNOWLEDGE, default_type=list)
-            save_json(KNOWLEDGE, existing + knowledge)
+        snippets = extract_json(response)
+        if not isinstance(snippets, list):
+            raise ValueError("Response is not a list")
+
+        existing = load_json(KNOWLEDGE, default_type=list)
+        existing_summaries = {e.get("summary") for e in existing if "summary" in e}
+
+        for snippet in snippets:
+            text = snippet if isinstance(snippet, str) else snippet.get("summary", "")
+            if not text or text in existing_summaries:
+                continue  # skip empty or duplicates
+
+            # Basic keyword extraction fallback
+            keywords = set()
+            for word in text.lower().split():
+                if len(word) > 3 and word.isalpha():
+                    keywords.add(word)
+
+            # Alternatively, use extract_keywords() if you implement it
+            # keywords = extract_keywords(text)
+
+            entry = {
+                "id": str(uuid.uuid4()),
+                "summary": text,
+                "source": reflection_text[:80],  # Optionally hash for uniqueness
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "event_type": "reflection",
+                "emotion": detect_emotion(text),  # Emotion on snippet itself
+                "confidence": 0.8,  # Placeholder, adjust dynamically later
+                "relevance": list(keywords),
+                "reference_count": 0,
+            }
+            existing.append(entry)
+
+        save_json(KNOWLEDGE, existing)
+
     except Exception as e:
         log_model_issue(f"[extract_knowledge_from_reflection] Failed to parse or save: {e}")
 
 def extract_questions(text):
+    # Extract questions starting with capital letter and ending with ?
     return [q.strip() for q in re.findall(r'([A-Z][^?!.]*\?)', text) if len(q.strip()) > 10]
 
 def rate_satisfaction(thought):
@@ -64,11 +99,28 @@ def extract_lessons(memories):
     lessons = []
     for m in memories:
         try:
+            # 1. Check explicit lesson key first (future-proof)
+            if "lesson" in m:
+                lesson_text = str(m["lesson"]).strip()
+                if lesson_text:
+                    lessons.append(lesson_text)
+                continue
+
+            # 2. Fallback to 'content' text matching
             content = m.get("content", "").strip()
-            if content.lower().startswith("lesson:"):
+            # Lowercase and check for a few common patterns
+            lower = content.lower()
+            if lower.startswith("lesson:"):
                 lesson_text = content[7:].strip()
                 if lesson_text:
                     lessons.append(lesson_text)
+            elif lower.startswith("lesson learned:"):
+                lesson_text = content[15:].strip()
+                if lesson_text:
+                    lessons.append(lesson_text)
+            # Optionally: Only pull from memories marked as event_type='lesson'
+            # if m.get("event_type") == "lesson":
+            #     lessons.append(content)
         except Exception:
             continue
     return lessons

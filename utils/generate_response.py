@@ -5,9 +5,9 @@ from dotenv import load_dotenv
 
 from utils.json_utils import load_json
 from utils.coerce_to_string import coerce_to_string
-from selfhood.identity import build_system_prompt
+from cognition.selfhood.identity import build_system_prompt
 from utils.log import log_model_issue
-from config.settings import model_roles
+from core.config.settings import model_roles
 from paths import MODEL_CONFIG_FILE, LLM_PROMPT
 from utils.self_model import get_self_model
 

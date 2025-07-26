@@ -6,10 +6,12 @@ from utils.generate_response import generate_response
 from utils.emotion_utils import detect_emotion
 from utils.timing import get_time_since_last_active
 from utils.feedback_log import log_feedback
-from cognition.tools.toolkit import evaluate_tool_use
+from utils.log import log_private
+from behavior.tools.toolkit import evaluate_tool_use
 from cognition.planning.motivations import adjust_goal_weights
 from memory.working_memory import update_working_memory
-from emotion.emotion import update_emotional_state
+from emotion.update_emotional_state import update_emotional_state
+from emotion.reward_signals.reward_signals import release_reward_signal
 from paths import (
     ACTION_FILE, 
     COGNITION_STATE_FILE, 
@@ -22,9 +24,20 @@ def finalize_cycle(context, user_input, next_function, reason, context_hash, spe
     """
 
     # Log which function was chosen
-    update_working_memory(f"🧠 Chose: {next_function} — {reason}")
+    update_working_memory({
+        "content": f"🧠 Chose: {next_function} — {reason}",
+        "event_type": "choice",
+        "importance": 2,
+        "priority": 2,
+        "referenced": 1,
+    })
     evaluate_tool_use([{"content": user_input or "No input this cycle.", "timestamp": datetime.now(timezone.utc).isoformat()}])
-    update_working_memory(f"⏳ Last active: {get_time_since_last_active()}")
+    update_working_memory({
+        "content": f"⏳ Last active: {get_time_since_last_active()}",
+        "event_type": "system",
+        "importance": 1,
+        "priority": 1
+    })
 
     # --- LLM Self-Feedback & Goal Weights ---
     try:
@@ -32,29 +45,111 @@ def finalize_cycle(context, user_input, next_function, reason, context_hash, spe
         feedback_data = json.loads(feedback_raw) if isinstance(feedback_raw, str) else feedback_raw
         score = feedback_data.get("score")
         fb_reason = feedback_data.get("reason")
-        update_working_memory(f"🧠 Feedback: {score} — {fb_reason}")
+        update_working_memory({
+            "content": f"🧠 Feedback: {score} — {fb_reason}",
+            "event_type": "feedback",
+            "importance": 2,
+            "priority": 1,
+        })
         log_feedback(goal=next_function, result=fb_reason, emotion=detect_emotion(fb_reason))
         adjust_goal_weights()
+
+        # ✅ Reward for successful self-feedback
+        if context:
+            release_reward_signal(
+                context,
+                signal_type="dopamine",
+                actual_reward=max(0.5, float(score)),  # reward scales with feedback score
+                expected_reward=0.5,
+                effort=0.5,
+                source="self_feedback"
+            )
+
     except Exception as e:
-        update_working_memory(f"⚠️ Feedback generation or parsing failed: {e}")
+        update_working_memory({
+            "content": f"⚠️ Feedback generation or parsing failed: {e}",
+            "event_type": "feedback_error",
+            "importance": 1,
+            "priority": 1,
+        })
+
+        # ⚠️ Low reward or slight penalty for failure
+        if context:
+            release_reward_signal(
+                context,
+                signal_type="dopamine",
+                actual_reward=0.1,
+                expected_reward=0.5,
+                effort=0.3,
+                source="feedback_failure"
+            )
 
     # --- Shadow/Self-Question ---
     try:
         shadow_question = generate_response("What uncomfortable question might Orrin ask himself right now?")
-        update_working_memory(f"🌓 Shadow question: {shadow_question}")
+        update_working_memory({
+            "content": f"🌓 Shadow question: {shadow_question}",
+            "event_type": "self_query",
+            "importance": 1,
+            "priority": 1,
+        })
+
+        # ✅ Reward for introspective self-questioning
+        if context:
+            release_reward_signal(
+                context,
+                signal_type="novelty",
+                actual_reward=0.6,
+                expected_reward=0.4,
+                effort=0.5,
+                source="self_question"
+            )
+
     except Exception:
-        update_working_memory("⚠️ Shadow question failed.")
+        update_working_memory({
+            "content": "⚠️ Shadow question failed.",
+            "event_type": "self_query_error",
+            "importance": 1,
+            "priority": 1,
+        })
+
+        # ⚠️ Slight penalty or low reward for failure
+        if context:
+            release_reward_signal(
+                context,
+                signal_type="dopamine",
+                actual_reward=0.1,
+                expected_reward=0.4,
+                effort=0.3,
+                source="self_question_failure"
+            )
 
     # --- Loneliness and User Input ---
     emotional_state = context.get("emotional_state", {})
     if emotional_state.get("loneliness", 0.0) > 0.6 and not user_input and not context.get("speech_done"):
         message = "It's been a while since we've talked. I miss your input. Do you want to chat?"
-        update_working_memory(message)
+        update_working_memory({
+            "content": message,
+            "event_type": "loneliness",
+            "importance": 2,
+            "priority": 2
+        })
         tone = {"tone": "vulnerable", "intention": "reconnect"}
         spoken = speaker.speak_final(message, tone, context)
-        context["speech_done"] = True  # 💥 Prevent any further speech
+        context["speech_done"] = True
         emotional_state["loneliness"] *= 0.5
         update_emotional_state()
+
+        # ✅ Reward for social reconnection attempt
+        if context:
+            release_reward_signal(
+                context,
+                signal_type="connection",
+                actual_reward=0.7,
+                expected_reward=0.4,
+                effort=0.4,
+                source="loneliness_reconnect"
+            )
 
     # --- Cognition History and Repeat Count Logging ---
     cog_state = load_json(COGNITION_STATE_FILE, default_type=dict)
@@ -76,7 +171,7 @@ def finalize_cycle(context, user_input, next_function, reason, context_hash, spe
         "repeat_count": repeat_count,
         "last_context_hash": context_hash
     })
-    print(f"Cognition log now has {len(cognition_log)} entries. Last: {cognition_log[-1]}")
+    log_private(f"Cognition log now has {len(cognition_log)} entries. Last: {cognition_log[-1]}")
 
     # --- Save action for next cycle ---
     action = {"next_function": next_function, "reason": reason}

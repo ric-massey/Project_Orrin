@@ -1,9 +1,200 @@
 {
-  "confusion": 0.35,
-  "anxiety": 0.25,
+  "core_emotions": {
+    "confused": 1.0,
+    "anxious": 1.0,
+    "hopeful": 1.0,
+    "melancholy": 1.0,
+    "curious": 0.9292047908834158,
+    "excited": 0.0,
+    "poetic": 0.0,
+    "reflective": 1.0,
+    "bold": 0.3619882591743896,
+    "skeptical": 1.0,
+    "compassionate": 0.28092307563219765,
+    "confident": 0.9053932934471911,
+    "tired": 0.0,
+    "nostalgic": 0.18097417630707188,
+    "peaceful": 0.0,
+    "focused": 0.9052002524098639,
+    "romantic": 0.0,
+    "angry": 0.1908852529283428,
+    "analytical": 1.0,
+    "inspired": 0.0,
+    "grateful": 0.0,
+    "jealous": 0.01,
+    "afraid": 0.36247232110451066,
+    "resentful": 0.0,
+    "joyful": 0.1,
+    "ashamed": 0.0,
+    "surprised": 0.0,
+    "proud": 0.18082966729589597,
+    "lonely": 0.0,
+    "content": 0.1810031084667287,
+    "regretful": 0.0,
+    "motivated": 0.0,
+    "insecure": 0.0,
+    "playful": 0.0,
+    "ambivalent": 1.0,
+    "yearning": 0.1799973697240847
+  },
   "confidence_by_domain": {},
-  "emotional_stability": 0.51575,
-  "connection": 0.572,
-  "curiosity": 0.536,
-  "motivation": 0.5288
+  "emotional_stability": 0.693995306001267,
+  "curiosity": 1.0,
+  "loneliness": 0.39961391791666667,
+  "recent_triggers": [
+    {
+      "event": "Orrin updated beliefs: Fragmentation and the lack of a unitary narrative are val",
+      "emotion": "ambivalent",
+      "intensity": 0.19,
+      "timestamp": "2025-07-25T19:38:41.610416+00:00"
+    },
+    {
+      "event": "\ud83e\udde0 Cognition pattern summary over last 50 cycles:\n- Top used functions: curiosity",
+      "emotion": "melancholy",
+      "intensity": 0.25,
+      "timestamp": "2025-07-25T19:38:41.621184+00:00"
+    },
+    {
+      "event": "\u26a0\ufe0f Confusion spike: No working memory available.",
+      "emotion": "reflective",
+      "intensity": 0.25,
+      "timestamp": "2025-07-25T19:38:51.645379+00:00"
+    },
+    {
+      "event": "\u26a0\ufe0f Anxiety spike: No long-term memory available.",
+      "emotion": "reflective",
+      "intensity": 0.25,
+      "timestamp": "2025-07-25T19:38:51.655121+00:00"
+    },
+    {
+      "event": "\ud83d\udd04 Orrin changed mode: curiosity \u2192 adaptive\nReason: Automatic adjustment detected",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-07-25T19:38:54.252161+00:00"
+    },
+    {
+      "event": "\u2705 Emotionally secure \u2014 skipping deep internal reflection.",
+      "emotion": "ambivalent",
+      "intensity": 0.09,
+      "timestamp": "2025-07-25T19:38:05.260072+00:00"
+    },
+    {
+      "event": "\ud83e\udde0 Chose: reflect_on_cognition_patterns \u2014 Given my current emotions of confusion,",
+      "emotion": "hopeful",
+      "intensity": 0.25,
+      "timestamp": "2025-07-25T19:38:14.062385+00:00"
+    },
+    {
+      "event": "\u23f3 Last active: 20.525559",
+      "emotion": "ambivalent",
+      "intensity": 0.03,
+      "timestamp": "2025-07-25T19:38:14.066254+00:00"
+    },
+    {
+      "event": "\u26a0\ufe0f Feedback generation or parsing failed: Expecting value: line 1 column 1 (char",
+      "emotion": "yearning",
+      "intensity": 0.09,
+      "timestamp": "2025-07-25T19:38:17.749405+00:00"
+    },
+    {
+      "event": "\ud83c\udf13 Shadow question: Orrin might ask himself:  \n*\"Am I living a life true to my ow",
+      "emotion": "skeptical",
+      "intensity": 0.5,
+      "timestamp": "2025-07-25T19:38:21.272612+00:00"
+    },
+    {
+      "event": "Orrin updated beliefs: Fragmentation and the lack of a unitary narrative are val",
+      "emotion": "ambivalent",
+      "intensity": 0.19,
+      "timestamp": "2025-07-25T19:38:41.610416+00:00"
+    },
+    {
+      "event": "\ud83e\udde0 Cognition pattern summary over last 50 cycles:\n- Top used functions: curiosity",
+      "emotion": "melancholy",
+      "intensity": 0.25,
+      "timestamp": "2025-07-25T19:38:41.621184+00:00"
+    },
+    {
+      "event": "\u26a0\ufe0f Confusion spike: No working memory available.",
+      "emotion": "reflective",
+      "intensity": 0.25,
+      "timestamp": "2025-07-25T19:38:51.645379+00:00"
+    },
+    {
+      "event": "\u26a0\ufe0f Anxiety spike: No long-term memory available.",
+      "emotion": "reflective",
+      "intensity": 0.25,
+      "timestamp": "2025-07-25T19:38:51.655121+00:00"
+    },
+    {
+      "event": "\ud83d\udd04 Orrin changed mode: curiosity \u2192 adaptive\nReason: Automatic adjustment detected",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-07-25T19:38:54.252161+00:00"
+    },
+    {
+      "event": "\u2705 Emotionally secure \u2014 skipping deep internal reflection.",
+      "emotion": "ambivalent",
+      "intensity": 0.09,
+      "timestamp": "2025-07-25T19:38:05.260072+00:00"
+    },
+    {
+      "event": "\ud83e\udde0 Chose: reflect_on_cognition_patterns \u2014 Given my current emotions of confusion,",
+      "emotion": "hopeful",
+      "intensity": 0.25,
+      "timestamp": "2025-07-25T19:38:14.062385+00:00"
+    },
+    {
+      "event": "\u23f3 Last active: 20.525559",
+      "emotion": "ambivalent",
+      "intensity": 0.03,
+      "timestamp": "2025-07-25T19:38:14.066254+00:00"
+    },
+    {
+      "event": "\u26a0\ufe0f Feedback generation or parsing failed: Expecting value: line 1 column 1 (char",
+      "emotion": "yearning",
+      "intensity": 0.09,
+      "timestamp": "2025-07-25T19:38:17.749405+00:00"
+    },
+    {
+      "event": "\ud83c\udf13 Shadow question: Orrin might ask himself:  \n*\"Am I living a life true to my ow",
+      "emotion": "skeptical",
+      "intensity": 0.5,
+      "timestamp": "2025-07-25T19:38:21.272612+00:00"
+    },
+    {
+      "event": "Orrin updated beliefs: Fragmentation and the lack of a unitary narrative are val",
+      "emotion": "ambivalent",
+      "intensity": 0.19,
+      "timestamp": "2025-07-25T19:38:41.610416+00:00"
+    },
+    {
+      "event": "\ud83e\udde0 Cognition pattern summary over last 50 cycles:\n- Top used functions: curiosity",
+      "emotion": "melancholy",
+      "intensity": 0.25,
+      "timestamp": "2025-07-25T19:38:41.621184+00:00"
+    },
+    {
+      "event": "\u26a0\ufe0f Confusion spike: No working memory available.",
+      "emotion": "reflective",
+      "intensity": 0.25,
+      "timestamp": "2025-07-25T19:38:51.645379+00:00"
+    },
+    {
+      "event": "\u26a0\ufe0f Anxiety spike: No long-term memory available.",
+      "emotion": "reflective",
+      "intensity": 0.25,
+      "timestamp": "2025-07-25T19:38:51.655121+00:00"
+    },
+    {
+      "event": "\ud83d\udd04 Orrin changed mode: curiosity \u2192 adaptive\nReason: Automatic adjustment detected",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-07-25T19:38:54.252161+00:00"
+    }
+  ],
+  "last_updated": "2025-07-26T05:21:33.976228+00:00",
+  "confidence": 0.5384205148891855,
+  "motivation": 0.8617981439750658,
+  "connection": 1.0
 }

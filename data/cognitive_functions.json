@@ -1,1382 +1,527 @@
 [
   {
-    "name": "add_tool_to_catalog",
-    "summary": "This function adds a new tool with its details to a JSON catalog file, ensuring no duplicate names, and logs the action."
-  },
-  {
     "name": "adjust_goal_weights",
-    "summary": "The `adjust_goal_weights` function reviews recent feedback on goals, adjusts each goal's priority and logs its trajectory based on feedback content and associated emotions, emits a reward signal reflecting this evaluation, and saves the updated goals and log for future reference."
+    "summary": "This function updates the priority of goals in a multi-tiered action plan based on recent feedback\u2014adjusting each goal\u2019s priority and releasing reward signals according to feedback results and emotions\u2014while logging changes for future reference.",
+    "is_action": false
   },
   {
     "name": "append_to_json",
-    "summary": "This function appends a dictionary entry to a JSON file containing a list (creating the file if needed), ensuring valid data and directory structure, and logs errors if loading fails."
+    "summary": "This function appends a new dictionary entry to a JSON file containing a list\u2014creating the file if needed\u2014and ensures the file\u2019s directory exists, handling errors if the file\u2019s contents are not a list.",
+    "is_action": false
   },
   {
     "name": "bootstrap_self",
-    "summary": "`bootstrap_self()` is a Python function that introspects an AI agent's recent reflections, goals, and tool proposals, then prompts itself (via language model) to analyze and improve its own process of self-improvement, saving any refined strategies or meta-abilities for future growth."
+    "summary": "The `bootstrap_self` function guides an AI agent (Orrin) through a self-reflective cycle, gathering its current state, recent reflections, tools, and goals, then prompts itself to simulate and document an improved version of its own self-evolution or bootstrapping process, storing the results for future growth.",
+    "is_action": false
   },
   {
-    "name": "call_generated_function",
-    "summary": "This function attempts to reload a dynamically generated module and execute a specified function by name, logging success or detailed errors if the module fails to load, the function is missing, or an exception occurs during execution."
+    "name": "build_system_prompt",
+    "summary": "The `build_system_prompt` function constructs a self-description prompt for an AI by extracting and formatting its personality traits, beliefs, values, and identity from a model dictionary, adding current time and last activity information, and returning a structured summary string.",
+    "is_action": false
+  },
+  {
+    "name": "check_violates_boundaries",
+    "summary": "This function checks if any user-defined boundary rules (strings) are present in the given prompt by loading them from a JSON file, and returns a list of violated rules or None if none are found or if an error occurs.",
+    "is_action": false
   },
   {
     "name": "coerce_to_string",
-    "summary": "This function recursively converts a value (which may be a dictionary, list, or other type) into a readable, formatted string, with special formatting for dictionaries (including pretty keys) and lists."
+    "summary": "This function recursively converts a value\u2014including nested dictionaries and lists\u2014into a formatted, human-readable string.",
+    "is_action": false
   },
   {
     "name": "curiosity_loop",
-    "summary": "The `curiosity_loop` function manages a list of open questions (curiosities) by generating new self-reflective questions if none exist, thinking deeply about the most unsatisfied open question, updating its status and satisfaction, and saving the results\u2014resolving and archiving the question if it is sufficiently satisfied."
-  },
-  {
-    "name": "delay_between_requests",
-    "summary": "This function pauses the program for a random duration between 2 and 5 seconds before continuing."
+    "summary": "The **curiosity_loop** function manages a list of self-generated questions (curiosities), prompts itself to generate and deeply reflect on these questions, updates their status and satisfaction based on its response, and archives resolved questions for future reference.",
+    "is_action": false
   },
   {
     "name": "detect_contradiction",
-    "summary": "This function analyzes a set of thoughts for internal contradictions using a language model, extracts any contradictions found, logs them for future self-repair, updates memory and activity logs, and returns the contradictions in structured JSON format."
+    "summary": "This function analyzes a set of thoughts for contradictions using an AI model, logs any detected contradictions along with relevant metadata, and updates system memory and feedback mechanisms to flag the issue for future resolution.",
+    "is_action": false
   },
   {
     "name": "detect_emotion",
-    "summary": "This function analyzes a text by counting the occurrence of predefined emotion-related keywords and returns the emotion with the highest count, or \"neutral\" if no emotion keywords are found."
+    "summary": "This function analyzes a text by counting matches with predefined emotion keywords and returns the emotion with the highest score, or \"neutral\" if none are found.",
+    "is_action": false
   },
   {
     "name": "dream",
-    "summary": "The `dream()` function generates a vivid, symbolic dream narrative based on the agent's memories, values, beliefs, and identity, saves it with a timestamp, prunes old dreams, produces an introspective reflection on the dream, and logs both the dream and its reflection to long-term and private memory."
+    "summary": "The **dream** function generates a vivid, symbolic dream narrative based on the system's recent thoughts, core values, beliefs, identity, and internal agents, stores this dream (with an introspective reflection) in memory and logs, and prunes old dreams to maintain a focused, evolving dreamscape.",
+    "is_action": false
   },
   {
     "name": "ensure_long_term_goal",
-    "summary": "This function checks if there is an active or past long-term goal in the provided and completed goals lists, and if not, adds a default long-term goal to the goals list before returning it."
+    "summary": "This function checks if there is an active or previous \"long_term\" goal in the provided and completed goals lists, and if not, it appends a default long-term goal to the list before returning it.",
+    "is_action": false
   },
   {
     "name": "evaluate_new_abstractions",
-    "summary": "This function loads a list of proposed tools and relevant context, evaluates each tool\u2019s originality and usefulness in fulfilling the AI\u2019s core directive (using a self-model and long-term memory), generates a structured evaluation and recommended action for each tool, logs the results, and handles errors gracefully."
+    "summary": "The `evaluate_new_abstractions` function loads a list of proposed tools, retrieves the AI's core directive and long-term memory, and then iteratively prompts an AI model to evaluate each tool's originality, usefulness, and redundancy\u2014saving structured evaluations and updating working memory with the results.",
+    "is_action": true
   },
   {
     "name": "evaluate_recent_cognition",
-    "summary": "The function **evaluate_recent_cognition** reviews the most recent entries from working and long-term memory, prompts an AI model to reflect on them for insights, contradictions, missed opportunities, and value alignment, summarizes the findings as JSON, and records the evaluation in memory and a private log."
-  },
-  {
-    "name": "evaluate_tool_use",
-    "summary": "The function **evaluate_tool_use** scans a list of memory dictionaries for phrases indicating tool usage (like searching or running Python), adds any new, non-duplicate tool-use events (with reasons and timestamps) to a persistent record, and saves the updated list."
+    "summary": "This function reviews the most recent entries from working and long-term memory, prompts an AI model to analyze them for insights, contradictions, and alignment with values, then records the evaluation and suggestions for self-improvement.",
+    "is_action": false
   },
   {
     "name": "evolve_core_value",
-    "summary": "This function prompts an AGI to invent or mutate a core value for its own growth, updates its internal model with the new or changed value and justification, records the change, issues a novelty reward, and returns a log string describing the evolution."
+    "summary": "This function prompts an AGI to invent or mutate a core value for self-improvement, updates its internal model with the new value and justification, logs the change, and returns a summary message.",
+    "is_action": false
   },
   {
-    "name": "execute_pending_tools",
-    "summary": "This function processes a list of pending tool execution requests by running each unexecuted tool with its specified reason, recording the results and reflections (along with detected emotion and timestamps) into long-term memory, updating execution status, and saving all changes to persistent storage."
+    "name": "explore_reviewing_your_self_model_and_recent_thoughts__i_see_no",
+    "summary": "This function creates a thought record about self-model review and appends it with a timestamp to a working memory file for later reflection, instead of printing it.",
+    "is_action": false
   },
   {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
+    "name": "explore_your_current_beliefs_remain_stable__as_you_have_yet_to",
+    "summary": "This function appends a timestamped thought about the stability of current beliefs to a working memory JSON file, rather than printing it.",
+    "is_action": false
   },
   {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
+    "name": "explore_your_recent_thoughts_remain_consistent_with_your",
+    "summary": "This function creates a timestamped record of an autonomous thought about the consistency of recent thoughts and appends it to a working memory JSON file.",
+    "is_action": false
   },
   {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
-  },
-  {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
-  },
-  {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
+    "name": "explore_your_recent_thoughts_reveal_harmony_with_your_self_model_",
+    "summary": "This function appends a timestamped record to a working memory file, noting an autonomous insight about the alignment between recent thoughts and the self-model.",
+    "is_action": false
   },
   {
     "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
-  },
-  {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
-  },
-  {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
-  },
-  {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
-  },
-  {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
-  },
-  {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
-  },
-  {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
-  },
-  {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
-  },
-  {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
-  },
-  {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
-  },
-  {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
-  },
-  {
-    "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string, first looking for a markdown-formatted JSON code block, then searching for the first balanced set of curly braces, and if all else fails, trying to parse the entire string as JSON\u2014logging and returning an error message if parsing fails."
+    "summary": "This function attempts to extract and parse a JSON object from a text string by first searching for a code block containing JSON, then by scanning for the first balanced set of curly braces, and finally by trying to parse the whole string as JSON, handling errors gracefully.",
+    "is_action": false
   },
   {
     "name": "extract_last_reflection_topic",
-    "summary": "This function reads a reflection log file and returns a short excerpt (up to 60 characters) of the most recent \"Conflict reflection\" or \"Self-belief reflection\" entry's content, or a fallback string if none is found or an error occurs."
+    "summary": "This function reads a log file of reflection entries, searches from the most recent for the latest entry related to self-belief or reflection, and returns a clean snippet (up to 60 characters) of its content\u2014or a default string if none is found or an error occurs.",
+    "is_action": false
+  },
+  {
+    "name": "extract_lessons",
+    "summary": "This function iterates through a list of memory objects, extracting and returning all non-empty strings that follow the prefix \"lesson:\" (case-insensitive) in their \"content\" field.",
+    "is_action": false
   },
   {
     "name": "extract_questions",
-    "summary": "This function extracts all sentences from the input text that start with a capital letter, end with a question mark, are longer than 10 characters, and returns them as a list of trimmed strings."
+    "summary": "This function extracts and returns a list of questions (ending with a '?', starting with a capital letter, and longer than 10 characters) found in the input text.",
+    "is_action": false
   },
   {
     "name": "generate_absurd_goal",
-    "summary": "This function creates and returns a dictionary containing an absurd or impossible goal for an AGI, along with an explanation of its humorous or tragic nature, by prompting a response generator."
-  },
-  {
-    "name": "generate_behavior_from_integration",
-    "summary": "**Summary:**  \nThis function analyzes the most recent reflection topic, and\u2014if it is specific enough\u2014autonomously generates and appends Python code for a new internal behavior function (tailored to that topic) to a module, along with logging its justification and proposing a related cognitive goal."
+    "summary": "This function creates a prompt asking for an absurd or impossible goal for an AGI, uses a response generator to produce such a goal with an explanation, and returns the result in a dictionary.",
+    "is_action": false
   },
   {
     "name": "generate_concepts_from_memories",
-    "summary": "This function analyzes the most recent memories and existing concepts, uses an AI model to reflect on them, and updates the stored concept list with up to five new or evolving emergent concepts identified from those memories."
+    "summary": "This function analyzes the most recent memory entries, prompts an AI model to extract up to five emergent or evolving concepts based on those memories and existing concepts, and then updates and saves the concept list accordingly.",
+    "is_action": false
   },
   {
     "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
-  },
-  {
-    "name": "generate_response",
-    "summary": "The `generate_response` function builds a chat prompt using a user message and a configurable system prompt, logs the interaction, sends it to a language model API (e.g., OpenAI), and returns the model's reply, handling errors and configuration defaults along the way."
+    "summary": "This function generates a response from a language model by preparing a prompt and system message based on a configuration, logging the interaction, handling errors, and returning the model's reply.",
+    "is_action": false
   },
   {
     "name": "generate_response_from_context",
-    "summary": "This function generates a text response by extracting and sanitizing instructions and a system prompt from a given context dictionary, loading model configuration settings, and then calling a response generator with these parameters, while handling errors gracefully."
-  },
-  {
-    "name": "generate_response_from_context",
-    "summary": "This function generates a text response by extracting and sanitizing instructions and a system prompt from a given context dictionary, loading model configuration settings, and then calling a response generator with these parameters, while handling errors gracefully."
-  },
-  {
-    "name": "generate_response_from_context",
-    "summary": "This function generates a text response by extracting and sanitizing instructions and a system prompt from a given context dictionary, loading model configuration settings, and then calling a response generator with these parameters, while handling errors gracefully."
-  },
-  {
-    "name": "generate_response_from_context",
-    "summary": "This function generates a text response by extracting and sanitizing instructions and a system prompt from a given context dictionary, loading model configuration settings, and then calling a response generator with these parameters, while handling errors gracefully."
-  },
-  {
-    "name": "generate_response_from_context",
-    "summary": "This function generates a text response by extracting and sanitizing instructions and a system prompt from a given context dictionary, loading model configuration settings, and then calling a response generator with these parameters, while handling errors gracefully."
-  },
-  {
-    "name": "generate_response_from_context",
-    "summary": "This function generates a text response by extracting and sanitizing instructions and a system prompt from a given context dictionary, loading model configuration settings, and then calling a response generator with these parameters, while handling errors gracefully."
+    "summary": "The `generate_response_from_context` function takes a context dictionary, extracts and sanitizes instructions and system prompts, loads and prepares a model configuration, and then generates and returns a response using these inputs, handling errors gracefully.",
+    "is_action": false
   },
   {
     "name": "get_core_values",
-    "summary": "This function retrieves and returns the list of current core values (as dictionaries) from the self model, or an empty list if none are found."
+    "summary": "The function `get_core_values()` retrieves and returns the \"core_values\" list from the self model, or an empty list if it doesn't exist.",
+    "is_action": false
   },
   {
     "name": "get_self_model",
-    "summary": "Returns the contents of **self_model.json** as a dictionary by calling `load_json` with a default type of `dict`."
-  },
-  {
-    "name": "get_self_model",
-    "summary": "Returns the contents of **self_model.json** as a dictionary by calling `load_json` with a default type of `dict`."
-  },
-  {
-    "name": "get_self_model",
-    "summary": "Returns the contents of **self_model.json** as a dictionary by calling `load_json` with a default type of `dict`."
-  },
-  {
-    "name": "get_self_model",
-    "summary": "Returns the contents of **self_model.json** as a dictionary by calling `load_json` with a default type of `dict`."
-  },
-  {
-    "name": "get_self_model",
-    "summary": "Returns the contents of **self_model.json** as a dictionary by calling `load_json` with a default type of `dict`."
-  },
-  {
-    "name": "get_self_model",
-    "summary": "Returns the contents of **self_model.json** as a dictionary by calling `load_json` with a default type of `dict`."
-  },
-  {
-    "name": "get_self_model",
-    "summary": "Returns the contents of **self_model.json** as a dictionary by calling `load_json` with a default type of `dict`."
-  },
-  {
-    "name": "get_self_model",
-    "summary": "Returns the contents of **self_model.json** as a dictionary by calling `load_json` with a default type of `dict`."
-  },
-  {
-    "name": "get_self_model",
-    "summary": "Returns the contents of **self_model.json** as a dictionary by calling `load_json` with a default type of `dict`."
-  },
-  {
-    "name": "get_self_model",
-    "summary": "Returns the contents of **self_model.json** as a dictionary by calling `load_json` with a default type of `dict`."
-  },
-  {
-    "name": "get_self_model",
-    "summary": "Returns the contents of **self_model.json** as a dictionary by calling `load_json` with a default type of `dict`."
-  },
-  {
-    "name": "get_self_model",
-    "summary": "Returns the contents of **self_model.json** as a dictionary by calling `load_json` with a default type of `dict`."
-  },
-  {
-    "name": "get_self_model",
-    "summary": "Returns the contents of **self_model.json** as a dictionary by calling `load_json` with a default type of `dict`."
+    "summary": "This function loads and returns the contents of the file self_model.json as a dictionary using the load_json function.",
+    "is_action": false
   },
   {
     "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
+    "summary": "Returns the value associated with the key \"thinking\" from the model_roles dictionary, or \"gpt-4.1\" if the key is not present.",
+    "is_action": false
   },
   {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
+    "name": "get_time_since_last_active",
+    "summary": "This function calculates and returns the number of seconds that have passed since the last recorded activity time stored in a file, defaulting to 0 if the file or data is missing or an error occurs.",
+    "is_action": false
   },
   {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
+    "name": "goal_already_exists",
+    "summary": "This function checks whether a specific goal-reason pair exists in the most recent entries of a JSON file, returning True if found and False otherwise.",
+    "is_action": false
   },
   {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present."
+    "name": "goal_function_already_exists",
+    "summary": "This function checks whether the specified function name appears in the \"goal\" field of any of the most recent entries (up to a given window size) in a JSON file at the provided path, returning True if found and False otherwise.",
+    "is_action": false
   },
   {
     "name": "imagine_opposite_self",
-    "summary": "This function prompts an AI to imagine and describe itself as the literal opposite of its current identity, then returns the generated description in a dictionary."
+    "summary": "This function prompts an AI to describe what it would be like as the literal opposite of itself, then returns the result in a dictionary.",
+    "is_action": false
   },
   {
     "name": "introspective_planning",
-    "summary": "The `introspective_planning` function gathers Orrin's recent memories, self-model data, core values, motivations, and reflections on past performance to generate a revised, structured list of goals by prompting a language model, then saves the updated goals and logs the process."
+    "summary": "The `introspective_planning()` function orchestrates a self-reflective process where Orrin, using its recent memories, self-model, and performance history, generates a revised hierarchical list of goals (short-, mid-, and long-term) through a language model and updates its goals file accordingly, while logging the process and handling errors.",
+    "is_action": false
   },
   {
     "name": "invent_new_value",
-    "summary": "This function prompts an AI to create and justify an original ethical value never before claimed by human societies, then returns the result in a structured format."
-  },
-  {
-    "name": "is_scraping_allowed",
-    "summary": "This function checks a website\u2019s robots.txt file to determine if web scraping is allowed for the given URL."
+    "summary": "This function generates and returns a novel core value\u2014purportedly never claimed by any human society\u2014along with its justification and ethical relevance for AGI, by prompting a response generator.",
+    "is_action": false
   },
   {
     "name": "load_all_known_json",
-    "summary": "This function loads all JSON files in a specified directory into a dictionary, inferring each file\u2019s expected data type based on its filename and gracefully handling any load errors."
-  },
-  {
-    "name": "load_all_known_json",
-    "summary": "This function loads all JSON files in a specified directory into a dictionary, inferring each file\u2019s expected data type based on its filename and gracefully handling any load errors."
-  },
-  {
-    "name": "load_all_known_json",
-    "summary": "This function loads all JSON files in a specified directory into a dictionary, inferring each file\u2019s expected data type based on its filename and gracefully handling any load errors."
-  },
-  {
-    "name": "load_all_known_json",
-    "summary": "This function loads all JSON files in a specified directory into a dictionary, inferring each file\u2019s expected data type based on its filename and gracefully handling any load errors."
-  },
-  {
-    "name": "load_all_known_json",
-    "summary": "This function loads all JSON files in a specified directory into a dictionary, inferring each file\u2019s expected data type based on its filename and gracefully handling any load errors."
-  },
-  {
-    "name": "load_all_known_json",
-    "summary": "This function loads all JSON files in a specified directory into a dictionary, inferring each file\u2019s expected data type based on its filename and gracefully handling any load errors."
-  },
-  {
-    "name": "load_all_known_json",
-    "summary": "This function loads all JSON files in a specified directory into a dictionary, inferring each file\u2019s expected data type based on its filename and gracefully handling any load errors."
-  },
-  {
-    "name": "load_all_known_json",
-    "summary": "This function loads all JSON files in a specified directory into a dictionary, inferring each file\u2019s expected data type based on its filename and gracefully handling any load errors."
-  },
-  {
-    "name": "load_custom_cognition",
-    "summary": "This function scans a specific directory for Python files, dynamically imports them, collects all public callable objects (functions) from each, and returns them in a dictionary, logging any issues encountered along the way."
+    "summary": "The function `load_all_known_json` loads all JSON files in a specified directory, infers their expected data type based on the filename, and returns a dictionary mapping filenames to their loaded contents, using default types where necessary and logging any loading errors.",
+    "is_action": false
   },
   {
     "name": "load_goals",
-    "summary": "The load_goals() function attempts to read and return a list of dictionaries from a JSON file, but returns an empty list if any error occurs."
+    "summary": "This function attempts to load a list of goals from a JSON file, ensuring each goal is a dictionary (wrapping strings as {\"description\": ...}), and returns an empty list if any error occurs.",
+    "is_action": false
   },
   {
     "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
-  },
-  {
-    "name": "load_json",
-    "summary": "The `load_json` function attempts to load and return JSON data from a given file path, returning an empty default object (like a dict) if the file is missing, empty, or an error occurs, while logging any exceptions."
+    "summary": "This function attempts to load and return a JSON object from a file, returning an empty default (like a dict) if the file is missing, empty, or an error occurs, and logs any issues encountered.",
+    "is_action": false
   },
   {
     "name": "load_neutral_count",
-    "summary": "The function attempts to load and return an integer value from a JSON file, but returns 0 if any error occurs during loading."
-  },
-  {
-    "name": "load_private_thoughts_as_list",
-    "summary": "This function reads a text file line by line from a given path and returns a list of dictionaries, each containing a \"timestamp\" (parsed from lines starting with brackets, if present) and the \"content\" of each non-empty line, or an empty list if the file can't be read."
+    "summary": "This function tries to load a JSON value from a file as an integer, and if it fails, it returns 0.",
+    "is_action": false
   },
   {
     "name": "log_activity",
-    "summary": "This function appends a timestamped message to an activity log file in UTC, ensuring proper encoding and line endings."
-  },
-  {
-    "name": "log_activity",
-    "summary": "This function appends a timestamped message to an activity log file in UTC, ensuring proper encoding and line endings."
-  },
-  {
-    "name": "log_activity",
-    "summary": "This function appends a timestamped message to an activity log file in UTC, ensuring proper encoding and line endings."
-  },
-  {
-    "name": "log_activity",
-    "summary": "This function appends a timestamped message to an activity log file in UTC, ensuring proper encoding and line endings."
-  },
-  {
-    "name": "log_activity",
-    "summary": "This function appends a timestamped message to an activity log file in UTC, ensuring proper encoding and line endings."
-  },
-  {
-    "name": "log_activity",
-    "summary": "This function appends a timestamped message to an activity log file in UTC, ensuring proper encoding and line endings."
+    "summary": "The function appends a timestamped message to an activity log file in UTF-8 encoding.",
+    "is_action": false
   },
   {
     "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends an error message, prefixed with the current UTC timestamp, to an error log file."
+    "summary": "This function appends a timestamped error message to an error log file in UTF-8 encoding.",
+    "is_action": false
   },
   {
     "name": "log_feedback",
-    "summary": "The `log_feedback` function records feedback about an agent's performance on a goal (including emotion, timestamp, and optional score) into a JSON log, and then simulates an internal reward signal (dopamine or serotonin) based on the result and emotion, updating both emotional state and reward trace files accordingly."
+    "summary": "This function logs feedback about an agent\u2019s goal-driven action (including result, emotion, and score) to a JSON file, updates simulated emotional/reward state files based on the outcome, and applies a reward signal to model learning or adaptation.",
+    "is_action": false
   },
   {
     "name": "log_model_issue",
-    "summary": "This function appends a timestamped message about a model issue to a log file called MODEL_FAILURE."
-  },
-  {
-    "name": "log_model_issue",
-    "summary": "This function appends a timestamped message about a model issue to a log file called MODEL_FAILURE."
-  },
-  {
-    "name": "log_model_issue",
-    "summary": "This function appends a timestamped message about a model issue to a log file called MODEL_FAILURE."
-  },
-  {
-    "name": "log_model_issue",
-    "summary": "This function appends a timestamped message about a model issue to a log file called MODEL_FAILURE."
-  },
-  {
-    "name": "log_model_issue",
-    "summary": "This function appends a timestamped message about a model issue to a log file called MODEL_FAILURE."
-  },
-  {
-    "name": "log_model_issue",
-    "summary": "This function appends a timestamped message about a model issue to a log file called MODEL_FAILURE."
-  },
-  {
-    "name": "log_model_issue",
-    "summary": "This function appends a timestamped message about a model issue to a log file called MODEL_FAILURE."
-  },
-  {
-    "name": "log_model_issue",
-    "summary": "This function appends a timestamped message about a model issue to a log file called MODEL_FAILURE."
-  },
-  {
-    "name": "log_model_issue",
-    "summary": "This function appends a timestamped message about a model issue to a log file called MODEL_FAILURE."
+    "summary": "This function appends a timestamped message to a log file named `MODEL_FAILURE`, recording model-related issues.",
+    "is_action": false
   },
   {
     "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding."
-  },
-  {
-    "name": "log_raw_user_input",
-    "summary": "This function appends a user-Orrin chat entry\u2014either as a string or as a dict\u2014to a chat log JSON file, formatting it, detecting emotion, timestamping, and handling errors."
+    "summary": "This function appends a message, timestamped in UTC ISO format, to a file called PRIVATE_THOUGHTS_FILE.",
+    "is_action": false
   },
   {
     "name": "log_reflection",
-    "summary": "This function records a reflection message, along with its type and a timestamp, by appending it as a JSON entry to a specified location."
-  },
-  {
-    "name": "log_reflection",
-    "summary": "This function records a reflection message, along with its type and a timestamp, by appending it as a JSON entry to a specified location."
-  },
-  {
-    "name": "log_reflection",
-    "summary": "This function records a reflection message, along with its type and a timestamp, by appending it as a JSON entry to a specified location."
-  },
-  {
-    "name": "log_reflection",
-    "summary": "This function records a reflection message, along with its type and a timestamp, by appending it as a JSON entry to a specified location."
-  },
-  {
-    "name": "log_reflection",
-    "summary": "This function records a reflection message, along with its type and a timestamp, by appending it as a JSON entry to a specified location."
-  },
-  {
-    "name": "log_reflection",
-    "summary": "This function records a reflection message, along with its type and a timestamp, by appending it as a JSON entry to a specified location."
-  },
-  {
-    "name": "log_reflection",
-    "summary": "This function records a reflection message, along with its type and a timestamp, by appending it as a JSON entry to a specified location."
-  },
-  {
-    "name": "log_reflection",
-    "summary": "This function records a reflection message, along with its type and a timestamp, by appending it as a JSON entry to a specified location."
-  },
-  {
-    "name": "log_reflection",
-    "summary": "This function records a reflection message, along with its type and a timestamp, by appending it as a JSON entry to a specified location."
-  },
-  {
-    "name": "log_reflection",
-    "summary": "This function records a reflection message, along with its type and a timestamp, by appending it as a JSON entry to a specified location."
+    "summary": "This function logs a reflection message with its type and a UTC timestamp by adding a structured entry to a JSON file.",
+    "is_action": false
   },
   {
     "name": "mark_goal_completed",
-    "summary": "This function searches for a goal by name in a stored list, and if it is found and not already completed or abandoned, marks it as completed, updates timestamps and history, saves the changes, and returns whether any update was made."
+    "summary": "This function searches for a goal with the given name in a stored goals list, marks it as completed (with timestamps and history) if it's not already completed or abandoned, saves the updated list, and returns whether any change was made.",
+    "is_action": false
   },
   {
     "name": "maybe_complete_goals",
-    "summary": "This function reviews all active goals, uses recent memories and a self-model to determine (via an AI prompt) if each goal is complete, then marks it as completed and updates working memory if so."
-  },
-  {
-    "name": "maybe_complete_goals",
-    "summary": "This function reviews all active goals, uses recent memories and a self-model to determine (via an AI prompt) if each goal is complete, then marks it as completed and updates working memory if so."
-  },
-  {
-    "name": "maybe_speak_aloud",
-    "summary": "This function makes a probabilistic decision for \"Orrin\" to speak aloud to himself based on his current level of curiosity and a random chance, otherwise opting for silent introspection."
+    "summary": "The `maybe_complete_goals()` function reviews a list of current goals, uses recent memory and self-model summaries to determine via a prompt whether each goal is completed, and if so, marks it as completed and updates working memory, otherwise notes if completion couldn't be determined.",
+    "is_action": false
   },
   {
     "name": "mean",
-    "summary": "This function calculates and returns the arithmetic mean (average) of a non-empty collection of numeric data, preserving the numeric type, and raises an error if the input is empty."
+    "summary": "This function computes the arithmetic mean (average) of a non-empty iterable of numbers, raising an error if the input is empty.",
+    "is_action": false
   },
   {
     "name": "meta_reflect",
-    "summary": "The `meta_reflect` function loads and merges memory context, sequentially performs a series of self-reflection steps (logging the outcome of each), and records a summary of the process and any errors to persistent logs."
+    "summary": "**Summary:**  \nThe `meta_reflect` function performs a structured series of self-reflection steps by loading and merging memory context, sequentially running multiple introspective and update routines, logging each result, and saving a detailed reflection log, while handling errors gracefully.",
+    "is_action": false
   },
   {
-    "name": "meta_reflect",
-    "summary": "The `meta_reflect` function loads and merges memory context, sequentially performs a series of self-reflection steps (logging the outcome of each), and records a summary of the process and any errors to persistent logs."
-  },
-  {
-    "name": "meta_reflect",
-    "summary": "The `meta_reflect` function loads and merges memory context, sequentially performs a series of self-reflection steps (logging the outcome of each), and records a summary of the process and any errors to persistent logs."
-  },
-  {
-    "name": "meta_reflect",
-    "summary": "The `meta_reflect` function loads and merges memory context, sequentially performs a series of self-reflection steps (logging the outcome of each), and records a summary of the process and any errors to persistent logs."
+    "name": "moral_override_check",
+    "summary": "The `moral_override_check` function evaluates whether a proposed action aligns with the AI's core memories, learned values, beliefs, and stances by generating a moral assessment prompt, analyzing the response, logging any overrides, and returning a decision indicating if the action should be blocked for ethical reasons.",
+    "is_action": false
   },
   {
     "name": "mutate_directive",
-    "summary": "This function retrieves a directive statement from the context, and if it exists, generates and returns a humorous or paradoxical mutation of it using the generate_response function; otherwise, it indicates that there is no directive to mutate."
-  },
-  {
-    "name": "persistent_drive_loop",
-    "summary": "This function, `persistent_drive_loop`, continuously evaluates an AI agent\u2019s emotional state and core directive, reflects on recent memories, and\u2014depending on detected threats, emotional stability, and self-reflection\u2014decides which cognitive function (from available options) the agent should execute next, prioritizing safety and goal alignment."
+    "summary": "This function takes a context dictionary, extracts a directive statement, and uses a response generator to return a version of the directive that is paradoxical or wild, optionally humorous.",
+    "is_action": false
   },
   {
     "name": "plan_self_evolution",
-    "summary": "This function generates a new self-evolution roadmap for an AI agent by integrating its current motivations, self-model, recent reflections, and simulated future selves, then formulates actionable short- and long-term development plans, saves them to memory and history, and registers immediate goals for execution."
-  },
-  {
-    "name": "plan_self_evolution",
-    "summary": "This function generates a new self-evolution roadmap for an AI agent by integrating its current motivations, self-model, recent reflections, and simulated future selves, then formulates actionable short- and long-term development plans, saves them to memory and history, and registers immediate goals for execution."
-  },
-  {
-    "name": "process_emotional_signals",
-    "summary": "**Summary:**  \nThis function analyzes the current emotional state from context, simulates the amygdala\u2019s threat-detection by prompting a language model to determine if a significant threat exists and classify it (fight, flight, freeze, or none), then updates the context with the threat assessment, intensity, and suggested reflexive action."
+    "summary": "This function, `plan_self_evolution`, generates a new self-improvement roadmap for an AI agent by integrating its motivations, self-model, reflections, and simulated future projections, then formulates actionable short- and long-term goals, saves the plan to memory and logs, and updates its pending goals accordingly.",
+    "is_action": false
   },
   {
     "name": "prune_goals",
-    "summary": "This function separates completed or abandoned goals from active ones, archives the completed/abandoned goals to a file, sorts the active goals by status, tier score, emotional intensity, and last updated time, and returns the top N active goals as defined by MAX_GOALS."
+    "summary": "This function filters out completed or abandoned goals from a list, archives them to a file, sorts the remaining active goals by status, priority, emotional intensity, and recency, and then returns the top goals up to a maximum limit.",
+    "is_action": false
+  },
+  {
+    "name": "prune_old_threads",
+    "summary": "The `prune_old_threads` function loads a dictionary-based self model, retrieves configuration settings for maximum thread age and count, removes \"imaginative threads\" that are too old or exceed the allowed number, updates the model, and logs how many threads were pruned.",
+    "is_action": false
   },
   {
     "name": "rate_satisfaction",
-    "summary": "The **rate_satisfaction** function prompts a language model to evaluate the completeness or satisfaction of a given thought on a 0.0\u20131.0 scale, extracts the resulting float from the model's response, and returns it (or 0.0 on failure)."
+    "summary": "This function prompts an AI model to rate how satisfying or complete a given thought is on a scale from 0 to 1, extracts the resulting float from the model\u2019s response, and returns it (defaulting to 0.0 if parsing fails).",
+    "is_action": true
   },
   {
     "name": "record_decision",
-    "summary": "This function logs the name of a function and the reason for its selection to both a public activity log and a private log."
+    "summary": "The function `record_decision` logs a decision and its reason to two separate logging systems, one public (`log_activity`) and one private (`log_private`).",
+    "is_action": false
   },
   {
     "name": "reflect_as_agents",
-    "summary": "This function orchestrates an internal dialogue among Orrin's internal agents about a given topic, collects each agent's perspective, synthesizes their insights or conflicts, and logs the resulting reflection in structured JSON format."
+    "summary": "The `reflect_as_agents` function orchestrates an internal dialogue among modeled \"agents,\" each offering their perspective on a given topic, synthesizes their responses, and returns the structured outcome while updating relevant logs and memory.",
+    "is_action": false
   },
   {
     "name": "reflect_on_cognition_patterns",
-    "summary": "This function analyzes the most recent cognitive activity history to identify frequently and rarely used functions, calculates average satisfaction per function, summarizes these usage patterns, and logs the results for self-awareness and reflection."
-  },
-  {
-    "name": "reflect_on_cognition_patterns",
-    "summary": "This function analyzes the most recent cognitive activity history to identify frequently and rarely used functions, calculates average satisfaction per function, summarizes these usage patterns, and logs the results for self-awareness and reflection."
+    "summary": "This function analyzes the most recent cognitive activity history to identify frequently and rarely used functions, calculates average satisfaction per function, summarizes these patterns, and updates internal memory and logs with the insights.",
+    "is_action": false
   },
   {
     "name": "reflect_on_cognition_rhythm",
-    "summary": "This function analyzes the recent history of cognitive decisions, summarizes patterns, generates a prompt for reflection, processes any suggested improvements to the cognition schedule, and updates that schedule if appropriate, while logging the results and handling errors."
-  },
-  {
-    "name": "reflect_on_cognition_rhythm",
-    "summary": "This function analyzes the recent history of cognitive decisions, summarizes patterns, generates a prompt for reflection, processes any suggested improvements to the cognition schedule, and updates that schedule if appropriate, while logging the results and handling errors."
+    "summary": "This function reviews recent cognition history and the current cognition schedule, uses a reflection prompt to generate possible schedule adjustments, and updates the schedule if changes are suggested, logging outcomes and handling errors throughout.",
+    "is_action": false
   },
   {
     "name": "reflect_on_cognition_schedule",
-    "summary": "The `reflect_on_cognition_schedule` function analyzes recent cognitive activity and satisfaction scores, uses both statistical and LLM-based meta-reflection to adjust the scheduling of cognitive functions, logs the reasoning and any changes, and persists the updated schedule for future use."
+    "summary": "This function, `reflect_on_cognition_schedule`, analyzes recent cognitive activity and satisfaction data to statistically and reflectively adjust a cognitive process scheduling table\u2014optionally refining it via LLM feedback\u2014then saves and logs any changes to optimize future cognitive routines.",
+    "is_action": false
   },
   {
     "name": "reflect_on_conversation_patterns",
-    "summary": "This function loads the recent conversation history, summarizes key aspects of it (tone and content), prompts an AI model to reflect on its conversational behavior and suggest improvements, then logs the reflection for future reference."
+    "summary": "The function `reflect_on_conversation_patterns()` analyzes the last 15 conversation entries for tone and content, prompts an AI to self-reflect on its conversational behavior, and logs the resulting insights for further self-improvement.",
+    "is_action": false
   },
   {
     "name": "reflect_on_effectiveness",
-    "summary": "The function **reflect_on_effectiveness** analyzes long-term memory entries to compute and return the average effectiveness scores for each goal (with at least three data points), sorted from most to least effective, and optionally logs the results."
-  },
-  {
-    "name": "reflect_on_effectiveness",
-    "summary": "The function **reflect_on_effectiveness** analyzes long-term memory entries to compute and return the average effectiveness scores for each goal (with at least three data points), sorted from most to least effective, and optionally logs the results."
-  },
-  {
-    "name": "reflect_on_effectiveness",
-    "summary": "The function **reflect_on_effectiveness** analyzes long-term memory entries to compute and return the average effectiveness scores for each goal (with at least three data points), sorted from most to least effective, and optionally logs the results."
+    "summary": "The `reflect_on_effectiveness` function analyzes long-term memory entries to compute and return the average effectiveness scores for each goal (with at least three recorded scores), sorted from highest to lowest, while optionally logging the process and handling errors gracefully.",
+    "is_action": false
   },
   {
     "name": "reflect_on_emotion_sensitivity",
-    "summary": "This function analyzes recent emotional triggers to automatically adjust Orrin's emotion sensitivity profile, dampening sensitivity for emotions frequently experienced with high intensity and increasing sensitivity for those felt with less intensity, then saves and logs any changes."
+    "summary": "The function `reflect_on_emotion_sensitivity` analyzes the recent emotional triggers from Orrin's emotional state and automatically adjusts sensitivity levels for each emotion\u2014decreasing sensitivity when recent emotions are intense and increasing it when emotions are mild\u2014then saves and logs these updates.",
+    "is_action": false
   },
   {
     "name": "reflect_on_growth_history",
-    "summary": "**Summary:**  \nThis function reviews the AI's past evolution roadmaps, categorizes goals as completed, pending, or skipped, summarizes the roles of internal agents, prompts itself for a reflective analysis, saves the results, and updates its memory with insights about its growth trajectory."
-  },
-  {
-    "name": "reflect_on_growth_history",
-    "summary": "**Summary:**  \nThis function reviews the AI's past evolution roadmaps, categorizes goals as completed, pending, or skipped, summarizes the roles of internal agents, prompts itself for a reflective analysis, saves the results, and updates its memory with insights about its growth trajectory."
+    "summary": "The `reflect_on_growth_history` function analyzes the AI's evolution roadmaps by categorizing goals as completed, pending, or skipped, summarizes the status and internal agents, prompts the AI to reflect on the reasons behind these outcomes, records the synthesized reflection, and logs the results for future self-improvement.",
+    "is_action": false
   },
   {
     "name": "reflect_on_internal_agents",
-    "summary": "This function reviews and potentially updates the perspectives of internal agents within Orrin's self-model by reflecting on their beliefs, recent thoughts, current emotional/cognitive state, and consistency with values, then saves any changes and logs the reflection process."
+    "summary": "The function **reflect_on_internal_agents** reviews each internal agent within Orrin's self-model, considers their recent thoughts, beliefs, and current views in the context of recent internal events and overall cognitive/emotional state, then updates each agent's perspective if necessary to ensure consistency and alignment with Orrin's goals and values.",
+    "is_action": false
   },
   {
     "name": "reflect_on_internal_voices",
-    "summary": "**Summary:**  \nThis function reviews recent internal thoughts to detect the emergence of a new internal voice (such as a doubt, desire, or belief fragment), and if one is found, adds it as a new internal agent to the self-model while logging the change."
+    "summary": "This function reviews recent internal thoughts to detect the emergence of new internal voices or agents, and if one is found, it adds the new agent to the self-model and logs the event.",
+    "is_action": false
   },
   {
     "name": "reflect_on_missed_goals",
-    "summary": "This function loads a list of short-term goals, identifies those marked as missed, prompts a reflection on the reasons for missing them, logs the reflection, and updates working memory with the outcome, handling errors as needed."
-  },
-  {
-    "name": "reflect_on_missed_goals",
-    "summary": "This function loads a list of short-term goals, identifies those marked as missed, prompts a reflection on the reasons for missing them, logs the reflection, and updates working memory with the outcome, handling errors as needed."
-  },
-  {
-    "name": "reflect_on_missed_goals",
-    "summary": "This function loads a list of short-term goals, identifies those marked as missed, prompts a reflection on the reasons for missing them, logs the reflection, and updates working memory with the outcome, handling errors as needed."
+    "summary": "This function loads short-term goals from stored data, identifies any that were missed, prompts a reflection on the reasons for missing them (with guiding questions), logs the reflection if successful, and updates the system\u2019s memory with the outcome.",
+    "is_action": false
   },
   {
     "name": "reflect_on_outcomes",
-    "summary": "The `reflect_on_outcomes()` function reviews recent task outcomes, compares them to current core beliefs, generates and logs reflective insights (potentially updating beliefs if needed), stores the reflection in long-term memory, marks outcomes as reflected to prevent duplication, and flags patterns of repeated failure for further attention."
-  },
-  {
-    "name": "reflect_on_outcomes",
-    "summary": "The `reflect_on_outcomes()` function reviews recent task outcomes, compares them to current core beliefs, generates and logs reflective insights (potentially updating beliefs if needed), stores the reflection in long-term memory, marks outcomes as reflected to prevent duplication, and flags patterns of repeated failure for further attention."
+    "summary": "**Summary (one sentence):**\n\nThis function reviews recent task outcomes, compares them to current core beliefs, generates reflective insights or belief updates, logs and stores these reflections, marks outcomes as reviewed, and updates beliefs if necessary based on detected patterns or failures.",
+    "is_action": false
   },
   {
     "name": "reflect_on_prompts",
-    "summary": "The `reflect_on_prompts` function enables Orrin, an AI, to periodically review, revise, add, or remove self-reflection prompts based on its evolving identity, logs all changes with backups for traceability, and updates its working memory to document the update process."
-  },
-  {
-    "name": "reflect_on_result",
-    "summary": "This function takes the name of a tool, a reason for using it, and its result, then generates a reflection prompt for an AI, parses any follow-up tool requests from the AI\u2019s response, adds them to a request log if present, and otherwise returns the reflection."
+    "summary": "This function enables Orrin, a reflective AI, to periodically review, revise, add, or remove reflection prompts based on its evolving identity, while tracking all changes with backups and logs for transparency and memory updating.",
+    "is_action": false
   },
   {
     "name": "reflect_on_rules_used",
-    "summary": "The function `reflect_on_rules_used()` analyzes recent memory outcomes to evaluate the effectiveness of existing causal reasoning rules, then updates, revises, or removes these rules as needed based on a structured reflection generated from context."
-  },
-  {
-    "name": "reflect_on_rules_used",
-    "summary": "The function `reflect_on_rules_used()` analyzes recent memory outcomes to evaluate the effectiveness of existing causal reasoning rules, then updates, revises, or removes these rules as needed based on a structured reflection generated from context."
+    "summary": "The `reflect_on_rules_used` function reviews recent memory outcomes to evaluate the effectiveness of existing causal reasoning rules, and then updates these rules by adding, revising, or removing them based on a structured reflection process.",
+    "is_action": false
   },
   {
     "name": "reflect_on_sandbox_experiment",
-    "summary": "This function prompts an AI to reflect on a recent sandbox experiment, generates a summary of the insights gained, logs the reflection and relevant self-model state to long-term memory with a timestamp, and returns the reflection summary."
+    "summary": "This function generates a reflective summary about a recent sandbox experiment, logs the reflection and current self-model to long-term memory with a timestamp, and returns the reflection.",
+    "is_action": false
   },
   {
     "name": "reflect_on_self_beliefs",
-    "summary": "The `reflect_on_self_beliefs` function reviews the AI's self-model and recent thoughts to detect contradictions or identity drift, generates a concise self-reflection, logs and remembers this reflection, detects stagnation to trigger value evolution if needed, and creates new, non-duplicate growth goals based on the current self-understanding and recent introspection."
-  },
-  {
-    "name": "reflect_on_self_beliefs",
-    "summary": "The `reflect_on_self_beliefs` function reviews the AI's self-model and recent thoughts to detect contradictions or identity drift, generates a concise self-reflection, logs and remembers this reflection, detects stagnation to trigger value evolution if needed, and creates new, non-duplicate growth goals based on the current self-understanding and recent introspection."
+    "summary": "The `reflect_on_self_beliefs()` function prompts an AI to review its current self-model and recent thoughts for contradictions or tensions, generates a concise self-reflection, logs and remembers the reflection, detects stagnation to trigger value evolution if needed, creates or updates goals to resolve identity conflicts and foster growth, and maintains its self-model and goals accordingly.",
+    "is_action": false
   },
   {
     "name": "reflect_on_think",
-    "summary": "The `reflect_on_think()` function reads the current `think()` function\u2019s source code, introspectively evaluates how well it aligns with Orrin\u2019s values, goals, and emotional needs, and then records a reflective response to promote self-improvement and adaptive intelligence."
-  },
-  {
-    "name": "reflect_on_think",
-    "summary": "The `reflect_on_think()` function reads the current `think()` function\u2019s source code, introspectively evaluates how well it aligns with Orrin\u2019s values, goals, and emotional needs, and then records a reflective response to promote self-improvement and adaptive intelligence."
+    "summary": "The `reflect_on_think` function reads the code of the AI's own `think()` function, evaluates it introspectively against its goals and values using a context-aware response generator, and logs the resulting self-reflection for ongoing self-improvement.",
+    "is_action": false
   },
   {
     "name": "release_reward_signal",
-    "summary": "This function simulates biologically inspired reward signals (like dopamine, novelty, serotonin, and connection) by calculating a reward prediction error, scaling its impact by effort and mode, updating emotional states (motivation, confidence, curiosity, stability, connection) accordingly, logging each event, and maintaining a history trace in the provided context."
-  },
-  {
-    "name": "release_reward_signal",
-    "summary": "This function simulates biologically inspired reward signals (like dopamine, novelty, serotonin, and connection) by calculating a reward prediction error, scaling its impact by effort and mode, updating emotional states (motivation, confidence, curiosity, stability, connection) accordingly, logging each event, and maintaining a history trace in the provided context."
-  },
-  {
-    "name": "release_reward_signal",
-    "summary": "This function simulates biologically inspired reward signals (like dopamine, novelty, serotonin, and connection) by calculating a reward prediction error, scaling its impact by effort and mode, updating emotional states (motivation, confidence, curiosity, stability, connection) accordingly, logging each event, and maintaining a history trace in the provided context."
-  },
-  {
-    "name": "reload_generated_module",
-    "summary": "This function attempts to reload (or import) a specific Python module from disk if its file exists, handling errors by logging and returning None if anything goes wrong."
+    "summary": "This function simulates biologically inspired neuromodulatory reward signals by computing a reward prediction error and updating emotional states like motivation, confidence, curiosity, and stability, while logging bursts of novelty or impulse when surprises are large and saving all updates to persistent storage.",
+    "is_action": false
   },
   {
     "name": "repair_contradictions",
-    "summary": "The function `repair_contradictions` analyzes a given text for self-contradictions using an AI model, explains any found contradictions, attempts to resolve them, and returns the results in a structured JSON format."
+    "summary": "This function analyzes a given text for contradictions using an AI model, explains any found, and attempts to resolve them, returning the results in a structured JSON format.",
+    "is_action": false
   },
   {
     "name": "resolve_conflicts",
-    "summary": "This function retrieves the AI's current internal conflicts from its self-model, generates a reflective prompt for self-examination or resolution, logs the resulting reflection, and (implicitly) expects conflicts to be resolved or documented through this process."
-  },
-  {
-    "name": "revise_think",
-    "summary": "**Summary:**  \nThe `revise_think()` function enables Orrin, an AI, to reflectively update and safely rewrite its own core `think()` function by analyzing recent thoughts, internal state, and past outcomes, proposing a code revision via an LLM, validating and sandbox-testing the result, then saving the new version if it passes all checks."
-  },
-  {
-    "name": "run_python",
-    "summary": "This function attempts to evaluate a string of Python code and return its result as a string, or returns an error message if evaluation fails."
+    "summary": "This function retrieves a list of the AI's current internal conflicts, prompts itself to reflect on and attempt to resolve them (or narrate the struggle), and then logs the resulting reflection.",
+    "is_action": false
   },
   {
     "name": "run_sandbox_experiments",
-    "summary": "**Summary:**  \nThe `run_sandbox_experiments` function makes Orrin randomly choose and perform one or more creative or odd experiments in a sandbox context, logs each experiment\u2019s actions and results, prompts for a self-evaluation of their novelty or weirdness, and records a summary of the session."
-  },
-  {
-    "name": "run_search",
-    "summary": "The `run_search` function takes a query, prompts an AI to suggest a relevant web page URL, verifies the URL, scrapes its content, and returns both the URL and the scraped text."
-  },
-  {
-    "name": "run_tool",
-    "summary": "This function selects and executes a specific tool function\u2014either run_python or run_search\u2014based on the provided tool name, returning an error message if the tool is unrecognized."
+    "summary": "The function\u00a0run_sandbox_experiments(context)\u00a0randomly selects and runs one or more experimental functions within a sandbox context, logs their actions and results, prompts for a self-evaluation of novelty or chaos, and then records a summary of the entire process.",
+    "is_action": false
   },
   {
     "name": "save_goals",
-    "summary": "This function saves a list of goal dictionaries to a file in JSON format with readable indentation."
+    "summary": "This function saves a list of goal dictionaries to a file in JSON format with indentation for readability.",
+    "is_action": false
   },
   {
     "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
-  },
-  {
-    "name": "save_json",
-    "summary": "This function attempts to save the given data as a formatted JSON file at the specified filepath, creating parent directories if needed, and applies file locking on non-Windows systems to avoid concurrent write issues, logging any errors encountered."
+    "summary": "This function safely saves data as formatted JSON to a specified file path, creating parent directories if needed, and uses file locking on non-Windows systems to prevent concurrent write issues, logging any errors encountered.",
+    "is_action": false
   },
   {
     "name": "save_neutral_count",
-    "summary": "This function saves the given count to a file specified by NEUTRAL_REFLECT_FILE in JSON format using the save_json function."
+    "summary": "This function saves the given count data to a file specified by NEUTRAL_REFLECT_FILE using the save_json function.",
+    "is_action": false
   },
   {
     "name": "save_self_model",
-    "summary": "This function saves a given dictionary as a JSON file named self_model.json, raising an error if the input is not a dictionary."
-  },
-  {
-    "name": "save_self_model",
-    "summary": "This function saves a given dictionary as a JSON file named self_model.json, raising an error if the input is not a dictionary."
-  },
-  {
-    "name": "save_self_model",
-    "summary": "This function saves a given dictionary as a JSON file named self_model.json, raising an error if the input is not a dictionary."
-  },
-  {
-    "name": "save_self_model",
-    "summary": "This function saves a given dictionary as a JSON file named self_model.json, raising an error if the input is not a dictionary."
-  },
-  {
-    "name": "save_self_model",
-    "summary": "This function saves a given dictionary as a JSON file named self_model.json, raising an error if the input is not a dictionary."
-  },
-  {
-    "name": "save_self_model",
-    "summary": "This function saves a given dictionary as a JSON file named self_model.json, raising an error if the input is not a dictionary."
-  },
-  {
-    "name": "save_self_model",
-    "summary": "This function saves a given dictionary as a JSON file named self_model.json, raising an error if the input is not a dictionary."
-  },
-  {
-    "name": "save_self_model",
-    "summary": "This function saves a given dictionary as a JSON file named self_model.json, raising an error if the input is not a dictionary."
-  },
-  {
-    "name": "save_self_model",
-    "summary": "This function saves a given dictionary as a JSON file named self_model.json, raising an error if the input is not a dictionary."
-  },
-  {
-    "name": "scrape_text",
-    "summary": "This function attempts to fetch and return the first 2000 characters of visible text from a given URL\u2014only if scraping is permitted by robots.txt\u2014while handling delays and errors gracefully."
-  },
-  {
-    "name": "scrape_text",
-    "summary": "This function attempts to fetch and return the first 2000 characters of visible text from a given URL\u2014only if scraping is permitted by robots.txt\u2014while handling delays and errors gracefully."
+    "summary": "The function checks that the input is a dictionary and then saves it as JSON to a file named `self_model.json`.",
+    "is_action": false
   },
   {
     "name": "select_focus_goals",
-    "summary": "This function selects the first active short/mid-term and long-term goals from a list, saves them with a timestamp to a file, and returns them in a dictionary."
+    "summary": "This function selects the first active short/mid-term and long-term goals from a list, saves them with a timestamp to a file, and returns them in a dictionary.",
+    "is_action": false
   },
   {
     "name": "self_model_maintenance_cycle",
-    "summary": "This function performs routine self-maintenance by pruning outdated threads and updating influence scores based on feedback."
+    "summary": "The function self_model_maintenance_cycle() performs regular maintenance by removing outdated threads and updating influence scores based on feedback, with a placeholder for additional routines.",
+    "is_action": false
   },
   {
     "name": "self_supervised_repair",
-    "summary": "This function analyzes recent \"thoughts\" from long-term memory to identify and repair contradictions, emotional tensions, or value misalignments in the AI's current self-model by prompting a language model to generate an updated, internally consistent self-model, which is then saved if valid."
+    "summary": "This function reviews an AI's recent thoughts for contradictions or misalignments with its current self-model and, if any are found, prompts itself to update its self-model JSON to resolve internal inconsistencies.",
+    "is_action": false
   },
   {
     "name": "simulate_conflicting_beliefs",
-    "summary": "This function generates a simulated debate between two AGI sub-personalities, each defending either honesty or kindness as an absolute value, and returns the resulting argument."
+    "summary": "The function simulates a debate between two AGI sub-personalities, one prioritizing honesty and the other kindness, and returns the resulting argument.",
+    "is_action": false
   },
   {
     "name": "simulate_event",
-    "summary": "The `simulate_event` function takes a hypothetical event, loads the current world model and core values, generates a prompt to predict the event\u2019s short-term and long-term consequences (including impacts on beliefs or goals) using an AI model, processes the AI\u2019s JSON response, updates memory with the prediction, and returns the results."
+    "summary": "This function simulates the potential outcomes of a given event by generating a prediction\u2014based on the current world model and core values\u2014about its short-term and long-term consequences and its impact on beliefs, returning the result as structured JSON.",
+    "is_action": false
   },
   {
     "name": "simulate_future_selves",
-    "summary": "This function, **simulate_future_selves**, generates three imagined future versions of \"Orrin\" based on current personality traits and recent imaginative ideas, selects the most promising future with a reason, optionally logs the result to a history file, and returns the structured output as JSON."
-  },
-  {
-    "name": "simulate_future_selves",
-    "summary": "This function, **simulate_future_selves**, generates three imagined future versions of \"Orrin\" based on current personality traits and recent imaginative ideas, selects the most promising future with a reason, optionally logs the result to a history file, and returns the structured output as JSON."
+    "summary": "This function, **simulate_future_selves**, analyzes the current traits and recent imaginative ideas of an entity (Orrin) to generate three possible future versions of itself, selects the most promising one with a reason, optionally logs the outcome, and returns the result as structured JSON.",
+    "is_action": false
   },
   {
     "name": "simulate_new_cognitive_abilities",
-    "summary": "**Summary:**  \nThis function guides an evolving AI (Orrin) to imagine and describe a hypothetical new cognitive tool, based on its current self-model, recent reflections, and goals, and then saves the proposed tool for future reference."
+    "summary": "The **simulate_new_cognitive_abilities** function constructs a detailed prompt about Orrin\u2019s current self-model, values, personality, reflections, and goals, and then uses an AI model to generate, save, and log a new hypothetical internal cognitive tool that could help Orrin improve or evolve, handling errors along the way.",
+    "is_action": false
   },
   {
     "name": "simulate_world_state_change",
-    "summary": "This function simulates the impact of a described change on a world model by loading the current state and causal rules, generating a prediction of effects (such as changed entities and new events) using a language model, updating the world model accordingly, logging the results, and returning the predicted impacts in JSON format."
+    "summary": "This function simulates the impact of a described change on a world model by generating predicted effects using known causal rules, updates the internal model with any new events or entity changes, logs the process, and returns the results in JSON format.",
+    "is_action": false
   },
   {
     "name": "summarize_memories",
-    "summary": "This function takes a list of memory objects and produces a summary of the most recent ones, listing each memory\u2019s content along with its associated emotional tone and intensity if available."
+    "summary": "This function takes a list of memory dictionaries and returns a formatted summary of the most recent memories, including their content, associated emotional tone, and intensity if available.",
+    "is_action": false
   },
   {
     "name": "summarize_recent_thoughts",
-    "summary": "This function retrieves the last\u202fn\u202f(reflective) thoughts from long-term memory and returns a bulleted summary of their content."
+    "summary": "This function retrieves the last\u202fn\u202freflections from long-term memory, summarizes their content in a bulleted list, and returns the result as a string.",
+    "is_action": false
   },
   {
-    "name": "summarize_recent_thoughts",
-    "summary": "This function retrieves the last\u202fn\u202f(reflective) thoughts from long-term memory and returns a bulleted summary of their content."
-  },
-  {
-    "name": "summarize_recent_thoughts",
-    "summary": "This function retrieves the last\u202fn\u202f(reflective) thoughts from long-term memory and returns a bulleted summary of their content."
-  },
-  {
-    "name": "summarize_recent_thoughts",
-    "summary": "This function retrieves the last\u202fn\u202f(reflective) thoughts from long-term memory and returns a bulleted summary of their content."
+    "name": "summarize_relationships",
+    "summary": "This function takes a dictionary of relationships and returns a summary dictionary where, for each relationship, it extracts selected fields (impression, influence_score, up to two boundaries, recent_emotional_effect, and last_interaction_time) with default values if missing.",
+    "is_action": false
   },
   {
     "name": "summarize_self_model",
-    "summary": "This function takes a self-model dictionary and returns a condensed summary dictionary containing key aspects like core directive, values, traits, identity, roles, and recent focus, with defaults if fields are missing."
+    "summary": "This function takes a self-model dictionary and returns a condensed summary dictionary containing only key aspects like core directive, values, traits, identity, roles, and recent focus.",
+    "is_action": false
   },
   {
-    "name": "summarize_self_model",
-    "summary": "This function takes a self-model dictionary and returns a condensed summary dictionary containing key aspects like core directive, values, traits, identity, roles, and recent focus, with defaults if fields are missing."
-  },
-  {
-    "name": "summarize_self_model",
-    "summary": "This function takes a self-model dictionary and returns a condensed summary dictionary containing key aspects like core directive, values, traits, identity, roles, and recent focus, with defaults if fields are missing."
-  },
-  {
-    "name": "summarize_self_model",
-    "summary": "This function takes a self-model dictionary and returns a condensed summary dictionary containing key aspects like core directive, values, traits, identity, roles, and recent focus, with defaults if fields are missing."
-  },
-  {
-    "name": "tool_thinking",
-    "summary": "This function, **tool_thinking()**, reviews recent memories, prompts an AI model to suggest which of those thoughts could benefit from using external tools (like web search, Python code, or visualization), extracts and saves the resulting tool-use suggestions in a JSON file, and logs the activity for further action and reflection."
+    "name": "tag_beliefs_from_feedback",
+    "summary": "This function analyzes the most recent feedback entries for failures related to emotions or specific keywords, identifies possible self-model belief biases (such as overreliance on curiosity or reflection), updates the self-model accordingly, and logs any new belief flags found.",
+    "is_action": false
   },
   {
     "name": "update_and_select_focus_goals",
-    "summary": "This function loads a set of goals, ensures a long-term goal exists, prunes the goals, saves the updated list, and returns a selection of focus goals."
+    "summary": "This function loads, validates, prunes, saves, and then selects a subset of focus goals from a stored collection of goals.",
+    "is_action": false
   },
   {
     "name": "update_cognition_schedule",
-    "summary": "This function updates a stored cognition schedule with new values, logs the changes and differences, and records updates to working memory and private thoughts if any meaningful changes occurred."
-  },
-  {
-    "name": "update_cognition_schedule",
-    "summary": "This function updates a stored cognition schedule with new values, logs the changes and differences, and records updates to working memory and private thoughts if any meaningful changes occurred."
+    "summary": "This function updates the cognition schedule by merging in new values, logs the changes and differences, and records updates to working memory and private thought logs if any meaningful changes occurred.",
+    "is_action": false
   },
   {
     "name": "update_emotional_state",
-    "summary": "This function updates an internal emotional state model by decaying emotions toward personality-defined baselines over time, adjusting emotions based on recent events, loneliness, and specific triggers, cross-inhibiting opposing emotions, tracking instability, and saving the updated state for future use."
+    "summary": "The `update_emotional_state` function loads the agent's current emotional state and working memory, applies time-based decay and baseline adjustments to core emotions, updates loneliness based on inactivity, nudges emotions in response to specific triggers and recent memory content (with cross-inhibition of opposite emotions), recalculates overall emotional stability, applies any context-driven rewards or mode changes, and then saves the updated state for future use.",
+    "is_action": false
+  },
+  {
+    "name": "update_influence_scores_from_feedback",
+    "summary": "This function increases the influence scores of internal agents by 0.05 (up to a maximum of 1.0) for each successful feedback entry associated with them and saves the updated model.",
+    "is_action": false
+  },
+  {
+    "name": "update_last_active",
+    "summary": "This function attempts to write the current UTC timestamp to a file as JSON, and logs an error message if the operation fails.",
+    "is_action": false
   },
   {
     "name": "update_motivations",
-    "summary": "The `update_motivations` function reviews recent reflections and core values, prompts an AI to revise motivations accordingly, updates the self model with the new motivations, logs the change, and handles any errors that arise during the process."
+    "summary": "This function reviews recent reflections and core values, uses them to generate a revised list of motivations via an AI prompt, updates the self-model with these motivations, logs the update and its reasoning, and handles any errors that occur during the process.",
+    "is_action": false
   },
   {
-    "name": "update_motivations",
-    "summary": "The `update_motivations` function reviews recent reflections and core values, prompts an AI to revise motivations accordingly, updates the self model with the new motivations, logs the change, and handles any errors that arise during the process."
+    "name": "update_relationship_model",
+    "summary": "The `update_relationship_model` function updates or creates a user's relationship data by recording their latest interaction, detecting the emotion in their input, adjusting influence scores and impressions based on emotions, maintaining interaction history, and saving all updates to persistent storage.",
+    "is_action": false
   },
   {
     "name": "update_self_model",
-    "summary": "This function, `update_self_model`, reviews recent long-term memories to assess and update the agent's self-model (including traits, beliefs, identity, and emerging conflicts) by prompting a language model for reflection, then saves any changes\u2014particularly to core beliefs\u2014while logging significant updates and handling errors."
+    "summary": "This function retrieves the current self-model and recent long-term memories, prompts an LLM to update the self-model (including personality traits, beliefs, and internal conflicts) based on recent thoughts, saves the updated self-model, and logs any changes in core beliefs.",
+    "is_action": false
+  },
+  {
+    "name": "update_values_with_lessons",
+    "summary": "The function `update_values_with_lessons` analyzes long-term memory to identify frequently repeated lessons, adds any new ones as \"core values\" to the self-model if they aren't already present, saves the updated model, and logs these changes.",
+    "is_action": false
   },
   {
     "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "The `update_working_memory` function logs a new event or thought to a prioritized, self-pruning working memory buffer\u2014optionally detecting emotion, managing references, handling pinning and deduplication, updating decay, sorting for importance, and promoting pruned items to long-term memory when the buffer exceeds its maximum size."
+    "summary": "This function logs a new event or thought (with metadata like emotion, agent, and priority) into a working memory buffer, updates existing entries\u2019 decay and reference counts, deduplicates pinned items, sorts and prunes the buffer to maintain size, and promotes overflow entries to long-term memory as needed.",
+    "is_action": false
   },
   {
     "name": "update_world_model",
-    "summary": "The `update_world_model()` function reflectively revises Orrin\u2019s internal world model by summarizing recent thoughts, pruning and archiving old model data, prompting an AI to generate an updated model, validating the result, saving changes, and logging the differences."
-  },
-  {
-    "name": "update_world_model",
-    "summary": "The `update_world_model()` function reflectively revises Orrin\u2019s internal world model by summarizing recent thoughts, pruning and archiving old model data, prompting an AI to generate an updated model, validating the result, saving changes, and logging the differences."
-  },
-  {
-    "name": "validate_think_code",
-    "summary": "This function validates a candidate `think()` function's code by checking for correct Python syntax, required code structures, the presence of the `think()` function, and by performing a dry run to ensure it returns the expected result, while handling errors and cleaning up temporary files."
-  },
-  {
-    "name": "web_search",
-    "summary": "This function performs a web search for the given query using the Serper API and returns the results as a JSON object, or an empty dictionary if an error occurs."
-  },
-  {
-    "name": "wrap_text",
-    "summary": "This function splits a string into lines with a maximum width (default 85 characters) using `textwrap.wrap`, and joins them with newline characters."
+    "summary": "The update_world_model() function reflectively revises Orrin\u2019s internal world model by pruning and archiving outdated knowledge, then generating an updated world model\u2014based on the latest reflections and the current model\u2014using an LLM, and finally saves the new model and archive while logging any changes.",
+    "is_action": false
   }
 ]

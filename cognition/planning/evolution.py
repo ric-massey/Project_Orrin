@@ -3,9 +3,9 @@ from datetime import datetime, timezone
 from utils.json_utils import load_json, save_json, extract_json
 from utils.generate_response import generate_response, get_thinking_model
 from utils.log import log_model_issue, log_error
-from utils.self_model import get_self_model, save_self_model
+from utils.self_model import get_self_model
 from paths import (
-    PRIVATE_THOUGHTS_FILE, EVOLUTION_FUTURES, GOALS_FILE, DREAMSCAPE
+    PRIVATE_THOUGHTS_FILE, EVOLUTION_FUTURES, GOALS_FILE, DREAMSCAPE, EVOLUTION_ROADMAPS
 )
 from utils.summarizers import summarize_recent_thoughts, summarize_self_model
 from memory.working_memory import update_working_memory
@@ -72,7 +72,7 @@ def plan_self_evolution():
             "preferred_future_self": preferred_self,
             "future_reason": future_reason
         })
-        save_json("evolution_roadmaps.json", evolution_history)
+        save_json(EVOLUTION_ROADMAPS, evolution_history)
 
         # === Register short-term steps as new pending goals ===
         current_goals = load_json(GOALS_FILE, default_type=list)

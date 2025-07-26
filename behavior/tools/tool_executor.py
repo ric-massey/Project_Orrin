@@ -9,7 +9,7 @@ from utils.json_utils import (
 from paths import (
     TOOL_REQUESTS_FILE, LONG_MEMORY_FILE,
 )
-from cognition.tools.toolkit import scrape_text
+from behavior.tools.toolkit import scrape_text
 from utils.generate_response import generate_response
 from memory.working_memory import update_working_memory
 from utils.emotion_utils import detect_emotion

@@ -10,6 +10,7 @@ def update_relationship_model(context):
     """
     Update or create relationship data based on latest interaction.
     Handles multiple users, tracks impressions, emotions, and history.
+    Optionally logs important events to working memory.
     """
     try:
         relationships = load_json(RELATIONSHIPS_FILE, default_type=dict)
@@ -17,7 +18,8 @@ def update_relationship_model(context):
         user_id = context.get("user_id", "user")
         user_input = context.get("latest_user_input", "")
         orrin_reply = context.get("latest_response", "")
-        emotion = detect_emotion(user_input).lower()
+        emotion_result = detect_emotion(user_input)
+        emotion = emotion_result["emotion"] if isinstance(emotion_result, dict) else str(emotion_result).lower()
         emotional_state = context.get("emotional_state", {})
 
         if user_id not in relationships:
@@ -41,6 +43,10 @@ def update_relationship_model(context):
         })
         r["interaction_history"] = r["interaction_history"][-MAX_HISTORY:]  # Trim history
 
+        # Track old values for logging
+        old_impression = r.get("impression", "")
+        old_influence = r.get("influence_score", 0.5)
+
         # Emotion-driven influence adjustment
         if emotion in ["gratitude", "joy", "affection", "trust"]:
             r["influence_score"] = min(r["influence_score"] + 0.05, 1.0)
@@ -62,9 +68,21 @@ def update_relationship_model(context):
 
         save_json(RELATIONSHIPS_FILE, relationships)
 
+        # --- NEW: Log to working memory if relationship changed notably ---
+        from memory.working_memory import update_working_memory
+        notable_change = (
+            r["impression"] != old_impression or
+            abs(r["influence_score"] - old_influence) > 0.15
+        )
+        if notable_change:
+            update_working_memory(
+                f"🔗 Relationship with {user_id} changed: "
+                f"impression='{r['impression']}', influence={r['influence_score']:.2f}, "
+                f"emotion='{r['recent_emotional_effect']}'"
+            )
+
     except Exception as e:
         log_error(f"❌ Failed to update relationship model: {e}")
-
 
 def summarize_relationships(relationships):
     if not isinstance(relationships, dict):

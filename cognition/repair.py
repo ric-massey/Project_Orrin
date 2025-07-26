@@ -56,6 +56,21 @@ def reflect_on_cognition_rhythm():
         response = generate_response_from_context(context)
         changes = extract_json(response)
         
+        # --- Always log reflection to working memory with proper content/tags
+        from memory.working_memory import update_working_memory
+        from memory.long_memory import remember
+        from datetime import datetime, timezone
+        timestamp = datetime.now(timezone.utc).isoformat()
+
+        # Save a summary reflection, even if no changes
+        reflection_entry = {
+            "type": "reflect_on_cognition_rhythm",
+            "content": f"Reflected on cognition rhythm. Changes: {changes if changes else 'No change.'}",
+            "timestamp": timestamp,
+            "tags": ["cognition_rhythm", "reflection", "schedule"]
+        }
+        update_working_memory(reflection_entry)
+        remember(reflection_entry)
 
         if isinstance(changes, dict) and changes:
             update_cognition_schedule(changes)
@@ -68,12 +83,22 @@ def reflect_on_cognition_rhythm():
                 "emotion": "organized"
             })
 
-            release_reward_signal(context, signal_type="dopamine", actual_reward=1.0, expected_reward=0.6)
+            release_reward_signal(data.get("emotional_state", {}),  # Be explicit here
+                signal_type="dopamine",
+                actual_reward=1.0,
+                expected_reward=0.6,
+                mode="tonic",
+                source="cognitive rhythm"
+            )
 
     except Exception as e:
         log_error(f"reflect_on_cognition_rhythm ERROR: {e}")
-        update_working_memory("⚠️ Cognition rhythm reflection failed.")
-
+        update_working_memory({
+            "type": "reflect_on_cognition_rhythm",
+            "content": "⚠️ Cognition rhythm reflection failed.",
+            "tags": ["cognition_rhythm", "reflection", "error"],
+            "timestamp": datetime.now(timezone.utc).isoformat()
+        })
 
 def detect_contradiction(thoughts):
     prompt = (
@@ -93,13 +118,31 @@ def detect_contradiction(thoughts):
         save_json(CONTRADICTIONS_FILE, existing_log)
 
         log_activity("🧠 Contradiction detected and logged.")
-        update_working_memory("⚠️ Contradiction flagged for future self-repair.")
+
+        # --- Update working/long memory with structured reflection ---
+        from memory.working_memory import update_working_memory
+        from memory.long_memory import remember
+        from datetime import datetime, timezone
+
+        contradiction_content = "\n".join(
+            f"- {c.get('summary', '')} (Source: {c.get('source', '')}, Fix: {c.get('suggested_fix', '')})"
+            for c in contradictions.get("contradictions", [])
+        )
+        timestamp = datetime.now(timezone.utc).isoformat()
+        reflection = {
+            "type": "contradiction_detection",
+            "content": f"Detected contradiction(s):\n{contradiction_content}",
+            "tags": ["contradiction", "self-repair", "reflection"],
+            "timestamp": timestamp
+        }
+        update_working_memory(reflection)
+        remember(reflection)
 
         log_feedback({
             "goal": "Repair contradiction in recent thoughts",
-            "result": "Failure",
+            "result": "Failure" if contradictions["contradictions"] else "No contradiction",
             "agent": "The Dreamer",
-            "emotion": "confused"
+            "emotion": "confused" if contradictions["contradictions"] else "neutral"
         })
 
     return contradictions
@@ -114,7 +157,31 @@ def repair_contradictions(text):
     try:
         response = generate_response(prompt, config={"model": get_thinking_model()})
         result = extract_json(response)
-        return result if isinstance(result, dict) else {"contradictions": [], "repair_attempt": ""}
+        if not isinstance(result, dict):
+            result = {"contradictions": [], "repair_attempt": ""}
+
+        # --- Optionally: Log result as a memory entry for traceability ---
+        if result.get("contradictions") or result.get("repair_attempt"):
+            from memory.working_memory import update_working_memory
+            from memory.long_memory import remember
+            from datetime import datetime, timezone
+
+            contradiction_content = "\n".join(
+                f"- {c}" for c in result.get("contradictions", [])
+            )
+            entry = {
+                "type": "contradiction_repair",
+                "content": (
+                    f"Contradiction(s) detected:\n{contradiction_content}\n\n"
+                    f"Repair attempt: {result.get('repair_attempt', '')}"
+                ),
+                "tags": ["contradiction", "repair", "reflection"],
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            }
+            update_working_memory(entry)
+            remember(entry)
+        return result
+
     except Exception as e:
         log_model_issue(f"[repair_contradictions] Failed to parse contradiction repair: {e}\nRaw: {response if 'response' in locals() else 'No response'}")
         return {"contradictions": [], "repair_attempt": ""}

@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 import json
 from utils.log import log_error
-from paths import LAST_ACTIVE_FILE  # ← already a Path object from paths.py
+from paths import LAST_ACTIVE_FILE  
 
 # === Update Last Active ===
 def update_last_active():

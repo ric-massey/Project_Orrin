@@ -218,6 +218,22 @@ def simulate_event(event):
     try:
         prediction = extract_json(response)
         update_working_memory(f"Simulated event: {event} → {prediction}")
+
+        # Release dopamine reward if prediction looks valid (has expected keys)
+        if (
+            isinstance(prediction, dict)
+            and all(key in prediction for key in ("short_term", "long_term", "belief_change"))
+        ):
+            from emotion.reward_signals.reward_signals import release_reward_signal
+            release_reward_signal(
+                context={},  # pass relevant context if available here
+                signal_type="dopamine",
+                actual_reward=0.7,
+                expected_reward=0.5,
+                effort=0.5,
+                mode="phasic"
+            )
+
         return prediction
     except Exception as e:
         log_error(f"Failed to simulate event '{event}': {e}\nRaw: {response}")

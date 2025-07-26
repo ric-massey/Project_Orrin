@@ -6,7 +6,7 @@ from utils.generate_response import generate_response, get_thinking_model
 from utils.json_utils import extract_json, load_json, save_json
 from utils.log import log_error
 from memory.working_memory import update_working_memory
-from utils.self_model import get_self_model, save_self_model  # <- Use only helpers!
+from utils.self_model import get_self_model
 from paths import (
     LONG_MEMORY_FILE,
 )

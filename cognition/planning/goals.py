@@ -9,6 +9,9 @@ from utils.generate_response import generate_response
 from utils.self_model import get_self_model
 from memory.working_memory import update_working_memory
 from utils.json_utils import extract_json 
+from utils.log import log_activity
+from datetime import datetime, timezone
+from emotion.reward_signals.reward_signals import release_reward_signal
 
 from paths import GOALS_FILE, COMPLETED_GOALS_FILE, FOCUS_GOAL, LONG_MEMORY_FILE
 
@@ -18,8 +21,17 @@ MAX_GOALS = 15
 def load_goals() -> List[Dict]:
     try:
         with open(GOALS_FILE, "r") as f:
-            return json.load(f)
-    except:
+            goals = json.load(f)
+            # --- Defensive: ensure list of dicts, wrap strings as {"description": ...}
+            clean_goals = []
+            for g in goals:
+                if isinstance(g, dict):
+                    clean_goals.append(g)
+                elif isinstance(g, str):
+                    clean_goals.append({"description": g})
+                # else: ignore weird types
+            return clean_goals
+    except Exception:
         return []
 
 def save_goals(goals: List[Dict]):
@@ -154,8 +166,20 @@ def mark_goal_completed(goal_name):
             updated = True
     if updated:
         save_goals(goals)
-        update_and_select_focus_goals() 
-        print(f"✅ Marked goal '{goal_name}' as completed.")
+        update_and_select_focus_goals()
+        update_working_memory(f"🎉 Completed goal: {goal_name}")
+        
+        # Reward on goal completion
+        release_reward_signal(
+            context=None,  # No specific context available here; adjust if you have one
+            signal_type="dopamine",
+            actual_reward=1.0,
+            expected_reward=0.7,
+            effort=0.4,
+            mode="phasic"
+        )
+        
+        log_activity(f"✅ Marked goal '{goal_name}' as completed.")
     return updated
 
 def maybe_complete_goals():
@@ -177,3 +201,21 @@ def maybe_complete_goals():
                 update_working_memory(f"🎉 Completed goal: {goal.get('name')} ({check.get('why', '')})")
             else:
                 update_working_memory(f"⚠️ Could not parse or goal not complete for '{goal.get('name')}': {result}")
+
+def goal_function_already_exists(file_path, function_name, window=30):
+    """
+    Checks if any recent goal already uses this function name.
+    """
+    try:
+        if not os.path.exists(file_path):
+            return False
+        with open(file_path, "r", encoding="utf-8") as f:
+            items = json.load(f)
+            for entry in items[-window:]:
+                goal_text = entry.get("goal", "")
+                # Parse function name out of goal text, e.g., "Run and build upon explore_xxx()"
+                if function_name in goal_text:
+                    return True
+    except Exception:
+        pass
+    return False

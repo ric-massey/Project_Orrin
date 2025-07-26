@@ -53,28 +53,23 @@ def dream():
     thinking_config["model"] = get_thinking_model()
 
     dream_text = generate_response(coerce_to_string(prompt), config=thinking_config)
-
     if not dream_text:
         log_model_issue("[dream] No response from model.")
         return
 
-    dream_entry = {
-        "dream": dream_text.strip(),
-        "timestamp": datetime.now(timezone.utc).isoformat()
-    }
-    dreamscape.append(dream_entry)
+    # === Add dream to working memory and private thoughts ===
+    from memory.working_memory import update_working_memory
+    now = datetime.now(timezone.utc).isoformat()
+    update_working_memory({
+        "type": "dream",
+        "content": dream_text.strip(),
+        "tags": ["dream", "imagination"],
+        "timestamp": now
+    })
 
-    # === Prune old dreams ===
-    max_days = self_model.get("config", {}).get("max_thread_age_days", 14)
-    max_count = self_model.get("config", {}).get("max_imaginative_threads", 10)
-    cutoff = datetime.now(timezone.utc) - timedelta(days=max_days)
-    dreamscape = [
-        d for d in dreamscape
-        if datetime.fromisoformat(d.get("timestamp", "1900-01-01")) >= cutoff
-    ]
-    if len(dreamscape) > max_count:
-        dreamscape = dreamscape[-max_count:]
-    save_json(DREAMSCAPE, dreamscape)
+    # === Write to private thoughts file ===
+    with open(PRIVATE_THOUGHTS_FILE, "a") as f:
+        f.write(f"\n[{now}] I dreamed:\n{dream_text.strip()}\n")
 
     # === Generate reflection on dream ===
     reflection_prompt = (
@@ -84,20 +79,15 @@ def dream():
     )
     reflection_text = generate_response(coerce_to_string(reflection_prompt), config=thinking_config)
 
-    # --- NEW: Log dream and reflection to long-term memory ---
-    from memory.long_memory import remember
-    remember({
-        "type": "dream",
-        "dream": dream_text.strip(),
-        "reflection": reflection_text.strip() if reflection_text else "",
-        "timestamp": datetime.now(timezone.utc).isoformat()
-    })
-
-    # Keep private log too, if desired
+    # === Add reflection to working memory and private thoughts ===
     if reflection_text:
+        update_working_memory({
+            "type": "dream_reflection",
+            "content": reflection_text.strip(),
+            "tags": ["reflection", "dream"],
+            "timestamp": now
+        })
         with open(PRIVATE_THOUGHTS_FILE, "a") as f:
-            f.write(f"\n[{datetime.now(timezone.utc)}] Dream reflection:\n{reflection_text.strip()}\n")
-    with open(PRIVATE_THOUGHTS_FILE, "a") as f:
-        f.write(f"\n[{datetime.now(timezone.utc)}] I dreamed:\n{dream_text.strip()}\n")
+            f.write(f"\n[{now}] Dream reflection:\n{reflection_text.strip()}\n")
 
     return dream_text.strip()

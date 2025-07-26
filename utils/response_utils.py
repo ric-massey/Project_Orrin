@@ -2,7 +2,7 @@ def generate_response_from_context(context: dict) -> str:
     try:
         from utils.core_utils import generate_response
         from utils.coerce_to_string import coerce_to_string
-        from selfhood.identity import build_system_prompt
+        from cognition.selfhood.identity import build_system_prompt
         from utils.json_utils import load_json
         from utils.log import log_model_issue
         from paths import MODEL_CONFIG_FILE

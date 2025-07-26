@@ -3,11 +3,15 @@ from think.think_utils.dreams_emotional_logic import dreams_and_emotional_logic
 from think.think_utils.reflect_on_directive import reflect_on_directive
 from think.think_utils.select_function import select_function
 from think.think_utils.finalize import finalize_cycle
-
+from cognition.selfhood.self_model_conflicts import update_self_model
 from utils.json_utils import load_json
-from cognition.speak import OrrinSpeaker
-from selfhood.relationships import update_relationship_model
+from utils.emotion_utils import dominant_emotion
+from emotion.emotion_learning import update_emotion_function_map
+from behavior.speak import OrrinSpeaker
+from cognition.selfhood.relationships import update_relationship_model
 from registry.cognition_registry import COGNITIVE_FUNCTIONS
+from think.think_utils.execute_cogntive_actions import execute_cognitive_action 
+
 from paths import (
     SELF_MODEL_FILE,
     LONG_MEMORY_FILE,
@@ -18,7 +22,10 @@ from paths import (
 )
 
 def think(context):
-    # === 0. LOAD CRITICAL STATE ===
+    # === 0. MANAGE CYCLE COUNT (always first, never skipped) ===
+    context, cycle_count = manage_cycle_count(context)
+    
+    # === 1. LOAD CRITICAL STATE ===
     self_model = load_json(SELF_MODEL_FILE, default_type=dict)
     long_memory = load_json(LONG_MEMORY_FILE, default_type=list)
     tool_requests = load_json(TOOL_REQUESTS_FILE, default_type=list)
@@ -37,10 +44,7 @@ def think(context):
     summarize_relationships = context.get("summarize_relationships")
     speaker = context.get("speaker", OrrinSpeaker(self_model, long_memory))
 
-    # === 1. MANAGE CYCLE COUNT ===
-    context, cycle_count = manage_cycle_count(context)
-
-    # === 2. DREAMS & EMOTIONAL LOGIC ===
+    # === 2. DREAMS & EMOTIONAL LOGIC (never skipped) ===
     context, emotional_state, amygdala_response = dreams_and_emotional_logic(context)
 
     # === 3. Handle prioritized signals (already processed by thalamus) ===
@@ -52,26 +56,13 @@ def think(context):
     update_relationship_model(context)
 
     # === 4. REFLECT ON DIRECTIVE ===
-    reflect_on_directive(self_model)
+    directive_result = reflect_on_directive(self_model, context)
 
-    # === 4.5 BASAL GANGLIA: ACTION SELECTION ===
-    from think.think_utils.action_gate import evaluate_and_act_if_needed
-
-    action_result = evaluate_and_act_if_needed(
-        context,
-        emotional_state=emotional_state,
-        long_memory=long_memory,
-        speaker=speaker
-    )
-
-    if isinstance(action_result, dict) and "action" in action_result:
-        return action_result  # Let main loop handle it
-
-    # === 5. SELECT FUNCTION ===
+    # === 5. SELECT COGNITIVE FUNCTION ===
     available_functions = context.get("available_functions") or COGNITIVE_FUNCTIONS
     context["available_functions"] = available_functions
 
-    next_function, reason = select_function(
+    next_function, reason, is_action = select_function(
         context,
         self_model,
         emotional_state,
@@ -86,7 +77,34 @@ def think(context):
         speaker=speaker
     )
 
-    # === 6. FINALIZE CYCLE ===
+    # Get the current dominant emotion (from the up-to-date emotional_state)
+    dom_emotion = dominant_emotion(emotional_state)
+    fn_name = (
+        next_function.get("name")
+        if isinstance(next_function, dict) and "name" in next_function
+        else str(next_function)
+    )
+    if dom_emotion and fn_name:
+        update_emotion_function_map(dom_emotion, fn_name)
+
+    # === 6. EXECUTE COGNITIVE ACTION (always, internal) ===
+    if is_action and isinstance(next_function, dict):
+        execute_cognitive_action(next_function, context)
+
+    # === 7. BASAL GANGLIA: ACTION SELECTION ===
+    from think.think_utils.action_gate import evaluate_and_act_if_needed
+
+    action_result = evaluate_and_act_if_needed(
+        context,
+        emotional_state=emotional_state,
+        long_memory=long_memory,
+        speaker=speaker
+    )
+
+    if isinstance(action_result, dict) and "action" in action_result:
+        return action_result  # Let main loop handle behavioral action
+
+    # === 8. FINALIZE CYCLE ===
     user_input = context.get("latest_user_input")
     context_hash = hash(str(self_model) + str(emotional_state) + str(long_memory[-5:]))
     action = finalize_cycle(
@@ -97,5 +115,8 @@ def think(context):
         context_hash,
         speaker
     )
+
+    # === 9. UPDATE SELF MODEL (must happen here or after reflection/goal update) ===
+    update_self_model()
 
     return action

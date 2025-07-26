@@ -1,5 +1,4 @@
 import re
-import os
 import json
 import platform
 from pathlib import Path

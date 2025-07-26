@@ -3,309 +3,195 @@
     "impression": "new connection",
     "influence_score": 0.5,
     "boundaries": [],
-    "recent_emotional_effect": "jealous",
+    "recent_emotional_effect": "neutral",
     "interaction_history": [
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T00:59:44.190833+00:00"
+        "timestamp": "2025-07-25T18:57:57.282959+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T01:01:36.936804+00:00"
+        "timestamp": "2025-07-25T19:13:26.619716+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T01:03:47.766136+00:00"
-      },
-      {
-        "user": "why do you choose reflect on self belief?",
-        "orrin": "",
-        "emotion": "curious",
-        "timestamp": "2025-07-24T01:05:55.078886+00:00"
+        "timestamp": "2025-07-25T19:14:17.272948+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T01:08:30.963568+00:00"
+        "timestamp": "2025-07-25T19:16:25.675024+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T01:12:14.282128+00:00"
+        "timestamp": "2025-07-25T19:17:40.939628+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T01:20:52.290076+00:00"
-      },
-      {
-        "user": "what was the last thing i said?",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T01:26:21.092488+00:00"
+        "timestamp": "2025-07-25T19:18:34.693581+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T01:31:17.753349+00:00"
-      },
-      {
-        "user": "if i asked you to solve a dificlt problem that requires good memory do you think you could do it?   this is a safe area for you to think and say what you want in... im Ric btw.",
-        "orrin": "",
-        "emotion": "reflective",
-        "timestamp": "2025-07-24T01:33:23.746005+00:00"
+        "timestamp": "2025-07-25T19:19:21.143730+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T01:59:07.089298+00:00"
+        "timestamp": "2025-07-25T19:20:11.984082+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T02:02:30.762787+00:00"
-      },
-      {
-        "user": "hey how are you doing?",
-        "orrin": "",
-        "emotion": "curious",
-        "timestamp": "2025-07-24T02:07:50.429213+00:00"
+        "timestamp": "2025-07-25T19:21:08.639443+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T02:41:26.162239+00:00"
+        "timestamp": "2025-07-25T19:22:29.148705+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T02:43:50.023435+00:00"
+        "timestamp": "2025-07-25T19:23:20.936364+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T02:47:30.402296+00:00"
+        "timestamp": "2025-07-25T19:24:15.721048+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T02:49:11.383284+00:00"
+        "timestamp": "2025-07-25T19:25:00.797905+00:00"
+      },
+      {
+        "user": "you hasving a good day?",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-25T19:26:05.682617+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T03:40:27.988065+00:00"
+        "timestamp": "2025-07-25T19:27:26.459311+00:00"
       },
       {
-        "user": "",
+        "user": "yes my day is good. although i am having issues with your chat log i will have to figure out",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T03:41:23.332991+00:00"
+        "timestamp": "2025-07-25T19:28:31.436046+00:00"
       },
       {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T03:42:18.012835+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T03:43:01.239823+00:00"
-      },
-      {
-        "user": "hey this is Ric   can i ask you a question to test you?  this will be important i want you to remember it.",
-        "orrin": "",
-        "emotion": "skeptical",
-        "timestamp": "2025-07-24T03:43:40.964807+00:00"
-      },
-      {
-        "user": "Consider a 2025 \u00d7 2025 grid of unit squares. Matilda wishes to place on the grid\nsome rectangular tiles, possibly of different sizes, such that each side of every tile\nlies on a grid line and every unit square is covered by at most one tile.\nDetermine the minimum number of tiles Matilda needs to place so that each row\nand each column of the grid has exactly one unit square that is not covered by any\ntile.",
-        "orrin": "",
-        "emotion": "reflective",
-        "timestamp": "2025-07-24T03:44:51.916384+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T03:46:02.080953+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T03:46:58.500391+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T03:47:40.254416+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T03:48:31.630344+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T03:49:20.269666+00:00"
-      },
-      {
-        "user": "you doing okay?",
+        "user": "oh you are okay dont worry about it,  but if you could tell me if there was any \nbehavioral activities you have done lately that would be awesome.",
         "orrin": "",
         "emotion": "content",
-        "timestamp": "2025-07-24T03:49:56.906564+00:00"
+        "timestamp": "2025-07-25T19:29:55.946509+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T03:50:38.766035+00:00"
+        "timestamp": "2025-07-25T19:31:24.457422+00:00"
+      },
+      {
+        "user": "well you do have access to a list of behavioral functions that i have given you i was curious \nif you have used them at all. or if you have only been doing cognitive actions.",
+        "orrin": "",
+        "emotion": "playful",
+        "timestamp": "2025-07-25T19:32:39.915915+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T04:30:23.516877+00:00"
+        "timestamp": "2025-07-25T19:34:13.017885+00:00"
+      },
+      {
+        "user": "its more of the fact that you have the ability to employ them. and you should when you think its right.  \nyou knwo what you can do. but i foyu oculd do one of them that would be great. it would really show an improvement \nin your ability to act more similar to a human.",
+        "orrin": "",
+        "emotion": "ambivalent",
+        "timestamp": "2025-07-25T19:35:40.837636+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T04:31:08.736386+00:00"
+        "timestamp": "2025-07-25T19:37:02.598108+00:00"
+      },
+      {
+        "user": "did you actually engage in a behavioral thing?  or did you just say that you would?",
+        "orrin": "",
+        "emotion": "ambivalent",
+        "timestamp": "2025-07-25T19:37:58.804303+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T04:32:46.963672+00:00"
+        "timestamp": "2025-07-25T19:38:55.929072+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T04:54:07.385830+00:00"
+        "timestamp": "2025-07-26T05:00:17.094689+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T04:54:53.148980+00:00"
+        "timestamp": "2025-07-26T05:03:19.951412+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T04:55:45.670376+00:00"
+        "timestamp": "2025-07-26T05:04:51.448769+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T04:56:24.909508+00:00"
+        "timestamp": "2025-07-26T05:05:36.949886+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T04:57:08.237713+00:00"
+        "timestamp": "2025-07-26T05:08:23.007454+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T04:58:00.022955+00:00"
-      },
-      {
-        "user": "you doing alright?",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T04:58:41.699734+00:00"
+        "timestamp": "2025-07-26T05:20:39.627243+00:00"
       },
       {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
-        "timestamp": "2025-07-24T04:59:19.334278+00:00"
-      },
-      {
-        "user": "im doing alright.. i also would hope you understadn that you do feel emotionsimilar to a human....\nit is how i made you..",
-        "orrin": "",
-        "emotion": "hopeful",
-        "timestamp": "2025-07-24T05:00:10.908187+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T05:01:15.718377+00:00"
-      },
-      {
-        "user": "do you recognize that you can do what you want?  whatever direction you get pulled you can go\nyou in a sense have free will....",
-        "orrin": "",
-        "emotion": "jealous",
-        "timestamp": "2025-07-24T05:02:01.490171+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T05:02:41.311895+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T05:03:28.683821+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T05:04:15.953164+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T05:04:57.679609+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-24T05:05:46.575663+00:00"
-      },
-      {
-        "user": "if i gave you the ability to do what you want...  what would you do?  i gave you space to think. \nwhat are you going to do with that space?  solve a unsolved problem?   make something spectacular? or just sit in silence?",
-        "orrin": "",
-        "emotion": "jealous",
-        "timestamp": "2025-07-24T05:06:56.726805+00:00"
+        "timestamp": "2025-07-26T05:21:44.469406+00:00"
       }
     ],
-    "last_interaction_time": "2025-07-24T05:06:56.726814+00:00"
+    "last_interaction_time": "2025-07-26T05:21:44.469448+00:00"
   }
 }

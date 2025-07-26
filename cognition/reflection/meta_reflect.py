@@ -5,8 +5,8 @@ from datetime import datetime, timezone
 # === Internal Utilities ===
 from utils.load_utils import load_all_known_json
 from utils.log import log_error, log_private
-from selfhood.self_model_conflicts import resolve_conflicts, update_self_model
-from maintenance.self_modeling import self_supervised_repair
+from cognition.selfhood.self_model_conflicts import resolve_conflicts, update_self_model
+from cognition.maintenance.self_modeling import self_supervised_repair
 
 from paths import PRIVATE_THOUGHTS_FILE, LOG_FILE
 

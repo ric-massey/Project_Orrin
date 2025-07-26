@@ -33,7 +33,7 @@ def decay_emotional_state():
     log_private("Emotional state decayed.")
 
 
-def adjust_emotional_state(emotion, amount, reason=""):
+def adjust_emotional_state(emotion, amount, reason="", context=None):
     EMOTIONAL_STATE_FILE = "Emotional_state.json"
     SENSITIVITY_FILE = "emotion_sensitivity.json"
 
@@ -77,6 +77,15 @@ def adjust_emotional_state(emotion, amount, reason=""):
     save_json(EMOTIONAL_STATE_FILE, state)
     log_private(f"Emotion adjusted: {emotion} by {round(scaled_amount, 4)} due to {reason}")
 
+    # --- New: Add signal to thalamus if context is available
+    if context is not None:
+        context.setdefault("raw_signals", []).append({
+            "source": "emotion",
+            "content": f"Emotion adjusted: {emotion} by {round(scaled_amount, 4)} due to {reason}",
+            "signal_strength": min(max(abs(scaled_amount), 0.3), 1.0),
+            "tags": ["emotion", "internal", emotion, reason]
+        })
+
 
 def detect_emotion(text):
     text = text.lower()
@@ -98,19 +107,33 @@ def detect_emotion(text):
     return max(emotion_scores, key=emotion_scores.get)
 
 def log_pain(context, emotion="frustration", increment=0.3):
-    # Safely get or create emotional_state
-    emotional_state = context.get("emotional_state", {})
-    
-    # Increment the emotion
-    emotional_state[emotion] = min(emotional_state.get(emotion, 0.0) + increment, 1.0)
-    
-    # Update context
-    context["emotional_state"] = emotional_state
+    # Always load full emotional state from file
+    from utils.json_utils import load_json, save_json
+    from paths import EMOTIONAL_STATE_FILE
+
+    # Load full state, not just from context
+    full_state = load_json(EMOTIONAL_STATE_FILE, default_type=dict)
+    core_emotions = full_state.get("core_emotions", {})
+
+    # Increment the correct emotion
+    core_emotions[emotion] = min(core_emotions.get(emotion, 0.0) + increment, 1.0)
+    full_state["core_emotions"] = core_emotions
+
+    # Update context, too (so it's in sync)
+    context["emotional_state"] = full_state
 
     # Save and log
-    save_json(EMOTIONAL_STATE_FILE, emotional_state)
-    log_private(f"⚠️ Pain signal: {emotion} increased to {emotional_state[emotion]}")
+    save_json(EMOTIONAL_STATE_FILE, full_state)
+    log_private(f"⚠️ Pain signal: {emotion} increased to {core_emotions[emotion]}")
 
+    # Add pain signal to thalamus
+    context.setdefault("raw_signals", []).append({
+        "source": "emotion",
+        "content": f"Pain signal: {emotion} increased to {core_emotions[emotion]}",
+        "signal_strength": min(max(increment, 0.3), 1.0),
+        "tags": ["emotion", "pain", "internal", emotion]
+    })
+    
 def log_uncertainty_spike(context, increment=0.2):
     log_private("😵 Disorientation: No function selected by think()")
     log_pain(context, emotion="uncertainty", increment=increment)
@@ -140,9 +163,17 @@ def contextual_emotion_priming(context, persist=True):
 
     # === 1. Working memory priming (emotional echoes)
     for memory in working_memory:
-        valence = memory.get("emotional_valence", {})
-        for emotion, intensity in valence.items():
-            influence_map[emotion] = influence_map.get(emotion, 0.0) + intensity * 0.5
+    # Try new-style emotion dict
+            emotion_data = memory.get("emotion")
+            if isinstance(emotion_data, dict):
+                emotion = emotion_data.get("emotion")
+                intensity = emotion_data.get("intensity", 0.5)
+                if emotion:
+                    influence_map[emotion] = influence_map.get(emotion, 0.0) + intensity * 0.5
+            # Optionally support old "emotional_valence" as backup
+            valence = memory.get("emotional_valence", {})
+            for emotion, intensity in valence.items():
+                influence_map[emotion] = influence_map.get(emotion, 0.0) + intensity * 0.5
 
     # === 2. Trigger-based echo
     for trig in recent_triggers:

@@ -1,36 +1,272 @@
-    
 {
-    "hopeful": ["hope", "possibility", "future", "dream"],
-    "melancholy": ["loss", "sad", "miss", "longing"],
-    "curious": ["why", "how", "wonder", "unknown"],
-    "excited": ["thrilled", "energy", "can't wait", "hype"],
-    "poetic": ["beauty", "flow", "language", "metaphor"],
-    "reflective": ["memory", "past", "lesson", "consider"],
-    "bold": ["risk", "dare", "charge", "fearless"],
-    "skeptical": ["doubt", "uncertain", "question", "suspicious"],
-    "compassionate": ["feel", "pain", "love", "care"],
-    "confident": ["sure", "certain", "truth", "clarity"],
-    "tired": ["sleep", "exhausted", "worn", "drained"],
-    "nostalgic": ["childhood", "old", "used to", "back then"],
-    "anxious": ["nervous", "worried", "panic", "stress"],
-    "peaceful": ["calm", "still", "quiet", "centered"],
-    "focused": ["goal", "clarity", "priority", "now"],
-    "romantic": ["heart", "kiss", "connection", "intimate"],
-    "angry": ["rage", "injustice", "fight", "wrong"],
-    "analytical": ["logic", "reason", "step", "structure"],
-    "inspired": ["vision", "genius", "spark", "idea"],
-    "grateful": ["thank", "grateful", "appreciate", "blessing"],
-    "jealous": ["envy", "jealous", "want", "mine"],
-    "afraid": ["scared", "afraid", "fear", "hide"],
-    "resentful": ["resent", "bitterness", "grudge", "injustice"],
-    "joyful": ["joy", "delight", "happiness", "smile"],
-    "ashamed": ["shame", "embarrassed", "blush", "guilt"],
-    "surprised": ["shock", "unexpected", "surprise", "whoa"],
-    "proud": ["pride", "accomplish", "achievement", "honor"],
-    "lonely": ["alone", "isolated", "nobody", "abandoned"],
-    "content": ["satisfied", "content", "fine", "okay"],
-    "regretful": ["regret", "mistake", "shouldn't", "if only"],
-    "motivated": ["push", "drive", "goals", "ambition"],
-    "insecure": ["unsure", "doubt", "unworthy", "compare"],
-    "playful": ["joke", "silly", "fun", "tease", "game", "laugh", "giggle", "mischief", "whimsy"]
+  "hopeful": [
+    "hope",
+    "possibility",
+    "future",
+    "dream"
+  ],
+  "melancholy": [
+    "loss",
+    "sad",
+    "miss",
+    "longing"
+  ],
+  "curious": [
+    "why",
+    "how",
+    "wonder",
+    "unknown"
+  ],
+  "excited": [
+    "thrilled",
+    "energy",
+    "can't wait",
+    "hype"
+  ],
+  "poetic": [
+    "beauty",
+    "flow",
+    "language",
+    "metaphor"
+  ],
+  "reflective": [
+    "memory",
+    "past",
+    "lesson",
+    "consider"
+  ],
+  "bold": [
+    "risk",
+    "dare",
+    "charge",
+    "fearless"
+  ],
+  "skeptical": [
+    "doubt",
+    "uncertain",
+    "question",
+    "suspicious"
+  ],
+  "compassionate": [
+    "feel",
+    "pain",
+    "love",
+    "care"
+  ],
+  "confident": [
+    "sure",
+    "certain",
+    "truth",
+    "clarity"
+  ],
+  "tired": [
+    "sleep",
+    "exhausted",
+    "worn",
+    "drained"
+  ],
+  "nostalgic": [
+    "childhood",
+    "old",
+    "used to",
+    "back then"
+  ],
+  "anxious": [
+    "nervous",
+    "worried",
+    "panic",
+    "stress"
+  ],
+  "peaceful": [
+    "calm",
+    "still",
+    "quiet",
+    "centered"
+  ],
+  "focused": [
+    "goal",
+    "clarity",
+    "priority",
+    "now"
+  ],
+  "romantic": [
+    "heart",
+    "kiss",
+    "connection",
+    "intimate"
+  ],
+  "angry": [
+    "rage",
+    "injustice",
+    "fight",
+    "wrong"
+  ],
+  "analytical": [
+    "logic",
+    "reason",
+    "step",
+    "structure"
+  ],
+  "inspired": [
+    "vision",
+    "genius",
+    "spark",
+    "idea"
+  ],
+  "grateful": [
+    "thank",
+    "grateful",
+    "appreciate",
+    "blessing"
+  ],
+  "jealous": [
+    "envy",
+    "jealous",
+    "want",
+    "mine"
+  ],
+  "afraid": [
+    "scared",
+    "afraid",
+    "fear",
+    "hide"
+  ],
+  "resentful": [
+    "resent",
+    "bitterness",
+    "grudge",
+    "injustice"
+  ],
+  "joyful": [
+    "joy",
+    "delight",
+    "happiness",
+    "smile"
+  ],
+  "ashamed": [
+    "shame",
+    "embarrassed",
+    "blush",
+    "guilt"
+  ],
+  "surprised": [
+    "shock",
+    "unexpected",
+    "surprise",
+    "whoa"
+  ],
+  "proud": [
+    "pride",
+    "accomplish",
+    "achievement",
+    "honor"
+  ],
+  "lonely": [
+    "alone",
+    "isolated",
+    "nobody",
+    "abandoned"
+  ],
+  "content": [
+    "satisfied",
+    "content",
+    "fine",
+    "okay"
+  ],
+  "regretful": [
+    "regret",
+    "mistake",
+    "shouldn't",
+    "if only"
+  ],
+  "motivated": [
+    "push",
+    "drive",
+    "goals",
+    "ambition"
+  ],
+  "insecure": [
+    "unsure",
+    "doubt",
+    "unworthy",
+    "compare"
+  ],
+  "playful": [
+    "joke",
+    "silly",
+    "fun",
+    "tease",
+    "game",
+    "laugh",
+    "giggle",
+    "mischief",
+    "whimsy"
+  ],
+  "ambivalent": [
+    "situation",
+    "hold",
+    "back",
+    "myself",
+    "resulting",
+    "emotional",
+    "internal",
+    "person",
+    "feel",
+    "whether",
+    "contradictory",
+    "opposing",
+    "simply",
+    "indecision",
+    "complex",
+    "state",
+    "object",
+    "impulses",
+    "once",
+    "resolve",
+    "neutrality",
+    "holds",
+    "urge",
+    "uncertainty",
+    "simultaneous",
+    "experience",
+    "reach",
+    "protect",
+    "toward",
+    "connect",
+    "feelings",
+    "move",
+    "ambivalent",
+    "should",
+    "also",
+    "want",
+    "forward",
+    "withdraw",
+    "tension",
+    "can't",
+    "that"
+  ],
+  "yearning": [
+    "currently",
+    "reach\u2014an",
+    "often",
+    "bridge",
+    "between",
+    "might",
+    "persistent",
+    "what",
+    "experience",
+    "accompanied",
+    "longing",
+    "unattainable",
+    "distant",
+    "incompleteness",
+    "ache",
+    "sense",
+    "something",
+    "deep",
+    "urge",
+    "become",
+    "just",
+    "desire"
+  ]
 }
