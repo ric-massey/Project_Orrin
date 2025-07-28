@@ -1,52 +1,33 @@
-#imports
 import json, time
 from datetime import datetime, timezone
 
-from utils.json_utils import (
-    load_json, 
-    save_json
-)
-from paths import (
-    TOOL_REQUESTS_FILE, LONG_MEMORY_FILE,
-)
-from behavior.tools.toolkit import scrape_text
+from utils.json_utils import load_json, save_json
+from paths import TOOL_REQUESTS_FILE, LONG_MEMORY_FILE
+from behavior.tools.toolkit import tool_registry
 from utils.generate_response import generate_response
 from memory.working_memory import update_working_memory
 from utils.emotion_utils import detect_emotion
 from utils.log import log_model_issue, log_private
 
-#functions
-def run_python(code):
-    try:
-        result = eval(code, {}, {})
-        return str(result)
-    except Exception as e:
-        return f"Python error: {e}"
-
-def run_search(query):
-    prompt = (
-        f"I need to answer the query: '{query}'\n"
-        "Suggest one good web page URL that is likely to contain the answer and can be scraped. "
-        "Respond with only the full URL. Do not explain."
-    )
-    url = generate_response(prompt)
-    if not isinstance(url, str) or not url.startswith("http"):
-        return f"Invalid URL generated: {url}"
-    scraped = scrape_text(url)
-    return f"URL: {url}\n\nScraped content:\n{scraped}"
-
 def run_tool(tool, reason):
-    if tool == "run_python":
-        return run_python(reason)
-    elif tool == "search":
-        return run_search(reason)
+    if tool in tool_registry:
+        # For code tools, treat reason as code; for write_file/read_file, expect dict with args
+        if tool == "execute_python_code":
+            return tool_registry[tool](reason)
+        elif tool in ("write_file", "read_file"):
+            if isinstance(reason, dict) and "path" in reason:
+                return tool_registry[tool](**reason)
+            else:
+                return f"Invalid arguments for {tool}: {reason}"
+        else:
+            return tool_registry[tool](reason)
     else:
         return f"Unknown tool: {tool}"
 
 def reflect_on_result(tool, reason, result):
     prompt = (
         f"I used the `{tool}` tool for:\n'{reason}'\n\n"
-        f"The result was:\n{result[:1000]}\n\n"
+        f"The result was:\n{str(result)[:1000]}\n\n"
         "Reflect:\n"
         "- What does this suggest?\n"
         "- Should I follow up?\n"
@@ -89,21 +70,21 @@ def execute_pending_tools():
         reflection = reflect_on_result(tool, reason, result)
 
         timestamp = datetime.now(timezone.utc).isoformat()
-        long_memory.append({
-            "content": f"Tool `{tool}` used for `{reason}` → {result[:300]}...",
-            "emotion": detect_emotion(result),
+        log_entry = {
+            "content": f"Tool `{tool}` used for `{reason}` → {str(result)[:300]}...",
+            "emotion": detect_emotion(str(result)),
             "timestamp": timestamp
-        })
-        long_memory.append({
+        }
+        reflection_entry = {
             "content": reflection,
             "emotion": detect_emotion(reflection),
             "timestamp": timestamp
-        })
-        existing = load_json(LONG_MEMORY_FILE, default_type=list)
-        existing.append(long_memory)
-        save_json(LONG_MEMORY_FILE, existing)
+        }
+        long_memory.append(log_entry)
+        long_memory.append(reflection_entry)
+        save_json(LONG_MEMORY_FILE, long_memory)
 
-        update_working_memory(f"Tool `{tool}` executed: {reason} → {result[:300]}")
+        update_working_memory(f"Tool `{tool}` executed: {reason} → {str(result)[:300]}")
         entry["executed"] = True
         entry["executed_at"] = timestamp
         updated = True

@@ -1,1 +1,53 @@
-{}
+{
+  "user": {
+    "impression": "new connection",
+    "influence_score": 0.5,
+    "boundaries": [],
+    "recent_emotional_effect": "neutral",
+    "interaction_history": [
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-26T18:40:34.741136+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-26T18:41:08.743356+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-26T18:41:36.177488+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-26T18:42:28.723716+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-26T18:43:14.024097+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-26T18:43:56.705259+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-07-26T18:45:46.349382+00:00"
+      }
+    ],
+    "last_interaction_time": "2025-07-26T18:45:46.349418+00:00"
+  }
+}

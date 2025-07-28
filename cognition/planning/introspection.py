@@ -21,10 +21,35 @@ from paths import (
 
 REQUIRED_TIERS = ["short_term", "mid_term", "long_term"]
 
+def merge_goals(existing, updated):
+    """
+    Merge updated goals into the existing goal tree, preserving subgoals and important fields.
+    Recursively merges subgoals if present.
+    """
+    def merge_single_goal(old, new):
+        # Merge base fields, but preserve old subgoals if not overwritten
+        merged = {**old, **new}
+        if "subgoals" in old and "subgoals" not in new:
+            merged["subgoals"] = old["subgoals"]
+        # If both have subgoals, merge them recursively
+        elif "subgoals" in old and "subgoals" in new:
+            merged["subgoals"] = merge_goals(old["subgoals"], new["subgoals"])
+        return merged
+
+    name_map = {g["name"]: g for g in existing if "name" in g}
+    merged = []
+    for g in updated:
+        if "name" in g and g["name"] in name_map:
+            old = name_map[g["name"]]
+            merged.append(merge_single_goal(old, g))
+        else:
+            merged.append(g)
+    return merged
+
 def introspective_planning():
     """
     Orrin reflects on current goals using recent memory, self-model info,
-    and past performance, then updates GOALS_FILE with a revised flat list of goals.
+    and past performance, then updates GOALS_FILE with a revised, merged goal list.
     """
     try:
         # === Update internal motivations first ===
@@ -98,9 +123,11 @@ def introspective_planning():
             raise ValueError("Updated goals missing required tiers.")
 
         # === Flatten the updated goals ===
-        new_flat_goals = updated["short_term"] + updated["mid_term"] + updated["long_term"]
+        updated_flat = updated["short_term"] + updated["mid_term"] + updated["long_term"]
 
-        save_json(GOALS_FILE, new_flat_goals)
+        # === Merge updated goals into the existing tree ===
+        merged_goals = merge_goals(current_goals, updated_flat)
+        save_json(GOALS_FILE, merged_goals)
 
         # === Logging and memory ===
         update_working_memory("🧠 Orrin revised his goals introspectively.")

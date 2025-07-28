@@ -1,7 +1,7 @@
 # === Imports ===
 from datetime import datetime, timezone
 from utils.json_utils import load_json, save_json
-from utils.log import log_private, log_model_issue
+from utils.log import log_model_issue, log_activity
 from memory.working_memory import update_working_memory
 from paths import GOALS_FILE, LONG_MEMORY_FILE
 from utils.emotion_utils import detect_emotion
@@ -38,7 +38,7 @@ def execute_cognitive_action(action_dict, context=None):
                 "priority": 2,
                 "referenced": 1
             })
-            log_private(f"[execute_cognitive_action] Added goal: {goal}")
+            log_activity(f"[execute_cognitive_action] Added goal: {goal}")
 
             # Reward for adding goal
             if context:
@@ -73,7 +73,7 @@ def execute_cognitive_action(action_dict, context=None):
                 "priority": 1,
                 "referenced": 1
             })
-            log_private(f"[execute_cognitive_action] Updated belief: {belief}")
+            log_activity(f"[execute_cognitive_action] Updated belief: {belief}")
 
             # Reward for updating belief
             if context:
@@ -103,7 +103,7 @@ def execute_cognitive_action(action_dict, context=None):
                 "priority": 2,
                 "referenced": 1
             })
-            log_private(f"[execute_cognitive_action] Self-model updated with patch: {patch}")
+            log_activity (f"[execute_cognitive_action] Self-model updated with patch: {patch}")
 
             # Reward for revising self-model (high effort)
             if context:
@@ -138,7 +138,7 @@ def execute_cognitive_action(action_dict, context=None):
                 "priority": 1,
                 "referenced": 0
             })
-            log_private(f"[execute_cognitive_action] Thought logged to long-term memory.")
+            log_activity(f"[execute_cognitive_action] Thought logged to long-term memory.")
 
             # Small reward for logging thought
             if context:

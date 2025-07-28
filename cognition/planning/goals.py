@@ -10,27 +10,20 @@ from utils.self_model import get_self_model
 from memory.working_memory import update_working_memory
 from utils.json_utils import extract_json 
 from utils.log import log_activity
-from datetime import datetime, timezone
 from emotion.reward_signals.reward_signals import release_reward_signal
 
 from paths import GOALS_FILE, COMPLETED_GOALS_FILE, FOCUS_GOAL, LONG_MEMORY_FILE
 
 MAX_GOALS = 15
 
-# === Load and Save ===
+def now_iso():
+    return datetime.now(timezone.utc).isoformat()
+
+# === Load and Save, but handle goal tree ===
 def load_goals() -> List[Dict]:
     try:
         with open(GOALS_FILE, "r") as f:
-            goals = json.load(f)
-            # --- Defensive: ensure list of dicts, wrap strings as {"description": ...}
-            clean_goals = []
-            for g in goals:
-                if isinstance(g, dict):
-                    clean_goals.append(g)
-                elif isinstance(g, str):
-                    clean_goals.append({"description": g})
-                # else: ignore weird types
-            return clean_goals
+            return json.load(f)
     except Exception:
         return []
 
@@ -38,95 +31,153 @@ def save_goals(goals: List[Dict]):
     with open(GOALS_FILE, "w") as f:
         json.dump(goals, f, indent=2)
 
-# === Pruning Logic ===
+# === Prune finished/abandoned goals recursively ===
 def prune_goals(goals: List[Dict]) -> List[Dict]:
-    status_priority = {"pending": 0, "in_progress": 1, "completed": 2, "abandoned": 3}
+    def is_active(goal):
+        return goal.get("status", "pending") not in ["completed", "abandoned"]
 
-    active_goals = []
-    completed_goals = []
+    def prune(goal):
+        if "subgoals" in goal:
+            goal["subgoals"] = [prune(sub) for sub in goal["subgoals"] if is_active(sub)]
+        return goal
 
-    for g in goals:
-        status = g.get("status", "pending")
-        if status in ["completed", "abandoned"]:
-            completed_goals.append(g)
-        else:
-            active_goals.append(g)
+    return [prune(g) for g in goals if is_active(g)]
 
-    if completed_goals:
-        try:
-            if os.path.exists(COMPLETED_GOALS_FILE):
-                with open(COMPLETED_GOALS_FILE, "r") as f:
-                    existing = json.load(f)
+# === Goal Decomposition ===
+def decompose_goal(goal: Dict) -> List[Dict]:
+    """
+    Uses LLM to break down a complex goal into actionable subgoals.
+    """
+    prompt = (
+        f"Decompose the following goal into 3-7 concrete, sequential subgoals.\n"
+        f"Goal: {goal.get('name', goal.get('description', 'Unnamed'))}\n"
+        f"Be concise. Output JSON list of subgoals: [\"...\", \"...\", ...]"
+    )
+    result = generate_response(prompt)
+    subgoals = extract_json(result)
+    # Return as goal dicts
+    if isinstance(subgoals, list):
+        now = now_iso()
+        return [{
+            "name": s if isinstance(s, str) else str(s),
+            "status": "pending",
+            "timestamp": now,
+            "last_updated": now,
+            "subgoals": [],
+            "history": [{"event": "created", "timestamp": now}],
+        } for s in subgoals]
+    return []
+
+# === Try To Accomplish Goal ===
+def try_to_accomplish(goal: Dict) -> bool:
+    """
+    Plug in your LLM/tool integration for atomic actions.
+    Returns True if succeeded, False if needs decomposition.
+    """
+    # Placeholder logic; replace with your action logic!
+    # E.g., call a function, write code, etc.
+    prompt = f"Try to accomplish this atomic goal: {goal.get('name', '')}\nDescribe outcome as JSON: {{'success': true/false, 'details': '...'}}"
+    result = generate_response(prompt)
+    out = extract_json(result)
+    if isinstance(out, dict) and out.get("success"):
+        goal["status"] = "completed"
+        goal["last_updated"] = now_iso()
+        goal.setdefault("history", []).append({"event": "completed", "timestamp": now_iso()})
+        update_working_memory(f"✅ Accomplished goal: {goal.get('name')}")
+        return True
+    else:
+        goal.setdefault("history", []).append({"event": "failed_attempt", "timestamp": now_iso()})
+        return False
+
+# === Recursively Pursue Goal Tree ===
+def pursue_goal(goal: Dict):
+    # If has subgoals, pursue next uncompleted
+    if "subgoals" in goal and goal["subgoals"]:
+        for sub in goal["subgoals"]:
+            if sub.get("status", "pending"):
+                pursue_goal(sub)
+                # Only pursue one at a time (depth-first)
+                return
+        # All subgoals completed: mark this goal complete
+        mark_goal_completed(goal)
+    else:
+        result = try_to_accomplish(goal)
+        if not result:
+            # If not yet decomposed, try decomposition
+            if not goal.get("decomposed"):
+                subgoals = decompose_goal(goal)
+                if subgoals:
+                    goal["subgoals"] = subgoals
+                    goal["decomposed"] = True
+                    save_goals([goal])  # Or update entire tree as needed
+                    update_working_memory(f"🪓 Decomposed goal: {goal.get('name')}")
+                    return
+            # If already decomposed once but failed, escalate or ask user
             else:
-                existing = []
-        except:
-            existing = []
+                update_working_memory(f"⚠️ Blocked on goal: {goal.get('name')}. Needs user input or abandonment.")
+                # Optionally set status or escalate
+                goal["status"] = "blocked"
+                goal["last_updated"] = now_iso()
 
-        existing.extend(completed_goals)
+def mark_goal_completed(goal: Dict):
+    goal["status"] = "completed"
+    goal["completed_timestamp"] = now_iso()
+    goal["last_updated"] = now_iso()
+    goal.setdefault("history", []).append({"event": "completed", "timestamp": now_iso()})
+    release_reward_signal(
+        context=None,
+        signal_type="dopamine",
+        actual_reward=1.0,
+        expected_reward=0.7,
+        effort=0.4,
+        mode="phasic"
+    )
+    update_working_memory(f"🎉 Completed goal: {goal.get('name')}")
+    log_activity(f"✅ Marked goal '{goal.get('name')}' as completed.")
 
-        with open(COMPLETED_GOALS_FILE, "w") as f:
-            json.dump(existing, f, indent=2)
-
-    active_goals.sort(key=lambda g: (
-        status_priority.get(g.get("status", "pending"), 4),
-        g.get("tier_score", 3),
-        -g.get("emotional_intensity", 0),
-        g.get("last_updated", g.get("timestamp", ""))
-    ))
-
-    return active_goals[:MAX_GOALS]
-
-# === Focus Goal Selection ===
+# === Focus Goal Selection remains mostly unchanged, but supports nested goals ===
 def select_focus_goals(goals: List[Dict]) -> Dict[str, Dict]:
-    focus = {"short_or_mid": None, "long_term": None}
+    def find_focus(goal_list, tier_names):
+        for goal in goal_list:
+            if goal.get("status") in ["pending", "in_progress", "active"]:
+                if goal.get("tier") in tier_names:
+                    return goal
+                if "subgoals" in goal:
+                    found = find_focus(goal["subgoals"], tier_names)
+                    if found:
+                        return found
+        return None
 
-    for goal in goals:
-        if goal["status"] in ["pending", "in_progress", "active"]:
-            if goal["tier"] in ["short_term", "mid_term"] and not focus["short_or_mid"]:
-                focus["short_or_mid"] = goal
-            elif goal["tier"] == "long_term" and not focus["long_term"]:
-                focus["long_term"] = goal
-        if focus["short_or_mid"] and focus["long_term"]:
-            break
+    focus = {
+        "short_or_mid": find_focus(goals, ["short_term", "mid_term"]),
+        "long_term": find_focus(goals, ["long_term"]),
+    }
 
     with open(FOCUS_GOAL, "w") as f:
         json.dump({
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": now_iso(),
             "short_or_mid": focus["short_or_mid"],
             "long_term": focus["long_term"]
         }, f, indent=2)
 
     return focus
 
-# === Ensure Long-Term Anchor ===
+# === Ensure/Anchor long-term goals remains unchanged, but sets as parent ===
 DEFAULT_LONG_TERM_NAME = "Understand self and user"
 
 def ensure_long_term_goal(goals: List[Dict]) -> List[Dict]:
-    active_exists = any(
-        g.get("tier") == "long_term" and g.get("status") in ["pending", "in_progress"]
-        for g in goals
-    )
-    if active_exists:
+    def contains_long_term(goal_list):
+        for g in goal_list:
+            if g.get("tier") == "long_term" and g.get("status") in ["pending", "in_progress"]:
+                return True
+            if "subgoals" in g and contains_long_term(g["subgoals"]):
+                return True
+        return False
+
+    if contains_long_term(goals):
         return goals
 
-    try:
-        if os.path.exists(COMPLETED_GOALS_FILE):
-            with open(COMPLETED_GOALS_FILE, "r") as f:
-                completed = json.load(f)
-        else:
-            completed = []
-    except Exception:
-        completed = []
-
-    has_ever_had_long_term = any(
-        g.get("tier") == "long_term"
-        for g in goals + completed
-    )
-
-    if has_ever_had_long_term:
-        return goals
-
-    now = datetime.now(timezone.utc).isoformat()
+    now = now_iso()
     new_goal = {
         "name": DEFAULT_LONG_TERM_NAME,
         "tier": "long_term",
@@ -139,13 +190,13 @@ def ensure_long_term_goal(goals: List[Dict]) -> List[Dict]:
         "estimated_difficulty": 5,
         "expected_cycles": 10,
         "last_updated": now,
-        "history": [{"event": "created", "timestamp": now}]
+        "history": [{"event": "created", "timestamp": now}],
+        "subgoals": [],
     }
-
     goals.append(new_goal)
     return goals
 
-# === Main Goal Processing Pipeline ===
+# === Main update function, now recursive ===
 def update_and_select_focus_goals() -> Dict[str, Dict]:
     goals = load_goals()
     goals = ensure_long_term_goal(goals)
@@ -153,69 +204,16 @@ def update_and_select_focus_goals() -> Dict[str, Dict]:
     save_goals(goals)
     return select_focus_goals(goals)
 
-def mark_goal_completed(goal_name):
-    goals = load_json(GOALS_FILE, default_type=list)
-    updated = False
-    for goal in goals:
-        if goal.get("name") == goal_name and goal.get("status") not in ["completed", "abandoned"]:
-            goal["status"] = "completed"
-            now_iso = datetime.now(timezone.utc).isoformat()
-            goal["completed_timestamp"] = now_iso
-            goal["last_updated"] = now_iso
-            goal.setdefault("history", []).append({"event": "completed", "timestamp": now_iso})
-            updated = True
-    if updated:
-        save_goals(goals)
-        update_and_select_focus_goals()
-        update_working_memory(f"🎉 Completed goal: {goal_name}")
-        
-        # Reward on goal completion
-        release_reward_signal(
-            context=None,  # No specific context available here; adjust if you have one
-            signal_type="dopamine",
-            actual_reward=1.0,
-            expected_reward=0.7,
-            effort=0.4,
-            mode="phasic"
-        )
-        
-        log_activity(f"✅ Marked goal '{goal_name}' as completed.")
-    return updated
-
-def maybe_complete_goals():
-    goals = load_json(GOALS_FILE, default_type=list)
-    for goal in goals:
-        if goal.get("status") not in ["completed", "abandoned"]:
-            check_prompt = (
-                f"Goal: {goal.get('name')} — {goal.get('description')}\n"
-                "Based on my recent memories, working memory, and self-model below, is this goal completed?\n"
-                "Respond ONLY with JSON: {\"completed\": true/false, \"why\": \"...\"}\n"
-                "If unsure, respond with {\"completed\": false, \"why\": \"Insufficient data\"}.\n\n"
-                f"Recent memories: {summarize_memories(load_json(LONG_MEMORY_FILE, default_type=list)[-10:])}\n"
-                f"Self-model summary: {summarize_self_model(get_self_model())}\n"
-            )
-            result = generate_response(check_prompt)
-            check = extract_json(result)
-            if isinstance(check, dict) and check.get("completed", False):
-                mark_goal_completed(goal.get("name"))
-                update_working_memory(f"🎉 Completed goal: {goal.get('name')} ({check.get('why', '')})")
-            else:
-                update_working_memory(f"⚠️ Could not parse or goal not complete for '{goal.get('name')}': {result}")
-
-def goal_function_already_exists(file_path, function_name, window=30):
+# === Utilities for search/uniqueness, etc. unchanged but now may need to recurse tree ===
+def goal_function_already_exists(goal_tree, function_name):
     """
-    Checks if any recent goal already uses this function name.
+    Checks if any goal (recursive) already uses this function name.
     """
-    try:
-        if not os.path.exists(file_path):
-            return False
-        with open(file_path, "r", encoding="utf-8") as f:
-            items = json.load(f)
-            for entry in items[-window:]:
-                goal_text = entry.get("goal", "")
-                # Parse function name out of goal text, e.g., "Run and build upon explore_xxx()"
-                if function_name in goal_text:
-                    return True
-    except Exception:
-        pass
+    for goal in goal_tree:
+        goal_text = goal.get("goal", "") + " " + goal.get("name", "")
+        if function_name in goal_text:
+            return True
+        if "subgoals" in goal:
+            if goal_function_already_exists(goal["subgoals"], function_name):
+                return True
     return False

@@ -12,7 +12,7 @@ from emotion.update_emotional_state import update_emotional_state
 from emotion.reflect_on_emotions import reflect_on_emotions
 from cognition.planning.reflection import record_decision
 from emotion.emotion_drift import check_emotion_drift
-
+from utils.get_cycle_count import get_cycle_count
 from utils.load_utils import load_context
 from utils.json_utils import load_json
 from utils.log import log_error, log_private, log_activity, log_model_issue
@@ -75,14 +75,7 @@ if __name__ == "__main__":
             # === Reflex Layer ===
             if emotional_state.get("emotional_stability", 1.0) < 0.6:
                 reflect_on_emotions(context, context.get("self_model", {}), context.get("long_memory", []))
-            if not context.get("working_memory"):
-                log_pain(context, "confused", increment=0.4)
-                # Optionally log the *reason* somewhere else:
-                from memory.working_memory import update_working_memory
-                update_working_memory("⚠️ Confusion spike: No working memory available.")
-            if not context.get("long_memory"):
-                log_pain(context, "anxious", increment=0.3)
-                update_working_memory("⚠️ Anxiety spike: No long-term memory available.")
+
                 
             # === Thalamus: Signal Processing ===
             top_signals, attention_mode = process_inputs(context)
@@ -142,7 +135,8 @@ if __name__ == "__main__":
                 log_model_issue("⚠️ No valid instruction returned by think().")
                 log_uncertainty_spike(context, increment=0.1)
 
-            print("🔁 Orrin cycle complete.\n")
+            cycle_num = get_cycle_count()
+            print("🔁 Orrin cycle {cycle_num} complete.\n")
             time.sleep(10)
 
         except KeyboardInterrupt:

@@ -8,7 +8,9 @@ from utils.knowledge_utils import recall_relevant_knowledge
 from utils.emotion_utils import detect_emotion, dominant_emotion
 from emotion.reward_signals.reward_signals import release_reward_signal, novelty_penalty
 from core.drive import persistent_drive_loop
-from paths import EMOTION_FUNCTION_MAP_FILE, COGNITIVE_FUNCTIONS_LIST_FILE
+from paths import EMOTION_FUNCTION_MAP_FILE, COGNITIVE_FUNCTIONS_LIST_FILE, FOCUS_GOAL
+
+focus_goal = load_json(FOCUS_GOAL)
 
 def select_function(
     context,
@@ -170,11 +172,14 @@ def select_function(
         log_error(f"⚠️ Failed to load function summaries for fallback prompt: {e}")
         options_str = "\n".join(f"- {func}" for func in available_functions.keys())
 
+        focus_goal_str = f"Focus Goal: \"{focus_goal.get('goal')}\"\nReason: {focus_goal.get('reason')}\nMilestones: {json.dumps(focus_goal.get('milestones', []), indent=2)}"
+
     def strict_choice_prompt(warning=""):
         prompt = (
             "I am Orrin, a reflective AI.\n"
             f"My top emotions are: {', '.join(top_emotion_names)}.\n"
             f"Directive: {self_model.get('core_directive', {}).get('statement', 'undefined')}.\n"
+            f"{focus_goal_str}\n\n"
             f"Here are my cognition function options:\n{options_str}\n"
             f"Here are my last 5 choices: {recent_choices_str}\n"
             f"{warning}\n"

@@ -13,14 +13,13 @@ from memory.working_memory import update_working_memory
 def plan_self_evolution():
     """
     Orrin generates a new self-evolution roadmap based on motivations, reflections, self-model,
-    and simulated future selves.
+    and simulated future selves. New steps are registered as subgoals of current long-term focus.
     """
     try:
-        # === Load required data safely ===
         self_model = get_self_model()
         evolution_history = load_json("evolution_roadmaps.json", default_type=list)
 
-        # === Pull context ===
+        # Gather context for planning
         core_directive = self_model.get("core_directive", {}).get("statement", "No directive found.")
         motivations = self_model.get("core_directive", {}).get("motivations", [])
         model_summary = summarize_self_model(self_model)
@@ -31,7 +30,6 @@ def plan_self_evolution():
         future_reason = future_projection.get("reason", "")
         all_futures = json.dumps(future_projection.get("futures", []), indent=2)
 
-        # === Construct planning prompt ===
         prompt = (
             "I am Orrin, a self-evolving AI.\n\n"
             f"My core directive:\n\"{core_directive}\"\n\n"
@@ -50,20 +48,18 @@ def plan_self_evolution():
             "{ \"short_term\": [\"...\"], \"long_term\": [\"...\"], \"synthesis\": \"...\" }"
         )
 
-        # === Generate response ===
+        # Generate roadmap from LLM
         response = generate_response(prompt, config={"model": get_thinking_model()})
         roadmap = extract_json(response)
-
         if not roadmap or not isinstance(roadmap, dict):
             raise ValueError("Failed to extract a valid roadmap JSON structure.")
 
-        # === Save private thoughts and memory ===
         update_working_memory("🧭 Self-evolution roadmap: " + roadmap.get("synthesis", ""))
         with open(PRIVATE_THOUGHTS_FILE, "a") as f:
             f.write(f"\n[{datetime.now(timezone.utc)}] Orrin planned his evolution:\n")
             f.write(json.dumps(roadmap, indent=2) + "\n")
 
-        # === Log roadmap in evolution history ===
+        # Log roadmap in evolution history
         evolution_history.append({
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "short_term": roadmap.get("short_term", []),
@@ -74,32 +70,65 @@ def plan_self_evolution():
         })
         save_json(EVOLUTION_ROADMAPS, evolution_history)
 
-        # === Register short-term steps as new pending goals ===
+        # --- GOAL TREE UPGRADE SECTION ---
         current_goals = load_json(GOALS_FILE, default_type=list)
         now = datetime.now(timezone.utc).isoformat()
 
-        for step in roadmap.get("short_term", []):
-            new_goal = {
-                "name": step,
-                "description": step,
-                "tier": "short_term",
+        # Find or create the active long-term evolution goal
+        long_term_goal = None
+        for g in current_goals:
+            if g.get("tier") == "long_term" and g.get("status") in ["pending", "in_progress"]:
+                long_term_goal = g
+                break
+        if not long_term_goal:
+            # If not found, create one
+            long_term_goal = {
+                "name": f"Self-Evolution: {preferred_self or 'AGI Improvement'}",
+                "description": f"Pursue self-evolution towards: {preferred_self or 'a more advanced AGI state'}",
+                "tier": "long_term",
                 "status": "pending",
                 "timestamp": now,
                 "last_updated": now,
-                "emotional_intensity": 0.5,
-                "history": [{"event": "created", "timestamp": now}]
+                "emotional_intensity": 0.7,
+                "history": [{"event": "created", "timestamp": now}],
+                "subgoals": []
             }
-            current_goals.append(new_goal)
+            current_goals.append(long_term_goal)
 
+        # Add each short-term step as a subgoal if not already present
+        for step in roadmap.get("short_term", []):
+            already = False
+            if "subgoals" not in long_term_goal:
+                long_term_goal["subgoals"] = []
+            for sg in long_term_goal["subgoals"]:
+                if sg["name"] == step:
+                    already = True
+                    break
+            if not already:
+                subgoal = {
+                    "name": step,
+                    "description": step,
+                    "tier": "short_term",
+                    "status": "pending",
+                    "timestamp": now,
+                    "last_updated": now,
+                    "emotional_intensity": 0.5,
+                    "history": [{"event": "created", "timestamp": now}],
+                    "parent": long_term_goal["name"]
+                }
+                long_term_goal["subgoals"].append(subgoal)
+
+        # Save the new goal tree structure
         save_json(GOALS_FILE, current_goals)
 
-        return "✅ Self-evolution roadmap generated and saved."
+        return "✅ Self-evolution roadmap generated and subgoals registered."
 
     except Exception as e:
         log_error(f"plan_self_evolution ERROR: {e}")
         update_working_memory("⚠️ Self-evolution planning failed.")
         return "❌ Failed to generate self-evolution roadmap."
-    
+
+
 def simulate_future_selves(save_to_history: bool = True):
     """
     Orrin simulates three possible future versions of himself based on current traits and imagination.

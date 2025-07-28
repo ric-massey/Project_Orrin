@@ -12,9 +12,6 @@ import random
 from paths import ERROR_FILE
 
 def log_user_input_once(user_input, context):
-    """
-    Logs user input only if it's valid and not recently logged.
-    """
     if not user_input or not user_input.strip():
         return
     stripped = user_input.strip()
@@ -33,7 +30,6 @@ def is_real_user_input(user_input):
     if not test or test in {"—", "-", "--", "---"}:
         return False
     return True
-
 
 def handle_user_input(
     context,
@@ -72,14 +68,12 @@ def handle_user_input(
             mode="phasic",
             source="user_input_received"
         )
-
         raw_signals.append({
             "source": "user_input",
             "content": user_input,
             "signal_strength": min(dynamic_signal_strength, 1.0),
             "tags": ["user_input", "human_contact", "high_importance", "novelty"]
         })
-
         summarize_chat_to_long_memory(cycle_count["count"], "memory/chat_log.json", long_memory)
 
     if not raw_signals:
@@ -122,6 +116,7 @@ def handle_user_input(
             "tags": ["internal", "monitoring"]
         })
 
+    # === UPGRADE 1: Avoid setting speech_done if nothing spoken ===
     signals = []
     for signal in raw_signals:
         content = signal.get("content", "")
@@ -180,23 +175,26 @@ def handle_user_input(
                         source="spoken_response"
                     )
                     response = None
-
-            # ** Remove duplicate logging here **
-            # logging only happens once, inside OrrinSpeaker.speak_final()
-
-            context["speech_done"] = True
+                    # Only set speech_done if something was actually spoken!
+                    context["speech_done"] = True
 
         else:
-            # Internal/system/pain signals: no LLM, no speak
-            log_raw_user_input({
-                "user": user_input or "—",
-                "orrin": "(no reply)",
-                "influence": influence,
-                "emotional_effect": emotional_effect,
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            })
+            # === UPGRADE 2: Only log unique system/internal signals per cycle ===
+            logged_signals = context.setdefault("_logged_system_signals", set())
+            log_key = f"{signal['source']}::{content[:60]}"
+            if log_key not in logged_signals:
+                log_raw_user_input({
+                    "user": user_input or "—",
+                    "orrin": "(no reply)",
+                    "influence": influence,
+                    "emotional_effect": emotional_effect,
+                    "timestamp": datetime.now(timezone.utc).isoformat()
+                })
+                logged_signals.add(log_key)
 
         update_last_active()
         signals.append(signal)
 
+    # Clear unique signal cache for next cycle
+    context["_logged_system_signals"] = set()
     return signals, context

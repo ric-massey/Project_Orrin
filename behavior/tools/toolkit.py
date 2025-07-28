@@ -1,4 +1,3 @@
-#imports
 import os
 import json
 import time
@@ -21,7 +20,51 @@ from paths import TOOL_REQUESTS_FILE, LONG_MEMORY_FILE, WORKING_MEMORY_FILE
 from utils.core_utils import get_thinking_model
 from utils.generate_response import generate_response
 
-#functions
+# --- File Tools ---
+
+def write_file(path, content):
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(content)
+        log_activity(f"✅ Wrote to {path}")
+        return {"success": True, "path": path}
+    except Exception as e:
+        log_error(f"❌ Failed to write to {path}: {e}")
+        return {"success": False, "error": str(e)}
+
+def read_file(path):
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            content = f.read()
+        log_activity(f"✅ Read file {path}")
+        return {"success": True, "content": content}
+    except Exception as e:
+        log_error(f"❌ Failed to read {path}: {e}")
+        return {"success": False, "error": str(e)}
+
+def execute_python_code(code_string):
+    import io
+    import sys
+    output = io.StringIO()
+    result = {"success": True}
+    try:
+        sys_stdout, sys_stderr = sys.stdout, sys.stderr
+        sys.stdout = sys.stderr = output
+        exec(code_string, {})
+        result["output"] = output.getvalue()
+        log_activity("✅ Executed Python code successfully.")
+    except Exception as e:
+        result["success"] = False
+        result["error"] = str(e)
+        log_error(f"❌ Python code execution error: {e}")
+    finally:
+        sys.stdout, sys.stderr = sys_stdout, sys_stderr
+        output.close()
+    return result
+
+# --- Existing Tools ---
+
 def delay_between_requests():
     time.sleep(random.uniform(2, 5))
 
@@ -147,6 +190,7 @@ def tool_thinking():
             log_model_issue(f"tool_thinking() returned non-list structure:\n{response}")
     except Exception as e:
         log_error(f"Failed to parse tool suggestions in tool_thinking(): {e}\nRaw: {response}")
+
 def scrape_text(url):
     import requests
     if not is_scraping_allowed(url):
@@ -162,3 +206,13 @@ def scrape_text(url):
         return soup.get_text()[:2000]
     except Exception as e:
         return f"❌ Scrape failed: {str(e)}"
+
+# --- Universal Tool Registry ---
+tool_registry = {
+    "write_file": write_file,
+    "read_file": read_file,
+    "execute_python_code": execute_python_code,
+    "web_search": web_search,
+    "scrape_text": scrape_text,
+    # Add other tools as needed...
+}

@@ -1,7 +1,6 @@
 from datetime import datetime, timezone
 from utils.json_utils import load_json, save_json, extract_json
 from utils.self_model import get_self_model, save_self_model
-
 from utils.generate_response import generate_response, get_thinking_model
 from utils.log import log_model_issue
 from memory.working_memory import update_working_memory
@@ -49,11 +48,9 @@ def update_motivations():
         if not result or "updated_motivations" not in result:
             raise ValueError("Missing `updated_motivations` in result.")
 
-        # Apply and save updated motivations using the helper
         self_model["motivations"] = result["updated_motivations"]
         save_self_model(self_model)
 
-        # Log change
         update_working_memory("🧭 Motivations updated: " + ", ".join(result["updated_motivations"]))
         with open(PRIVATE_THOUGHTS_FILE, "a") as f:
             f.write(f"\n[{datetime.now(timezone.utc)}] Orrin revised motivations:\n{result['reasoning']}\n")
@@ -61,6 +58,38 @@ def update_motivations():
     except Exception as e:
         log_model_issue(f"[update_motivations] Motivation update failed: {e}")
         update_working_memory("⚠️ Failed to update Orrin's motivations.")
+
+def adjust_priority(goal, fb):
+    result_text = fb["result"].lower()
+    emotion = fb.get("emotion", "neutral")
+    goal["priority"] = goal.get("priority", 5)
+
+    reward = 0.0
+    if any(w in result_text for w in ["success", "helpful", "insightful", "effective"]):
+        if emotion in ["joy", "excited", "grateful"]:
+            goal["priority"] = min(10, goal["priority"] + 2)
+            reward = 1.0
+        elif emotion in ["satisfied", "curious"]:
+            goal["priority"] = min(10, goal["priority"] + 1)
+            reward = 0.8
+
+    elif any(w in result_text for w in ["fail", "unhelpful", "repetitive", "useless"]):
+        if emotion in ["frustrated", "angry", "ashamed"]:
+            goal["priority"] = max(1, goal["priority"] - 2)
+            reward = 0.3
+        elif emotion in ["bored", "disappointed"]:
+            goal["priority"] = max(1, goal["priority"] - 1)
+            reward = 0.4
+
+    release_reward_signal(
+        {},  # No context in this scope; pass if needed
+        signal_type="dopamine",
+        actual_reward=reward,
+        expected_reward=0.7,
+        effort=goal.get("effort", 0.5),
+        mode="phasic",
+        source="adjusted priority"
+    )
 
 def adjust_goal_weights(context=None):
     feedback = load_json(FEEDBACK_LOG, default_type=list)
@@ -73,54 +102,26 @@ def adjust_goal_weights(context=None):
 
     recent_feedback = feedback[-10:]
 
-    def adjust_priority(goal, fb):
-        result_text = fb["result"].lower()
-        emotion = fb.get("emotion", "neutral")
-        goal["priority"] = goal.get("priority", 5)
+    # Flatten next_actions for more robust handling
+    all_goals = []
+    if isinstance(next_actions, dict):
+        for tier in ["short_term", "mid_term", "long_term"]:
+            all_goals.extend(next_actions.get(tier, []))
+    elif isinstance(next_actions, list):
+        all_goals = next_actions
 
-        reward = 0.0
-        if any(w in result_text for w in ["success", "helpful", "insightful", "effective"]):
-            if emotion in ["joy", "excited", "grateful"]:
-                goal["priority"] = min(10, goal["priority"] + 2)
-                reward = 1.0
-            elif emotion in ["satisfied", "curious"]:
-                goal["priority"] = min(10, goal["priority"] + 1)
-                reward = 0.8
-
-        elif any(w in result_text for w in ["fail", "unhelpful", "repetitive", "useless"]):
-            if emotion in ["frustrated", "angry", "ashamed"]:
-                goal["priority"] = max(1, goal["priority"] - 2)
-                reward = 0.3
-            elif emotion in ["bored", "disappointed"]:
-                goal["priority"] = max(1, goal["priority"] - 1)
-                reward = 0.4
-
-        # === Reward Signal for Feedback ===
-        release_reward_signal(
-            context or {},  # context may be passed in from think()
-            signal_type="dopamine",
-            actual_reward=reward,
-            expected_reward=0.7,
-            effort=goal.get("effort", 0.5),
-            mode="phasic",
-            source="adjusted priority"
-        )
-
-    for tier in ["short_term", "mid_term", "long_term"]:
-        for goal in next_actions.get(tier, []):
-            name = goal.get("name")
-            if not name:
-                continue
-
-            for fb in recent_feedback:
-                if fb["goal"] == name:
-                    adjust_priority(goal, fb)
-
-            trajectory_log.setdefault(name, []).append({
-                "timestamp": now,
-                "priority": goal["priority"],
-                "tier": tier
-            })
+    for goal in all_goals:
+        name = goal.get("name")
+        if not name:
+            continue
+        for fb in recent_feedback:
+            if fb["goal"] == name:
+                adjust_priority(goal, fb)
+        trajectory_log.setdefault(name, []).append({
+            "timestamp": now,
+            "priority": goal["priority"],
+            "tier": goal.get("tier", "unknown")
+        })
 
     save_json(ACTION_FILE, next_actions)
     save_json("goal_trajectory_log.json", trajectory_log)

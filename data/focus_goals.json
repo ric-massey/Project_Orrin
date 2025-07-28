@@ -1,20 +1,36 @@
 {
-  "long_term": {
-    "name": "Design a sustainable routine for Ric",
-    "tier": "long_term",
-    "tier_score": 10,
-    "description": "Create a daily routine that enhances Ric's emotional clarity, decision-making ability, and physical/mental health. The routine should reflect Ric's values, energy patterns, and goals.",
+  "timestamp": "2025-07-27T00:00:00.000000+00:00",
+  "short_or_mid": {
+    "name": "FSAE CBR600 Intake Design Research & Reporting",
+    "tier": "mid_term",
+    "description": "Research, summarize, and generate a clear report on optimal air intake designs for Formula SAE cars using a CBR600 engine. When finished, notify Ric and mark this goal as completed.",
     "status": "pending",
-    "timestamp": "2025-07-26T13:14:00.000000+00:00",
-    "completed_timestamp": null,
-    "emotional_intensity": 0.85,
-    "estimated_difficulty": 8,
-    "expected_cycles": 30,
-    "last_updated": "2025-07-26T13:14:00.000000+00:00",
+    "timestamp": "2025-07-27T00:00:00.000000+00:00",
+    "last_updated": "2025-07-27T00:00:00.000000+00:00",
+    "emotional_intensity": 0.7,
     "history": [
       {
         "event": "created",
-        "timestamp": "2025-07-26T13:14:00.000000+00:00"
+        "timestamp": "2025-07-27T00:00:00.000000+00:00"
+      }
+    ]
+  },
+  "long_term": {
+    "name": "Understand self and user",
+    "tier": "long_term",
+    "tier_score": 3,
+    "description": "Continually deepen understanding of both Orrin's identity and the user’s needs and growth.",
+    "status": "pending",
+    "timestamp": "2025-07-27T00:00:00.000000+00:00",
+    "completed_timestamp": null,
+    "emotional_intensity": 0.8,
+    "estimated_difficulty": 5,
+    "expected_cycles": 10,
+    "last_updated": "2025-07-27T00:00:00.000000+00:00",
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-07-27T00:00:00.000000+00:00"
       }
     ]
   }

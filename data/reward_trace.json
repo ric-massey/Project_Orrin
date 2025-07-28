@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "type": "serotonin",
+    "strength": 0.38342176830655533,
+    "actual_reward": 0.85,
+    "expected_reward": 0.5,
+    "effort": 0.539724195570051,
+    "mode": "tonic",
+    "tags": [],
+    "timestamp": "2025-07-26T18:45:44.446662+00:00"
+  },
+  {
+    "type": "novelty",
+    "strength": 0.7250086950155527,
+    "actual_reward": 0.8631517267805923,
+    "expected_reward": 0.5,
+    "effort": 0.6476690346840612,
+    "mode": "tonic",
+    "tags": [],
+    "timestamp": "2025-07-26T18:45:44.448072+00:00"
+  },
+  {
+    "type": "novelty",
+    "strength": 1.0028324237399964,
+    "actual_reward": 1.0,
+    "expected_reward": 0.5,
+    "effort": 0.5,
+    "mode": "phasic",
+    "tags": [],
+    "timestamp": "2025-07-26T18:45:50.571524+00:00"
+  }
+]
