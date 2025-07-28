@@ -10,8 +10,8 @@ from memory.working_memory import update_working_memory
 from paths import (
     LOG_FILE,
     PRIVATE_THOUGHTS_FILE,
+    FOCUS_GOAL
 )
-
 
 def reflect_on_growth_history():
     try:
@@ -19,6 +19,21 @@ def reflect_on_growth_history():
         evolution_history = data.get("evolution_roadmaps", [])
         next_actions = data.get("next_actions", {})
         self_model = data.get("self_model", {})
+
+        # === NEW: Load Focus Goals for context ===
+        focus_goals = {}
+        try:
+            with open(FOCUS_GOAL, "r") as f:
+                focus_goals = json.load(f)
+        except Exception:
+            focus_goals = {}
+
+        focus_goal_names = []
+        if focus_goals.get("short_or_mid"):
+            focus_goal_names.append(focus_goals["short_or_mid"].get("name"))
+        if focus_goals.get("long_term"):
+            focus_goal_names.append(focus_goals["long_term"].get("name"))
+        focus_goal_text = ", ".join(filter(None, focus_goal_names)) or "None"
 
         if not evolution_history:
             update_working_memory("No evolution roadmaps to reflect on yet.")
@@ -61,11 +76,12 @@ def reflect_on_growth_history():
 
         prompt = (
             f"I am Orrin, a self-evolving AI. I've reviewed {len(evolution_history)} roadmaps.\n\n"
+            f"Current focus goals: {focus_goal_text}\n\n"
             f"✅ Completed steps:\n{json.dumps(sorted(set(completed)), indent=2)}\n\n"
             f"🕒 Still pending:\n{json.dumps(sorted(set(still_pending)), indent=2)}\n\n"
             f"❌ Skipped:\n{json.dumps(sorted(set(skipped)), indent=2)}\n\n"
             f"Internal agents:\n{agent_descriptions}\n\n"
-            "Why are some goals completed, others abandoned? Which agents influence which outcomes? Reflect deeply.\n"
+            "Why are some goals completed, others abandoned? Which agents influence which outcomes? Reflect deeply, especially in relation to the current focus goals.\n"
             "Return JSON: { \"agent_responses\": [...], \"synthesis\": \"...\" }"
         )
 

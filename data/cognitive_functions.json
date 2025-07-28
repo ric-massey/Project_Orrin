@@ -5,6 +5,11 @@
     "is_action": false
   },
   {
+    "name": "adjust_priority",
+    "summary": "This function adjusts a goal's priority based on the sentiment and emotional tone of feedback, and then issues a reward signal reflecting how well the feedback aligns with desired outcomes.",
+    "is_action": false
+  },
+  {
     "name": "append_to_json",
     "summary": "This function appends a new dictionary entry to a JSON file containing a list\u2014creating the file if needed\u2014and ensures the file\u2019s directory exists, handling errors if the file\u2019s contents are not a list.",
     "is_action": false
@@ -32,6 +37,11 @@
   {
     "name": "curiosity_loop",
     "summary": "The **curiosity_loop** function manages a list of self-generated questions (curiosities), prompts itself to generate and deeply reflect on these questions, updates their status and satisfaction based on its response, and archives resolved questions for future reference.",
+    "is_action": false
+  },
+  {
+    "name": "decompose_goal",
+    "summary": "This function takes a complex goal dictionary, prompts a language model to break it into 3\u20137 concrete subgoals, parses the model\u2019s JSON response, and returns a list of subgoal dictionaries each initialized with metadata.",
     "is_action": false
   },
   {
@@ -92,6 +102,11 @@
   {
     "name": "explore_your_recent_thoughts_reveal_harmony_with_your_self_model_",
     "summary": "This function appends a timestamped record to a working memory file, noting an autonomous insight about the alignment between recent thoughts and the self-model.",
+    "is_action": false
+  },
+  {
+    "name": "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and",
+    "summary": "This function generates and appends a timestamped record of autonomous self-reflection about recent mild emotional ambivalence to a working memory file.",
     "is_action": false
   },
   {
@@ -245,6 +260,11 @@
     "is_action": false
   },
   {
+    "name": "merge_goals",
+    "summary": "This function merges a list of updated goal dictionaries into an existing goal tree, matching goals by name, preserving and recursively merging subgoals and important fields where appropriate.",
+    "is_action": false
+  },
+  {
     "name": "meta_reflect",
     "summary": "**Summary:**  \nThe `meta_reflect` function performs a structured series of self-reflection steps by loading and merging memory context, sequentially running multiple introspective and update routines, logging each result, and saving a detailed reflection log, while handling errors gracefully.",
     "is_action": false
@@ -260,6 +280,11 @@
     "is_action": false
   },
   {
+    "name": "now_iso",
+    "summary": "Returns the current UTC date and time as an ISO 8601 formatted string.",
+    "is_action": false
+  },
+  {
     "name": "plan_self_evolution",
     "summary": "This function, `plan_self_evolution`, generates a new self-improvement roadmap for an AI agent by integrating its motivations, self-model, reflections, and simulated future projections, then formulates actionable short- and long-term goals, saves the plan to memory and logs, and updates its pending goals accordingly.",
     "is_action": false
@@ -272,6 +297,11 @@
   {
     "name": "prune_old_threads",
     "summary": "The `prune_old_threads` function loads a dictionary-based self model, retrieves configuration settings for maximum thread age and count, removes \"imaginative threads\" that are too old or exceed the allowed number, updates the model, and logs how many threads were pruned.",
+    "is_action": false
+  },
+  {
+    "name": "pursue_goal",
+    "summary": "This function recursively pursues a goal by attempting its uncompleted subgoals one at a time (depth-first); if there are no subgoals, it tries to accomplish the goal, decomposes it into subgoals if necessary, and handles escalation or blocking if progress is not possible.",
     "is_action": false
   },
   {
@@ -472,6 +502,11 @@
   {
     "name": "tag_beliefs_from_feedback",
     "summary": "This function analyzes the most recent feedback entries for failures related to emotions or specific keywords, identifies possible self-model belief biases (such as overreliance on curiosity or reflection), updates the self-model accordingly, and logs any new belief flags found.",
+    "is_action": false
+  },
+  {
+    "name": "try_to_accomplish",
+    "summary": "The function **try_to_accomplish** attempts to achieve a given goal by prompting an AI agent or tool for action, updates the goal's status and history based on success or failure, and returns True if the goal is accomplished or False if further decomposition is needed.",
     "is_action": false
   },
   {

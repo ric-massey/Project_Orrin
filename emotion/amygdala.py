@@ -1,7 +1,7 @@
 from utils.emotion_utils import dominant_emotion
 from utils.generate_response import generate_response
 from utils.json_utils import extract_json
-from utils.log import log_private
+from utils.log import log_activity
 
 def process_emotional_signals(context):
     emotional_state = context.get("emotional_state", {})
@@ -52,7 +52,7 @@ def process_emotional_signals(context):
     )
 
     result = generate_response(prompt)
-    log_private(f"[Amygdala LLM Prompt Response]\n{result}")
+    log_activity(f"[Amygdala LLM Prompt Response]\n{result}")
 
     data = extract_json(result)
     if not isinstance(data, dict):

@@ -9,7 +9,7 @@ from utils.log import read_recent_errors_txt, read_recent_errors_json
 from cognition.selfhood.boundary_check import check_violates_boundaries
 from cognition.selfhood.relationships import summarize_relationships
 import random
-from paths import ERROR_FILE
+from paths import ERROR_FILE, CHAT_LOG_FILE
 
 def log_user_input_once(user_input, context):
     if not user_input or not user_input.strip():
@@ -74,7 +74,7 @@ def handle_user_input(
             "signal_strength": min(dynamic_signal_strength, 1.0),
             "tags": ["user_input", "human_contact", "high_importance", "novelty"]
         })
-        summarize_chat_to_long_memory(cycle_count["count"], "memory/chat_log.json", long_memory)
+        summarize_chat_to_long_memory(cycle_count["count"], CHAT_LOG_FILE, long_memory)
 
     if not raw_signals:
         boredom_prompt = random.choice([
@@ -133,6 +133,8 @@ def handle_user_input(
         if signal["source"] == "user_input":
             relevant_knowledge = recall_relevant_knowledge(content, long_memory=long_memory, working_memory=working_memory, max_items=8)
             for mem in relevant_knowledge:
+                if not isinstance(mem, dict):
+                    continue
                 mem["referenced"] = mem.get("referenced", 0) + 1
                 mem["recall_count"] = mem.get("recall_count", 0) + 1
 

@@ -4,7 +4,7 @@ from statistics import mean
 # === Internal Utility Imports ===
 from utils.json_utils import load_json, save_json
 from emotion.emotion import get_all_emotion_names, detect_emotion, deliver_emotion_based_rewards
-from utils.log import log_private
+from utils.log import log_activity
 from emotion.modes_and_emotion import (
     recommend_mode_from_emotional_state, set_current_mode, get_current_mode
 )
@@ -159,4 +159,4 @@ def update_emotional_state(context=None, trigger=None):
     state["last_updated"] = now.isoformat()
 
     save_json(EMOTIONAL_STATE_FILE, state)
-    log_private("🧠 Emotional state updated.")
+    log_activity("🧠 Emotional state updated.")

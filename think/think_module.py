@@ -134,7 +134,19 @@ def think(context):
         context.pop("filtered_signals", None)
         # Add any more per-cycle keys you want to clear.
 
-        return context
+        # --- PATCH: Return next_function, reason, is_action, context, and action dict if needed ---
+        if is_action:
+            return {
+                "action": {"name": fn_name, "details": next_function},
+                "context": context,
+            }
+        else:
+            return {
+                "next_function": fn_name,
+                "reason": reason,
+                "is_action": is_action,
+                "context": context,
+            }
 
     except Exception as e:
         import traceback

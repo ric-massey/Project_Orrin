@@ -35,6 +35,11 @@
     "is_action": true
   },
   {
+    "name": "execute_python_code",
+    "summary": "This function executes a given Python code string, capturing any output or errors, and returns a dictionary with the execution result, output, and error information.",
+    "is_action": true
+  },
+  {
     "name": "extract_json",
     "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string by first searching for a fenced code block labeled as JSON, then by locating the first balanced pair of braces, or finally by parsing the entire string, and returns an error message if all attempts fail.",
     "is_action": true
@@ -42,6 +47,11 @@
   {
     "name": "extract_last_reflection_topic",
     "summary": "This function reads a log of reflections from a JSON file, searches backwards for the most recent entry about self-belief or reflection, and returns a snippet (up to 60 characters) of its content, or a default string if none is found or an error occurs.",
+    "is_action": true
+  },
+  {
+    "name": "filter_memories",
+    "summary": "The `filter_memories` function takes a list, returns only the dictionary entries, and logs any items that are not dictionaries or if the input is not a list.",
     "is_action": true
   },
   {
@@ -130,6 +140,11 @@
     "is_action": true
   },
   {
+    "name": "read_file",
+    "summary": "This function attempts to read the contents of a text file at the given path using UTF-8 encoding, logs the outcome, and returns a dictionary indicating success with the file content or failure with the error message.",
+    "is_action": true
+  },
+  {
     "name": "reflect_on_result",
     "summary": "This function generates a reflection prompt based on a tool's usage, analyzes the tool's result, and either logs a JSON-formatted follow-up tool request or returns a plain text reflection, handling and logging errors as needed.",
     "is_action": true
@@ -202,6 +217,11 @@
   {
     "name": "wrap_text",
     "summary": "This function takes a string and returns it with line breaks inserted so that no line exceeds a specified width (default 85 characters).",
+    "is_action": true
+  },
+  {
+    "name": "write_file",
+    "summary": "The `write_file` function attempts to create any necessary directories and write the given content to a specified file path, logging the outcome and returning a success or error message.",
     "is_action": true
   }
 ]

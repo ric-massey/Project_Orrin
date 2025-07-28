@@ -1,3 +1,5 @@
+from utils.log import log_error
+
 def summarize_memories(memories):
     """
     Summarizes the most recent memories, including emotional tone and intensity.
@@ -33,7 +35,12 @@ def summarize_memories(memories):
 
 def format_memories_for_prompt(memories):
     lines = []
-    for m in memories:
+    for i, m in enumerate(memories):
+        if not isinstance(m, dict):
+            log_error(f"[MemoryFormat] Non-dict memory at index {i}: {repr(m)} (type: {type(m)})")
+            lines.append(f"- [ERROR: non-dict memory at index {i}: {repr(m)}]")
+            continue
+
         # Add event_type, importance, emotion, timestamp for richer context
         s = f"- [{m.get('event_type', '?')}] {m.get('content', '')}"
         if m.get("emotion"):

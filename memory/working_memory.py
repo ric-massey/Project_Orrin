@@ -13,12 +13,12 @@ from datetime import datetime, timezone
 from emotion.emotion import detect_emotion
 from utils.json_utils import save_json, load_json
 from utils.log import log_private
-from utils.embedder import get_embedding  # <-- YOU NEED THIS: a function to get an embedding vector for text
+from utils.embedder import get_embedding  
 import uuid
 import numpy as np
+from paths import WORKING_MEMORY_FILE
 
-MAX_WORKING_LOGS = 60  # adjust as needed
-WORKING_MEMORY_FILE = "working_memory.json"
+MAX_WORKING_LOGS = 50  # adjust as needed
 
 
 def update_working_memory(

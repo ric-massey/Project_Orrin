@@ -88,14 +88,7 @@ def recall_relevant_knowledge(context="", long_memory=None, working_memory=None,
     if lm_updated:
         save_json(LONG_MEMORY_FILE, lm)
 
-    # --- Return summary or content ---
-    recall_outputs = []
-    for _, m, _ in selected:
-        if "summary" in m:
-            recall_outputs.append(m["summary"])
-        elif "content" in m:
-            recall_outputs.append(m["content"])
-        else:
-            recall_outputs.append(str(m))
+    # --- Return the full dicts, not just content ---
+    recall_outputs = [m for _, m, _ in selected]
 
     return recall_outputs

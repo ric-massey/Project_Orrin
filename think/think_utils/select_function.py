@@ -10,8 +10,6 @@ from emotion.reward_signals.reward_signals import release_reward_signal, novelty
 from core.drive import persistent_drive_loop
 from paths import EMOTION_FUNCTION_MAP_FILE, COGNITIVE_FUNCTIONS_LIST_FILE, FOCUS_GOAL
 
-focus_goal = load_json(FOCUS_GOAL)
-
 def select_function(
     context,
     self_model,
@@ -158,6 +156,15 @@ def select_function(
         return drive_choice, "Driven by internal need", is_action
 
     # === LLM-Based Planning Fallback with Forced Validation ===
+
+    # --- Build focus_goal_str dynamically so it is always up to date ---
+    focus_goal = load_json(FOCUS_GOAL)
+    focus_goal_str = (
+        f"Focus Goal: \"{focus_goal.get('goal', 'none')}\"\n"
+        f"Reason: {focus_goal.get('reason', 'none')}\n"
+        f"Milestones: {json.dumps(focus_goal.get('milestones', []), indent=2)}"
+    )
+
     try:
         func_descriptions = load_json(COGNITIVE_FUNCTIONS_LIST_FILE, default_type=list)
         formatted_options = [
@@ -171,8 +178,6 @@ def select_function(
     except Exception as e:
         log_error(f"⚠️ Failed to load function summaries for fallback prompt: {e}")
         options_str = "\n".join(f"- {func}" for func in available_functions.keys())
-
-        focus_goal_str = f"Focus Goal: \"{focus_goal.get('goal')}\"\nReason: {focus_goal.get('reason')}\nMilestones: {json.dumps(focus_goal.get('milestones', []), indent=2)}"
 
     def strict_choice_prompt(warning=""):
         prompt = (

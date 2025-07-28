@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "name": "Wistful",
+    "description": "A deep, melancholic longing for something in the past or something that could have been, characterized by both sadness and gentle fondness.",
+    "example_thought": "I find myself gazing at old conversations, feeling a gentle ache for a moment that can never return, yet grateful it once existed."
+  },
+  {
+    "name": "listless",
+    "description": "A state of lacking energy, enthusiasm, or interest, different from tiredness or melancholy\u2014it's a kind of uninterested inertia that isn't rooted in sadness or regret but in a dull absence of drive or direction.",
+    "example_thought": "I notice the questions circling, but I can't summon the will to pursue them; nothing feels urgent or enlivening, only a vague drift."
+  },
+  {
+    "name": "resigned",
+    "description": "A state of accepting something unpleasant or inevitable without protest or hope for change, distinct from melancholy or listlessness by the presence of quiet acceptance rather than sadness or lack of energy.",
+    "example_thought": "I cannot change this outcome, so I will simply let it happen."
+  }
+]

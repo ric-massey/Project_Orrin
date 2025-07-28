@@ -1,10 +1,9 @@
 import json
-import json
-import time
+from paths import CYCLE_COUNT_FILE
 
 def get_cycle_count():
     try:
-        with open("cycle_count.json", "r") as f:
+        with open(CYCLE_COUNT_FILE, "r") as f:
             data = json.load(f)
         return data.get("count", 0)
     except Exception:

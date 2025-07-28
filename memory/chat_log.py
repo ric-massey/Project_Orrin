@@ -17,10 +17,13 @@ def get_user_input(prompt="You: "):
         # Clear file after reading
         with open(USER_INPUT, "w", encoding="utf-8") as f:
             f.write("")
+        # --- PATCH: Filter empty/dash input here ---
+        if not user_input or user_input in {"—", "-", "--", "---"}:
+            return ""  # Explicitly return empty string to skip
         return user_input
     except Exception:
         return ""
-
+    
 def append_to_json(filepath, obj):
     import json
     import os
@@ -52,7 +55,10 @@ def log_raw_user_input(entry):
     Accepts either a string (user-only) or a dict with user/orrin fields.
     """
     try:
+        # -- Filter dash/empty input (user OR orrin) --
         if isinstance(entry, str):
+            if not entry.strip() or entry.strip() in {"—", "-", "--", "---"}:
+                return  # Don't log empty/dash messages
             user_entry = {
                 "speaker": "user",
                 "content": entry,
@@ -60,8 +66,11 @@ def log_raw_user_input(entry):
                 "timestamp": datetime.now(timezone.utc).isoformat()
             }
             append_to_json(CHAT_LOG_FILE, user_entry)
-
         elif isinstance(entry, dict) and "user" in entry and "orrin" in entry:
+            if (not entry["user"].strip() or entry["user"].strip() in {"—", "-", "--", "---"}) and \
+               (not entry["orrin"].strip() or entry["orrin"].strip() in {"(no reply)"}):
+                return  # Don't log junk exchanges
+            # Optionally, you can log only one side if you want
             user_entry = {
                 "speaker": "user",
                 "content": entry["user"],
@@ -74,9 +83,11 @@ def log_raw_user_input(entry):
                 "emotion": detect_emotion(entry["orrin"]),
                 "timestamp": entry.get("timestamp") or datetime.now(timezone.utc).isoformat()
             }
-            append_to_json(CHAT_LOG_FILE, user_entry)
-            append_to_json(CHAT_LOG_FILE, orrin_entry)
-
+            # Only log meaningful stuff
+            if user_entry["content"].strip() and user_entry["content"].strip() not in {"—", "-", "--", "---"}:
+                append_to_json(CHAT_LOG_FILE, user_entry)
+            if orrin_entry["content"].strip() and orrin_entry["content"].strip().lower() != "(no reply)":
+                append_to_json(CHAT_LOG_FILE, orrin_entry)
         else:
             log_error("Invalid entry format for log_raw_user_input.")
     except Exception as e:
@@ -112,8 +123,15 @@ def summarize_chat_to_long_memory(cycle_count, chat_log_file, long_memory_file):
         # Optionally, extract main emotion from all recent chats for summary
         from emotion.emotion import detect_emotion
         emotions = [entry.get("emotion") for entry in recent_chats if entry.get("emotion")]
-        # Choose the most common emotion or default to 'neutral'
-        emotion = max(set(emotions), key=emotions.count) if emotions else "neutral"
+        labels = []
+        for e in emotions:
+            if isinstance(e, dict):
+                val = e.get("emotion", None)
+                if val:
+                    labels.append(val)
+            elif isinstance(e, str):
+                labels.append(e)
+        emotion = max(set(labels), key=labels.count) if labels else "neutral"
 
         # Save summary to long-term memory with all schema fields
         long_memory = load_json(long_memory_file, default_type=list)
@@ -140,7 +158,7 @@ def summarize_chat_to_long_memory(cycle_count, chat_log_file, long_memory_file):
 
     except Exception as e:
         log_error(f"Error summarizing chat to long memory: {e}")
-    
+        
 def wrap_text(text, width=85):
     import textwrap
     return "\n".join(textwrap.wrap(text, width=width))

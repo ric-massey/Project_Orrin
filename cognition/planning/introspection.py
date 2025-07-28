@@ -118,7 +118,16 @@ def introspective_planning():
         if not response:
             raise RuntimeError("No response generated.")
 
-        updated = json.loads(response)
+        # === PATCH: Safe JSON parsing ===
+        try:
+            updated = json.loads(response)
+        except Exception as parse_error:
+            log_model_issue(f"[introspective_planning] Failed to parse JSON: {parse_error}\nRaw response:\n{response}")
+            update_working_memory("⚠️ Introspective planning failed: JSON parse error.")
+            with open("debug_failed_goal_response.json", "w") as f:
+                f.write(response)
+            return  # Do not continue!
+
         if not isinstance(updated, dict) or not all(t in updated for t in REQUIRED_TIERS):
             raise ValueError("Updated goals missing required tiers.")
 
@@ -129,10 +138,18 @@ def introspective_planning():
         merged_goals = merge_goals(current_goals, updated_flat)
         save_json(GOALS_FILE, merged_goals)
 
+        # === [NEW] Focus Goal Selection and Update ===
+        from cognition.planning.goals import update_and_select_focus_goals
+        focus = update_and_select_focus_goals()
+        if focus and focus.get("short_or_mid"):
+            fg = focus["short_or_mid"]
+            update_working_memory(f"🎯 New focus goal set: {fg.get('name','[unnamed]')} — {fg.get('description','')}")
+            log_private(f"🎯 Focus goal now: {fg}")
+
         # === Logging and memory ===
         update_working_memory("🧠 Orrin revised his goals introspectively.")
         log_activity("✅ Orrin's introspective planning complete.")
-        log_private("📋 Orrin updated his goal hierarchy.")
+        log_activity("📋 Orrin updated his goal hierarchy.")
         log_reflection(f"Self-belief reflection: {response.strip()}")
 
         with open(PRIVATE_THOUGHTS_FILE, "a") as f:

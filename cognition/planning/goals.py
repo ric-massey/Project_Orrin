@@ -28,8 +28,16 @@ def load_goals() -> List[Dict]:
         return []
 
 def save_goals(goals: List[Dict]):
+    # Sort by last_updated descending (most recent first)
+    goals_sorted = sorted(
+        goals,
+        key=lambda g: g.get("last_updated", g.get("timestamp", "")),
+        reverse=True
+    )
+    # Limit to 10
+    goals_to_save = goals_sorted[:10]
     with open(GOALS_FILE, "w") as f:
-        json.dump(goals, f, indent=2)
+        json.dump(goals_to_save, f, indent=2)
 
 # === Prune finished/abandoned goals recursively ===
 def prune_goals(goals: List[Dict]) -> List[Dict]:
@@ -137,20 +145,25 @@ def mark_goal_completed(goal: Dict):
 
 # === Focus Goal Selection remains mostly unchanged, but supports nested goals ===
 def select_focus_goals(goals: List[Dict]) -> Dict[str, Dict]:
-    def find_focus(goal_list, tier_names):
+    def find_focus(goal_list, tier_names, collected, max_count):
         for goal in goal_list:
+            if len(collected) >= max_count:
+                break
             if goal.get("status") in ["pending", "in_progress", "active"]:
                 if goal.get("tier") in tier_names:
-                    return goal
+                    collected.append(goal)
                 if "subgoals" in goal:
-                    found = find_focus(goal["subgoals"], tier_names)
-                    if found:
-                        return found
-        return None
+                    find_focus(goal["subgoals"], tier_names, collected, max_count)
+        return collected
 
+    # Only up to 2 short/mid, 1 long term
+    short_or_mid_goals = find_focus(goals, ["short_term", "mid_term"], [], 2)
+    long_term_goals = find_focus(goals, ["long_term"], [], 1)
+
+    # Flatten if none found
     focus = {
-        "short_or_mid": find_focus(goals, ["short_term", "mid_term"]),
-        "long_term": find_focus(goals, ["long_term"]),
+        "short_or_mid": short_or_mid_goals[0] if short_or_mid_goals else None,
+        "long_term": long_term_goals[0] if long_term_goals else None,
     }
 
     with open(FOCUS_GOAL, "w") as f:
@@ -217,3 +230,61 @@ def goal_function_already_exists(goal_tree, function_name):
             if goal_function_already_exists(goal["subgoals"], function_name):
                 return True
     return False
+
+# cognition/planning/goals.py
+
+def maybe_complete_goals():
+    """
+    Traverses the full goal tree.
+    - Marks goals as completed if all subgoals are completed.
+    - Logs and rewards each completion.
+    - Saves updated goals back to GOALS_FILE and, optionally, COMPLETED_GOALS_FILE.
+    """
+    goals = load_goals()
+    changed = False
+    completed_goals = []
+
+    def check_and_complete(goal):
+        nonlocal changed
+        # If already completed or abandoned, skip
+        if goal.get("status") in ["completed", "abandoned"]:
+            return True
+
+        # If has subgoals, check if ALL are complete
+        if goal.get("subgoals"):
+            all_done = all(check_and_complete(sub) for sub in goal["subgoals"])
+            if all_done and goal.get("status") != "completed":
+                mark_goal_completed(goal)
+                completed_goals.append(goal)
+                changed = True
+                return True
+            else:
+                return False
+        else:
+            # Atomic goal: check if already done
+            if goal.get("status") == "completed":
+                return True
+            return False
+
+    # Top-level check for each goal
+    for goal in goals:
+        check_and_complete(goal)
+
+    if changed:
+        save_goals(goals)
+        update_working_memory("🗂️ Ran maybe_complete_goals: marked some goals as completed.")
+        if completed_goals and os.path.exists(COMPLETED_GOALS_FILE):
+            # Append to completed log (optional, if file used)
+            try:
+                old = []
+                if os.path.getsize(COMPLETED_GOALS_FILE) > 0:
+                    with open(COMPLETED_GOALS_FILE, "r") as f:
+                        old = json.load(f)
+                with open(COMPLETED_GOALS_FILE, "w") as f:
+                    json.dump(old + completed_goals, f, indent=2)
+            except Exception as e:
+                update_working_memory(f"⚠️ Failed to write to COMPLETED_GOALS_FILE: {e}")
+    else:
+        update_working_memory("maybe_complete_goals: No new goals completed.")
+
+    return changed

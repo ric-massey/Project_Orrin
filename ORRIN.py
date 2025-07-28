@@ -76,7 +76,6 @@ if __name__ == "__main__":
             if emotional_state.get("emotional_stability", 1.0) < 0.6:
                 reflect_on_emotions(context, context.get("self_model", {}), context.get("long_memory", []))
 
-                
             # === Thalamus: Signal Processing ===
             top_signals, attention_mode = process_inputs(context)
             context["top_signals"] = top_signals
@@ -115,6 +114,8 @@ if __name__ == "__main__":
                         log_pain(context, "frustration", increment=0.3)
 
             # === Function-Based Thinking ===
+            # PATCH: Always guarantee a fallback function runs so loop never stalls!
+            fallback_called = False
             if isinstance(result, dict) and "next_function" in result:
                 fn_name = result["next_function"]
                 record_decision(fn_name, result.get("reason", "No reason given."))
@@ -131,12 +132,23 @@ if __name__ == "__main__":
                 else:
                     log_model_issue(f"⚠️ Unknown function requested: {fn_name}")
                     print("running else loop")
-            elif isinstance(result, dict):
-                log_model_issue("⚠️ No valid instruction returned by think().")
+            else:
+                # === PATCH: Robust fallback ===
+                log_model_issue("⚠️ No valid instruction returned by think(). Fallback to self-reflection.")
                 log_uncertainty_spike(context, increment=0.1)
+                fallback_fn = COGNITIVE_FUNCTIONS.get("reflect_on_self_beliefs")
+                fallback_called = True
+                if fallback_fn:
+                    try:
+                        fallback_fn["function"]()
+                        log_activity(f"✅ Fallback executed: reflect_on_self_beliefs")
+                    except Exception as e:
+                        log_error(f"❌ Fallback function crashed: {e}")
+                else:
+                    print("No fallback function available.")
 
             cycle_num = get_cycle_count()
-            print("🔁 Orrin cycle {cycle_num} complete.\n")
+            print(f"🔁 Orrin cycle {cycle_num} complete.\n")
             time.sleep(10)
 
         except KeyboardInterrupt:
