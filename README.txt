@@ -1,5 +1,6 @@
 # ORRIN: Autonomous AI Agent & AGI Experimentation Framework
-NOT OPEN SOURCE. For research/demonstration only. No redistribution or modification allowed without written consent.
+OPEN SOURCE
+
 [![Python](https://img.shields.io/badge/Python-3.8+-blue)](https://www.python.org)
 [![OpenAI API](https://img.shields.io/badge/OpenAI-API-green)](https://openai.com)
 [![GitHub](https://img.shields.io/badge/GitHub-Repo-black)](https://github.com/ric-massey/Project_Orrin)
@@ -20,7 +21,7 @@ Orrin is an autonomous AI agent and AGI experimentation framework, built in 24 d
 Orrin prioritizes cognition, simulating human-like traits like ambivalence and meta-inquiry. See it: [Demo Video](#demo-video).
 
 ## Demo Video
-Watch Orrin: [Orrin Cognitive Cycle Demo](https://youtube.com/link-to-your-video) (2 min). Visualizations showcase 2,350+ thoughts.
+Watch Orrin: [Orrin Cognitive Cycle Demo](https://www.youtube.com/watch?v=mpEB-tgDDro) (2 min). Visualizations showcase 2,350+ thoughts.
 
 ## Prompt Engineering Highlights
 - Complex Prompt Design: Crafted hundreds of prompts for emotional modeling (e.g., ambivalence) and dream imagery (e.g., mirrored library).
