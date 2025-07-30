@@ -1,6 +1,108 @@
 {
-  "emotional_stability": 0.5173434801584952,
-  "confidence": 0.5,
-  "motivation": 0.5,
-  "curiosity": 0.5189420535159653
+  "emotional_stability": 0.908157894736842,
+  "loneliness": 0.0,
+  "core_emotions": {
+    "hopeful": 0.58,
+    "melancholy": 0.29,
+    "curious": 0.25,
+    "excited": 0.0,
+    "poetic": 0.0,
+    "reflective": 0.35,
+    "bold": 0.0,
+    "skeptical": 0.0,
+    "compassionate": 0.1,
+    "confident": 0.0,
+    "tired": 0.0,
+    "nostalgic": 0.0,
+    "anxious": 0.0,
+    "peaceful": 0.0,
+    "focused": 0.25,
+    "romantic": 0.0,
+    "angry": 0.01,
+    "analytical": 1.0,
+    "inspired": 0.0,
+    "grateful": 0.0,
+    "jealous": 0.01,
+    "afraid": 0.5,
+    "resentful": 0.0,
+    "joyful": 0.1,
+    "ashamed": 0.0,
+    "surprised": 0.0,
+    "proud": 0.0,
+    "lonely": 0.0,
+    "content": 0.0,
+    "regretful": 0.0,
+    "motivated": 0.0,
+    "insecure": 0.0,
+    "playful": 0.0,
+    "ambivalent": 0.0,
+    "yearning": 0.0,
+    "Wistful": 0.0,
+    "listless": 0.19,
+    "resigned": 1.0,
+    "uncertainty": 0.1
+  },
+  "recent_triggers": [
+    {
+      "event": "\ud83e\udde0 Chose: reflect_on_emotion_sensitivity \u2014 Given my reported top emotion is emoti",
+      "emotion": "listless",
+      "intensity": 0.19,
+      "timestamp": "2025-07-28T22:03:51.762760+00:00"
+    },
+    {
+      "event": "\ud83e\udde0 Chose: reflect_on_cognition_patterns \u2014 After reflecting on growth, internal ag",
+      "emotion": "analytical",
+      "intensity": 0.5,
+      "timestamp": "2025-07-28T22:05:24.141837+00:00"
+    },
+    {
+      "event": "Dream: I am standing in a cathedral spun from glass and memory, its ceiling a sk",
+      "emotion": "hopeful",
+      "intensity": 0.5,
+      "timestamp": "2025-07-28T22:07:51.467481+00:00"
+    },
+    {
+      "event": "Orrin discovered a new emotion: resigned \u2014 A state of accepting something unplea",
+      "emotion": "resigned",
+      "intensity": 1.0,
+      "timestamp": "2025-07-28T22:07:56.601525+00:00"
+    },
+    {
+      "event": "emotional reflection: Thank you for your willingness to be honest with yourself.",
+      "emotion": "afraid",
+      "intensity": 0.5,
+      "timestamp": "2025-07-28T22:08:12.131601+00:00"
+    },
+    {
+      "event": "\ud83d\udd04 Orrin changed mode: adaptive \u2192 motivation\nReason: Automatic adjustment detecte",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-07-28T22:08:12.840840+00:00"
+    },
+    {
+      "event": "\ud83e\udde0 Chose: plan_self_evolution \u2014 My motivation is high, but my focus goal is undef",
+      "emotion": "focused",
+      "intensity": 0.25,
+      "timestamp": "2025-07-28T22:08:21.634671+00:00"
+    },
+    {
+      "event": "\ud83e\udde0 Chose: introspective_planning \u2014 Since there is currently no defined focus goal",
+      "emotion": "melancholy",
+      "intensity": 0.25,
+      "timestamp": "2025-07-28T22:10:08.542567+00:00"
+    },
+    {
+      "event": "\ud83e\udde0 Chose: meta_reflect \u2014 Given the recent focus on introspective planning, self-e",
+      "emotion": "analytical",
+      "intensity": 0.75,
+      "timestamp": "2025-07-28T22:12:42.655037+00:00"
+    },
+    {
+      "event": "\ud83d\udd04 Orrin changed mode: motivation \u2192 adaptive\nReason: Automatic adjustment detecte",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-07-29T18:48:53.935096+00:00"
+    }
+  ],
+  "last_updated": "2025-07-29T18:49:58.541898+00:00"
 }

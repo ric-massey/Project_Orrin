@@ -1,4 +1,42 @@
 
-[2025-07-28T21:31:42.416539+00:00] reflect_on_self_beliefs ERROR: 'str' object has no attribute 'get'
+[2025-07-30T16:33:12.724733+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
 
-[2025-07-28T21:35:06.235638+00:00] reflect_on_self_beliefs ERROR: 'str' object has no attribute 'get'
+[2025-07-30T16:33:12.725875+00:00] Error loading /Users/ricmassey/orrin-gui/orrin-electron/orrin/Original_Orrin/data/chat_log.json: Expecting value: line 1 column 1 (char 0)
+
+[2025-07-30T16:33:14.208756+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T16:41:24.492921+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T16:41:26.377510+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T16:47:49.283466+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T16:47:51.311950+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T16:50:15.355918+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T16:50:17.040328+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T16:55:21.870462+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T16:55:23.507241+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T16:58:32.111546+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T16:58:33.656155+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T17:00:01.887484+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T17:00:03.491070+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T17:02:29.027914+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T17:02:30.776734+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T17:37:34.426969+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T17:37:36.525215+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T17:39:39.484104+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable
+
+[2025-07-30T17:39:41.277748+00:00] ❌ detect_emotion GPT fallback failed: argument of type 'NoneType' is not iterable

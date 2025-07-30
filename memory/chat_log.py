@@ -1,143 +1,161 @@
-from datetime import datetime, timezone
-from utils.json_utils import load_json, save_json
-from utils.append import append_to_json
-from emotion.emotion import detect_emotion
-from utils.generate_response import generate_response
-from utils.log import log_error
-from paths import CHAT_LOG_FILE, USER_INPUT
+from __future__ import annotations
 
-def get_user_input(prompt="You: "):
+from datetime import datetime, timezone
+from typing import Any, Dict, Optional, Union
+
+from emotion.emotion import detect_emotion
+import paths
+from utils.append import append_to_json
+from utils.generate_response import generate_response
+from utils.json_utils import load_json, save_json
+from utils.log import log_error
+
+# Tokens that will cause an entry to be ignored when logging
+_NOISE_TOKENS = {"—", "-", "--", "---"}
+
+
+def get_user_input() -> str:
     """
-    Reads user input from USER_INPUT_FILE and clears it after reading.
-    Returns stripped string, or "" if file is empty.
+    Read and clear the contents of USER_INPUT.
+
+    Returns:
+        A stripped string if the file contains meaningful input, or an empty string if
+        the file is empty, missing, or contains only dash characters.
     """
     try:
-        with open(USER_INPUT, "r", encoding="utf-8") as f:
-            user_input = f.read().strip()
-        # Clear file after reading
-        with open(USER_INPUT, "w", encoding="utf-8") as f:
-            f.write("")
-        # --- PATCH: Filter empty/dash input here ---
-        if not user_input or user_input in {"—", "-", "--", "---"}:
-            return ""  # Explicitly return empty string to skip
-        return user_input
+        with open(paths.USER_INPUT, "r", encoding="utf-8") as f:
+            content = f.read().strip()
+        # Clear the file after reading
+        with open(paths.USER_INPUT, "w", encoding="utf-8"):
+            pass
+        return "" if not content or content in _NOISE_TOKENS else content
     except Exception:
         return ""
-    
-def append_to_json(filepath, obj):
-    import json
-    import os
 
-    # If file does not exist, create and write list
-    if not os.path.exists(filepath):
-        with open(filepath, "w") as f:
-            json.dump([obj], f, indent=2)
-        return
 
-    # If file exists, try to load and append
-    try:
-        with open(filepath, "r") as f:
-            try:
-                data = json.load(f)
-                if not isinstance(data, list):
-                    data = []
-            except Exception:
-                data = []
-        data.append(obj)
-        with open(filepath, "w") as f:
-            json.dump(data, f, indent=2)
-    except Exception as e:
-        print(f"Failed to append to {filepath}: {e}")
-
-def log_raw_user_input(entry):
+def _is_noise(content: str) -> bool:
     """
-    Append user and Orrin dialogue entries separately to chat log JSON.
-    Accepts either a string (user-only) or a dict with user/orrin fields.
+    Return True if the content is empty or consists solely of noise tokens.
+    """
+    stripped = content.strip()
+    return not stripped or stripped in _NOISE_TOKENS
+
+
+def _create_chat_entry(
+    speaker: str, content: str, timestamp: Optional[str] = None
+) -> Dict[str, Any]:
+    """
+    Construct a chat log entry with speaker, content, detected emotion, and timestamp.
+
+    Args:
+        speaker: The identifier for who is speaking (e.g. "user" or "orrin").
+        content: The text content of the message.
+        timestamp: Optional timestamp to assign; if not provided, the current UTC time is used.
+
+    Returns:
+        A dictionary representing the chat entry.
+    """
+    return {
+        "speaker": speaker,
+        "content": content,
+        "emotion": detect_emotion(content),
+        "timestamp": timestamp or datetime.now(timezone.utc).isoformat(),
+    }
+
+
+def log_user_message(content: str) -> None:
+    """
+    Append a single user message to the chat log if it is not noise.
+    """
+    if not _is_noise(content):
+        append_to_json(paths.CHAT_LOG_FILE, _create_chat_entry("user", content))
+
+
+def log_dialogue_pair(user: str, orrin: str, timestamp: Optional[str] = None) -> None:
+    """
+    Append a user/orrin dialogue pair to the chat log.  Messages that are empty,
+    consist only of dashes, or where Orrin’s reply is '(no reply)' are skipped.
+
+    Args:
+        user: The user’s message.
+        orrin: The agent’s message.
+        timestamp: Optional timestamp to apply to both messages.
+    """
+    if not _is_noise(user):
+        append_to_json(paths.CHAT_LOG_FILE, _create_chat_entry("user", user, timestamp))
+    orrin_stripped = orrin.strip()
+    if orrin_stripped.lower() not in {"(no reply)", ""} and not _is_noise(orrin_stripped):
+        append_to_json(paths.CHAT_LOG_FILE, _create_chat_entry("orrin", orrin_stripped, timestamp))
+
+
+def log_raw_user_input(entry: Union[str, Dict[str, str]]) -> None:
+    """
+    Dispatch logging based on the type of entry provided.
+
+    If `entry` is a string, it is logged as a single user message.
+    If `entry` is a dict with 'user' and 'orrin' keys, it is logged as a dialogue pair.
+    Any other format is ignored and reported to the error log.
     """
     try:
-        # -- Filter dash/empty input (user OR orrin) --
         if isinstance(entry, str):
-            if not entry.strip() or entry.strip() in {"—", "-", "--", "---"}:
-                return  # Don't log empty/dash messages
-            user_entry = {
-                "speaker": "user",
-                "content": entry,
-                "emotion": detect_emotion(entry),
-                "timestamp": datetime.now(timezone.utc).isoformat()
-            }
-            append_to_json(CHAT_LOG_FILE, user_entry)
-        elif isinstance(entry, dict) and "user" in entry and "orrin" in entry:
-            if (not entry["user"].strip() or entry["user"].strip() in {"—", "-", "--", "---"}) and \
-               (not entry["orrin"].strip() or entry["orrin"].strip() in {"(no reply)"}):
-                return  # Don't log junk exchanges
-            # Optionally, you can log only one side if you want
-            user_entry = {
-                "speaker": "user",
-                "content": entry["user"],
-                "emotion": detect_emotion(entry["user"]),
-                "timestamp": entry.get("timestamp") or datetime.now(timezone.utc).isoformat()
-            }
-            orrin_entry = {
-                "speaker": "orrin",
-                "content": entry["orrin"],
-                "emotion": detect_emotion(entry["orrin"]),
-                "timestamp": entry.get("timestamp") or datetime.now(timezone.utc).isoformat()
-            }
-            # Only log meaningful stuff
-            if user_entry["content"].strip() and user_entry["content"].strip() not in {"—", "-", "--", "---"}:
-                append_to_json(CHAT_LOG_FILE, user_entry)
-            if orrin_entry["content"].strip() and orrin_entry["content"].strip().lower() != "(no reply)":
-                append_to_json(CHAT_LOG_FILE, orrin_entry)
+            log_user_message(entry)
+        elif isinstance(entry, dict) and {"user", "orrin"}.issubset(entry):
+            log_dialogue_pair(entry["user"], entry["orrin"], entry.get("timestamp"))
         else:
-            log_error("Invalid entry format for log_raw_user_input.")
-    except Exception as e:
-        log_error(f"Error logging user input: {e}")
+            log_error("log_raw_user_input received invalid entry format.")
+    except Exception as exc:
+        log_error(f"Error logging user input: {exc}")
 
-def summarize_chat_to_long_memory(cycle_count, chat_log_file, long_memory_file):
+
+def summarize_chat_to_long_memory(
+    cycle_count: int, chat_log_file: str, long_memory_file: str
+) -> None:
     """
-    Every N cycles, summarize recent chat log entries into long-term memory.
-    If 20+ messages exist, summarize and trim the oldest 10.
+    Every 5 cycles, summarise the last 20 chat messages into a single long-term memory entry.
+
+    A summary is generated from the most recent 20 chat log entries whenever
+    `cycle_count` is divisible by 5 and at least 20 messages exist. Once summarised,
+    the oldest 10 chat entries are trimmed from the log.
+
+    Args:
+        cycle_count: The current cycle number used to decide when to summarise.
+        chat_log_file: Path to the JSON file containing the chat log.
+        long_memory_file: Path to the JSON file where long-term memories are stored.
     """
-    if cycle_count % 5 != 0:
+    if cycle_count % 5:
         return
 
     try:
-        chat_log = load_json(chat_log_file, default_type=list)
+        chat_log: list[dict[str, Any]] = load_json(chat_log_file, default_type=list)
         if len(chat_log) < 20:
             return
 
         recent_chats = chat_log[-20:]
         chat_text = "\n".join(entry.get("content", "") for entry in recent_chats)
-
         prompt = (
             "Summarize the following recent conversation concisely and meaningfully, "
             "capturing main topics, emotions, and insights:\n\n"
-            f"{chat_text}\n\n"
-            "Summary:"
+            f"{chat_text}\n\nSummary:"
         )
-
         summary = generate_response(prompt)
         if not summary:
             return
 
-        # Optionally, extract main emotion from all recent chats for summary
-        from emotion.emotion import detect_emotion
-        emotions = [entry.get("emotion") for entry in recent_chats if entry.get("emotion")]
-        labels = []
-        for e in emotions:
+        # Determine the most frequent emotion label across recent chats
+        labels: list[str] = []
+        for e in (entry.get("emotion") for entry in recent_chats):
             if isinstance(e, dict):
-                val = e.get("emotion", None)
-                if val:
+                if (val := e.get("emotion")):
                     labels.append(val)
             elif isinstance(e, str):
                 labels.append(e)
-        emotion = max(set(labels), key=labels.count) if labels else "neutral"
+        dominant_emotion = max(set(labels), key=labels.count) if labels else "neutral"
 
-        # Save summary to long-term memory with all schema fields
-        long_memory = load_json(long_memory_file, default_type=list)
+        # Build and save the new long-term memory record
+        long_memory: list[dict[str, Any]] = load_json(long_memory_file, default_type=list)
         new_memory = {
             "content": summary.strip(),
-            "emotion": emotion,
+            "emotion": dominant_emotion,
             "timestamp": datetime.now(timezone.utc).isoformat(),
             "event_type": "chat_summary",
             "agent": "orrin",
@@ -152,13 +170,16 @@ def summarize_chat_to_long_memory(cycle_count, chat_log_file, long_memory_file):
         long_memory.append(new_memory)
         save_json(long_memory_file, long_memory)
 
-        # Trim the oldest 10 entries from chat log
-        trimmed_log = chat_log[10:]
-        save_json(chat_log_file, trimmed_log)
+        # Trim the oldest 10 entries from the chat log
+        save_json(chat_log_file, chat_log[10:])
 
-    except Exception as e:
-        log_error(f"Error summarizing chat to long memory: {e}")
-        
-def wrap_text(text, width=85):
+    except Exception as exc:
+        log_error(f"Error summarizing chat to long memory: {exc}")
+
+
+def wrap_text(text: str, width: int = 85) -> str:
+    """
+    Return text wrapped to the specified width.  Useful for formatting console output or logs.
+    """
     import textwrap
-    return "\n".join(textwrap.wrap(text, width=width))
+    return "\n".join(textwrap.wrap(text, width))

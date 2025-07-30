@@ -1,47 +1,67 @@
-from utils.load_utils import load_json
-from datetime import datetime, timezone 
-from emotion.emotion import detect_emotion
-from utils.json_utils import save_json
-from utils.memory_utils import summarize_memories
-from cognition.selfhood.ethics import update_values_with_lessons
-from utils.embedder import get_embedding
-from paths import (
-    LONG_MEMORY_FILE, PRIVATE_THOUGHTS_FILE
-)
+from __future__ import annotations
+
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional
 
 import uuid
 
-DUPLICATE_WINDOW = 10  # How many recent memories to check for duplicates
-MAX_LONG_MEMORY = 2000
+from cognition.selfhood.ethics import update_values_with_lessons
+from emotion.emotion import detect_emotion
+from paths import LONG_MEMORY_FILE, PRIVATE_THOUGHTS_FILE
+from utils.embedder import get_embedding
+from utils.json_utils import save_json
+from utils.load_utils import load_json
+from utils.log import log_error, log_private
+from utils.memory_utils import summarize_memories
+
+# Constants defining behaviour
+DUPLICATE_WINDOW: int = 10        # Number of recent entries to check for duplicates
+MAX_LONG_MEMORY: int = 2000       # Maximum allowed entries in long-term memory
+STRONG_EMOTIONS = {"joy", "fear", "anger", "grief", "pride", "curiosity"}
+
 
 def update_long_memory(
-    new,
-    emotion=None,
-    event_type="summary",
-    agent="orrin",
-    importance=1,
-    priority=1,
-    referenced=0,
-    pin=False,
-    related_memory_ids=None,
-    recall_count=0,
-    embedding=None,
-    context=None
-):
+    new: Any,
+    emotion: Optional[str] = None,
+    event_type: str = "summary",
+    agent: str = "orrin",
+    importance: int = 1,
+    priority: int = 1,
+    referenced: int = 0,
+    pin: bool = False,
+    related_memory_ids: Optional[List[str]] = None,
+    recall_count: int = 0,
+    embedding: Optional[List[float]] = None,
+    context: Optional[dict] = None,
+) -> None:
+    """Append a new event to long-term memory, with duplicate prevention and embedding generation.
+
+    Args:
+        new: Either a string representing the content or a dict with existing fields.
+        emotion: Optional override for the detected emotion.
+        event_type: Category of the event (e.g. "summary", "event").
+        agent: Identifier for the agent that generated the memory.
+        importance: Subjective importance level.
+        priority: Priority level for retrieval.
+        referenced: Number of references to this memory at creation.
+        pin: If True, prevents the entry from being pruned.
+        related_memory_ids: IDs of related memories.
+        recall_count: Initial recall count.
+        embedding: Precomputed embedding vector; if None, one is generated.
+        context: Optional context object used to trigger reward signals.
+
+    Errors are logged via log_error; the function does not raise.
     """
-    Add a new long-term memory event, fully featured for brain-style recall.
-    Prevents recent duplicate memories. Embeds everything.
-    Optionally triggers reward signals for valuable memories.
-    """
-    memories = load_json(LONG_MEMORY_FILE, default_type=list)
+    # Load existing memories, ensuring it's a list
+    memories: list = load_json(LONG_MEMORY_FILE, default_type=list)
     if not isinstance(memories, list):
         memories = []
 
     now = datetime.now(timezone.utc).isoformat()
 
-    # === 1. Build entry ===
+    # Build the entry from either a dict or a string
     if isinstance(new, dict):
-        entry = new.copy()
+        entry: dict = new.copy()
         entry.setdefault("id", str(uuid.uuid4()))
         entry.setdefault("timestamp", now)
         entry.setdefault("emotion", emotion or detect_emotion(entry.get("content", "")))
@@ -49,59 +69,55 @@ def update_long_memory(
         entry.setdefault("agent", agent)
         entry.setdefault("importance", importance)
         entry.setdefault("priority", priority)
-        entry.setdefault("referenced", int(referenced))
+        entry.setdefault("referenced", referenced)
         entry.setdefault("pin", pin)
         entry.setdefault("related_memory_ids", related_memory_ids or [])
-        entry.setdefault("recall_count", int(recall_count))
+        entry.setdefault("recall_count", recall_count)
         entry.setdefault("context", context)
     elif isinstance(new, str):
         entry = {
             "id": str(uuid.uuid4()),
+            "timestamp": now,
             "content": new.strip(),
             "emotion": emotion or detect_emotion(new),
-            "timestamp": now,
             "event_type": event_type,
             "agent": agent,
             "importance": importance,
             "priority": priority,
-            "referenced": int(referenced),
+            "referenced": referenced,
             "pin": pin,
             "related_memory_ids": related_memory_ids or [],
-            "recall_count": int(recall_count),
-            "context": context
+            "recall_count": recall_count,
+            "context": context,
         }
     else:
-        from utils.log import log_error
         log_error("update_long_memory: Invalid 'new' argument.")
         return
 
-    # === 2. Embedding (always generate) ===
+    # Generate or attach embedding
     try:
         emb = embedding if embedding is not None else get_embedding(entry.get("content", ""))
         if hasattr(emb, "tolist"):
             emb = emb.tolist()
         entry["embedding"] = emb
-    except Exception as e:
-        from utils.log import log_error
-        log_error(f"update_long_memory: Embedding failed: {e}")
+    except Exception as exc:
+        log_error(f"update_long_memory: Embedding failed: {exc}")
         entry["embedding"] = []
 
-    # === 3. Duplicate Prevention (last N window) ===
-    recent = memories[-DUPLICATE_WINDOW:]
-    for m in recent:
+    # Check for duplicates in the most recent window
+    for m in memories[-DUPLICATE_WINDOW:]:
         if m.get("content", "") == entry.get("content", "") and m.get("event_type", "") == entry.get("event_type", ""):
-            # Already exists very recently; skip adding
-            from utils.log import log_private
             log_private(f"[long_memory] Skipped duplicate memory: {entry['content'][:50]}")
             return
 
+    # Append the new entry
     memories.append(entry)
 
-    # === 4. Reward for high-importance/priority memories ===
-    if context is not None:
-        if importance >= 2 or priority >= 2 or entry.get("referenced", 0) >= 3:
+    # Optionally trigger a reward signal for important/priority memories
+    if context is not None and (importance >= 2 or priority >= 2 or referenced >= 3):
+        try:
             from emotion.reward_signals.reward_signals import release_reward_signal
-            intensity = min(1.0, importance * 0.5 + priority * 0.5 + 0.1 * entry.get("referenced", 0))
+            intensity = min(1.0, importance * 0.5 + priority * 0.5 + 0.1 * referenced)
             release_reward_signal(
                 context=context,
                 signal_type="dopamine",
@@ -109,21 +125,21 @@ def update_long_memory(
                 expected_reward=0.5,
                 effort=0.4,
                 mode="phasic",
-                source="memory_update"
+                source="memory_update",
             )
+        except Exception as exc:
+            log_error(f"update_long_memory: reward signalling failed: {exc}")
 
-    # === 5. Prune if over MAX_LONG_MEMORY ===
+    # Prune if the memory exceeds the maximum size
     if len(memories) > MAX_LONG_MEMORY:
         prune_long_memory(max_total=MAX_LONG_MEMORY)
         memories = load_json(LONG_MEMORY_FILE, default_type=list)
 
     save_json(LONG_MEMORY_FILE, memories)
 
-def reevaluate_memory_significance():
-    """
-    Updates the effectiveness_score of all long-term memories,
-    factoring in new schema: recall count, pin, relatedness, emotion, etc.
-    """
+
+def reevaluate_memory_significance() -> None:
+    """Recompute the 'effectiveness_score' of all entries in long-term memory."""
     long_memory = load_json(LONG_MEMORY_FILE, default_type=list)
     if not isinstance(long_memory, list):
         return
@@ -136,33 +152,42 @@ def reevaluate_memory_significance():
         emotion = mem.get("emotion", "neutral")
         score = mem.get("effectiveness_score", 5)
 
-        # Increase for strong signals
+        # Reward memories tagged as lessons or containing strong emotions
         if "lesson:" in content:
             score = min(score + 1, 10)
-        if emotion in ["grief", "joy", "fear", "pride"]:
+        if emotion in {"grief", "joy", "fear", "pride"}:
             score = min(score + 1, 10)
+
+        # Adjust based on recall_count
         recall_count = mem.get("recall_count", 0)
         if recall_count >= 5:
             score = min(score + 2, 10)
         elif recall_count >= 2:
             score = min(score + 1, 10)
+
+        # Pins have a minimum significance
         if mem.get("pin", False):
             score = max(score, 8)
+
+        # Age penalty
         try:
             age_days = (datetime.now(timezone.utc) - datetime.fromisoformat(mem["timestamp"])).days
             if age_days > 30 and score > 3 and not mem.get("pin", False):
                 score -= 1
-        except:
+        except Exception:
             pass
-        if isinstance(mem.get("related_memory_ids", []), list):
-            num_related = len(mem["related_memory_ids"])
-            if num_related > 2:
-                score = min(score + 1, 10)
+
+        # Related memories bonus
+        if isinstance(mem.get("related_memory_ids"), list) and len(mem["related_memory_ids"]) > 2:
+            score = min(score + 1, 10)
+
         mem["effectiveness_score"] = score
 
     save_json(LONG_MEMORY_FILE, long_memory)
 
-def prune_long_memory(max_total=2000):
+
+def prune_long_memory(max_total: int = MAX_LONG_MEMORY) -> None:
+    """Reduce long-term memory to `max_total` items by removing low scoring entries and summarising them."""
     long_memory = load_json(LONG_MEMORY_FILE, default_type=list)
     if not isinstance(long_memory, list):
         return
@@ -170,17 +195,19 @@ def prune_long_memory(max_total=2000):
     if len(long_memory) <= max_total:
         return
 
-    def score(mem):
+    def memory_score(mem: dict) -> int:
         try:
             score = 0
             emotion = mem.get("emotion", "")
             content = mem.get("content", "").lower()
-            strong_emotions = ["joy", "fear", "anger", "grief", "pride", "curiosity"]
-            if emotion in strong_emotions:
+
+            if emotion in STRONG_EMOTIONS:
                 score += 3
             if "lesson:" in content:
                 score += 4
             score += mem.get("effectiveness_score", 5) // 2
+
+            # Recency boost and age penalty
             delta = datetime.now(timezone.utc) - datetime.fromisoformat(mem.get("timestamp", ""))
             days_old = delta.days
             if days_old < 3:
@@ -189,29 +216,37 @@ def prune_long_memory(max_total=2000):
                 score += 1
             elif days_old > 30:
                 score -= 2
+
+            # Pin multiplier
             if mem.get("pin", False):
                 score += 10000
-            recall_count = mem.get("recall_count", 0)
-            if recall_count >= 5:
+
+            # Recall bonus
+            rc = mem.get("recall_count", 0)
+            if rc >= 5:
                 score += 2
-            elif recall_count >= 2:
+            elif rc >= 2:
                 score += 1
-            num_related = len(mem.get("related_memory_ids", [])) if isinstance(mem.get("related_memory_ids", []), list) else 0
-            if num_related > 2:
+
+            # Related memory bonus
+            if isinstance(mem.get("related_memory_ids"), list) and len(mem["related_memory_ids"]) > 2:
                 score += 1
+
             score += int(mem.get("importance", 1))
             score += int(mem.get("priority", 1))
-        except Exception as e:
-            from utils.log import log_error
-            log_error(f"prune_long_memory: scoring failed: {e}")
+
+        except Exception as exc:
+            log_error(f"prune_long_memory: scoring failed: {exc}")
             score = 0
         return score
 
-    scored = sorted(long_memory, key=lambda m: (score(m), m.get("timestamp", "")), reverse=True)
+    # Sort memories by their score and timestamp
+    scored = sorted(long_memory, key=lambda m: (memory_score(m), m.get("timestamp", "")), reverse=True)
     pins = [m for m in scored if m.get("pin", False)]
     non_pins = [m for m in scored if not m.get("pin", False)]
-    kept = pins + non_pins[:max_total - len(pins)]
-    removed = non_pins[max_total - len(pins):]
+
+    kept = pins + non_pins[: max_total - len(pins)]
+    removed = non_pins[max_total - len(pins) :]
 
     if removed:
         summary = summarize_memories(removed)
@@ -219,44 +254,44 @@ def prune_long_memory(max_total=2000):
             merged = {
                 "content": f"🧠 Summary of faded memories:\n{summary}",
                 "emotion": detect_emotion(summary),
-                "timestamp": datetime.now(timezone.utc).isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
             }
             kept.append(merged)
         update_values_with_lessons()
 
     save_json(LONG_MEMORY_FILE, kept)
+
+    # Log pruning to private thoughts file
     try:
         with open(PRIVATE_THOUGHTS_FILE, "a") as f:
-            f.write(f"\n[{datetime.now(timezone.utc)}] Orrin pruned {len(removed)} long memories. "
-                    f"{'Summarized and merged.' if removed else ''}\n")
-    except Exception as e:
-        from utils.log import log_error
-        log_error(f"prune_long_memory: failed writing to private thoughts: {e}")
+            f.write(
+                f"\n[{datetime.now(timezone.utc)}] Orrin pruned {len(removed)} long memories. "
+                f"{'Summarized and merged.' if removed else ''}\n"
+            )
+    except Exception as exc:
+        log_error(f"prune_long_memory: failed writing to private thoughts: {exc}")
 
-def remember(event, context=None, 
-             emotion=None, 
-             event_type="event", 
-             agent="orrin", 
-             importance=1, 
-             priority=1, 
-             referenced=0, 
-             pin=False, 
-             related_memory_ids=None):
-    """
-    Store an event in long-term memory with full schema.
-    Now includes deduplication and embeddings.
-    """
-    from emotion.emotion import detect_emotion
 
-    long_memory = load_json(LONG_MEMORY_FILE, default_type=list)
+def remember(
+    event: Any,
+    context: Optional[dict] = None,
+    emotion: Optional[str] = None,
+    event_type: str = "event",
+    agent: str = "orrin",
+    importance: int = 1,
+    priority: int = 1,
+    referenced: int = 0,
+    pin: bool = False,
+    related_memory_ids: Optional[List[str]] = None,
+) -> None:
+    """Store an event in long-term memory with deduplication and embeddings."""
+    long_memory: list = load_json(LONG_MEMORY_FILE, default_type=list)
     now = datetime.now(timezone.utc).isoformat()
     content_str = event.strip() if isinstance(event, str) else str(event)
 
-    # Deduplication window
-    recent = long_memory[-DUPLICATE_WINDOW:]
-    for m in recent:
+    # Skip duplicates within the recent window
+    for m in long_memory[-DUPLICATE_WINDOW:]:
         if m.get("content", "") == content_str and m.get("event_type", "") == event_type:
-            from utils.log import log_private
             log_private(f"[long_memory] Skipped duplicate memory: {content_str[:50]}")
             return
 
@@ -264,9 +299,8 @@ def remember(event, context=None,
         emb = get_embedding(content_str)
         if hasattr(emb, "tolist"):
             emb = emb.tolist()
-    except Exception as e:
-        from utils.log import log_error
-        log_error(f"remember: embedding failed: {e}")
+    except Exception as exc:
+        log_error(f"remember: embedding failed: {exc}")
         emb = []
 
     entry = {
@@ -284,7 +318,8 @@ def remember(event, context=None,
         "recall_count": 0,
         "related_memory_ids": related_memory_ids or [],
         "embedding": emb,
-        "context": context
+        "context": context,
     }
+
     long_memory.append(entry)
     save_json(LONG_MEMORY_FILE, long_memory)
