@@ -4,6 +4,7 @@ from utils.json_utils import extract_json, load_json
 from utils.log import log_error
 from utils.memory_utils import format_memories_for_prompt
 from utils.summarizers import summarize_self_model
+from utils.self_model import ensure_self_model_integrity
 from utils.knowledge_utils import recall_relevant_knowledge
 from utils.emotion_utils import detect_emotion, dominant_emotion
 from emotion.reward_signals.reward_signals import release_reward_signal, novelty_penalty
@@ -24,6 +25,7 @@ def select_function(
     amygdala_response=None,
     speaker=None
 ):
+    self_model = ensure_self_model_integrity(self_model)
     # Defensive: ensure dict structure
     if not isinstance(available_functions, dict):
         available_functions = {fn: {"function": fn, "is_action": False} for fn in available_functions}

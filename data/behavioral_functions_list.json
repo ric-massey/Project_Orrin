@@ -1,227 +1,212 @@
 [
   {
     "name": "add_tool_to_catalog",
-    "summary": "This function adds a new tool with its details to a JSON-based catalog unless a tool with the same name already exists, logging the outcome appropriately.",
+    "summary": "This function adds a new tool with its details to a JSON catalog file, ensuring no duplicate names, and logs the result.",
     "is_action": true
   },
   {
     "name": "append_to_json",
-    "summary": "This function appends a new dictionary entry to a JSON file containing a list (creating the file if it doesn\u2019t exist), ensuring the file\u2019s directory exists and handling errors gracefully.",
+    "summary": "This function appends a new dictionary entry to a JSON file containing a list, creating the file or initializing it as a list if necessary, and handling errors gracefully.",
     "is_action": true
   },
   {
     "name": "call_generated_function",
-    "summary": "This function attempts to reload a dynamically generated module and call a specified function by name, logging successes or errors and returning a boolean to indicate whether the function was successfully executed.",
+    "summary": "This function attempts to reload a dynamically generated module and call a specified function within it, logging the outcome or any errors encountered, and returning True on success or False on failure.",
     "is_action": true
   },
   {
     "name": "delay_between_requests",
-    "summary": "This function pauses the program for a random duration between 2 and 5 seconds before continuing.",
+    "summary": "This function pauses the program for a random duration between 2 and 5 seconds.",
     "is_action": true
   },
   {
     "name": "detect_emotion",
-    "summary": "This function analyzes the input text for the presence of predefined emotion keywords and returns the emotion with the highest keyword match, or \"neutral\" if no emotion keywords are found.",
+    "summary": "This function analyzes a given text to determine its dominant emotion by checking for the presence of predefined emotion-specific keywords and returns the corresponding emotion or \"neutral\" if no emotion is detected.",
     "is_action": true
   },
   {
     "name": "evaluate_tool_use",
-    "summary": "This function scans a list of memory entries for phrases indicating a need to use specific tools (like search or Python), and records new, unique tool-use requests (with reasons and timestamps) in a persistent JSON file.",
+    "summary": "This function scans a list of memory entries for keywords indicating a need to use specific tools (like search or Python), and records unique tool-use requests with reasons and timestamps to a JSON file.",
     "is_action": true
   },
   {
     "name": "execute_pending_tools",
-    "summary": "The **execute_pending_tools** function processes all unexecuted tool requests from a JSON file, runs each specified tool with its given reason, logs and reflects on the results with timestamps and emotions, updates both long-term and working memory, marks requests as executed, and saves all changes.",
+    "summary": "The `execute_pending_tools` function processes each unexecuted tool request from a file, runs the requested tool with its reason, logs the result and a reflection (including detected emotion) to long-term memory, marks the request as executed, and saves all updates.",
     "is_action": true
   },
   {
     "name": "execute_python_code",
-    "summary": "This function executes a given Python code string, capturing any output or errors, and returns a dictionary with the execution result, output, and error information.",
+    "summary": "This function executes a string of Python code, capturing its standard output and any errors, and returns a dictionary with the results and execution status.",
     "is_action": true
   },
   {
     "name": "extract_json",
-    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a string by first searching for a fenced code block labeled as JSON, then by locating the first balanced pair of braces, or finally by parsing the entire string, and returns an error message if all attempts fail.",
+    "summary": "The `extract_json` function attempts to extract and parse a JSON object from a given text string by first looking for a fenced code block labeled as JSON, then by searching for the first balanced curly braces, and finally by trying to parse the entire text as JSON, returning an error if all attempts fail.",
     "is_action": true
   },
   {
     "name": "extract_last_reflection_topic",
-    "summary": "This function reads a log of reflections from a JSON file, searches backwards for the most recent entry about self-belief or reflection, and returns a snippet (up to 60 characters) of its content, or a default string if none is found or an error occurs.",
+    "summary": "This function retrieves the most recent meaningful topic of internal reflection, prioritizing recent emotionally-tagged working memory entries, then falling back to a reflection log file, and finally using the current emotional state if all else fails.",
     "is_action": true
   },
   {
     "name": "filter_memories",
-    "summary": "The `filter_memories` function takes a list, returns only the dictionary entries, and logs any items that are not dictionaries or if the input is not a list.",
+    "summary": "This function takes a list, keeps only the dictionary elements, logs any non-dictionary items, and returns the filtered list.",
     "is_action": true
   },
   {
     "name": "function_already_exists",
-    "summary": "The function checks if a file at a given path exists and contains a function definition with the specified name.",
+    "summary": "This function checks whether a Python function with a given name is already defined in a specified file by searching for the string `\"def function_name()\"` in the file's contents.",
     "is_action": true
   },
   {
     "name": "generate_behavior_from_integration",
-    "summary": "This function, given a recent reflection topic, generates actions (such as proposing a new goal, vocalizing intent, and updating a file) by creating an autogenerated Python function and its justification, and returns these candidate actions for further evaluation.",
+    "summary": "The `generate_behavior_from_integration` function analyzes the current context to identify an active goal or reflection topic, generates clarification questions if the goal is vague, decomposes complex goals into actionable subgoals, creates and writes a corresponding Python function for the key subgoal, and returns a list of candidate action dictionaries (such as asking for clarification, setting subgoals, executing generated code, vocalizing intent, and saving proposals) for further evaluation and execution.",
     "is_action": true
   },
   {
     "name": "generate_response",
-    "summary": "The `generate_response` function prepares a prompt and system message, logs them, sends them to an LLM (language model) API for a response using configuration settings, logs the result, and returns the model's reply, handling errors gracefully.",
+    "summary": "The `generate_response` function takes a user prompt, loads or uses a specified model configuration, prepares and logs the prompt and system message, sends them to a language model API to generate a response, logs the output, and returns the reply, handling errors gracefully.",
     "is_action": true
   },
   {
     "name": "get_self_model",
-    "summary": "Returns the contents of the current self_model.json file as a Python dictionary by calling load_json with the file path and dict as the default type.",
+    "summary": "This function loads a JSON file representing the current self model, checks its integrity, and returns it as a dictionary.",
     "is_action": true
   },
   {
     "name": "get_thinking_model",
-    "summary": "Returns the value associated with the \"thinking\" key from the model_roles dictionary, or \"gpt-4.1\" if \"thinking\" is not present.",
-    "is_action": true
-  },
-  {
-    "name": "goal_already_exists",
-    "summary": "This function checks whether a specific goal and reason pair already exists within the most recent entries of a JSON file, returning True if found and False otherwise.",
+    "summary": "This function returns the value associated with the \"thinking\" key in the model_roles dictionary, or \"gpt-4.1\" if that key is not present.",
     "is_action": true
   },
   {
     "name": "goal_function_already_exists",
-    "summary": "The `goal_function_already_exists` function checks whether the specified function name appears in the \"goal\" field of any of the most recent entries (up to `window`, default 30) in a JSON file at `file_path`.",
+    "summary": "This function recursively checks if any goal or subgoal in a goal tree contains a given function name in its 'goal' or 'name' fields.",
     "is_action": true
   },
   {
     "name": "is_scraping_allowed",
-    "summary": "This function checks a website\u2019s robots.txt file to determine if web scraping is allowed for the given URL by any user-agent.",
+    "summary": "This function checks whether web scraping is permitted for a given URL by reading the website's robots.txt file and verifying if access is allowed for any user agent.",
     "is_action": true
   },
   {
     "name": "load_json",
-    "summary": "This function attempts to load and return JSON data from a file, returning an empty instance of a specified type (defaulting to dict) if the file is missing, empty, or an error occurs.",
+    "summary": "This function attempts to load and return JSON data from a given file path, but if the file doesn't exist, is empty, or an error occurs, it returns an empty instance of a specified default type (defaulting to dict) and logs any exceptions.",
     "is_action": true
   },
   {
     "name": "load_private_thoughts_as_list",
-    "summary": "This function reads a text file line by line from the given path, parsing each non-empty line into a dictionary with optional timestamp and content fields, and returns a list of these thought dictionaries, or an empty list if the file can't be read.",
+    "summary": "This function reads a text file line by line, parses each non-empty line into a dictionary with optional timestamp and content fields (depending on the line format), handles errors, and returns a list of only those dictionary entries.",
     "is_action": true
   },
   {
     "name": "log_activity",
-    "summary": "This function appends a timestamped activity message to a log file called ACTIVITY_LOG using UTF-8 encoding.",
+    "summary": "This function appends a timestamped message to an activity log file using UTF-8 encoding.",
     "is_action": true
   },
   {
     "name": "log_error",
-    "summary": "This function appends an error message, timestamped in UTC, to a designated error log file.",
+    "summary": "This function appends a timestamped error message to an error log file in UTF-8 encoding.",
     "is_action": true
   },
   {
     "name": "log_model_issue",
-    "summary": "Logs a message to the MODEL_FAILURE file with a UTC timestamp in ISO format.",
+    "summary": "This function appends a timestamped message to a log file specified by MODEL_FAILURE, recording model-related issues.",
     "is_action": true
   },
   {
     "name": "log_private",
-    "summary": "This function appends a timestamped message to a private log file using UTF-8 encoding and UTC time.",
+    "summary": "This function appends a timestamped message to a private thoughts file using UTF-8 encoding.",
     "is_action": true
   },
   {
     "name": "log_raw_user_input",
-    "summary": "This function logs a user-Orrin chat entry to a JSON file, formatting the entry (and detecting emotion) based on whether it's a plain user string or a dictionary with user and Orrin dialogue fields, and handles any errors that occur.",
+    "summary": "This function logs user input differently depending on whether it is a single string message or a dictionary representing a user-bot dialogue, and reports errors for invalid formats.",
     "is_action": true
   },
   {
     "name": "maybe_speak_aloud",
-    "summary": "This function determines whether the AI (\"Orrin\") should spontaneously speak aloud to itself, based on its level of curiosity and a random chance, even when there is no user input.",
+    "summary": "This function decides whether to \"speak aloud\" a thought based on the agent's level of curiosity and a random chance, logging the decision and returning the appropriate response.",
     "is_action": true
   },
   {
     "name": "meta_reflect",
-    "summary": "The `meta_reflect` function loads and merges memory context, executes a series of self-reflection and self-improvement steps (logging the outcome of each), and records a summary of the process and any errors to log files for future analysis.",
+    "summary": "The `meta_reflect` function performs a comprehensive self-reflection process by loading and merging relevant context and memory, ensuring self-model integrity, sequentially executing a series of cognitive and self-improvement steps, logging the results, and handling any errors that occur during the process.",
     "is_action": true
   },
   {
     "name": "read_file",
-    "summary": "This function attempts to read the contents of a text file at the given path using UTF-8 encoding, logs the outcome, and returns a dictionary indicating success with the file content or failure with the error message.",
+    "summary": "This function attempts to read the contents of a file at the given path using UTF-8 encoding, logs the outcome, and returns a dictionary indicating success with the file content or failure with an error message.",
     "is_action": true
   },
   {
     "name": "reflect_on_result",
-    "summary": "This function generates a reflection prompt based on a tool's usage, analyzes the tool's result, and either logs a JSON-formatted follow-up tool request or returns a plain text reflection, handling and logging errors as needed.",
+    "summary": "This function prompts a language model to reflect on the outcome of using a tool, interprets its response (as either a textual reflection or a list of follow-up tool requests in JSON), and saves any valid follow-up requests to a file for further action.",
     "is_action": true
   },
   {
     "name": "reload_generated_module",
-    "summary": "This function attempts to (re)load a module named by the constant `AUTOGENERATED_THOUGHTS` from disk (if its file exists), handling errors by logging them and returning the loaded module or `None` if unsuccessful.",
+    "summary": "This function attempts to load or reload a dynamically generated Python module specified by `AUTOGENERATED_THOUGHTS`, after checking that its file exists, and logs an error if the process fails.",
     "is_action": true
   },
   {
     "name": "revise_think",
-    "summary": "The **revise_think** function enables Orrin (an AI) to reflectively rewrite and safely update its own core `think()` function by analyzing its internal state, recent experiences, and past results, then proposing, validating, sandbox-testing, and saving an improved version of the function.",
-    "is_action": true
-  },
-  {
-    "name": "run_python",
-    "summary": "This function attempts to evaluate a string of Python code in a restricted environment and returns the result as a string, or an error message if evaluation fails.",
-    "is_action": true
-  },
-  {
-    "name": "run_search",
-    "summary": "This function takes a search query, uses it to generate a relevant web page URL likely to contain the answer, scrapes the content from that URL, and returns both the URL and the scraped content.",
+    "summary": "**Summary:**  \nThe `revise_think()` function enables the AI (Orrin) to reflectively rewrite and update its own core `think()` function by analyzing its recent thoughts, internal state, and results, generating an improved version using an AI model, validating and sandbox-testing the new code, and then safely replacing the old function if the revision passes all checks.",
     "is_action": true
   },
   {
     "name": "run_tool",
-    "summary": "This function selects and executes a specific tool function\u2014either run_python or run_search\u2014based on the tool argument, using reason as input, and returns an error message if the tool is unrecognized.",
+    "summary": "This function takes a tool name and a reason, checks if the tool exists in a registry, then calls the corresponding function with appropriate arguments depending on the tool type, handling errors for unknown tools or invalid arguments.",
     "is_action": true
   },
   {
     "name": "save_json",
-    "summary": "This function attempts to safely save JSON data to a specified file path, creating parent directories if needed, using file locking on non-Windows systems, and logging any errors that occur during the process.",
+    "summary": "This function saves data as a JSON file to the specified filepath, ensuring the directory exists, using file locking for non-Windows systems, and logging any errors encountered.",
     "is_action": true
   },
   {
     "name": "save_self_model",
-    "summary": "This function validates that the input is a dictionary and then saves it as JSON to a file named \"self_model.json\".",
+    "summary": "Validates and ensures the integrity of the input dictionary before saving it as JSON to self_model.json.",
     "is_action": true
   },
   {
     "name": "scrape_text",
-    "summary": "This function attempts to fetch and return up to 2000 characters of visible text from a given URL, first checking robots.txt permissions, applying a request delay, and handling errors gracefully.",
+    "summary": "This function attempts to safely fetch and return up to 2000 characters of visible text from a given URL, respecting robots.txt rules, delaying between requests, and handling errors gracefully.",
     "is_action": true
   },
   {
     "name": "summarize_recent_thoughts",
-    "summary": "This function retrieves the most recent\u202f*n*\u202freflections from long-term memory, summarizes their content as bullet points, and returns them as a string.",
+    "summary": "This function retrieves the most recent reflections from long-term memory (optionally filtered by event type) and returns a short, formatted summary including their content and any associated emotions or intensity.",
     "is_action": true
   },
   {
     "name": "tool_thinking",
-    "summary": "The function `tool_thinking` collects recent memory entries, prompts an AI model to identify which of those might benefit from external tool use (such as web search or code), parses the AI\u2019s suggestions, and saves them as tool requests for future action, while logging relevant activities and errors.",
+    "summary": "The `tool_thinking` function reflects on the AI's recent memories to identify thoughts that could benefit from using external tools (like web search or code), asks a language model to suggest appropriate tool actions in JSON format, and logs or stores these suggestions for future use.",
     "is_action": true
   },
   {
     "name": "update_working_memory",
-    "summary": "The update_working_memory function logs a new event or thought to a prioritized, self-pruning working memory buffer, updating metadata (such as emotion, importance, decay, and pin status), deduplicating pins, adjusting memory decay, sorting by significance, pruning older unpinned memories, and saving the updated buffer for short-term contextual reasoning.",
+    "summary": "The function **`update_working_memory`** adds a new entry (thought or event) to a working memory log, updates metadata and decay for existing entries, handles pinning and overflow by promoting old entries to long-term memory if needed, and saves the updated memory list, ensuring important recent items are retained and memory size is managed.",
     "is_action": true
   },
   {
     "name": "validate_think_code",
-    "summary": "The `validate_think_code` function checks whether a supplied Python code string for a `think()` function is safe to run by verifying its syntax, required structural components, presence of the `think()` function, and performing a dry run to ensure it returns the expected dictionary format, returning validation success or failure with helpful messages.",
+    "summary": "The `validate_think_code` function checks that a submitted `think()` code snippet is safe to run by verifying its syntax, ensuring it contains required structural elements, importing and dry-running it in a temporary module, and confirming it returns the expected output format.",
     "is_action": true
   },
   {
     "name": "web_search",
-    "summary": "This function takes a search query, sends it to the Serper web search API using an API key from the environment, and returns the search results as JSON, or an empty dictionary if an error occurs.",
+    "summary": "This function performs a web search using the Serper API with the given query and returns the results as a JSON object, handling errors by logging them and returning an empty dictionary if the request fails.",
     "is_action": true
   },
   {
     "name": "wrap_text",
-    "summary": "This function takes a string and returns it with line breaks inserted so that no line exceeds a specified width (default 85 characters).",
+    "summary": "This function takes a string and returns it formatted with line breaks so that no line exceeds the specified width (default 85 characters), using Python\u2019s `textwrap` module.",
     "is_action": true
   },
   {
     "name": "write_file",
-    "summary": "The `write_file` function attempts to create any necessary directories and write the given content to a specified file path, logging the outcome and returning a success or error message.",
+    "summary": "This function attempts to write the given content to a specified file path (creating any necessary directories), logs the result, and returns a success or error message accordingly.",
     "is_action": true
   }
 ]

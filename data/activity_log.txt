@@ -1,0 +1,57 @@
+[2025-08-05T01:18:36.691669+00:00] 🫀 Starting cycle at 2025-08-05T01:18:36.691183+00:00
+[2025-08-05T01:18:36.703270+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-05T01:18:39.284248+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:18:40.513479+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no current indications of a significant threat based on the emotional state and biomarker proxies. Emotional stability is moderate, no fatigue or novelty spikes are present, and reward signals are within typical range. No reflexive action is required." }
+[2025-08-05T01:18:40.526179+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:19:01.797044+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no current emotional states, no recent reward or novelty spikes, and all stability indicators are within normal ranges. No significant threat detected that requires a reflexive action." }
+[2025-08-05T01:19:05.062676+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:19:07.969873+00:00] ✅ Fallback executed: reflect_on_self_beliefs
+[2025-08-05T01:19:17.975242+00:00] 🫀 Starting cycle at 2025-08-05T01:19:17.974761+00:00
+[2025-08-05T01:19:18.048281+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:19:18.051651+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-05T01:19:47.605811+00:00] Mode change recorded: adaptive → motivation
+[2025-08-05T01:19:47.614917+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:19:49.469050+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "Current emotional state shows moderate motivation and confidence, stable emotional status, no fatigue, and no significant novelty or impulse signals. No recent reward spikes indicate acute distress. No signs of immediate or significant threat requiring a reflexive action." }
+[2025-08-05T01:19:49.495218+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:19:59.933975+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no current emotional signals, no recent reward spikes, and no novelty or impulse bursts. Emotional stability is high, motivation and dopamine proxies are at baseline, and fatigue is absent. There is no evidence of a significant threat requiring reflexive action." }
+[2025-08-05T01:20:03.466872+00:00] ✅ Fallback executed: reflect_on_self_beliefs
+[2025-08-05T01:20:13.472038+00:00] 🫀 Starting cycle at 2025-08-05T01:20:13.471676+00:00
+[2025-08-05T01:20:13.545033+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:20:13.547650+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-05T01:20:16.905066+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:20:18.894590+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no recent bursts in novelty/impulse signals, the emotional state is neutral, and emotional stability and motivation are moderate. No indicators suggest the presence of a significant threat requiring a reflexive response." }
+[2025-08-05T01:20:18.962609+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:20:27.384661+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no indicators of threat, distress, or negative stimulus in the current emotional or physiological state. All parameters are stable and within normal ranges, so no reflexive defensive action is required." }
+[2025-08-05T01:20:31.867443+00:00] ✅ Fallback executed: reflect_on_self_beliefs
+[2025-08-05T01:20:41.872817+00:00] 🫀 Starting cycle at 2025-08-05T01:20:41.872304+00:00
+[2025-08-05T01:20:41.946253+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:20:41.949043+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-05T01:20:46.093053+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:20:47.112092+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no recent bursts of novelty/impulse signals, emotional state is neutral, emotional stability is moderate, and there are no elevated fatigue or motivation levels. No signals indicate a significant threat requiring a reflexive action." }
+[2025-08-05T01:20:47.182105+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:21:00.501042+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no indicators of emotional arousal, stress, or novelty signaling a threat. All stability, fatigue, and motivation markers are within normal ranges, and there are no recent reward spikes or impulse signals. No reflexive action is needed." }
+[2025-08-05T01:21:03.051410+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:21:04.512588+00:00] ✅ Fallback executed: reflect_on_self_beliefs
+[2025-08-05T01:21:14.518889+00:00] 🫀 Starting cycle at 2025-08-05T01:21:14.517819+00:00
+[2025-08-05T01:21:14.596262+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:21:14.599266+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-05T01:21:17.501761+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:21:18.611624+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no significant emotional fluctuations, fatigue, or novelty/impulse signals indicating a threat. Emotional stability and motivation are moderate, and there are no recent reward spikes suggesting distress. No reflexive action required." }
+[2025-08-05T01:21:18.684021+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:21:29.524277+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no significant changes in emotional state, no recent spikes in reward or novelty signals, and all stability and motivation metrics are within normal range. No threat is detected, so no reflexive action is necessary." }
+[2025-08-05T01:21:33.598840+00:00] ✅ Fallback executed: reflect_on_self_beliefs
+[2025-08-05T01:21:43.604296+00:00] 🫀 Starting cycle at 2025-08-05T01:21:43.603756+00:00
+[2025-08-05T01:21:43.681414+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:21:43.684060+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-05T01:21:46.009649+00:00] 🧠 Emotional state updated.
+[2025-08-05T01:21:47.038346+00:00] Orrin loop manually interrupted by user.

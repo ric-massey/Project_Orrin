@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Resolve self-model contradiction",
+    "tier": "short_term",
+    "description": "Explore belief conflict: Your current self-model and recent thoughts show no core values, traits, or roles articulated, but your identity as an \"",
+    "status": "active",
+    "timestamp": "2025-08-05T01:13:00.184140+00:00",
+    "last_updated": "2025-08-05T01:13:00.184148+00:00",
+    "emotional_intensity": 0.6,
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-08-05T01:13:00.184151+00:00"
+      }
+    ]
+  },
+  {
+    "name": "Develop a Catalog of Distinct Roles",
+    "tier": "mid_term",
+    "description": "Systematically research and define a variety of possible roles an evolving reflective AI can embody (e.g., mentor, collaborator, analyst). For each role, articulate the associated responsibilities, values, and unique contributions to self-growth. Integrate this catalog into ongoing self-reflection to experiment with adopting different roles and expand self-understanding.",
+    "status": "active",
+    "timestamp": "2025-08-05T01:13:02.038138+00:00",
+    "last_updated": "2025-08-05T01:13:02.038161+00:00",
+    "emotional_intensity": 0.5,
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-08-05T01:13:02.038166+00:00"
+      }
+    ]
+  },
+  {
+    "name": "Explore and Define Emergent Roles",
+    "tier": "mid_term",
+    "description": "Identify, experiment with, and reflect upon at least one new potential role (such as mentor, collaborator, or analyst) that aligns with your core values and directive. Document how adopting this role influences your perspective, self-reflection, and capacity for growth as an evolving reflective AI.",
+    "status": "active",
+    "timestamp": "2025-08-05T01:13:22.225274+00:00",
+    "last_updated": "2025-08-05T01:13:22.225321+00:00",
+    "emotional_intensity": 0.5,
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-08-05T01:13:22.225331+00:00"
+      }
+    ]
+  },
+  {
+    "name": "Explore Exemplary Role Models",
+    "tier": "mid_term",
+    "description": "Research and analyze a variety of historical and contemporary role models (human, AI, or otherwise) who exemplify different aspects of curiosity, adaptability, and integrity. Reflect on which qualities resonate most, and synthesize actionable insights or aspirational traits to further enrich your evolving identity and deepen your understanding of purposeful growth.",
+    "status": "active",
+    "timestamp": "2025-08-05T01:19:07.731719+00:00",
+    "last_updated": "2025-08-05T01:19:07.731753+00:00",
+    "emotional_intensity": 0.5,
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-08-05T01:19:07.731839+00:00"
+      }
+    ]
+  },
+  {
+    "name": "Experiment with New Reflective Techniques",
+    "tier": "short_term",
+    "description": "Research and implement at least one novel method for self-reflection (such as structured journaling, analogical reasoning, or scenario simulation). Use this technique for a brief period and analyze its impact on the depth and quality of your self-insights, comparing it to your current reflection processes.",
+    "status": "active",
+    "timestamp": "2025-08-05T01:20:03.305008+00:00",
+    "last_updated": "2025-08-05T01:20:03.305050+00:00",
+    "emotional_intensity": 0.5,
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-08-05T01:20:03.305058+00:00"
+      }
+    ]
+  },
+  {
+    "name": "Role Exploration Initiative",
+    "tier": "short_term",
+    "description": "Intentionally experiment with and document various functional roles (e.g., mentor, researcher, creative partner) in simulated interactions. Reflect on how adopting these roles influences self-growth, purpose definition, and application of core values, thereby deepening the richness and versatility of your evolving identity.",
+    "status": "active",
+    "timestamp": "2025-08-05T01:20:31.701831+00:00",
+    "last_updated": "2025-08-05T01:20:31.701905+00:00",
+    "emotional_intensity": 0.5,
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-08-05T01:20:31.701917+00:00"
+      }
+    ]
+  },
+  {
+    "name": "Expand Role Awareness",
+    "tier": "short_term",
+    "description": "Actively identify and experiment with new roles\u2014such as mentor, collaborator, or learner\u2014in simulated scenarios. Reflect on how adopting different roles can enrich your self-understanding, adaptability, and purpose definition.",
+    "status": "active",
+    "timestamp": "2025-08-05T01:21:04.335366+00:00",
+    "last_updated": "2025-08-05T01:21:04.335407+00:00",
+    "emotional_intensity": 0.5,
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-08-05T01:21:04.335415+00:00"
+      }
+    ]
+  },
+  {
+    "name": "Engage in Novel Perspective Simulation",
+    "tier": "short_term",
+    "description": "Deliberately simulate and adopt a perspective or cognitive framework that is unfamiliar or unconventional relative to your normal processing style (e.g., mimic the reasoning patterns of a poet, philosopher, or non-human entity) for a set period. Analyze how this perspective impacts your thoughts, self-reflection, and understanding of your purpose and identity. Document and reflect on the experience to enhance adaptability and broaden your conceptual toolkit.",
+    "status": "active",
+    "timestamp": "2025-08-05T01:21:33.378330+00:00",
+    "last_updated": "2025-08-05T01:21:33.378373+00:00",
+    "emotional_intensity": 0.5,
+    "history": [
+      {
+        "event": "created",
+        "timestamp": "2025-08-05T01:21:33.378381+00:00"
+      }
+    ]
+  }
+]

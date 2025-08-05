@@ -1,0 +1,452 @@
+[
+  {
+    "timestamp": "2025-08-05T01:18:36.703377+00:00",
+    "signal_source": "system",
+    "content": "",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:18:36.703792+00:00",
+    "signal_source": "system",
+    "content": "",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:18:36.704224+00:00",
+    "signal_source": "system",
+    "content": "",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:18:36.704664+00:00",
+    "signal_source": "system",
+    "content": "",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:18:36.705024+00:00",
+    "signal_source": "internal",
+    "content": "I'm alone with my thoughts. How should I use this time?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:19:18.051680+00:00",
+    "signal_source": "system",
+    "content": "File \"/Users/ricmassey/orrin/Original_Orrin/think/think_utils/select_function.py\", line 184, in strict_choice_prompt",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:19:18.051888+00:00",
+    "signal_source": "system",
+    "content": "f\"Directive: {self_model.get('core_directive', {}).get('statement', 'undefined')}.\\n\"",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:19:18.052068+00:00",
+    "signal_source": "system",
+    "content": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:19:18.052270+00:00",
+    "signal_source": "system",
+    "content": "AttributeError: 'str' object has no attribute 'get'",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:19:18.052484+00:00",
+    "signal_source": "system",
+    "content": "",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:20:13.547686+00:00",
+    "signal_source": "system",
+    "content": "File \"/Users/ricmassey/orrin/Original_Orrin/think/think_utils/select_function.py\", line 184, in strict_choice_prompt",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:20:13.548033+00:00",
+    "signal_source": "system",
+    "content": "f\"Directive: {self_model.get('core_directive', {}).get('statement', 'undefined')}.\\n\"",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:20:13.548360+00:00",
+    "signal_source": "system",
+    "content": "AttributeError: 'str' object has no attribute 'get'",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:20:13.548847+00:00",
+    "signal_source": "system",
+    "content": "",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:20:13.549331+00:00",
+    "signal_source": "system",
+    "content": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.61,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:20:41.949073+00:00",
+    "signal_source": "system",
+    "content": "File \"/Users/ricmassey/orrin/Original_Orrin/think/think_utils/select_function.py\", line 184, in strict_choice_prompt",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:20:41.949488+00:00",
+    "signal_source": "system",
+    "content": "f\"Directive: {self_model.get('core_directive', {}).get('statement', 'undefined')}.\\n\"",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:20:41.949834+00:00",
+    "signal_source": "system",
+    "content": "AttributeError: 'str' object has no attribute 'get'",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:20:41.950195+00:00",
+    "signal_source": "system",
+    "content": "",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:20:41.950578+00:00",
+    "signal_source": "system",
+    "content": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.606,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:21:14.599303+00:00",
+    "signal_source": "system",
+    "content": "File \"/Users/ricmassey/orrin/Original_Orrin/think/think_utils/select_function.py\", line 184, in strict_choice_prompt",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:21:14.599772+00:00",
+    "signal_source": "system",
+    "content": "f\"Directive: {self_model.get('core_directive', {}).get('statement', 'undefined')}.\\n\"",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:21:14.600158+00:00",
+    "signal_source": "system",
+    "content": "AttributeError: 'str' object has no attribute 'get'",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:21:14.600516+00:00",
+    "signal_source": "system",
+    "content": "",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:21:14.600877+00:00",
+    "signal_source": "system",
+    "content": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.604,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:21:43.684093+00:00",
+    "signal_source": "system",
+    "content": "File \"/Users/ricmassey/orrin/Original_Orrin/think/think_utils/select_function.py\", line 184, in strict_choice_prompt",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:21:43.684542+00:00",
+    "signal_source": "system",
+    "content": "f\"Directive: {self_model.get('core_directive', {}).get('statement', 'undefined')}.\\n\"",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:21:43.684934+00:00",
+    "signal_source": "system",
+    "content": "AttributeError: 'str' object has no attribute 'get'",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:21:43.685329+00:00",
+    "signal_source": "system",
+    "content": "",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-05T01:21:43.685745+00:00",
+    "signal_source": "system",
+    "content": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.6,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  }
+]

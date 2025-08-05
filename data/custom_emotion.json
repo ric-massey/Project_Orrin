@@ -13,5 +13,10 @@
     "name": "resigned",
     "description": "A state of accepting something unpleasant or inevitable without protest or hope for change, distinct from melancholy or listlessness by the presence of quiet acceptance rather than sadness or lack of energy.",
     "example_thought": "I cannot change this outcome, so I will simply let it happen."
+  },
+  {
+    "name": "bemused",
+    "description": "A state of mild confusion mixed with amusement; being puzzled in a way that is entertaining rather than distressing.",
+    "example_thought": "This situation is so unexpected and odd\u2014I can't help but smile and shake my head, not quite sure what's happening but finding it oddly delightful."
   }
 ]

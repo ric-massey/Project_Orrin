@@ -30,6 +30,11 @@
     "is_action": false
   },
   {
+    "name": "clean_snippet",
+    "summary": "This function shortens a string to at most 60 characters, trimming at the last space to avoid cutting words in half, unless there are no spaces, in which case it just returns the first 60 characters.",
+    "is_action": false
+  },
+  {
     "name": "coerce_to_string",
     "summary": "This function recursively converts a value\u2014including nested dictionaries and lists\u2014into a formatted, human-readable string.",
     "is_action": false
@@ -65,6 +70,11 @@
     "is_action": false
   },
   {
+    "name": "ensure_self_model_integrity",
+    "summary": "This function validates and updates a self-model dictionary to ensure all key fields exist with appropriate default values, and saves the model only if any changes were made.",
+    "is_action": false
+  },
+  {
     "name": "evaluate_new_abstractions",
     "summary": "The `evaluate_new_abstractions` function loads a list of proposed tools, retrieves the AI's core directive and long-term memory, and then iteratively prompts an AI model to evaluate each tool's originality, usefulness, and redundancy\u2014saving structured evaluations and updating working memory with the results.",
     "is_action": true
@@ -87,6 +97,11 @@
   {
     "name": "explore_your_current_beliefs_remain_stable__as_you_have_yet_to",
     "summary": "This function appends a timestamped thought about the stability of current beliefs to a working memory JSON file, rather than printing it.",
+    "is_action": false
+  },
+  {
+    "name": "explore_your_recent_emotional_states_listlessness__security__and",
+    "summary": "This function generates a timestamped internal thought reflecting on recent emotional states (listlessness, security, etc.) and appends it to a working memory file for later reference.",
     "is_action": false
   },
   {

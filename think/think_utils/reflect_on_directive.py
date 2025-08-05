@@ -23,6 +23,9 @@ def reflect_on_directive(self_model, context=None):
         focus_goal = {}
 
     directive = self_model.get("core_directive", {})
+    if isinstance(directive, str):
+        directive = {"statement": directive}
+
     if not directive:
         return {"reflection": None, "related": None}
 
