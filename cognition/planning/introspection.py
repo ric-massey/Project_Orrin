@@ -2,8 +2,7 @@ import os
 import json
 from datetime import datetime, timezone
 from utils.json_utils import load_json, save_json
-from utils.self_model import get_self_model, save_self_model
-
+from utils.self_model import get_self_model, save_self_model, ensure_self_model_integrity
 from utils.generate_response import generate_response, get_thinking_model
 from utils.log import log_activity, log_private, log_model_issue
 from utils.log_reflection import log_reflection
@@ -64,6 +63,7 @@ def introspective_planning():
             else ""
         )
         self_model = get_self_model()
+        self_model = ensure_self_model_integrity(self_model)
         core_values = [v["value"] if isinstance(v, dict) and "value" in v else str(v) for v in self_model.get("core_values", [])]
         motivations = self_model.get("motivations", [])
 

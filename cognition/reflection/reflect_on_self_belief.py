@@ -7,7 +7,7 @@ from memory.working_memory import update_working_memory
 from utils.log import log_error, log_private
 from utils.log_reflection import log_reflection
 from cognition.maintenance.self_modeling import self_model_maintenance_cycle
-from utils.self_model import get_self_model, save_self_model
+from utils.self_model import get_self_model, save_self_model, ensure_self_model_integrity  # Added ensure_self_model_integrity
 from cognition.planning.goals import maybe_complete_goals
 from emotion.reward_signals.reward_signals import release_reward_signal
 from paths import (
@@ -76,6 +76,7 @@ def evolve_core_value(self_model):
 def reflect_on_self_beliefs():
     try:
         self_model = get_self_model()
+        self_model = ensure_self_model_integrity(self_model)  # <-- Added this line to ensure integrity
         long_memory = load_json(LONG_MEMORY_FILE, default_type=list)
         reflection_log = load_json(REFLECTION, default_type=list)
         neutral_count = load_neutral_count()
@@ -149,7 +150,28 @@ def reflect_on_self_beliefs():
         })
         save_json(REFLECTION, reflection_log)
 
-        # --- NEW: Remember this reflection in long-term memory ---
+        # --- NEW: Check for explicit self-model field updates ---
+        belief_update_prompt = (
+            "Based on my latest self-reflection, self-model, and recent thoughts:\n"
+            f"SELF MODEL:\n{short_json(self_model, 800)}\n"
+            f"RECENT THOUGHTS:\n{short_list(recent_thoughts, 6, 400)}\n"
+            f"SELF-REFLECTION:\n{response}\n\n"
+            "If any of my beliefs, values, or traits should change, reply as JSON, like:\n"
+            '{"core_directive": "...", "traits": [...], "core_values": [...], "notes": "..."}\n'
+            "If none, reply: {}"
+        )
+        belief_update = generate_response(belief_update_prompt, config={"model": get_thinking_model()})
+        try:
+            update = json.loads(belief_update)
+            if isinstance(update, dict) and update:
+                self_model.update({k: v for k, v in update.items() if v})
+                save_self_model(self_model)
+                update_working_memory(f"🔁 Updated self-model: {update}")
+                log_private(f"🔁 Self-model fields updated: {update}")
+        except Exception as e:
+            log_error(f"Self-model update parse fail: {e} | Raw: {belief_update}")
+
+        # --- Remember this reflection in long-term memory ---
         from memory.long_memory import remember
         remember({
             "type": "self_belief_reflection",

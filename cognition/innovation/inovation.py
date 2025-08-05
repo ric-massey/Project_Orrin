@@ -6,7 +6,7 @@ from utils.json_utils import extract_json, load_json, save_json
 from utils.summarizers import summarize_self_model, summarize_recent_thoughts
 from utils.log import log_error
 from memory.working_memory import update_working_memory
-from utils.self_model import get_self_model
+from utils.self_model import get_self_model, ensure_self_model_integrity
 from paths import (
     FOCUS_GOAL,
     PRIVATE_THOUGHTS_FILE
@@ -19,6 +19,8 @@ def simulate_new_cognitive_abilities():
     """
     try:
         self_model = get_self_model()
+        self_model = ensure_self_model_integrity(self_model)  # << Added here to patch model
+        
         if not isinstance(self_model, dict):
             log_error("⚠️ self_model is not a dict. Aborting.")
             return "❌ Invalid self model format."

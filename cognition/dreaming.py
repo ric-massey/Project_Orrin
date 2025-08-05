@@ -1,4 +1,4 @@
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from utils.json_utils import load_json, save_json
 from utils.generate_response import generate_response, get_thinking_model
 from utils.coerce_to_string import coerce_to_string
@@ -57,7 +57,7 @@ def dream():
         log_model_issue("[dream] No response from model.")
         return
 
-    # === Add dream to working memory and private thoughts ===
+    # === Add dream to working memory ===
     from memory.working_memory import update_working_memory
     now = datetime.now(timezone.utc).isoformat()
     update_working_memory({
@@ -67,9 +67,12 @@ def dream():
         "timestamp": now
     })
 
-    # === Write to private thoughts file ===
-    with open(PRIVATE_THOUGHTS_FILE, "a") as f:
-        f.write(f"\n[{now}] I dreamed:\n{dream_text.strip()}\n")
+    # === Write to dreamscape file ===
+    dreamscape.append({
+        "timestamp": now,
+        "dream": dream_text.strip()
+    })
+    save_json(DREAMSCAPE, dreamscape)
 
     # === Generate reflection on dream ===
     reflection_prompt = (

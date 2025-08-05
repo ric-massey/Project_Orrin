@@ -3,7 +3,7 @@ import json
 from datetime import datetime, timezone
 from utils.generate_response import generate_response
 from utils.json_utils import save_json, load_json
-from utils.self_model import get_self_model
+from utils.self_model import get_self_model, ensure_self_model_integrity
 from paths import SANDBOX_LOG
 
 
@@ -98,6 +98,9 @@ def reflect_on_sandbox_experiment(context):
     timestamp = datetime.now(timezone.utc).isoformat()
     self_model = context.get("self_model") or get_self_model()
 
+    # Ensure self-model integrity before use
+    self_model = ensure_self_model_integrity(self_model)
+
     # Build memory entry for new format (content is always present)
     memory_entry = {
         "type": "reflect_on_sandbox_experiment",
@@ -111,6 +114,7 @@ def reflect_on_sandbox_experiment(context):
     update_working_memory(memory_entry)     # Working memory (optional but useful)
 
     return memory_entry
+
 # --- Logging Helper ---
 
 def _append_playground_log(entry):

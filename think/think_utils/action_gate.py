@@ -18,8 +18,8 @@ def reflect_on_last_action(context, action, result):
     prompt = (
         f"I executed the action: {action}\n"
         f"The result was:\n{str(result)[:1000]}\n"
-        "Reflect: Was it successful? Should I retry, escalate, or ask Ric? Reply with either 'success', 'retry', or 'ask Ric', and include a brief reason. "
-        "If escalation is needed, include the question I should ask Ric."
+        "Reflect: Was it successful? Should I retry, escalate, or ask the user? Reply with either 'success', 'retry', or 'ask th user', and include a brief reason. "
+        "If escalation is needed, include the question I should ask the user."
     )
     reflection = generate_response(prompt)
     log_private(f"Reflection: {reflection}")
@@ -29,7 +29,7 @@ def generate_clarification_question(context, action):
     from utils.generate_response import generate_response
     prompt = (
         f"I tried to execute the following action, but failed:\n{action}\n"
-        "What is the single most important question I should ask Ric to get unstuck? Reply only with the question."
+        "What is the single most important question I should ask the user to get unstuck? Reply only with the question."
     )
     return generate_response(prompt)
 
@@ -49,7 +49,7 @@ def evaluate_and_act_if_needed(context, emotional_state, long_memory, speaker: O
         reflection = reflect_on_last_action(context, action, success)
 
         # Escalate if needed
-        if isinstance(reflection, str) and "ask Ric" in reflection.lower():
+        if isinstance(reflection, str) and "ask the user" in reflection.lower():
             question = generate_clarification_question(context, action)
             if question:
                 context["pending_actions"].insert(0, {
@@ -103,7 +103,7 @@ def evaluate_and_act_if_needed(context, emotional_state, long_memory, speaker: O
         best_action["retries"] = 0
         success = take_action(best_action, context, speaker)
         reflection = reflect_on_last_action(context, best_action, success)
-        if isinstance(reflection, str) and "ask Ric" in reflection.lower():
+        if isinstance(reflection, str) and "ask the user" in reflection.lower():
             question = generate_clarification_question(context, best_action)
             if question:
                 context["pending_actions"].insert(0, {

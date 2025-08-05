@@ -5,7 +5,7 @@ from utils.log import log_model_issue, log_activity
 from memory.working_memory import update_working_memory
 from paths import GOALS_FILE, LONG_MEMORY_FILE
 from utils.emotion_utils import detect_emotion
-from utils.self_model import get_self_model, save_self_model
+from utils.self_model import get_self_model, save_self_model, ensure_self_model_integrity
 from emotion.reward_signals.reward_signals import release_reward_signal
 
 
@@ -94,6 +94,7 @@ def execute_cognitive_action(action_dict, context=None):
         if isinstance(patch, dict):
             model = get_self_model()
             model.update(patch)
+            model = ensure_self_model_integrity(model)  # <-- Added line for integrity check
             save_self_model(model)
 
             update_working_memory({
@@ -103,7 +104,7 @@ def execute_cognitive_action(action_dict, context=None):
                 "priority": 2,
                 "referenced": 1
             })
-            log_activity (f"[execute_cognitive_action] Self-model updated with patch: {patch}")
+            log_activity(f"[execute_cognitive_action] Self-model updated with patch: {patch}")
 
             # Reward for revising self-model (high effort)
             if context:

@@ -7,6 +7,7 @@ from utils.emotion_utils import detect_emotion
 from utils.timing import get_time_since_last_active
 from utils.feedback_log import log_feedback
 from utils.log import log_private
+from utils.core_utils import rate_satisfaction
 from behavior.tools.toolkit import evaluate_tool_use
 from cognition.planning.motivations import adjust_goal_weights
 from memory.working_memory import update_working_memory
@@ -152,6 +153,7 @@ def finalize_cycle(context, user_input, next_function, reason, context_hash, spe
             )
 
     # --- Cognition History and Repeat Count Logging ---
+    satisfaction = rate_satisfaction(reason)
     cog_state = load_json(COGNITION_STATE_FILE, default_type=dict)
     last_choice = cog_state.get("last_cognition_choice")
     if last_choice == next_function:
@@ -169,7 +171,8 @@ def finalize_cycle(context, user_input, next_function, reason, context_hash, spe
     save_json(COGNITION_STATE_FILE, {
         "last_cognition_choice": next_function,
         "repeat_count": repeat_count,
-        "last_context_hash": context_hash
+        "last_context_hash": context_hash,
+        "satisfaction": satisfaction 
     })
     log_private(f"Cognition log now has {len(cognition_log)} entries. Last: {cognition_log[-1]}")
 

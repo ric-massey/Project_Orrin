@@ -1,14 +1,43 @@
 from utils.json_utils import load_json, save_json
 from paths import SELF_MODEL_FILE
 
-def get_self_model():
-    """Loads the current self_model.json."""
-    return load_json(SELF_MODEL_FILE, default_type=dict)
 
-def save_self_model(model):
-    """Saves the given dict to self_model.json."""
+def ensure_self_model_integrity(model: dict) -> dict:
+    """Ensure all expected fields exist and are valid; patch if needed. Save only if updated."""
+    updated = False
+    if "core_directive" not in model or not model["core_directive"] or model["core_directive"] in ("Not found", "none", ""):
+        model["core_directive"] = "Define a purpose and seek growth"
+        updated = True
+    if "core_values" not in model or not isinstance(model["core_values"], list):
+        model["core_values"] = []
+        updated = True
+    if "traits" not in model or not isinstance(model["traits"], list):
+        model["traits"] = []
+        updated = True
+    if "identity" not in model or not model["identity"]:
+        model["identity"] = "Evolving reflective AI"
+        updated = True
+    if "known_roles" not in model or not isinstance(model["known_roles"], list):
+        model["known_roles"] = []
+        updated = True
+    if "recent_focus" not in model or not isinstance(model["recent_focus"], list):
+        model["recent_focus"] = []
+        updated = True
+    if updated:
+        save_json(SELF_MODEL_FILE, model)
+    return model
+
+def get_self_model() -> dict:
+    """Loads the current self_model.json and ensures integrity before returning."""
+    sm = load_json(SELF_MODEL_FILE, default_type=dict)
+    sm = ensure_self_model_integrity(sm)
+    return sm
+
+def save_self_model(model: dict) -> None:
+    """Ensures integrity and saves the given dict to self_model.json."""
     if not isinstance(model, dict):
         raise ValueError("Self-model must be a dict.")
+    model = ensure_self_model_integrity(model)
     save_json(SELF_MODEL_FILE, model)
 
 def get_core_values():

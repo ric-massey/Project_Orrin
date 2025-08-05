@@ -24,25 +24,31 @@ def select_function(
     amygdala_response=None,
     speaker=None
 ):
-    # === Defensive: ensure dict structure ===
+    # Defensive: ensure dict structure
     if not isinstance(available_functions, dict):
         available_functions = {fn: {"function": fn, "is_action": False} for fn in available_functions}
 
-    # === Handle Signals ===
+    # Initialize last_choice and context_hash safely
+    if last_choice is None:
+        last_choice = ""
+    context_hash = hash(json.dumps({
+        "self_model": self_model,
+        "emotions": [e[0] for e in sorted(emotional_state.get("core_emotions", {}).items(), key=lambda x: x[1], reverse=True)[:3]] if emotional_state else [],
+        "pending_requests": [r for r in tool_requests if not r.get("executed", False)] if tool_requests else []
+    }, sort_keys=True))
+
+    # Handle Signals
     filtered_signals = context.get("filtered_signals", [])
     for signal in filtered_signals:
         content = signal.get("content", "")
-
-        # Only process signals from real user input, or (optional) introspective signals
         if signal.get("source") != "user_input" or not content.strip():
             continue
-
         if context.get("check_violates_boundaries", lambda x: False)(content):
             if callable(context.get("update_working_memory")):
                 context["update_working_memory"]("⚠️ Input violated boundaries. Skipped.")
             continue
 
-        # === UPDATED: Unified rich memory recall and marking ===
+        # Unified rich memory recall and marking
         relevant_memories = recall_relevant_knowledge(content, long_memory=long_memory, working_memory=working_memory, max_items=8)
         for mem in relevant_memories:
             mem["referenced"] = mem.get("referenced", 0) + 1
@@ -79,21 +85,13 @@ def select_function(
                     )
                 return shortcut, f"Amygdala threat reflex ({tags[0]})", False
 
-    # === Anti-stagnation Check ===
-    core_emotions = emotional_state.get("core_emotions", {})
+    # Anti-stagnation Check
+    core_emotions = emotional_state.get("core_emotions", {}) if emotional_state else {}
     top_emotions = sorted(core_emotions.items(), key=lambda x: x[1], reverse=True)[:3]
     top_emotion_names = [e[0] for e in top_emotions] if top_emotions else [dominant_emotion(emotional_state)]
-    recent_choices = [entry.get("choice") for entry in cognition_log[-5:]]
+    recent_choices = [entry.get("choice") for entry in cognition_log[-5:]] if cognition_log else []
     recent_choices_str = ", ".join(recent_choices) if recent_choices else "none"
 
-    context_hash = hash(json.dumps({
-        "self_model": self_model,
-        "emotions": top_emotion_names,
-        "pending_requests": [r for r in tool_requests if not r.get("executed")]
-    }, sort_keys=True))
-    last_hash = context.get("last_context_hash", "")
-
-    BOREDOM_THRESHOLD = 3
     context.setdefault("boredom_count", 0)
     context.setdefault("sandbox_mode", False)
     if last_choice == context.get("last_cognition_choice"):
@@ -101,12 +99,12 @@ def select_function(
     else:
         repeat_count = 1
 
-    if repeat_count >= 2 or context_hash == last_hash:
+    if repeat_count >= 2 or context_hash == context.get("last_context_hash", ""):
         context["boredom_count"] += 1
     else:
         context["boredom_count"] = 0
 
-    if context["boredom_count"] >= BOREDOM_THRESHOLD:
+    if context["boredom_count"] >= 3:
         context["sandbox_mode"] = True
         if callable(context.get("update_working_memory")):
             context["update_working_memory"]("⚡ Chaos trigger activated: Entering sandbox mode.")
@@ -119,10 +117,10 @@ def select_function(
             )
         func_name, reason = context.get("run_sandbox_experiments", lambda ctx: ("persistent_drive_loop", "sandbox"))(context)
         return func_name, reason, False
-    elif repeat_count >= 3 or context_hash == last_hash:
+    elif repeat_count >= 3 or context_hash == context.get("last_context_hash", ""):
         return "revise_think", "Breaking stagnation.", False
 
-    # === Gradient Emotion Mapping ===
+    # Gradient Emotion Mapping
     try:
         emotion_map = load_json(EMOTION_FUNCTION_MAP_FILE, default_type=dict)
         weighted_options = {}
@@ -143,7 +141,7 @@ def select_function(
         if callable(context.get("update_working_memory")):
             context["update_working_memory"](f"⚠️ Emotion map load failed: {e}")
 
-    # === Internal Drive Check ===
+    # Internal Drive Check
     if "fear" in top_emotion_names or "sadness" in top_emotion_names:
         if not any("dream" in m.get("content", "") for m in working_memory[-10:]):
             return "dream", "Emotion-triggered dream.", False
@@ -155,9 +153,9 @@ def select_function(
         is_action = available_functions.get(drive_choice, {}).get("is_action", False)
         return drive_choice, "Driven by internal need", is_action
 
-    # === LLM-Based Planning Fallback with Forced Validation ===
+    # LLM-Based Planning Fallback with Forced Validation
 
-    # --- Build focus_goal_str dynamically so it is always up to date ---
+    # Build focus_goal_str dynamically so it is always up to date
     focus_goal = load_json(FOCUS_GOAL)
     focus_goal_str = (
         f"Focus Goal: \"{focus_goal.get('goal', 'none')}\"\n"

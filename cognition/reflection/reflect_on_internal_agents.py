@@ -2,8 +2,8 @@ import json
 from datetime import datetime, timezone
 
 # === Internal Utilities ===
-from utils.json_utils import  extract_json
-from utils.self_model import get_self_model, save_self_model
+from utils.json_utils import extract_json
+from utils.self_model import get_self_model, save_self_model, ensure_self_model_integrity
 from utils.generate_response import generate_response, get_thinking_model
 from utils.load_utils import load_all_known_json
 from utils.response_utils import generate_response_from_context
@@ -19,6 +19,7 @@ def reflect_on_internal_agents():
     Ignores/repairs any agents that are not proper dicts.
     """
     self_model = get_self_model()
+    self_model = ensure_self_model_integrity(self_model)  # Added integrity check here
     data = load_all_known_json()
     agents = self_model.get("internal_agents", [])
     updated = False
@@ -84,6 +85,7 @@ def reflect_as_agents(topic: str):
     """
     data = load_all_known_json()
     self_model = data.get("self_model", {})
+    self_model = ensure_self_model_integrity(self_model)  # Added integrity check here
     agents = self_model.get("internal_agents", [])
 
     if not agents:
@@ -130,6 +132,7 @@ def reflect_on_internal_voices():
     """
     data = load_all_known_json()
     self_model = get_self_model()
+    self_model = ensure_self_model_integrity(self_model)  # Added integrity check here
     long_memory = data.get("long_memory", [])
     recent_thoughts = [m["content"] for m in long_memory[-12:] if "content" in m]
 

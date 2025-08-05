@@ -3,7 +3,7 @@ from datetime import datetime, timezone
 from utils.json_utils import load_json, save_json, extract_json
 from utils.generate_response import generate_response, get_thinking_model
 from utils.log import log_model_issue, log_error
-from utils.self_model import get_self_model
+from utils.self_model import get_self_model, ensure_self_model_integrity
 from paths import (
     PRIVATE_THOUGHTS_FILE, EVOLUTION_FUTURES, GOALS_FILE, DREAMSCAPE, EVOLUTION_ROADMAPS
 )
@@ -17,6 +17,7 @@ def plan_self_evolution():
     """
     try:
         self_model = get_self_model()
+        self_model = ensure_self_model_integrity(self_model)
         evolution_history = load_json("evolution_roadmaps.json", default_type=list)
 
         # Gather context for planning
@@ -137,6 +138,7 @@ def simulate_future_selves(save_to_history: bool = True):
     """
     try:
         self_model = get_self_model()
+        self_model = ensure_self_model_integrity(self_model)
         current_traits = self_model.get("personality_traits", [])
 
         # === Use dreamscape file for imaginative threads ===

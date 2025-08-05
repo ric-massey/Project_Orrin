@@ -7,6 +7,7 @@ from utils.load_utils import load_all_known_json
 from utils.log import log_error, log_private
 from cognition.selfhood.self_model_conflicts import resolve_conflicts, update_self_model
 from cognition.maintenance.self_modeling import self_supervised_repair
+from utils.self_model import ensure_self_model_integrity, get_self_model
 
 from paths import PRIVATE_THOUGHTS_FILE, LOG_FILE
 
@@ -29,6 +30,14 @@ def meta_reflect(context: dict = None):
         # === Load and merge memory ===
         full_memory = load_all_known_json()
         context.update(full_memory)
+
+        # --- Ensure self-model integrity ---
+        if "self_model" in context and isinstance(context["self_model"], dict):
+            context["self_model"] = ensure_self_model_integrity(context["self_model"])
+        else:
+            # Defensive fallback if self_model missing or invalid
+            context["self_model"] = ensure_self_model_integrity(get_self_model())
+
         # === Context Preview ===
         if context:
             reflection_log.append("📥 Context received:")
