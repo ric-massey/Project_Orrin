@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from utils.append import append_to_json
 from utils.log import log_private, log_error, log_activity
 from utils.generate_response import generate_response
+from utils.goals import extract_current_focus_goal
 from cognition.behavior import extract_last_reflection_topic
 from cognition.planning.goals import goal_function_already_exists
 from paths import PROPOSED_GOALS, FOCUS_GOAL
@@ -24,15 +25,15 @@ def generate_behavior_from_integration(context):
             if os.path.exists(FOCUS_GOAL):
                 context["focus_goal"] = load_json(FOCUS_GOAL, default_type=dict)
         except Exception as e:
-            log_private(f"⚠️ Failed to load focus goal from {FOCUS_GOAL}: {e}")
+            log_error(f"⚠️ Failed to load focus goal from {FOCUS_GOAL}: {e}")
 
     # === 1. Use explicit focus goal if present ===
     focus_goal = context.get("focus_goal") or context.get("active_goal")
-    topic = (focus_goal.get("goal") if isinstance(focus_goal, dict) else None) \
+    topic = extract_current_focus_goal(focus_goal) \
         or context.get("last_reflection_topic") or extract_last_reflection_topic()
 
     if not topic:
-        log_private("⚠️ No actionable topic or goal present for behavior generation.")
+        log_error("⚠️ No actionable topic or goal present for behavior generation.")
         return []
 
     # === 2. Handle neutral/no-action triggers ===

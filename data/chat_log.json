@@ -1,0 +1,56 @@
+[
+  {
+    "speaker": "user",
+    "content": "you doing okay? do you need anything from me?",
+    "emotion": {
+      "emotion": "content",
+      "intensity": 0.25
+    },
+    "timestamp": "2025-08-06T03:16:02.620748+00:00"
+  },
+  {
+    "speaker": "user",
+    "content": "you doing okay? do you need anything from me?",
+    "emotion": {
+      "emotion": "content",
+      "intensity": 0.25
+    },
+    "timestamp": "2025-08-06T03:16:21.652662+00:00"
+  },
+  {
+    "speaker": "orrin",
+    "content": "Earlier I was thinking about how \ud83d\udcdd Working memory summary: - Related conceptual\nknowledge: [{'content': 'Let\u2019s analyze your alignment and next steps based on your\ndirective:\\n\\n**Directive:**  \\n\"Define a purpose and seek\ngrowth\"\\n\\n**Motivations:**  \\nCurrently empty ([]), indicating no specific values,\nambitions, or driving needs are set.\\n\\n**Focus goal:**  \\nNone currently\nidentified.\\n\\n--...",
+    "emotion": {
+      "emotion": "focused",
+      "intensity": 0.5
+    },
+    "timestamp": "2025-08-06T03:16:21.652662+00:00"
+  },
+  {
+    "speaker": "user",
+    "content": "you seem busy ill leave you to it",
+    "emotion": {
+      "emotion": "listless",
+      "intensity": 0.08
+    },
+    "timestamp": "2025-08-06T03:18:16.566731+00:00"
+  },
+  {
+    "speaker": "user",
+    "content": "you seem busy ill leave you to it",
+    "emotion": {
+      "emotion": "listless",
+      "intensity": 0.08
+    },
+    "timestamp": "2025-08-06T03:18:38.994222+00:00"
+  },
+  {
+    "speaker": "orrin",
+    "content": "Earlier I was thinking about how \ud83d\udcdd Working memory summary: - \ud83c\udf13 Shadow question: An\nuncomfortable question Orrin might ask himself right now could be:  *\"Am I avoiding\nthe truth about what I really want, or am I just afraid to admit it to myself?\"*\nThis kind of question can be unsettling because it forces self-examination about\nmotives, desires, and fears that may be easier to ignore. It challe...",
+    "emotion": {
+      "emotion": "afraid",
+      "intensity": 0.5
+    },
+    "timestamp": "2025-08-06T03:18:38.994222+00:00"
+  }
+]

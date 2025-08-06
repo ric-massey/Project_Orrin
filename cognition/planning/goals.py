@@ -3,16 +3,13 @@ import os
 from datetime import datetime, timezone
 from typing import List, Dict
 from utils.load_utils import load_json
-from utils.memory_utils import summarize_memories
-from utils.summarizers import summarize_self_model
 from utils.generate_response import generate_response
-from utils.self_model import get_self_model
 from memory.working_memory import update_working_memory
 from utils.json_utils import extract_json 
 from utils.log import log_activity
 from emotion.reward_signals.reward_signals import release_reward_signal
 
-from paths import GOALS_FILE, COMPLETED_GOALS_FILE, FOCUS_GOAL, LONG_MEMORY_FILE
+from paths import GOALS_FILE, COMPLETED_GOALS_FILE, FOCUS_GOAL
 
 MAX_GOALS = 15
 
@@ -144,7 +141,13 @@ def mark_goal_completed(goal: Dict):
     log_activity(f"✅ Marked goal '{goal.get('name')}' as completed.")
 
 # === Focus Goal Selection remains mostly unchanged, but supports nested goals ===
-def select_focus_goals(goals: List[Dict]) -> Dict[str, Dict]:
+def select_focus_goals() -> dict:
+    """
+    Loads goals from GOALS_FILE, selects focus goals, and writes to FOCUS_GOAL.
+    Returns the focus goal dictionary.
+    """
+    goals = load_json(GOALS_FILE, default_type=list)
+
     def find_focus(goal_list, tier_names, collected, max_count):
         for goal in goal_list:
             if len(collected) >= max_count:
@@ -160,7 +163,6 @@ def select_focus_goals(goals: List[Dict]) -> Dict[str, Dict]:
     short_or_mid_goals = find_focus(goals, ["short_term", "mid_term"], [], 2)
     long_term_goals = find_focus(goals, ["long_term"], [], 1)
 
-    # Flatten if none found
     focus = {
         "short_or_mid": short_or_mid_goals[0] if short_or_mid_goals else None,
         "long_term": long_term_goals[0] if long_term_goals else None,

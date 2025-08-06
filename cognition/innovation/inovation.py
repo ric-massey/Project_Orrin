@@ -38,7 +38,7 @@ def simulate_new_cognitive_abilities():
             "Based on the following background:\n"
             f"- Core directive: {self_model.get('core_directive', {}).get('statement', 'Not found')}\n"
             f"My core values: {', '.join([v['value'] if isinstance(v, dict) and 'value' in v else str(v) for v in self_model.get('core_values', [])])}\n"
-            f"- Personality traits: {', '.join(self_model.get('personality_traits', []))}\n"
+            f"- Personality traits: {', '.join(self_model.get('traits', []))}\n"
             f"- Identity: {self_model.get('identity_story', 'an evolving reflective AI')}\n\n"
             f"My self-model summary is:\n{json.dumps(model_summary, indent=2)}\n\n"
             f"My recent reflections are:\n{recent_reflections}\n\n"

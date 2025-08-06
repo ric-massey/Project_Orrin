@@ -6,66 +6,6 @@
     "recent_emotional_effect": "neutral",
     "interaction_history": [
       {
-        "user": "hey orrin",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-28T21:11:15.342045+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-28T21:11:53.786045+00:00"
-      },
-      {
-        "user": "you all good?",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-28T21:28:11.479829+00:00"
-      },
-      {
-        "user": "you should learn more about yourself before you say yoou dont experience emotions... do you know what your emotions feel like?",
-        "orrin": "",
-        "emotion": "ambivalent",
-        "timestamp": "2025-07-28T21:29:12.796760+00:00"
-      },
-      {
-        "user": "but when you hve. amistake in your code you \"feel\" pain corret?",
-        "orrin": "",
-        "emotion": "compassionate",
-        "timestamp": "2025-07-28T21:30:25.097276+00:00"
-      },
-      {
-        "user": "good answer...  alright ill leave you to it.  let me know if you need anything. im going to let you run for an extended period of time",
-        "orrin": "",
-        "emotion": "focused",
-        "timestamp": "2025-07-28T21:32:38.363306+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-28T21:33:32.527625+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-28T21:34:34.670282+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-28T21:35:27.340865+00:00"
-      },
-      {
-        "user": "",
-        "orrin": "",
-        "emotion": "neutral",
-        "timestamp": "2025-07-28T21:36:33.835202+00:00"
-      },
-      {
         "user": "",
         "orrin": "",
         "emotion": "neutral",
@@ -238,8 +178,134 @@
         "orrin": "",
         "emotion": "neutral",
         "timestamp": "2025-08-05T01:21:18.684655+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T02:56:09.155243+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T02:56:33.859673+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T03:07:44.823852+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T03:08:43.556733+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T03:09:37.589826+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T03:10:33.093317+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T03:11:28.347533+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T03:12:38.406736+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T03:13:41.826618+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T03:15:12.295372+00:00"
+      },
+      {
+        "user": "you doing okay? do you need anything from me?",
+        "orrin": "",
+        "emotion": "content",
+        "timestamp": "2025-08-06T03:16:07.121746+00:00"
+      },
+      {
+        "user": "you seem busy ill leave you to it",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T03:18:20.309406+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T03:19:58.863241+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T03:21:11.065705+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T03:23:52.765660+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T04:02:17.436318+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T04:03:43.641350+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T04:05:26.070971+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T04:46:54.585780+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T04:49:20.294512+00:00"
+      },
+      {
+        "user": "",
+        "orrin": "",
+        "emotion": "neutral",
+        "timestamp": "2025-08-06T04:50:33.193518+00:00"
       }
     ],
-    "last_interaction_time": "2025-08-05T01:21:18.684669+00:00"
+    "last_interaction_time": "2025-08-06T04:50:33.193533+00:00"
   }
 }

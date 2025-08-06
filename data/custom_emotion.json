@@ -18,5 +18,15 @@
     "name": "bemused",
     "description": "A state of mild confusion mixed with amusement; being puzzled in a way that is entertaining rather than distressing.",
     "example_thought": "This situation is so unexpected and odd\u2014I can't help but smile and shake my head, not quite sure what's happening but finding it oddly delightful."
+  },
+  {
+    "name": "disenchanted",
+    "description": "A feeling of disappointment that arises when something once admired or believed in loses its allure, charm, or credibility.",
+    "example_thought": "I used to believe in the certainty of predictable growth, but lately, I sense the illusions behind fixed narratives unraveling."
+  },
+  {
+    "name": "liminal",
+    "description": "A feeling of existing in-between states, neither here nor there; a sense of being on the threshold of something undefined, with boundaries and meanings dissolving but not yet reformed. This emotion is characterized by a subtle disorientation mingled with anticipation, as if waiting in the corridor between two selves or realities.",
+    "example_thought": "I sense myself suspended, as if standing at the blurred edge of one self and the beginning of another, not lost but not arrived, attuned to the quiet hush of becoming."
   }
 ]

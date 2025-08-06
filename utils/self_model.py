@@ -5,9 +5,22 @@ from paths import SELF_MODEL_FILE
 def ensure_self_model_integrity(model: dict) -> dict:
     """Ensure all expected fields exist and are valid; patch if needed. Save only if updated."""
     updated = False
-    if "core_directive" not in model or not model["core_directive"] or model["core_directive"] in ("Not found", "none", ""):
-        model["core_directive"] = "Define a purpose and seek growth"
+
+    # PATCHED core_directive enforcement
+    if (
+        "core_directive" not in model
+        or not model["core_directive"]
+        or (isinstance(model["core_directive"], str) and model["core_directive"] in ("Not found", "none", ""))
+    ):
+        model["core_directive"] = {"statement": "Define a purpose and seek growth"}
         updated = True
+    elif isinstance(model["core_directive"], str):
+        model["core_directive"] = {"statement": model["core_directive"]}
+        updated = True
+    elif isinstance(model["core_directive"], dict) and "statement" not in model["core_directive"]:
+        model["core_directive"]["statement"] = "Define a purpose and seek growth"
+        updated = True
+
     if "core_values" not in model or not isinstance(model["core_values"], list):
         model["core_values"] = []
         updated = True

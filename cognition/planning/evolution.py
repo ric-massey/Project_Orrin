@@ -27,6 +27,10 @@ def plan_self_evolution():
         reflections = summarize_recent_thoughts()
         future_projection = simulate_future_selves()
 
+        if not isinstance(future_projection, dict):
+            log_error("[DEFENSE] future_projection not a dict:", future_projection)
+            future_projection = {}
+
         preferred_self = future_projection.get("preferred", "")
         future_reason = future_projection.get("reason", "")
         all_futures = json.dumps(future_projection.get("futures", []), indent=2)
@@ -139,7 +143,7 @@ def simulate_future_selves(save_to_history: bool = True):
     try:
         self_model = get_self_model()
         self_model = ensure_self_model_integrity(self_model)
-        current_traits = self_model.get("personality_traits", [])
+        current_traits = self_model.get("traits", [])
 
         # === Use dreamscape file for imaginative threads ===
         dreamscape = load_json(DREAMSCAPE, default_type=list)[-3:]

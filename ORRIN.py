@@ -60,6 +60,35 @@ try:
 except Exception as e:
     log_error(f"⚠️ Failed to load behavioral functions: {e}")
 
+# === Load context and RESET at startup ===
+context = load_context()
+
+# --- SMART RESET: Decay moods, log emotional impact of emergency, and clear crash flags only ---
+emotional_state = context.get("emotional_state", {})
+
+# 1. Decay lingering negative moods (but don't erase them entirely)
+for k in ["frustration", "pain", "anger", "fear", "boredom"]:
+    if k in emotional_state:
+        emotional_state[k] *= 0.65   # Tunable! 0.65 = loses 1/3 per restart, tweak if too fast/slow
+        if emotional_state[k] < 0.07:
+            emotional_state[k] = 0.0
+
+context["emotional_state"] = emotional_state
+
+# 2. If recovering from an emergency/crash, log it & add a meta-emotion ("unsettled" or "uncertainty")
+if "emergency_action" in context:
+    from memory.working_memory import update_working_memory
+    update_working_memory("🛑 Orrin is recovering from emergency shutdown. Residual uncertainty present.")
+    emotional_state["uncertainty"] = min(emotional_state.get("uncertainty", 0.0) + 0.35, 1.0)
+    context["emotional_state"] = emotional_state
+    del context["emergency_action"]
+
+from memory.working_memory import update_working_memory
+if emotional_state.get("uncertainty", 0) > 0.2:
+    update_working_memory("🤔 Waking up feeling uncertain after last shutdown. Self-reflection recommended.")
+elif sum(emotional_state.get(k, 0.0) for k in ["frustration", "anger", "pain", "boredom"]) > 0.3:
+    update_working_memory("😑 Residual negative mood detected from last session.")
+
 # === Main Runtime Loop ===
 if __name__ == "__main__":
     while True:
@@ -71,6 +100,14 @@ if __name__ == "__main__":
             update_emotional_state()
             context = load_context()
             emotional_state = context.get("emotional_state", {})
+
+            # --- Subtle mood decay on each cycle ---
+            for k in ["frustration", "pain", "anger", "fear", "boredom", "uncertainty"]:
+                if k in emotional_state:
+                    emotional_state[k] *= 0.92   # Decays slowly each cycle, tweak as you like
+                    if emotional_state[k] < 0.05:
+                        emotional_state[k] = 0.0
+            context["emotional_state"] = emotional_state
 
             # === Reflex Layer ===
             if emotional_state.get("emotional_stability", 1.0) < 0.6:

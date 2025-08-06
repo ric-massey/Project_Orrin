@@ -63,8 +63,11 @@ def process_inputs(context, raw_signals=None):
 
     prioritized = []
 
+    from datetime import datetime, timezone, timedelta
+
     # --- Emergency interrupt support ---
     emergency_action = None
+    MAX_EMERGENCY_AGE = timedelta(minutes=5)  # Only treat emergencies newer than this
 
     for signal in raw_signals:
         base = signal.get("signal_strength", 0.5)
@@ -75,26 +78,36 @@ def process_inputs(context, raw_signals=None):
         # === Emergency/fire-alarm logic (never triggers on user input) ===
         if (
             ("error" in tags or "crash" in tags)
-            and "user_input" not in tags  # <-- This line guarantees user input cannot ever trigger an emergency
+            and "user_input" not in tags
             and (
                 "critical" in content or "crash" in content or "failure" in content or "emergency" in content
             )
         ):
-            emergency_action = {
-                "action": "emergency_shutdown",
-                "reason": f"Fire alarm from thalamus: {content[:100]}",
-                "source_signal": signal
-            }
-            # --- Reward for emergency detection ---
-            release_reward_signal(
-                context,
-                signal_type="dopamine",
-                actual_reward=0.7,
-                expected_reward=0.4,
-                effort=0.3,
-                mode="phasic",
-                source="emergency_signal_detected"
-            )
+            # --- Only if the signal is recent ---
+            sig_time_str = signal.get("timestamp")
+            is_recent = False
+            if sig_time_str:
+                try:
+                    sig_time = datetime.fromisoformat(sig_time_str.replace("Z", "+00:00"))
+                    is_recent = (datetime.now(timezone.utc) - sig_time) < MAX_EMERGENCY_AGE
+                except Exception:
+                    pass
+            if is_recent:
+                emergency_action = {
+                    "action": "emergency_shutdown",
+                    "reason": f"Fire alarm from thalamus: {content[:100]}",
+                    "source_signal": signal
+                }
+                # --- Reward for emergency detection ---
+                release_reward_signal(
+                    context,
+                    signal_type="dopamine",
+                    actual_reward=0.7,
+                    expected_reward=0.4,
+                    effort=0.3,
+                    mode="phasic",
+                    source="emergency_signal_detected"
+                )
 
         # === Emotion-Weighted Tag Adjustments (dynamic) ===
         for tag in tags:

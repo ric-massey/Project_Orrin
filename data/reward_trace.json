@@ -1,0 +1,62 @@
+[
+  {
+    "type": "serotonin",
+    "strength": 0.5072193892748502,
+    "actual_reward": 0.85,
+    "expected_reward": 0.5,
+    "effort": 0.5,
+    "mode": "tonic",
+    "tags": [],
+    "timestamp": "2025-08-06T04:50:32.061725+00:00"
+  },
+  {
+    "type": "dopamine",
+    "strength": 0.31648059332390654,
+    "actual_reward": 0.7,
+    "expected_reward": 0.5,
+    "effort": 0.6,
+    "mode": "phasic",
+    "tags": [],
+    "timestamp": "2025-08-06T04:50:40.222882+00:00"
+  },
+  {
+    "type": "novelty",
+    "strength": 0.1805295702306309,
+    "actual_reward": 0.5,
+    "expected_reward": 0.3,
+    "effort": 0.3,
+    "mode": "tonic",
+    "tags": [],
+    "timestamp": "2025-08-06T04:50:40.223399+00:00"
+  },
+  {
+    "type": "dopamine",
+    "strength": 0.0,
+    "actual_reward": -0.2999446297929812,
+    "expected_reward": 0.7,
+    "effort": 0.4,
+    "mode": "phasic",
+    "tags": [],
+    "timestamp": "2025-08-06T04:50:43.013820+00:00"
+  },
+  {
+    "type": "dopamine",
+    "strength": 0.0,
+    "actual_reward": 0.1,
+    "expected_reward": 0.5,
+    "effort": 0.3,
+    "mode": "phasic",
+    "tags": [],
+    "timestamp": "2025-08-06T04:50:48.813802+00:00"
+  },
+  {
+    "type": "novelty",
+    "strength": 0.339158101032424,
+    "actual_reward": 0.6,
+    "expected_reward": 0.4,
+    "effort": 0.5,
+    "mode": "phasic",
+    "tags": [],
+    "timestamp": "2025-08-06T04:50:50.065789+00:00"
+  }
+]

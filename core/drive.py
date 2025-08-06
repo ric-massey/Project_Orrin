@@ -35,7 +35,7 @@ def persistent_drive_loop(context, self_model, memory):
 
         # === 2. Snapshot directive + reflection
         directive = self_model.get("core_directive", {}).get("statement", "")
-        identity = self_model.get("identity", {}).get("description", "")
+        identity = self_model.get("identity", "")
         recent = "\n".join(f"- {m.get('content', '')}" for m in memory[-25:] if m.get("content"))
 
         summary = meta_reflect({

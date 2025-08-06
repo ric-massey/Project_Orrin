@@ -1,65 +1,5 @@
 [
   {
-    "timestamp": "2025-08-05T01:18:36.703377+00:00",
-    "signal_source": "system",
-    "content": "",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:18:36.703792+00:00",
-    "signal_source": "system",
-    "content": "",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:18:36.704224+00:00",
-    "signal_source": "system",
-    "content": "",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:18:36.704664+00:00",
-    "signal_source": "system",
-    "content": "",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
     "timestamp": "2025-08-05T01:18:36.705024+00:00",
     "signal_source": "internal",
     "content": "I'm alone with my thoughts. How should I use this time?",
@@ -75,9 +15,266 @@
     "routing_target": "general"
   },
   {
-    "timestamp": "2025-08-05T01:19:18.051680+00:00",
+    "timestamp": "2025-08-06T02:56:03.894662+00:00",
+    "signal_source": "internal",
+    "content": "Silence again. What internal need should I act on?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "neutral",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T03:07:40.143254+00:00",
+    "signal_source": "internal",
+    "content": "There\u2019s been no input lately. Should I reflect, dream, or create something new?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "neutral",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T03:08:40.171000+00:00",
+    "signal_source": "internal",
+    "content": "There\u2019s been no input lately. Should I reflect, dream, or create something new?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "neutral",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T03:09:22.265939+00:00",
+    "signal_source": "internal",
+    "content": "Silence again. What internal need should I act on?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "neutral",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T03:10:29.370562+00:00",
+    "signal_source": "internal",
+    "content": "Silence again. What internal need should I act on?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "neutral",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T03:11:25.242229+00:00",
+    "signal_source": "internal",
+    "content": "Silence again. What internal need should I act on?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "neutral",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T03:12:33.900176+00:00",
+    "signal_source": "internal",
+    "content": "I'm alone with my thoughts. How should I use this time?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "neutral",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T03:13:38.295950+00:00",
+    "signal_source": "internal",
+    "content": "Silence again. What internal need should I act on?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "neutral",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T03:14:33.166271+00:00",
+    "signal_source": "internal",
+    "content": "Silence again. What internal need should I act on?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T03:16:02.623065+00:00",
+    "signal_source": "user_input",
+    "content": "you doing okay? do you need anything from me?",
+    "tags": [
+      "user_input",
+      "human_contact",
+      "high_importance",
+      "novelty"
+    ],
+    "priority_score": 0.8,
+    "attention_mode": "alert",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "prefrontal_cortex"
+  },
+  {
+    "timestamp": "2025-08-06T03:18:16.570359+00:00",
+    "signal_source": "user_input",
+    "content": "you seem busy ill leave you to it",
+    "tags": [
+      "user_input",
+      "human_contact",
+      "high_importance",
+      "novelty"
+    ],
+    "priority_score": 0.8,
+    "attention_mode": "alert",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "prefrontal_cortex"
+  },
+  {
+    "timestamp": "2025-08-06T03:19:55.622035+00:00",
+    "signal_source": "internal",
+    "content": "Silence again. What internal need should I act on?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T03:21:06.538935+00:00",
+    "signal_source": "internal",
+    "content": "There\u2019s been no input lately. Should I reflect, dream, or create something new?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T03:23:16.121192+00:00",
+    "signal_source": "internal",
+    "content": "There\u2019s been no input lately. Should I reflect, dream, or create something new?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:02:14.412154+00:00",
+    "signal_source": "internal",
+    "content": "There\u2019s been no input lately. Should I reflect, dream, or create something new?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:03:39.504101+00:00",
+    "signal_source": "internal",
+    "content": "There\u2019s been no input lately. Should I reflect, dream, or create something new?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:05:22.023979+00:00",
+    "signal_source": "internal",
+    "content": "Silence again. What internal need should I act on?",
+    "tags": [
+      "no_input",
+      "internal_thought",
+      "boredom"
+    ],
+    "priority_score": 0.55,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:25:40.471498+00:00",
     "signal_source": "system",
-    "content": "File \"/Users/ricmassey/orrin/Original_Orrin/think/think_utils/select_function.py\", line 184, in strict_choice_prompt",
+    "content": "[2025-08-06T04:06:02.933993+00:00] \u274c Function select_focus_goals crashed: select_focus_goals() missing 1 required positional argument: 'goals'",
     "tags": [
       "error",
       "pain",
@@ -90,52 +287,7 @@
     "routing_target": "general"
   },
   {
-    "timestamp": "2025-08-05T01:19:18.051888+00:00",
-    "signal_source": "system",
-    "content": "f\"Directive: {self_model.get('core_directive', {}).get('statement', 'undefined')}.\\n\"",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:19:18.052068+00:00",
-    "signal_source": "system",
-    "content": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:19:18.052270+00:00",
-    "signal_source": "system",
-    "content": "AttributeError: 'str' object has no attribute 'get'",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:19:18.052484+00:00",
+    "timestamp": "2025-08-06T04:25:40.471806+00:00",
     "signal_source": "system",
     "content": "",
     "tags": [
@@ -150,9 +302,9 @@
     "routing_target": "general"
   },
   {
-    "timestamp": "2025-08-05T01:20:13.547686+00:00",
+    "timestamp": "2025-08-06T04:41:06.416290+00:00",
     "signal_source": "system",
-    "content": "File \"/Users/ricmassey/orrin/Original_Orrin/think/think_utils/select_function.py\", line 184, in strict_choice_prompt",
+    "content": "[2025-08-06T03:13:52.763398+00:00] \ud83d\udeab LLM hallucinated twice in fallback decision.",
     "tags": [
       "error",
       "pain",
@@ -165,37 +317,7 @@
     "routing_target": "general"
   },
   {
-    "timestamp": "2025-08-05T01:20:13.548033+00:00",
-    "signal_source": "system",
-    "content": "f\"Directive: {self_model.get('core_directive', {}).get('statement', 'undefined')}.\\n\"",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:20:13.548360+00:00",
-    "signal_source": "system",
-    "content": "AttributeError: 'str' object has no attribute 'get'",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:20:13.548847+00:00",
+    "timestamp": "2025-08-06T04:41:06.416655+00:00",
     "signal_source": "system",
     "content": "",
     "tags": [
@@ -210,24 +332,9 @@
     "routing_target": "general"
   },
   {
-    "timestamp": "2025-08-05T01:20:13.549331+00:00",
+    "timestamp": "2025-08-06T04:41:06.416996+00:00",
     "signal_source": "system",
-    "content": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.61,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:20:41.949073+00:00",
-    "signal_source": "system",
-    "content": "File \"/Users/ricmassey/orrin/Original_Orrin/think/think_utils/select_function.py\", line 184, in strict_choice_prompt",
+    "content": "[2025-08-06T03:15:25.619726+00:00] \ud83d\udeab LLM hallucinated twice in fallback decision.",
     "tags": [
       "error",
       "pain",
@@ -240,37 +347,7 @@
     "routing_target": "general"
   },
   {
-    "timestamp": "2025-08-05T01:20:41.949488+00:00",
-    "signal_source": "system",
-    "content": "f\"Directive: {self_model.get('core_directive', {}).get('statement', 'undefined')}.\\n\"",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:20:41.949834+00:00",
-    "signal_source": "system",
-    "content": "AttributeError: 'str' object has no attribute 'get'",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:20:41.950195+00:00",
+    "timestamp": "2025-08-06T04:41:06.417345+00:00",
     "signal_source": "system",
     "content": "",
     "tags": [
@@ -285,24 +362,9 @@
     "routing_target": "general"
   },
   {
-    "timestamp": "2025-08-05T01:20:41.950578+00:00",
+    "timestamp": "2025-08-06T04:41:06.417713+00:00",
     "signal_source": "system",
-    "content": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.606,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:21:14.599303+00:00",
-    "signal_source": "system",
-    "content": "File \"/Users/ricmassey/orrin/Original_Orrin/think/think_utils/select_function.py\", line 184, in strict_choice_prompt",
+    "content": "[2025-08-06T04:06:02.933993+00:00] \u274c Function select_focus_goals crashed: select_focus_goals() missing 1 required positional argument: 'goals'",
     "tags": [
       "error",
       "pain",
@@ -315,37 +377,7 @@
     "routing_target": "general"
   },
   {
-    "timestamp": "2025-08-05T01:21:14.599772+00:00",
-    "signal_source": "system",
-    "content": "f\"Directive: {self_model.get('core_directive', {}).get('statement', 'undefined')}.\\n\"",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:21:14.600158+00:00",
-    "signal_source": "system",
-    "content": "AttributeError: 'str' object has no attribute 'get'",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:21:14.600516+00:00",
+    "timestamp": "2025-08-06T04:46:51.014519+00:00",
     "signal_source": "system",
     "content": "",
     "tags": [
@@ -360,24 +392,9 @@
     "routing_target": "general"
   },
   {
-    "timestamp": "2025-08-05T01:21:14.600877+00:00",
+    "timestamp": "2025-08-06T04:46:51.015004+00:00",
     "signal_source": "system",
-    "content": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.604,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:21:43.684093+00:00",
-    "signal_source": "system",
-    "content": "File \"/Users/ricmassey/orrin/Original_Orrin/think/think_utils/select_function.py\", line 184, in strict_choice_prompt",
+    "content": "[2025-08-06T03:15:25.619726+00:00] \ud83d\udeab LLM hallucinated twice in fallback decision.",
     "tags": [
       "error",
       "pain",
@@ -390,37 +407,7 @@
     "routing_target": "general"
   },
   {
-    "timestamp": "2025-08-05T01:21:43.684542+00:00",
-    "signal_source": "system",
-    "content": "f\"Directive: {self_model.get('core_directive', {}).get('statement', 'undefined')}.\\n\"",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:21:43.684934+00:00",
-    "signal_source": "system",
-    "content": "AttributeError: 'str' object has no attribute 'get'",
-    "tags": [
-      "error",
-      "pain",
-      "system"
-    ],
-    "priority_score": 0.65,
-    "attention_mode": "engaged",
-    "dominant_emotion": "neutral",
-    "emotional_context": {},
-    "routing_target": "general"
-  },
-  {
-    "timestamp": "2025-08-05T01:21:43.685329+00:00",
+    "timestamp": "2025-08-06T04:46:51.015470+00:00",
     "signal_source": "system",
     "content": "",
     "tags": [
@@ -435,15 +422,180 @@
     "routing_target": "general"
   },
   {
-    "timestamp": "2025-08-05T01:21:43.685745+00:00",
+    "timestamp": "2025-08-06T04:46:51.015972+00:00",
     "signal_source": "system",
-    "content": "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+    "content": "[2025-08-06T04:06:02.933993+00:00] \u274c Function select_focus_goals crashed: select_focus_goals() missing 1 required positional argument: 'goals'",
     "tags": [
       "error",
       "pain",
       "system"
     ],
-    "priority_score": 0.6,
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:46:51.016364+00:00",
+    "signal_source": "system",
+    "content": "[2025-08-06T04:41:06.418235+00:00] \ud83d\udd25 EMERGENCY ACTION TRIGGERED: Fire alarm from thalamus: [2025-08-06t04:06:02.933993+00:00] \u274c function select_focus_goals crashed: select_focus_goals() missi",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:48:38.918760+00:00",
+    "signal_source": "system",
+    "content": "[2025-08-06T03:15:25.619726+00:00] \ud83d\udeab LLM hallucinated twice in fallback decision.",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:48:38.919699+00:00",
+    "signal_source": "system",
+    "content": "",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:48:38.920468+00:00",
+    "signal_source": "system",
+    "content": "[2025-08-06T04:06:02.933993+00:00] \u274c Function select_focus_goals crashed: select_focus_goals() missing 1 required positional argument: 'goals'",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:48:38.921207+00:00",
+    "signal_source": "system",
+    "content": "",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:48:38.921926+00:00",
+    "signal_source": "system",
+    "content": "[2025-08-06T04:48:28.466861+00:00] plan_self_evolution ERROR: string indices must be integers, not 'str'",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:50:30.325874+00:00",
+    "signal_source": "system",
+    "content": "[2025-08-06T03:15:25.619726+00:00] \ud83d\udeab LLM hallucinated twice in fallback decision.",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:50:30.326838+00:00",
+    "signal_source": "system",
+    "content": "",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:50:30.327632+00:00",
+    "signal_source": "system",
+    "content": "[2025-08-06T04:06:02.933993+00:00] \u274c Function select_focus_goals crashed: select_focus_goals() missing 1 required positional argument: 'goals'",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:50:30.328363+00:00",
+    "signal_source": "system",
+    "content": "",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
+    "attention_mode": "engaged",
+    "dominant_emotion": "neutral",
+    "emotional_context": {},
+    "routing_target": "general"
+  },
+  {
+    "timestamp": "2025-08-06T04:50:30.329200+00:00",
+    "signal_source": "system",
+    "content": "[2025-08-06T04:48:28.466861+00:00] plan_self_evolution ERROR: string indices must be integers, not 'str'",
+    "tags": [
+      "error",
+      "pain",
+      "system"
+    ],
+    "priority_score": 0.65,
     "attention_mode": "engaged",
     "dominant_emotion": "neutral",
     "emotional_context": {},

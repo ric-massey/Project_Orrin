@@ -7,6 +7,7 @@ from utils.summarizers import summarize_self_model
 from utils.self_model import ensure_self_model_integrity
 from utils.knowledge_utils import recall_relevant_knowledge
 from utils.emotion_utils import detect_emotion, dominant_emotion
+from utils.goals import extract_current_focus_goal
 from emotion.reward_signals.reward_signals import release_reward_signal, novelty_penalty
 from core.drive import persistent_drive_loop
 from paths import EMOTION_FUNCTION_MAP_FILE, COGNITIVE_FUNCTIONS_LIST_FILE, FOCUS_GOAL
@@ -159,11 +160,11 @@ def select_function(
 
     # Build focus_goal_str dynamically so it is always up to date
     focus_goal = load_json(FOCUS_GOAL)
-    focus_goal_str = (
-        f"Focus Goal: \"{focus_goal.get('goal', 'none')}\"\n"
-        f"Reason: {focus_goal.get('reason', 'none')}\n"
-        f"Milestones: {json.dumps(focus_goal.get('milestones', []), indent=2)}"
-    )
+    current_goal_str = extract_current_focus_goal(focus_goal)
+    if current_goal_str:
+        focus_goal_str = f"Focus Goal: \"{current_goal_str}\""
+    else:
+        focus_goal_str = "No explicit focus goal found."
 
     try:
         func_descriptions = load_json(COGNITIVE_FUNCTIONS_LIST_FILE, default_type=list)

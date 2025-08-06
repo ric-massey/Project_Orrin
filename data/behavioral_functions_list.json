@@ -40,6 +40,11 @@
     "is_action": true
   },
   {
+    "name": "extract_current_focus_goal",
+    "summary": "This function retrieves the goal string from a nested focus_goal dictionary by checking for \"short_or_mid\" first, then \"long_term\", then a top-level \"goal\" key, and returns None if no goal is found.",
+    "is_action": true
+  },
+  {
     "name": "extract_json",
     "summary": "The `extract_json` function attempts to extract and parse a JSON object from a given text string by first looking for a fenced code block labeled as JSON, then by searching for the first balanced curly braces, and finally by trying to parse the entire text as JSON, returning an error if all attempts fail.",
     "is_action": true

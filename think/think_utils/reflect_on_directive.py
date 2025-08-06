@@ -1,6 +1,7 @@
 import json
 from utils.generate_response import generate_response
 from utils.knowledge_utils import recall_relevant_knowledge
+from utils.goals import extract_current_focus_goal
 from memory.working_memory import update_working_memory
 from utils.load_utils import load_json
 from emotion.reward_signals.reward_signals import release_reward_signal
@@ -30,12 +31,9 @@ def reflect_on_directive(self_model, context=None):
         return {"reflection": None, "related": None}
 
     # --- Build focus goal string safely ---
-    if focus_goal and focus_goal.get('short_or_mid') or focus_goal.get('goal'):
-        focus_goal_str = (
-            f"Focus Goal: \"{focus_goal.get('goal', focus_goal.get('short_or_mid', ''))}\"\n"
-            f"Reason: {focus_goal.get('reason', '')}\n"
-            f"Milestones: {json.dumps(focus_goal.get('milestones', []), indent=2)}"
-        )
+    current_goal_str = extract_current_focus_goal(focus_goal)
+    if current_goal_str:
+        focus_goal_str = f"Focus Goal: \"{current_goal_str}\""
     else:
         focus_goal_str = "No explicit focus goal found."
 
