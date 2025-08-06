@@ -191,17 +191,16 @@ def decay_reward_trace(context, base_decay_rate=0.015):
     context[REWARD_TRACE] = new_trace
     return context
 
-def novelty_penalty(last_choice, current_choice, recent_choices, emotional_state=None):
+def novelty_penalty(last_choice, current_choice, recent_choices, emotional_state=None, context=None):
     """
     More nuanced human-like boredom/novelty penalty:
-    - Strong penalty for exact repeats unless under anxiety/fear or high motivation
-    - Soft penalty for recent picks, modulated by boredom, curiosity, anxiety, fear, sadness, excitement, motivation
-    - Nonlinear reward for breaking long ruts, boosted by curiosity and excitement
-    - Occasional moodiness (rarely ignore penalty entirely, simulating relapse)
-    - Fatigue and stress modulate penalties/rewards
+    - Adds derivative (rate of change) of boredom as a *modulator* for soft penalties/rewards.
+    - Clips derivative effect so it can't overpower main logic.
     """
     if emotional_state is None:
         emotional_state = {}
+    if context is None:
+        context = {}
 
     # --- Moodiness: occasionally ignore penalty (7%) ---
     if random.random() < 0.07:
@@ -214,16 +213,31 @@ def novelty_penalty(last_choice, current_choice, recent_choices, emotional_state
     sadness = emotional_state.get("sadness", 0)
     excitement = emotional_state.get("excitement", 0)
     motivation = emotional_state.get("motivation", 0.5)
-    fatigue = emotional_state.get("fatigue", 0)  # You can define this or pass in from fatigue tracking
+    fatigue = emotional_state.get("fatigue", 0)
+
+    # === Derivative of boredom tracking (over last N calls) ===
+    context.setdefault("boredom_history", [])
+    context["boredom_history"].append(boredom)
+    if len(context["boredom_history"]) > 6:
+        context["boredom_history"].pop(0)
+    delta_boredom = (
+        context["boredom_history"][-1] - context["boredom_history"][-2]
+        if len(context["boredom_history"]) > 1 else 0.0
+    )
+    # Smooth derivative for less noise
+    context.setdefault("boredom_deltas", [])
+    context["boredom_deltas"].append(delta_boredom)
+    if len(context["boredom_deltas"]) > 5:
+        context["boredom_deltas"].pop(0)
+    smoothed_deriv = sum(context["boredom_deltas"]) / len(context["boredom_deltas"])
 
     # --- Strong negative for direct repeat ---
     if current_choice == last_choice:
-        # Allow more repetition under anxiety/fear/motivation
+        # Derivative NEVER overrides hard penalty here.
         if anxiety > 0.6 or fear > 0.5 or motivation > 0.7:
             return -0.1
-        # Heavier penalty if fatigued
         penalty = -0.4 - fatigue * 0.2
-        return max(penalty, -0.7)  # Cap max penalty
+        return max(penalty, -0.7)
 
     # --- Soft penalty for recent repeats ---
     recent_n = recent_choices[-4:]
@@ -231,27 +245,31 @@ def novelty_penalty(last_choice, current_choice, recent_choices, emotional_state
 
     # Modulate penalty with emotional state
     emotion_mod = (curiosity + boredom) - (anxiety + fear + sadness)
-    # If sad, decrease push for novelty (less penalty)
     if sadness > 0.6:
         emotion_mod *= 0.6
-    # If excited or highly motivated, decrease penalty or even flip to reward
     if excitement > 0.5 or motivation > 0.7:
-        emotion_mod *= -0.8  # Flip to positive effect
+        emotion_mod *= -0.8
 
     base_penalty *= (1 + 1.5 * emotion_mod)
+
+    # --- Derivative modulates only soft/medium penalties, not hard ones ---
+    # Only apply if |deriv| is big enough, and scale/clip
+    if abs(smoothed_deriv) > 0.03:
+        deriv_effect = min(max(smoothed_deriv, -0.12), 0.12)  # cap to ±0.12
+        # Blend, don't multiply: up to 25% influence max, but base penalty is never totally overpowered
+        base_penalty = 0.85 * base_penalty + 0.15 * (base_penalty * (1.0 + deriv_effect * 2.5))
 
     # --- Reward for breaking long ruts ---
     if current_choice not in recent_choices:
         length = len(recent_choices)
         last_index = recent_choices[::-1].index(current_choice) if current_choice in recent_choices else length
-        reward = min(0.15 + 0.15 * last_index, 0.5)  # Slightly higher max reward
-        # Boost reward with curiosity, excitement, and motivation
+        reward = min(0.15 + 0.15 * last_index, 0.5)
         boost = curiosity * 0.4 + excitement * 0.3 + motivation * 0.3
         reward *= 1 + boost
-        # Cap reward at 0.7 max
         reward = min(reward, 0.7)
+        # Derivative can add a touch of extra reward for *breaking* out of high-boredom trend
+        if smoothed_deriv > 0.08:
+            reward += min(smoothed_deriv * 0.11, 0.07)
         return reward
 
-    # --- Default fallback penalty ---
     return base_penalty
-

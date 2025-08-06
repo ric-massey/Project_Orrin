@@ -205,7 +205,7 @@ def select_function(
     reason = choice.get("reason", "No reason returned.")
     is_action = available_functions.get(next_function, {}).get("is_action", False)
 
-    novelty_score = novelty_penalty(last_choice, next_function, recent_choices)
+    novelty_score = novelty_penalty(last_choice, next_function, recent_choices, emotional_state, context)
     if novelty_score < 0:
         release_reward_signal(
             context,
