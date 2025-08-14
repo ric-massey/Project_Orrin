@@ -3,5 +3,17 @@
   "curiosity": {},
   "emotional_stability": {},
   "connection": {},
-  "motivation": {}
+  "motivation": {},
+  "focused": {
+    "reflect_as_agents": 6.033254078124999
+  },
+  "curious": {
+    "reflect_as_agents": 3.709875
+  },
+  "hopeful": {
+    "reflect_as_agents": 6.396737388722147
+  },
+  "confident": {
+    "reflect_as_agents": 1.0
+  }
 }

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any, Dict, Optional, Union
 
 from emotion.emotion import detect_emotion
@@ -46,14 +47,6 @@ def _create_chat_entry(
 ) -> Dict[str, Any]:
     """
     Construct a chat log entry with speaker, content, detected emotion, and timestamp.
-
-    Args:
-        speaker: The identifier for who is speaking (e.g. "user" or "orrin").
-        content: The text content of the message.
-        timestamp: Optional timestamp to assign; if not provided, the current UTC time is used.
-
-    Returns:
-        A dictionary representing the chat entry.
     """
     return {
         "speaker": speaker,
@@ -73,13 +66,8 @@ def log_user_message(content: str) -> None:
 
 def log_dialogue_pair(user: str, orrin: str, timestamp: Optional[str] = None) -> None:
     """
-    Append a user/orrin dialogue pair to the chat log.  Messages that are empty,
+    Append a user/orrin dialogue pair to the chat log. Messages that are empty,
     consist only of dashes, or where Orrin’s reply is '(no reply)' are skipped.
-
-    Args:
-        user: The user’s message.
-        orrin: The agent’s message.
-        timestamp: Optional timestamp to apply to both messages.
     """
     if not _is_noise(user):
         append_to_json(paths.CHAT_LOG_FILE, _create_chat_entry("user", user, timestamp))
@@ -108,30 +96,27 @@ def log_raw_user_input(entry: Union[str, Dict[str, str]]) -> None:
 
 
 def summarize_chat_to_long_memory(
-    cycle_count: int, chat_log_file: str, long_memory_file: str
+    cycle_count: int,
+    chat_log_file: Union[str, Path],
+    long_memory_file: Union[str, Path],
 ) -> None:
     """
-    Every 5 cycles, summarise the last 20 chat messages into a single long-term memory entry.
-
-    A summary is generated from the most recent 20 chat log entries whenever
-    `cycle_count` is divisible by 5 and at least 20 messages exist. Once summarised,
-    the oldest 10 chat entries are trimmed from the log.
-
-    Args:
-        cycle_count: The current cycle number used to decide when to summarise.
-        chat_log_file: Path to the JSON file containing the chat log.
-        long_memory_file: Path to the JSON file where long-term memories are stored.
+    Every 5 cycles, summarize the last 20 chat messages into a single long-term memory entry.
+    After summarizing, the oldest 10 chat entries are trimmed from the log.
     """
     if cycle_count % 5:
         return
 
     try:
         chat_log: list[dict[str, Any]] = load_json(chat_log_file, default_type=list)
+        if not isinstance(chat_log, list):
+            chat_log = []
         if len(chat_log) < 20:
             return
 
         recent_chats = chat_log[-20:]
-        chat_text = "\n".join(entry.get("content", "") for entry in recent_chats)
+        chat_text = "\n".join(str(entry.get("content", "")) for entry in recent_chats)
+
         prompt = (
             "Summarize the following recent conversation concisely and meaningfully, "
             "capturing main topics, emotions, and insights:\n\n"
@@ -145,14 +130,18 @@ def summarize_chat_to_long_memory(
         labels: list[str] = []
         for e in (entry.get("emotion") for entry in recent_chats):
             if isinstance(e, dict):
-                if (val := e.get("emotion")):
-                    labels.append(val)
+                val = e.get("emotion")
+                if val:
+                    labels.append(str(val))
             elif isinstance(e, str):
                 labels.append(e)
         dominant_emotion = max(set(labels), key=labels.count) if labels else "neutral"
 
         # Build and save the new long-term memory record
         long_memory: list[dict[str, Any]] = load_json(long_memory_file, default_type=list)
+        if not isinstance(long_memory, list):
+            long_memory = []
+
         new_memory = {
             "content": summary.strip(),
             "emotion": dominant_emotion,
@@ -161,7 +150,7 @@ def summarize_chat_to_long_memory(
             "agent": "orrin",
             "importance": 2,
             "priority": 2,
-            "referenced": sum(entry.get("referenced", 0) for entry in recent_chats),
+            "referenced": sum(int(entry.get("referenced", 0) or 0) for entry in recent_chats),
             "pin": False,
             "decay": 1.0,
             "recall_count": 0,
@@ -179,7 +168,7 @@ def summarize_chat_to_long_memory(
 
 def wrap_text(text: str, width: int = 85) -> str:
     """
-    Return text wrapped to the specified width.  Useful for formatting console output or logs.
+    Return text wrapped to the specified width. Useful for formatting console output or logs.
     """
     import textwrap
     return "\n".join(textwrap.wrap(text, width))

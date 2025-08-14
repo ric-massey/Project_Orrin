@@ -4,81 +4,88 @@ from utils.emotion_utils import detect_emotion
 from utils.log import log_error
 from paths import RELATIONSHIPS_FILE
 
-MAX_HISTORY = 50  # ⬅️ Limit for chat history per user
+MAX_HISTORY = 50
 
 def update_relationship_model(context):
-    """
-    Update or create relationship data based on latest interaction.
-    Handles multiple users, tracks impressions, emotions, and history.
-    Optionally logs important events to working memory.
-    """
     try:
-        relationships = load_json(RELATIONSHIPS_FILE, default_type=dict)
+        relationships = load_json(RELATIONSHIPS_FILE, default_type=dict) or {}
 
         user_id = context.get("user_id", "user")
-        user_input = context.get("latest_user_input", "")
-        orrin_reply = context.get("latest_response", "")
-        emotion_result = detect_emotion(user_input)
-        emotion = emotion_result["emotion"] if isinstance(emotion_result, dict) else str(emotion_result).lower()
-        emotional_state = context.get("emotional_state", {})
+        user_input = context.get("latest_user_input", "") or ""
+        orrin_reply = context.get("latest_response", "") or ""
 
-        if user_id not in relationships:
+        # emotion can be dict or string
+        emotion_result = detect_emotion(user_input)
+        emotion = (emotion_result.get("emotion") if isinstance(emotion_result, dict) else str(emotion_result)).lower()
+
+        # handle both flat and nested shapes
+        emotional_state = context.get("emotional_state", {}) or {}
+        core = emotional_state.get("core_emotions", emotional_state)  # fallback to flat
+        anger = float(core.get("anger", 0) or 0)
+        joy   = float(core.get("joy", 0) or 0)
+
+        # ensure structure for this user
+        if user_id not in relationships or not isinstance(relationships.get(user_id), dict):
             relationships[user_id] = {
                 "impression": "new connection",
                 "influence_score": 0.5,
                 "boundaries": [],
                 "recent_emotional_effect": emotion,
                 "interaction_history": [],
-                "last_interaction_time": datetime.now(timezone.utc).isoformat()
+                "last_interaction_time": datetime.now(timezone.utc).isoformat(),
             }
 
         r = relationships[user_id]
 
-        # Add to interaction history
+        # history
         r.setdefault("interaction_history", []).append({
             "user": user_input,
             "orrin": orrin_reply,
             "emotion": emotion,
-            "timestamp": datetime.now(timezone.utc).isoformat()
+            "timestamp": datetime.now(timezone.utc).isoformat(),
         })
-        r["interaction_history"] = r["interaction_history"][-MAX_HISTORY:]  # Trim history
+        r["interaction_history"] = r["interaction_history"][-MAX_HISTORY:]
 
-        # Track old values for logging
         old_impression = r.get("impression", "")
-        old_influence = r.get("influence_score", 0.5)
+        old_influence = float(r.get("influence_score", 0.5) or 0.5)
 
-        # Emotion-driven influence adjustment
+        # influence nudges
         if emotion in ["gratitude", "joy", "affection", "trust"]:
-            r["influence_score"] = min(r["influence_score"] + 0.05, 1.0)
-            r["recent_emotional_effect"] = emotion
+            r["influence_score"] = min(old_influence + 0.05, 1.0)
         elif emotion in ["anger", "hostility", "contempt", "disgust"]:
-            r["influence_score"] = max(r["influence_score"] - 0.1, 0.0)
-            r["recent_emotional_effect"] = emotion
+            r["influence_score"] = max(old_influence - 0.1, 0.0)
         else:
-            r["recent_emotional_effect"] = emotion
+            r["influence_score"] = old_influence
+        r["recent_emotional_effect"] = emotion
 
-        # Adjust impression based on overall emotional state
-        if emotional_state.get("anger", 0) > 0.7:
+        # impressions from state
+        if anger > 0.7:
             r["impression"] = "conflicted or tense"
-        elif emotional_state.get("joy", 0) > 0.6:
+        elif joy > 0.6:
             r["impression"] = "positive connection"
 
         r["last_interaction_time"] = datetime.now(timezone.utc).isoformat()
         relationships[user_id] = r
 
+        # optional compatibility shim: mirror default user under "user"
+        # (remove this if all readers are migrated to per-user keys)
+        if user_id == "user":
+            relationships["user"] = r
+
         save_json(RELATIONSHIPS_FILE, relationships)
 
-        # --- NEW: Log to working memory if relationship changed notably ---
+        # working memory note on notable change
         from memory.working_memory import update_working_memory
         notable_change = (
-            r["impression"] != old_impression or
-            abs(r["influence_score"] - old_influence) > 0.15
+            r.get("impression") != old_impression or
+            abs(r.get("influence_score", 0.5) - old_influence) > 0.15
         )
         if notable_change:
             update_working_memory(
                 f"🔗 Relationship with {user_id} changed: "
-                f"impression='{r['impression']}', influence={r['influence_score']:.2f}, "
-                f"emotion='{r['recent_emotional_effect']}'"
+                f"impression='{r.get('impression','')}', "
+                f"influence={r.get('influence_score',0.5):.2f}, "
+                f"emotion='{r.get('recent_emotional_effect','')}'"
             )
 
     except Exception as e:
@@ -87,19 +94,15 @@ def update_relationship_model(context):
 def summarize_relationships(relationships):
     if not isinstance(relationships, dict):
         return {}
-
     summary = {}
-
     for k, v in relationships.items():
         if not isinstance(v, dict):
             continue
-
         summary[k] = {
             "impression": v.get("impression", "unknown"),
             "influence_score": v.get("influence_score", 0.0),
-            "boundaries": v.get("boundaries", [])[:2] if isinstance(v.get("boundaries"), list) else [],
+            "boundaries": (v.get("boundaries") or [])[:2] if isinstance(v.get("boundaries"), list) else [],
             "emotional_effect": v.get("recent_emotional_effect", ""),
-            "last_interaction": v.get("last_interaction_time", "")
+            "last_interaction": v.get("last_interaction_time", ""),
         }
-
     return summary

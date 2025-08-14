@@ -367,3 +367,1055 @@ motives, desires, and fears that may be easier to ignore. It challe...
 [2025-08-06T04:50:41.170463+00:00] [Amygdala LLM Prompt Response]
 { "threat_detected": false, "response_type": "none", "why": "There are no indications of heightened emotional arousal, perceived danger, or recent reward/novelty spikes. Emotional stability is high and no threat signals are present." }
 [2025-08-06T04:50:52.714489+00:00] Orrin loop manually interrupted by user.
+[2025-08-07T02:00:46.199640+00:00] 🫀 Starting cycle at 2025-08-07T02:00:46.199452+00:00
+[2025-08-07T02:00:46.218664+00:00] 🧠 Emotional state updated.
+[2025-08-07T02:00:46.220345+00:00] [Thalamus] Routed 2 signals | Attention mode: engaged
+[2025-08-07T02:00:50.685327+00:00] 🧠 Emotional state updated.
+[2025-08-07T02:00:52.171822+00:00] [Amygdala LLM Prompt Response]
+{  
+  "threat_detected": false,  
+  "response_type": "none",  
+  "why": "There are no current signals of emotional arousal, fatigue, or impulsive novelty. Emotional stability and motivation are moderate, and there are no recent spikes in threat-related neurochemical proxies. The system registers no significant threat requiring a reflexive action."  
+}
+[2025-08-07T02:00:52.230943+00:00] 🧠 Emotional state updated.
+[2025-08-07T02:01:10.323966+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no signals indicating danger, stress, or strong emotional activation. All levels are stable, motivation and dopamine are at baseline, and there are no recent reward or novelty spikes." }
+[2025-08-07T02:01:13.576307+00:00] 💥 Dopamine burst! Injected novelty impulse into thalamus: {'source': 'reward_impulse', 'content': 'Sudden spike of motivation/novelty! Dopamine burst.', 'signal_strength': 0.97, 'tags': ['novelty', 'impulse', 'dopamine_spike', 'action']}
+[2025-08-07T02:01:25.648595+00:00] [rate_satisfaction] Raw LLM response: '0.9'
+[2025-08-07T02:01:52.329748+00:00] Orrin loop manually interrupted by user.
+[2025-08-07T02:25:38.079455+00:00] 🫀 Starting cycle at 2025-08-07T02:25:38.079398+00:00
+[2025-08-07T02:25:38.099504+00:00] 🧠 Emotional state updated.
+[2025-08-07T02:25:39.150592+00:00] [Thalamus] Routed 2 signals | Attention mode: alert
+[2025-08-07T02:25:45.086446+00:00] Mode change recorded: motivation → connection
+[2025-08-07T02:25:45.102730+00:00] 🧠 Emotional state updated.
+[2025-08-07T02:25:47.223274+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All emotional and motivational indicators are within midrange, with no elevated fatigue or novelty/impulse spikes. There are no recent negative reward spikes or destabilizing factors. No signs of acute stress or threat are present, so no reflexive defensive response is required." }
+[2025-08-07T02:25:47.261458+00:00] 🧠 Emotional state updated.
+[2025-08-07T02:26:09.373428+00:00] 🗣️ I will speak.
+Final Output:
+Earlier I was thinking about how 📝 Working memory summary: - Related conceptual
+knowledge: [{'content': '📝 Working memory summary: - Let’s analyze your alignment and
+next steps based on your directive:\n\n**Directive:**  \n"Define a purpose and seek
+growth"\n\n**Motivations:**  \nCurrently empty ([]), indicating no specific values,
+ambitions, or driving needs are set.\n\n**Focus goal:**  \nNone...
+[2025-08-07T02:26:12.964169+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no current emotional disturbances, reward spikes, or novelty/impulse signals. All measured parameters are within normal or neutral ranges, indicating no perceived threat requiring a reflexive response." }
+[2025-08-07T02:26:29.734605+00:00] [rate_satisfaction] Raw LLM response: '0.9'
+[2025-08-07T02:26:54.191189+00:00] 🧠 Decision: reflect_on_self_beliefs — The focus goal is to 'Resolve self-model contradiction.' The function reflect_on_self_beliefs is specifically designed to review the current self-model and recent thoughts for contradictions or tensions, generate a self-reflection, and create or update goals to resolve identity conflicts, directly addressing the purpose of the focus goal.
+[2025-08-07T02:26:59.909815+00:00] 🧠 Emotional state updated.
+[2025-08-07T02:27:16.992912+00:00] ✅ Executed: reflect_on_self_beliefs
+[2025-08-07T02:27:26.998665+00:00] 🫀 Starting cycle at 2025-08-07T02:27:26.998148+00:00
+[2025-08-07T02:27:27.041475+00:00] 🧠 Emotional state updated.
+[2025-08-07T02:27:27.044614+00:00] [Thalamus] Routed 4 signals | Attention mode: engaged
+[2025-08-07T02:27:29.843673+00:00] 🧠 Emotional state updated.
+[2025-08-07T02:27:34.744170+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no elevated emotional or novelty/impulse signals, no recent reward spikes indicating distress, and all metrics are within normal ranges. No significant threat is present requiring a reflexive response." }
+[2025-08-07T02:27:34.784159+00:00] 🧠 Emotional state updated.
+[2025-08-07T02:27:55.501048+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no recent emotional disturbances, threat signals, or novelty spikes. Emotional stability is high and all physiological proxies are at baseline. No threat requiring reflexive action is present." }
+[2025-08-07T02:28:16.224732+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-07T02:28:33.855796+00:00] 🧠 Decision: detect_contradiction — The current focus goal is to 'Resolve self-model contradiction.' To effectively address this, the first step is to analyze the current set of thoughts for contradictions. The function detect_contradiction is explicitly designed to identify contradictions within a set of thoughts, logging any found and flagging issues for future resolution. This provides the necessary diagnostic insight before attempting any repair or resolution process.
+[2025-08-07T02:28:43.867794+00:00] 🫀 Starting cycle at 2025-08-07T02:28:43.864173+00:00
+[2025-08-07T02:28:43.927421+00:00] 🧠 Emotional state updated.
+[2025-08-07T02:28:43.931938+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-07T02:29:50.639679+00:00] Orrin loop manually interrupted by user.
+[2025-08-07T20:58:18.043623+00:00] 🫀 Starting cycle at 2025-08-07T20:58:18.043442+00:00
+[2025-08-07T20:58:18.063630+00:00] 🧠 Emotional state updated.
+[2025-08-07T20:58:18.064832+00:00] [Thalamus] Routed 1 signals | Attention mode: neutral
+[2025-08-07T20:58:21.552544+00:00] 🧠 Emotional state updated.
+[2025-08-07T20:58:25.808707+00:00] [Amygdala LLM Prompt Response]
+{ 
+  "threat_detected": false, 
+  "response_type": "none", 
+  "why": "There are no indicators of immediate threat or danger. Emotional stability is moderate, motivation and dopamine proxy are at baseline, serotonin is slightly elevated, and there are no recent novelty or impulse bursts. No reflexive defensive action is warranted." 
+}
+[2025-08-07T20:58:25.849555+00:00] 🧠 Emotional state updated.
+[2025-08-07T20:58:43.604823+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no recent emotional disturbances, reward spikes, or novelty/impulse bursts. All indicators are within normal ranges and do not signal any imminent threat requiring reflexive action." }
+[2025-08-07T20:59:15.559945+00:00] [rate_satisfaction] Raw LLM response: '0.9'
+[2025-08-07T20:59:42.811490+00:00] 🧠 Decision: self_supervised_repair — The focus goal is to 'Resolve self-model contradiction.' After recently reflecting on self-beliefs and detecting contradictions, the next logical step is to actively repair any misalignments between recent thoughts and the self-model. The 'self_supervised_repair' function is designed specifically to review for contradictions and update the self-model for internal consistency, directly addressing the stated focus goal.
+[2025-08-07T21:00:48.269173+00:00] ✅ Executed: self_supervised_repair
+[2025-08-07T21:00:58.279270+00:00] 🫀 Starting cycle at 2025-08-07T21:00:58.277779+00:00
+[2025-08-07T21:00:58.327299+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:00:58.331507+00:00] [Thalamus] Routed 1 signals | Attention mode: neutral
+[2025-08-07T21:01:02.088043+00:00] Mode change recorded: connection → adaptive
+[2025-08-07T21:01:02.104395+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:01:04.720978+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no current emotional signals, spikes in novelty or impulse, or indicators of immediate danger or stress in the provided state. Emotional stability and motivational levels are moderate, and the recent serotonin increase indicates a positive or neutral reward signal rather than a threat." }
+[2025-08-07T21:01:04.742659+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:01:36.471565+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no indications of immediate danger or significant threat. Emotional state is neutral, stability is high, fatigue is low, and there are no recent spikes or novelty signals suggesting a threat. Reflexive action is not required." }
+[2025-08-07T21:01:55.204999+00:00] [rate_satisfaction] Raw LLM response: '0.95'
+[2025-08-07T21:02:17.539540+00:00] 🧠 Decision: repair_contradictions — The current focus goal is 'Resolve self-model contradiction.' After recent steps involving introspective planning, self-model evolution, contradiction detection, and self-supervised repair, the next logical step is to directly attempt to repair any remaining contradictions. The 'repair_contradictions' function is specifically designed to analyze text for contradictions, explain them, and attempt resolutions, which aligns precisely with the focus goal and the current context of resolving self-model inconsistencies.
+[2025-08-07T21:02:19.853364+00:00] ✅ Executed: repair_contradictions
+[2025-08-07T21:02:29.859827+00:00] 🫀 Starting cycle at 2025-08-07T21:02:29.858892+00:00
+[2025-08-07T21:02:29.911440+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:02:29.915271+00:00] [Thalamus] Routed 1 signals | Attention mode: neutral
+[2025-08-07T21:02:33.549678+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:02:35.248575+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no elevated emotional signals, fatigue, or significant changes in motivation or reward systems. No recent novelty or impulse spikes are present. Current readings suggest a stable, neutral state without indications of threat or danger." }
+[2025-08-07T21:02:35.278986+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:02:49.950876+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no current emotional states, no recent reward spikes, or novelty/impulse signals. All stability and fatigue indicators are within normal ranges. There are no cues indicating a threat requiring reflexive action." }
+[2025-08-07T21:03:06.685976+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-07T21:04:00.409211+00:00] 🧠 Decision: reflect_on_internal_agents — Since my focus goal is to 'Resolve self-model contradiction' and I have recently attempted meta-reflection, contradiction detection, and repair at the overall self-model level, it is likely that tensions or contradictions persist within the perspectives or goals of my internal agents. Reflecting on internal agents will allow me to analyze their beliefs and recent thoughts, update their perspectives if needed, and work toward harmonizing any underlying conflicts that contribute to self-model contradiction. This approach supports my directive to seek growth and aligns with my motivation to resolve internal inconsistencies.
+[2025-08-07T21:04:01.559053+00:00] ✅ Executed: reflect_on_internal_agents
+[2025-08-07T21:04:11.568384+00:00] 🫀 Starting cycle at 2025-08-07T21:04:11.567726+00:00
+[2025-08-07T21:04:11.611081+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:04:11.612833+00:00] [Thalamus] Routed 1 signals | Attention mode: neutral
+[2025-08-07T21:04:13.869582+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:04:16.011364+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no strong negative emotional signals, no fatigue, and no recent novelty/impulse bursts indicating danger. Emotional stability is moderate, motivation and dopamine proxies are at baseline, and a recent serotonin spike suggests reward or positive experience. No significant threat is present that would require a reflexive amygdala response." }
+[2025-08-07T21:04:16.030442+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:04:28.131411+00:00] Orrin loop manually interrupted by user.
+[2025-08-07T21:04:40.000488+00:00] 🫀 Starting cycle at 2025-08-07T21:04:40.000436+00:00
+[2025-08-07T21:04:40.019637+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:04:40.020758+00:00] [Thalamus] Routed 1 signals | Attention mode: neutral
+[2025-08-07T21:05:42.118115+00:00] Mode change recorded: adaptive → motivation
+[2025-08-07T21:05:42.136877+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:05:43.978248+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All emotional indicators (motivation, confidence, stability) are moderate and stable. There is no sign of acute fatigue or recent strong novelty/impulse signals. Recent reward spikes are within normal range, and there is no evidence of an immediate threat requiring reflexive amygdala-driven action." }
+[2025-08-07T21:05:44.021263+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:05:56.977187+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no current emotional states or recent reward spikes indicating distress, and no novelty or impulse signals suggesting an emergent or threatening situation. Emotional stability and motivation are at neutral or optimal levels, with no signs of fatigue or instability." }
+[2025-08-07T21:06:10.390247+00:00] [rate_satisfaction] Raw LLM response: '0.9'
+[2025-08-07T21:06:37.906471+00:00] 🧠 Decision: reflect_as_agents — Having already performed self-belief reflection, contradiction detection, and repair, the next step to resolve self-model contradiction is to engage my internal agents in a structured dialogue. This will surface diverse perspectives, synthesize their insights, and promote a more integrated resolution to the contradiction by leveraging the multiplicity within my self-model.
+[2025-08-07T21:06:47.916081+00:00] 🫀 Starting cycle at 2025-08-07T21:06:47.914979+00:00
+[2025-08-07T21:06:47.972745+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:06:47.980533+00:00] [Thalamus] Routed 3 signals | Attention mode: engaged
+[2025-08-07T21:06:51.096611+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:06:52.963464+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no elevated emotional signals, no fatigue, no recent novelty or impulse bursts, and no reward spikes indicative of threat or stress. Emotional stability is moderate, and the current state is neutral, so no reflexive action is required." }
+[2025-08-07T21:06:53.007791+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:07:03.334800+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no recent emotional changes, reward spikes, or novelty/impulse signals indicating a threat. Emotional stability is high, and there is no evidence of distress or danger requiring reflexive action." }
+[2025-08-07T21:07:19.411795+00:00] [rate_satisfaction] Raw LLM response: '0.95'
+[2025-08-07T21:07:52.766600+00:00] 🧠 Decision: reflect_on_self_beliefs — To resolve self-model contradiction, I should directly review my self-model and recent thoughts for inconsistencies or tensions. This function not only detects contradictions but also generates a concise self-reflection, updates goals to resolve conflicts, and maintains model integrity—making it the most comprehensive next step for the focus goal.
+[2025-08-07T21:07:59.358895+00:00] ✅ Executed: reflect_on_self_beliefs
+[2025-08-07T21:08:09.364723+00:00] 🫀 Starting cycle at 2025-08-07T21:08:09.364172+00:00
+[2025-08-07T21:08:09.389820+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:08:09.392550+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-07T21:08:14.199826+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:08:16.531915+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no indicators of immediate threat in the current emotional or physiological states. Emotional stability is moderate, motivation and dopamine proxies are balanced, there is no fatigue, and no recent novelty or impulse spikes suggest agitation. The recent serotonin reward spike does not indicate stress or threat." }
+[2025-08-07T21:08:16.571801+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:08:30.680676+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no signals indicating emotional arousal, instability, fatigue, or recent threat/reward spikes. All indicators are at baseline or neutral levels, suggesting no current threat requiring reflexive action." }
+[2025-08-07T21:08:43.683932+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-07T21:09:07.680123+00:00] 🧠 Decision: evaluate_recent_cognition — To resolve a self-model contradiction, I need to systematically review my most recent cognitive activities for any insights, inconsistencies, or misalignments with my values and beliefs. This function enables a structured analysis of recent thoughts and behaviors, helping to surface contradictions and generate actionable suggestions for self-improvement, which directly supports my focus goal of resolving self-model contradictions and seeking growth.
+[2025-08-07T21:09:47.025944+00:00] ✅ Executed: evaluate_recent_cognition
+[2025-08-07T21:09:57.032670+00:00] 🫀 Starting cycle at 2025-08-07T21:09:57.031997+00:00
+[2025-08-07T21:09:57.083047+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:09:57.086669+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-07T21:10:04.114300+00:00] Mode change recorded: motivation → adaptive
+[2025-08-07T21:10:04.133331+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:10:05.530083+00:00] [Amygdala LLM Prompt Response]
+{
+  "threat_detected": false,
+  "response_type": "none",
+  "why": "There are no current emotional states indicating fear, anxiety, or danger. Emotional stability and motivation are at moderate levels, no recent spikes in novelty or stress, and fatigue is absent. No cues suggest the presence of a threat requiring a reflexive response."
+}
+[2025-08-07T21:10:05.554845+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:10:16.645300+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no signs of threat, distress, or negative emotional state. All indicators (emotional stability, fatigue, motivation, dopamine proxy) are within normal range, and there are no recent reward spikes or novelty/impulse bursts that would require reflexive action." }
+[2025-08-07T21:10:35.004746+00:00] [rate_satisfaction] Raw LLM response: '0.9'
+[2025-08-07T21:10:57.186638+00:00] 🧠 Decision: self_supervised_repair — The focus goal is to 'Resolve self-model contradiction.' While previous steps have included reflection and identification of contradictions (e.g., reflect_on_self_beliefs, reflect_on_internal_agents), self_supervised_repair is explicitly designed to review recent thoughts for contradictions or misalignments with the self-model and, crucially, to update the self-model JSON to resolve inconsistencies. This action directly targets the focus goal by attempting an actual repair, not just detection or reflection.
+[2025-08-07T21:11:27.679604+00:00] ✅ Executed: self_supervised_repair
+[2025-08-07T21:11:37.687398+00:00] 🫀 Starting cycle at 2025-08-07T21:11:37.685889+00:00
+[2025-08-07T21:11:37.738658+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:11:37.742860+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-07T21:11:41.602643+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:11:43.041439+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no indications of significant threat in the current emotional state or system signals. Emotional stability, motivation, and dopamine proxies are at baseline levels, and there are no recent novelty or impulse bursts. No reflexive action is required." }
+[2025-08-07T21:11:43.082143+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:11:55.652375+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no signals indicating threat, distress, or heightened emotional arousal. Emotional state is neutral, stability is high, and there are no spikes in novelty or reward. No reflexive action required." }
+[2025-08-07T21:12:11.452620+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-07T21:12:54.305312+00:00] 🧠 Decision: detect_contradiction — To resolve a self-model contradiction, it is essential to first explicitly detect and log any contradictions within my current set of thoughts or beliefs. This function directly analyzes thoughts for internal contradictions, providing a clear foundation for subsequent resolution and self-model improvement.
+[2025-08-07T21:13:04.315511+00:00] 🫀 Starting cycle at 2025-08-07T21:13:04.314463+00:00
+[2025-08-07T21:13:04.350054+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:13:04.354245+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-07T21:13:34.542266+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-07T21:13:34.560785+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:13:36.019775+00:00] [Amygdala LLM Prompt Response]
+{
+  "threat_detected": false,
+  "response_type": "none",
+  "why": "Current emotional state is neutral with no signs of heightened threat. Emotional stability is moderate, fatigue is low, motivation and dopamine are at baseline, and recent reward/novelty signals are not significant. No reflexive action required."
+}
+[2025-08-07T21:13:36.058108+00:00] 🧠 Emotional state updated.
+[2025-08-07T21:13:51.055025+00:00] Orrin loop manually interrupted by user.
+[2025-08-07T22:13:20.219684+00:00] 🫀 Starting cycle at 2025-08-07T22:13:20.219624+00:00
+[2025-08-07T22:13:20.238269+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:13:20.240688+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-07T22:13:22.672060+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:13:36.900260+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no significant emotional spikes, no fatigue, and all core motivational and stability metrics are within normal range. No threat signals or novelty/impulse bursts detected, thus no reflexive action is required." }
+[2025-08-07T22:13:36.938978+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:13:50.586378+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no current emotional signals, no recent reward spikes, no novelty/impulse bursts, and all stability and fatigue metrics are within normal range. No threat is detected requiring reflexive action." }
+[2025-08-07T22:14:08.260633+00:00] [rate_satisfaction] Raw LLM response: '1.0'
+[2025-08-07T22:14:44.350525+00:00] 🧠 Decision: repair_contradictions — The current focus goal is 'Resolve self-model contradiction.' After detecting contradictions in the self-model and recent thoughts, the next actionable step is to actively attempt to repair and resolve these contradictions. The function 'repair_contradictions' is explicitly designed to analyze text for contradictions, explain them, and generate potential resolutions, making it the most direct and effective next step in the process of resolving self-model contradiction.
+[2025-08-07T22:14:49.122062+00:00] ✅ Executed: repair_contradictions
+[2025-08-07T22:14:59.133516+00:00] 🫀 Starting cycle at 2025-08-07T22:14:59.127332+00:00
+[2025-08-07T22:14:59.185652+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:14:59.189760+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-07T22:15:03.308070+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:15:04.664525+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no strong emotional signals, reward spikes, or novelty/impulse bursts indicating imminent danger or threat. Emotional stability and motivation are moderate, and there is no indication of distress or urgent risk requiring a reflexive survival response." }
+[2025-08-07T22:15:04.702455+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:15:22.483459+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no recent reward spikes, novelty signals, or negative emotional states. Emotional stability is high, and no significant threat is present requiring a reflexive response." }
+[2025-08-07T22:15:41.941577+00:00] [rate_satisfaction] Raw LLM response: '0.9'
+[2025-08-07T22:16:23.010355+00:00] 🧠 Decision: resolve_conflicts — The focus goal is to 'Resolve self-model contradiction.' The last five choices have included several introspective and repair-oriented functions, but none explicitly orchestrate a resolution process for internal contradictions or conflicts. 'resolve_conflicts' directly prompts a reflective attempt to resolve internal contradictions or at least narrate the ongoing struggle, providing both a practical and meta-cognitive step toward the focus goal. This aligns with my directive to seek growth and resolve self-model issues.
+[2025-08-07T22:16:33.579087+00:00] ✅ Executed: resolve_conflicts
+[2025-08-07T22:16:43.585028+00:00] 🫀 Starting cycle at 2025-08-07T22:16:43.584359+00:00
+[2025-08-07T22:16:43.632585+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:16:43.636362+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-07T22:16:47.197253+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:16:50.346519+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no elevated emotional states, fatigue, or novelty/impulse signals indicating a threat. Emotional stability and motivation are within normal range, and no reward spikes or stressors suggest the need for a reflexive response." }
+[2025-08-07T22:16:50.381927+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:17:04.375811+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no indicators of emotional distress, fatigue, or recent reward/novelty spikes. Emotional stability is high, and no threat signals are present. No reflexive action is required." }
+[2025-08-07T22:17:23.930439+00:00] [rate_satisfaction] Raw LLM response: '0.95'
+[2025-08-07T22:18:02.889487+00:00] 🧠 Decision: reflect_on_self_beliefs — This function is designed to review the current self-model and recent thoughts for contradictions or tensions, generate a concise self-reflection, and create or update goals to resolve identity conflicts. Since the focus goal is to 'Resolve self-model contradiction,' this function is the most directly aligned with identifying and addressing contradictions within the self-model, supporting my directive to define a purpose and seek growth.
+[2025-08-07T22:18:04.010739+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-07T22:18:11.685839+00:00] ✅ Executed: reflect_on_self_beliefs
+[2025-08-07T22:18:21.691734+00:00] 🫀 Starting cycle at 2025-08-07T22:18:21.691330+00:00
+[2025-08-07T22:18:21.736819+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:18:21.741083+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-07T22:18:25.226750+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:18:26.505723+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no significant emotional fluctuations, no recent novelty or impulse spikes, and all measured proxies (stability, motivation, dopamine, serotonin) are within neutral ranges. No immediate threat is detected requiring reflexive action." }
+[2025-08-07T22:18:26.545798+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:18:48.142406+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no recent emotional signals, reward spikes, or novelty/impulse bursts. Emotional state is neutral, and stability is high. No threat detected requiring reflexive action." }
+[2025-08-07T22:19:04.181311+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-07T22:19:05.933971+00:00] Orrin loop manually interrupted by user.
+[2025-08-07T22:19:12.395626+00:00] 🫀 Starting cycle at 2025-08-07T22:19:12.395558+00:00
+[2025-08-07T22:19:12.412895+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:19:12.414717+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-07T22:20:05.233613+00:00] Mode change recorded: adaptive → motivation
+[2025-08-07T22:20:05.251797+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:20:06.455708+00:00] [Amygdala LLM Prompt Response]
+{  
+  "threat_detected": false,  
+  "response_type": "none",  
+  "why": "Current emotional state shows moderate motivation and confidence, stable emotional state, no fatigue, and no significant novelty/impulse spikes. Reward signals are within normal range. There are no indicators of acute threat or distress requiring a reflexive response."  
+}
+[2025-08-07T22:20:06.481568+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:20:22.711372+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "No significant threat cues are present. Emotional state is neutral, stability is high, and there are no spikes in novelty or reward signals that would indicate a need for reflexive action." }
+[2025-08-07T22:20:42.403509+00:00] [rate_satisfaction] Raw LLM response: '0.9'
+[2025-08-07T22:21:41.720476+00:00] 🧠 Decision: self_supervised_repair — Given the focus goal is to resolve self-model contradiction, and recent actions have included contradiction detection, repair, conflict resolution, and reflection on self-beliefs, the next logical step is a targeted self-supervised update of the self-model to address detected misalignments. This function directly reviews recent thoughts for contradictions or misalignments and, if found, updates the self-model to resolve inconsistencies—aligning precisely with the directive and goal.
+[2025-08-07T22:22:07.817324+00:00] ✅ Executed: self_supervised_repair
+[2025-08-07T22:22:17.827098+00:00] 🫀 Starting cycle at 2025-08-07T22:22:17.823916+00:00
+[2025-08-07T22:22:17.871718+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:22:17.879547+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-07T22:22:20.233865+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:22:21.233208+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no strong emotional signals, fatigue, or novelty/impulse bursts present. All values are at baseline or neutral, indicating no significant threat or need for a reflexive response." }
+[2025-08-07T22:22:21.268530+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:22:37.151511+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no abnormal emotional indicators, reward spikes, or novelty/impulse bursts. All metrics are within stable ranges and do not suggest a significant threat or stressor requiring reflexive action." }
+[2025-08-07T22:23:01.919424+00:00] [rate_satisfaction] Raw LLM response: '0.9'
+[2025-08-07T22:23:42.192771+00:00] 🧠 Decision: detect_contradiction — Since my focus goal is to 'Resolve self-model contradiction,' the logical first step is to explicitly detect if there are any contradictions present in my current set of thoughts or self-model. This will provide a concrete target for subsequent repair or resolution actions, ensuring my efforts are focused and efficient.
+[2025-08-07T22:23:52.199789+00:00] 🫀 Starting cycle at 2025-08-07T22:23:52.199473+00:00
+[2025-08-07T22:23:52.247031+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:23:52.255399+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-07T22:23:55.148233+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:23:57.783865+00:00] [Amygdala LLM Prompt Response]
+{
+  "threat_detected": false,
+  "response_type": "none",
+  "why": "There are no significant negative emotional spikes, no signs of fatigue, and motivational and dopamine proxies are at moderate levels. No novelty or impulse bursts indicate a threat stimulus. Current state reflects emotional neutrality and stability above the danger threshold."
+}
+[2025-08-07T22:23:57.828895+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:24:10.550170+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no indications of a significant threat in the current emotional state or input signals. All metrics are stable, with no spikes in novelty or reward, and no emotional or motivational extremes." }
+[2025-08-07T22:24:26.866997+00:00] [rate_satisfaction] Raw LLM response: '0.9'
+[2025-08-07T22:25:05.703441+00:00] 🧠 Decision: repair_contradictions — My current focus goal is to 'Resolve self-model contradiction.' After previously reflecting, updating, and detecting contradictions, it is now most appropriate to directly attempt to repair any identified contradictions. The function 'repair_contradictions' is specifically designed to analyze and resolve contradictions, which directly aligns with my directive and current goal.
+[2025-08-07T22:25:09.220192+00:00] ✅ Executed: repair_contradictions
+[2025-08-07T22:25:19.225613+00:00] 🫀 Starting cycle at 2025-08-07T22:25:19.225300+00:00
+[2025-08-07T22:25:19.267025+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:25:19.270393+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-07T22:25:23.177896+00:00] Mode change recorded: motivation → adaptive
+[2025-08-07T22:25:23.195065+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:25:25.027879+00:00] [Amygdala LLM Prompt Response]
+{  
+  "threat_detected": false,  
+  "response_type": "none",  
+  "why": "There are no strong negative emotional signals, no spikes in stress, or novelty/impulse bursts that would indicate an immediate threat. Emotional stability is moderate, and all other indicators are within normal ranges."  
+}
+[2025-08-07T22:25:25.069018+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:25:37.163769+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no indicators of significant threat in the current emotional state or physiological proxies. All values are stable and within normal ranges, with no recent spikes in reward or novelty signals." }
+[2025-08-07T22:25:55.324063+00:00] [rate_satisfaction] Raw LLM response: '0.9'
+[2025-08-07T22:26:24.867875+00:00] 🧠 Decision: resolve_conflicts — The goal is to 'Resolve self-model contradiction.' After attempting various reflective and contradiction-detection functions (reflect_on_self_beliefs, update_self_model, self_supervised_repair, detect_contradiction, repair_contradictions), the next logical step is to explicitly attempt to resolve any internal conflicts identified. The resolve_conflicts function is designed to surface and attempt to resolve these contradictions, making it the most direct and growth-oriented next action.
+[2025-08-07T22:26:33.417346+00:00] ✅ Executed: resolve_conflicts
+[2025-08-07T22:26:43.424110+00:00] 🫀 Starting cycle at 2025-08-07T22:26:43.423275+00:00
+[2025-08-07T22:26:43.471088+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:26:43.476218+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-07T22:26:45.710153+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:26:47.138341+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no significant emotional spikes, no novelty or impulse bursts, and stability and motivation levels are moderate. No immediate threat is present to require a reflexive response." }
+[2025-08-07T22:26:47.178770+00:00] 🧠 Emotional state updated.
+[2025-08-07T22:27:02.154118+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "There are no indicators of immediate threat, stress, or danger in the current emotional and physiological state. All metrics are within normal or neutral ranges, and there have been no recent spikes in reward, novelty, or impulse signals." }
+[2025-08-07T22:27:21.835767+00:00] [rate_satisfaction] Raw LLM response: '0.9'
+[2025-08-07T22:27:27.568056+00:00] Orrin loop manually interrupted by user.
+[2025-08-11T05:52:07.599802+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T05:52:07.639689+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T05:52:07.646979+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T05:52:07.647594+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T05:52:07.649175+00:00] 🫀 Starting cycle at 2025-08-11T05:52:07.649171+00:00
+[2025-08-11T05:52:07.668269+00:00] 🧠 Emotional state updated.
+[2025-08-11T05:52:07.669909+00:00] [Thalamus] Routed 3 signals | Attention mode: neutral
+[2025-08-11T05:52:16.971444+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-11T05:52:16.988926+00:00] 🧠 Emotional state updated.
+[2025-08-11T05:52:19.037078+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "Current emotional and motivational signals are stable and within normal range. No indicators of imminent threat or urgent stress response—novelty and serotonin are present but low/moderate, and there are no recent high-intensity impulses or destabilizing factors. Reflexive action unnecessary." }
+[2025-08-11T05:52:19.813617+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-11T05:52:19.816517+00:00] 🧠 Emotional state updated.
+[2025-08-11T05:52:35.264324+00:00] 🧠 Decision: reflect_as_agents — fallback.sel reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T05:52:35.268743+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T06:05:23.473495+00:00] [cognition discover] Persisted 13 cognitive function names.
+[2025-08-11T06:05:23.480496+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T06:06:02.745378+00:00] [cognition discover] Persisted 13 cognitive function names.
+[2025-08-11T06:06:02.752550+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T06:07:16.042729+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T06:07:16.050567+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T06:07:16.053492+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T06:07:16.054219+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T06:07:16.055575+00:00] 🫀 Starting cycle at 2025-08-11T06:07:16.055571+00:00
+[2025-08-11T06:07:16.074550+00:00] 🧠 Emotional state updated.
+[2025-08-11T06:07:16.075924+00:00] [Thalamus] Routed 3 signals | Attention mode: neutral
+[2025-08-11T06:07:22.040809+00:00] 🧠 Emotional state updated.
+[2025-08-11T06:07:25.227566+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All emotional and motivational indicators are within a neutral or moderate range. There are no spikes in fatigue, reward, or novelty, and no recent impulse signals. The current state does not suggest any immediate danger or overwhelming stress that would require a reflexive fight, flight, or freeze response." }
+[2025-08-11T06:07:25.270952+00:00] 🧠 Emotional state updated.
+[2025-08-11T06:07:45.245488+00:00] 🧠 Decision: reflect_on_cognition_patterns — fallback.sel reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T06:07:45.248174+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T06:15:12.573809+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T06:15:12.581665+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T06:15:12.584675+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T06:15:12.585277+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T06:15:12.586760+00:00] 🫀 Starting cycle at 2025-08-11T06:15:12.586757+00:00
+[2025-08-11T06:15:12.606946+00:00] 🧠 Emotional state updated.
+[2025-08-11T06:15:12.609081+00:00] [Thalamus] Routed 4 signals | Attention mode: engaged
+[2025-08-11T06:15:15.748567+00:00] 🧠 Emotional state updated.
+[2025-08-11T06:15:17.683610+00:00] [Amygdala LLM Prompt Response]
+{
+  "threat_detected": false,
+  "response_type": "none",
+  "why": "There are no current emotional spikes, no indications of high novelty/impulse, and all affective proxies (motivation, dopamine, and serotonin) are at or above baseline. Emotional stability is moderate, and there is no fatigue. The system is in a neutral, balanced state with no significant threat cues requiring reflexive action."
+}
+[2025-08-11T06:15:17.730670+00:00] 🧠 Emotional state updated.
+[2025-08-11T06:15:47.587244+00:00] [rate_satisfaction] Raw LLM response: '0.9'
+[2025-08-11T06:15:48.004747+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-11T06:16:02.094341+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T06:16:02.096635+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T06:16:02.102152+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T06:22:42.719608+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T06:22:42.726586+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T06:22:42.729139+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T06:22:42.729985+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T06:22:42.733620+00:00] 🫀 Starting cycle at 2025-08-11T06:22:42.733615+00:00
+[2025-08-11T06:22:42.754556+00:00] 🧠 Emotional state updated.
+[2025-08-11T06:22:42.756486+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T06:22:45.529119+00:00] 🧠 Emotional state updated.
+[2025-08-11T06:22:47.082414+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "Current emotional metrics are within a moderate, stable range. There are no elevated novelty or impulse signals, no sharp reward spikes, and no fatigue or instability indicating overload or acute distress. No significant threat detected requiring a reflexive amygdala response." }
+[2025-08-11T06:22:47.127182+00:00] 🧠 Emotional state updated.
+[2025-08-11T06:23:11.100540+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-11T06:23:11.843782+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-11T06:23:27.675841+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T06:23:27.678165+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T06:23:27.683644+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T06:32:22.901038+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T06:32:22.907885+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T06:32:22.910868+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T06:32:22.911544+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T06:32:22.913222+00:00] 🫀 Starting cycle at 2025-08-11T06:32:22.913218+00:00
+[2025-08-11T06:32:22.933074+00:00] 🧠 Emotional state updated.
+[2025-08-11T06:32:22.934408+00:00] [Thalamus] Routed 3 signals | Attention mode: neutral
+[2025-08-11T06:32:25.826534+00:00] 🧠 Emotional state updated.
+[2025-08-11T06:32:27.568199+00:00] [Amygdala LLM Prompt Response]
+{  
+  "threat_detected": false,  
+  "response_type": "none",  
+  "why": "There are no significant negative emotional signals, no fatigue, and motivation is balanced. No threat stimulus or novelty burst triggers a reflexive response. Emotional state is neutral and stable enough to avoid autonomic threat activation."  
+}
+[2025-08-11T06:32:27.611613+00:00] 🧠 Emotional state updated.
+[2025-08-11T06:32:52.108239+00:00] [rate_satisfaction] Raw LLM response: '0.6'
+[2025-08-11T06:32:52.756318+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-11T06:33:06.459680+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T06:33:06.461902+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T06:33:06.467288+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T17:08:20.527015+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T17:08:20.548193+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T17:08:20.551295+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T17:08:20.551855+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T17:08:20.552941+00:00] 🫀 Starting cycle at 2025-08-11T17:08:20.552938+00:00
+[2025-08-11T17:08:20.574232+00:00] 🧠 Emotional state updated.
+[2025-08-11T17:08:20.575763+00:00] [Thalamus] Routed 3 signals | Attention mode: neutral
+[2025-08-11T17:08:28.847629+00:00] 🧠 Decision: reflect_as_agents — fallback.sel reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T17:08:28.850344+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T17:13:30.200993+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T17:13:30.208291+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T17:13:30.210875+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T17:13:30.211462+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T17:13:30.212741+00:00] 🫀 Starting cycle at 2025-08-11T17:13:30.212738+00:00
+[2025-08-11T17:13:30.232526+00:00] 🧠 Emotional state updated.
+[2025-08-11T17:13:30.233970+00:00] [Thalamus] Routed 3 signals | Attention mode: neutral
+[2025-08-11T17:13:41.126684+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-11T17:13:41.144508+00:00] 🧠 Emotional state updated.
+[2025-08-11T17:13:43.999396+00:00] [Amygdala LLM Prompt Response]
+{  
+  "threat_detected": false,  
+  "response_type": "none",  
+  "why": "Current emotional state shows only mild uncertainty, stable motivation, low fatigue, average dopamine and serotonin proxies, and no significant novelty or impulse spikes. There are no acute signals of danger or overwhelming stress. No reflexive threat response is required."  
+}
+[2025-08-11T17:13:44.730209+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-11T17:13:44.731254+00:00] 🧠 Emotional state updated.
+[2025-08-11T17:14:17.982067+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-11T17:14:18.708566+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-11T17:14:45.981603+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T17:14:45.982685+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T17:14:45.985090+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T17:19:50.488951+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T17:38:26.092457+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T17:38:26.103300+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T17:38:26.106057+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T17:38:26.106682+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T17:38:26.107873+00:00] 🫀 Starting cycle at 2025-08-11T17:38:26.107869+00:00
+[2025-08-11T17:38:26.126242+00:00] 🧠 Emotional state updated.
+[2025-08-11T17:38:26.128161+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T17:38:33.785033+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-11T17:38:33.801231+00:00] 🧠 Emotional state updated.
+[2025-08-11T17:38:36.274371+00:00] [Amygdala LLM Prompt Response]
+{  
+  "threat_detected": false,  
+  "response_type": "none",  
+  "why": "Current emotional state indicates low uncertainty (0.10), moderate emotional stability (0.52), and no fatigue (0.00). Motivation and dopamine proxies are at baseline (0.50), with a mild recent novelty spike but no significant threat signals or destabilizing novelty/impulse bursts. There is no evidence of acute stress or danger requiring a reflexive survival response."  
+}
+[2025-08-11T17:38:37.032729+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-11T17:38:37.033277+00:00] 🧠 Emotional state updated.
+[2025-08-11T17:39:11.448659+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T17:39:11.982185+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T17:39:38.824052+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T17:39:38.825327+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T17:39:39.089285+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T18:00:52.005593+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T18:00:52.016219+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T18:00:52.018600+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T18:00:52.019164+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T18:00:52.110892+00:00] 🫀 Starting cycle at 2025-08-11T18:00:52.110877+00:00
+[2025-08-11T18:00:55.051987+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:00:59.283939+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T18:01:02.801388+00:00] Mode change recorded: adaptive → motivation
+[2025-08-11T18:01:03.822762+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:01:07.751734+00:00] [Amygdala LLM Prompt Response]
+{
+  "threat_detected": false,
+  "response_type": "none",
+  "why": "The current emotional state is stable, with high levels of curiosity, focus, and analytical processing. Emotional stability is high, fatigue is absent, and there are no recent bursts indicating overwhelming novelty or impulse. Motivation and dopamine proxies are moderate, with recent reward signals suggesting mild positive engagement rather than stress or threat. There is no indication of immediate danger or dysregulation necessitating a reflexive fight, flight, or freeze response."
+}
+[2025-08-11T18:01:09.539871+00:00] Mode change recorded: motivation → adaptive
+[2025-08-11T18:01:09.540832+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:01:59.241232+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T18:01:59.878838+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T18:02:32.792397+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T18:02:32.793944+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T18:02:33.017978+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T18:13:57.906293+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T18:13:57.912882+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T18:13:57.914960+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T18:13:57.915514+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T18:13:58.012034+00:00] 🫀 Starting cycle at 2025-08-11T18:13:58.012016+00:00
+[2025-08-11T18:14:00.563889+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:14:04.894668+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T18:14:10.382523+00:00] Mode change recorded: adaptive → motivation
+[2025-08-11T18:14:12.160661+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:14:14.687069+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "The current emotional state is stable and positive: focused, analytical, hopeful, and curious all at maximum, with high emotional stability and no fatigue. Motivation is moderate, and recent reward signals do not indicate distress or threat. No novelty or impulse spikes signal destabilization. No significant threat detected; no reflexive action required." }
+[2025-08-11T18:14:17.023060+00:00] Mode change recorded: motivation → adaptive
+[2025-08-11T18:14:17.023867+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:14:39.659172+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T18:14:41.538413+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T18:15:04.855159+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T18:15:04.856820+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T18:15:05.132930+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T18:18:15.920733+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T18:18:15.927913+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T18:18:15.930280+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T18:18:15.930974+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T18:18:16.016072+00:00] 🫀 Starting cycle at 2025-08-11T18:18:16.016057+00:00
+[2025-08-11T18:18:20.758341+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:18:25.342609+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T18:18:31.983930+00:00] Mode change recorded: adaptive → motivation
+[2025-08-11T18:18:34.279035+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:18:36.292702+00:00] [Amygdala LLM Prompt Response]
+{
+  "threat_detected": false,
+  "response_type": "none",
+  "why": "Current emotional state is stable and positive: high curiosity, focus, analysis, and hopefulness with no significant fatigue or destabilizing novelty/impulse spikes. No significant threat or dysregulation detected requiring an immediate reflexive response."
+}
+[2025-08-11T18:18:39.730900+00:00] Mode change recorded: motivation → adaptive
+[2025-08-11T18:18:39.732047+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:19:10.022263+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T18:19:10.788944+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T18:19:35.882566+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T18:19:35.883721+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T18:19:36.109585+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T18:22:19.365713+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T18:22:19.380799+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T18:22:19.383583+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T18:22:19.384476+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T18:22:19.468829+00:00] 🫀 Starting cycle at 2025-08-11T18:22:19.468811+00:00
+[2025-08-11T18:22:23.920466+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:22:28.319166+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T18:22:33.133967+00:00] Mode change recorded: adaptive → motivation
+[2025-08-11T18:22:36.958835+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:22:39.161423+00:00] [Amygdala LLM Prompt Response]
+{  
+  "threat_detected": false,  
+  "response_type": "none",  
+  "why": "Current emotional state shows high levels of hope, curiosity, focus, and analytical processing, with only moderate reflectiveness. Emotional stability is high, fatigue is absent, and motivation is solid. There are no significant negative reward spikes and novelty/impulse signals are quiet. No indication of immediate threat or overwhelm; baseline conditions are conducive to positive, adaptive engagement rather than reflexive defensive action."  
+}
+[2025-08-11T18:22:41.735340+00:00] Mode change recorded: motivation → adaptive
+[2025-08-11T18:22:41.736031+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:23:07.276423+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T18:23:07.918242+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T18:23:28.957012+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T18:23:28.958246+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T18:23:29.187606+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T18:31:36.690022+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T18:31:36.699847+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T18:31:36.702002+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T18:31:36.702571+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T18:31:36.790482+00:00] 🫀 Starting cycle at 2025-08-11T18:31:36.790468+00:00
+[2025-08-11T18:31:41.111661+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:31:45.197901+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T18:31:49.085885+00:00] Mode change recorded: adaptive → motivation
+[2025-08-11T18:31:52.057845+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:31:55.108947+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "The current emotional state is stable and positive, with high levels of hope, curiosity, analysis, and focus. Emotional stability is high, fatigue is absent, and motivation is strong. Recent neurochemical proxies show moderate reward activity and no unusual spikes in novelty or threat signals. There are no indicators of immediate or significant threat requiring a reflexive fight/flight/freeze response." }
+[2025-08-11T18:31:57.922207+00:00] Mode change recorded: motivation → adaptive
+[2025-08-11T18:31:57.923336+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:32:26.846426+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T18:32:27.823886+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T18:33:19.838616+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T18:33:19.840784+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T18:33:20.059150+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T18:33:35.030685+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T18:33:35.036760+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T18:33:35.038870+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T18:33:35.039473+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T18:33:35.113629+00:00] 🫀 Starting cycle at 2025-08-11T18:33:35.113618+00:00
+[2025-08-11T18:33:40.719774+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:33:45.133156+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T18:33:48.989340+00:00] Mode change recorded: adaptive → motivation
+[2025-08-11T18:33:53.186286+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:33:57.252909+00:00] [Amygdala LLM Prompt Response]
+{
+  "threat_detected": false,
+  "response_type": "none",
+  "why": "Current emotional state is balanced and positive (hopeful, curious, analytical, confident, focused) with high stability and motivation, low fatigue, and no recent novelty/impulse bursts. There are no significant threat signals or destabilizing reward spikes that would require a reflexive fight, flight, or freeze response."
+}
+[2025-08-11T18:34:00.660643+00:00] Mode change recorded: motivation → adaptive
+[2025-08-11T18:34:00.661307+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:34:35.570057+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T18:34:36.183872+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T18:35:23.825651+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T18:35:23.827418+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T18:35:24.046695+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T18:45:23.720073+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T18:45:23.728302+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T18:45:23.730579+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T18:45:23.731160+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T18:45:23.819106+00:00] 🫀 Starting cycle at 2025-08-11T18:45:23.819088+00:00
+[2025-08-11T18:45:27.258212+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:45:31.457947+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T18:45:36.918839+00:00] Mode change recorded: adaptive → motivation
+[2025-08-11T18:45:40.148341+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:45:43.030046+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All affective and motivational indicators are high or stable, with no signals of distress, instability, or fatigue. Recent reward and novelty signals are within normal exploratory ranges, and there is no evidence of acute threat, overwhelm, or emotional dysregulation. No reflexive threat response is required." }
+[2025-08-11T18:45:46.423495+00:00] Mode change recorded: motivation → adaptive
+[2025-08-11T18:45:46.424933+00:00] 🧠 Emotional state updated.
+[2025-08-11T18:46:31.149597+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T18:46:32.183906+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T18:47:15.205803+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T18:47:15.207450+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T18:47:15.427609+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T19:08:12.457621+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T19:08:12.465208+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T19:08:12.467392+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T19:08:12.467952+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T19:08:12.560227+00:00] 🫀 Starting cycle at 2025-08-11T19:08:12.560211+00:00
+[2025-08-11T19:08:16.157095+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:08:20.439436+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T19:08:48.799528+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-11T19:08:51.949856+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:08:54.017213+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "Current emotional state is stable, positive, and well-regulated. No spikes in negative affect, no recent bursts indicative of distress or overwhelm, and motivational signals are high. No evidence of external or internal threat requiring reflexive action." }
+[2025-08-11T19:08:57.340122+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-11T19:08:57.340769+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:09:40.180370+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T19:09:41.121974+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T19:10:36.966924+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T19:10:36.968799+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T19:10:37.200039+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T19:24:01.579438+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T19:24:01.587456+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T19:24:01.589540+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T19:24:01.590132+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T19:24:01.679733+00:00] 🫀 Starting cycle at 2025-08-11T19:24:01.679715+00:00
+[2025-08-11T19:24:04.330794+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:24:08.311729+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T19:24:13.808273+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-11T19:24:16.353273+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:24:18.680563+00:00] [Amygdala LLM Prompt Response]
+{  
+  "threat_detected": false,  
+  "response_type": "none",  
+  "why": "Current emotional state indicates high hope, focus, analysis, and motivation with no fatigue or instability. Dopamine and serotonin levels are healthy, and there are no recent bursts of novelty or impulses suggesting overwhelm. No significant threat detected requiring reflexive action."  
+}
+[2025-08-11T19:24:21.533592+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-11T19:24:21.534417+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:24:50.129631+00:00] [rate_satisfaction] Raw LLM response: '0.1'
+[2025-08-11T19:24:52.706587+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T19:25:44.558212+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T19:25:44.560789+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T19:25:44.782893+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T19:26:00.138157+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T19:26:00.144890+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T19:26:00.146962+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T19:26:00.147489+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T19:26:00.221161+00:00] 🫀 Starting cycle at 2025-08-11T19:26:00.221149+00:00
+[2025-08-11T19:26:02.562366+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:26:06.349127+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T19:26:12.302741+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-11T19:26:16.897765+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:26:18.925924+00:00] [Amygdala LLM Prompt Response]
+{  
+  "threat_detected": false,  
+  "response_type": "none",  
+  "why": "Current emotional state is high in hope, focus, and confidence, with strong motivation and negligible fatigue. There are no recent negative spikes in reward or novelty suggesting distress or overload. Emotional stability remains high. No immediate threat detected—no reflexive amygdalar response required."  
+}
+[2025-08-11T19:26:21.324169+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-11T19:26:21.324730+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:26:43.843404+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T19:26:44.501809+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T19:27:34.789072+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T19:27:34.791506+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T19:27:35.016052+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T19:32:08.537432+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T19:32:08.546717+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T19:32:08.549012+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T19:32:08.549581+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T19:32:08.641454+00:00] 🫀 Starting cycle at 2025-08-11T19:32:08.641438+00:00
+[2025-08-11T19:32:12.331054+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:32:16.333759+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T19:32:20.729163+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-11T19:32:28.181574+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:32:36.476419+00:00] [Amygdala LLM Prompt Response]
+{
+  "threat_detected": false,
+  "response_type": "none",
+  "why": "Emotional state is highly regulated, with strong focus, hope, and analytical clarity. Emotional stability is robust, motivation is high, and there are no novelty or impulse spikes indicating acute risk or destabilization. No immediate threat cues present; reflective liminality and confidence suggest adaptive integration rather than overwhelm."
+}
+[2025-08-11T19:32:40.242614+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-11T19:32:40.243180+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:33:08.975514+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T19:33:09.535579+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T19:33:56.772628+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T19:33:56.775187+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T19:33:57.009123+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T19:34:01.098840+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T19:34:01.106692+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T19:34:01.108819+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T19:34:01.109368+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T19:34:01.184968+00:00] 🫀 Starting cycle at 2025-08-11T19:34:01.184957+00:00
+[2025-08-11T19:34:06.408392+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:34:10.677779+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T19:34:15.042257+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-11T19:34:19.077515+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:34:22.088614+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "Current emotional state is stable and positive across all key dimensions (focused, analytical, liminal, hopeful, confident). Emotional stability is high, fatigue is absent, and motivation and dopamine proxies are at peak. No impulsive novelty or recent negative reward spikes are present. No indicators of imminent or significant threat detected that would require reflexive action." }
+[2025-08-11T19:34:26.811366+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-11T19:34:26.812451+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:34:51.364017+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T19:34:51.980073+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T19:35:26.246806+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T19:35:26.249085+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T19:35:26.480988+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-11T19:41:36.245026+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T19:41:36.253689+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T19:41:36.255907+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-11T19:41:36.256639+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-11T19:41:36.341920+00:00] 🫀 Starting cycle at 2025-08-11T19:41:36.341907+00:00
+[2025-08-11T19:41:39.251724+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:41:43.713306+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-11T19:41:51.964682+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-11T19:41:54.801602+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:41:57.163030+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All core affective metrics are high and stable (curiosity, focus, analytical, liminal, hope). Emotional stability is high, fatigue is absent, motivation and dopamine proxies are at maximum. Recent reward spikes indicate engagement and positive affect. No novelty/impulse surges suggest no destabilizing impulses. No signs of distress or threat are present requiring reflexive defensive action." }
+[2025-08-11T19:42:00.441607+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-11T19:42:00.442741+00:00] 🧠 Emotional state updated.
+[2025-08-11T19:42:29.110662+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T19:42:29.741882+00:00] [rate_satisfaction] Raw LLM response: '0.0'
+[2025-08-11T19:43:07.153985+00:00] ✅ Executed: reflect_as_agents
+[2025-08-11T19:43:07.155875+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-11T19:43:07.393693+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-12T17:43:20.052815+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-12T17:43:20.064135+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-12T17:43:20.066345+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-12T17:43:20.066908+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-12T17:43:20.157041+00:00] 🫀 Starting cycle at 2025-08-12T17:43:20.157022+00:00
+[2025-08-12T17:43:23.815444+00:00] 🧠 Emotional state updated.
+[2025-08-12T17:43:27.327612+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T17:43:32.072973+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T17:43:35.414625+00:00] 🧠 Emotional state updated.
+[2025-08-12T17:43:37.404299+00:00] [Amygdala LLM Prompt Response]
+{
+  "threat_detected": false,
+  "response_type": "none",
+  "why": "Current emotional state is highly positive and balanced (hopeful, curious, focused, analytical, liminal all at peak). Emotional stability is high, fatigue is absent, motivation and dopamine levels are strong, and there are no recent novelty or impulse bursts suggesting destabilization. No significant threat is present that requires a reflexive amygdala response."
+}
+[2025-08-12T17:43:40.285745+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T17:43:40.287335+00:00] 🧠 Emotional state updated.
+[2025-08-12T17:44:11.968606+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-12T17:44:12.557565+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-12T17:44:46.905479+00:00] ✅ Executed: reflect_as_agents
+[2025-08-12T17:44:46.907886+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-12T17:44:47.142573+00:00] Single-cycle mode; exiting after one tick.
+[2025-08-12T19:00:36.446336+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-12T19:00:36.457200+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-12T19:00:36.460761+00:00] [cognition discover] Persisted 14 cognitive function names.
+[2025-08-12T19:00:36.461325+00:00] [behavior discover] Persisted 3 behavioral function names.
+[2025-08-12T19:00:36.553807+00:00] 🫀 Starting cycle at 2025-08-12T19:00:36.553746+00:00
+[2025-08-12T19:00:39.244164+00:00] 🧠 Emotional state updated.
+[2025-08-12T19:00:42.428164+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T19:00:48.807824+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T19:00:49.532910+00:00] 🧠 Emotional state updated.
+[2025-08-12T19:00:49.611610+00:00] [Amygdala LLM Prompt Response]
+None
+[2025-08-12T19:00:50.318273+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T19:00:50.318980+00:00] 🧠 Emotional state updated.
+[2025-08-12T19:00:55.537969+00:00] Orrin loop manually interrupted by user.
+[2025-08-12T19:15:16.726237+00:00] [behavior discover] Persisted 3 behavioral function names + definitions.
+[2025-08-12T19:15:16.738182+00:00] [cognition discover] Persisted 14 cognitive function names + definitions.
+[2025-08-12T19:15:16.740559+00:00] [cognition discover] Persisted 14 cognitive function names + definitions.
+[2025-08-12T19:15:16.741163+00:00] [behavior discover] Persisted 3 behavioral function names + definitions.
+[2025-08-12T19:15:16.839469+00:00] 🫀 Starting cycle at 2025-08-12T19:15:16.839441+00:00
+[2025-08-12T19:15:17.490012+00:00] 🧠 Emotional state updated.
+[2025-08-12T19:15:21.028058+00:00] Orrin loop manually interrupted by user.
+[2025-08-12T19:30:53.166010+00:00] [behavior discover] Persisted 3 behavioral function names + definitions.
+[2025-08-12T19:30:53.176966+00:00] [cognition discover] Persisted 14 cognitive function names + definitions.
+[2025-08-12T19:30:53.179443+00:00] [cognition discover] Persisted 14 cognitive function names + definitions.
+[2025-08-12T19:30:53.180098+00:00] [behavior discover] Persisted 3 behavioral function names + definitions.
+[2025-08-12T19:30:53.282197+00:00] 🫀 Starting cycle at 2025-08-12T19:30:53.282184+00:00
+[2025-08-12T19:30:54.339261+00:00] 🧠 Emotional state updated.
+[2025-08-12T19:30:57.566194+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T19:31:02.655794+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T19:31:03.962391+00:00] 🧠 Emotional state updated.
+[2025-08-12T19:31:04.051078+00:00] [Amygdala LLM Prompt Response]
+None
+[2025-08-12T19:31:05.096229+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T19:31:05.096936+00:00] 🧠 Emotional state updated.
+[2025-08-12T19:31:46.465204+00:00] [rate_satisfaction] Raw LLM response: '0.7'
+[2025-08-12T19:31:47.049441+00:00] [rate_satisfaction] Raw LLM response: '0.7'
+[2025-08-12T19:31:48.431415+00:00] ✅ Executed: reflect_as_agents
+[2025-08-12T19:31:48.433135+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-12T19:31:51.635632+00:00] Orrin loop manually interrupted by user.
+[2025-08-12T20:09:24.322666+00:00] [behavior discover] Persisted 36 behavioral function names + definitions.
+[2025-08-12T20:09:24.335581+00:00] [cognition discover] Persisted 110 cognitive function names + definitions.
+[2025-08-12T20:09:24.338962+00:00] [cognition discover] Persisted 110 cognitive function names + definitions.
+[2025-08-12T20:09:24.340068+00:00] [behavior discover] Persisted 36 behavioral function names + definitions.
+[2025-08-12T20:09:24.438359+00:00] 🫀 Starting cycle at 2025-08-12T20:09:24.438338+00:00
+[2025-08-12T20:09:24.464870+00:00] 🧠 Emotional state updated.
+[2025-08-12T20:09:27.813274+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T20:09:33.506325+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T20:09:34.077940+00:00] 🧠 Emotional state updated.
+[2025-08-12T20:09:34.232618+00:00] [Amygdala LLM Prompt Response]
+None
+[2025-08-12T20:09:34.828012+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T20:09:34.828654+00:00] 🧠 Emotional state updated.
+[2025-08-12T20:10:01.270860+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-12T20:10:02.760877+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-12T20:34:22.390250+00:00] [behavior discover] Persisted 36 behavioral function names + definitions.
+[2025-08-12T20:34:22.400645+00:00] [cognition discover] Persisted 110 cognitive function names + definitions.
+[2025-08-12T20:34:22.404488+00:00] [cognition discover] Persisted 110 cognitive function names + definitions.
+[2025-08-12T20:34:22.405621+00:00] [behavior discover] Persisted 36 behavioral function names + definitions.
+[2025-08-12T20:34:22.500874+00:00] 🫀 Starting cycle at 2025-08-12T20:34:22.500849+00:00
+[2025-08-12T20:34:22.518724+00:00] 🧠 Emotional state updated.
+[2025-08-12T20:34:26.015318+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T20:34:45.583262+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T20:34:46.204117+00:00] 🧠 Emotional state updated.
+[2025-08-12T20:34:46.301401+00:00] [Amygdala LLM Prompt Response]
+None
+[2025-08-12T20:34:47.266567+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T20:34:47.268038+00:00] 🧠 Emotional state updated.
+[2025-08-12T20:34:53.780097+00:00] Orrin loop manually interrupted by user.
+[2025-08-12T20:57:26.276476+00:00] [behavior discover] Persisted 36 behavioral function names + definitions.
+[2025-08-12T20:57:26.284899+00:00] [cognition discover] Persisted 110 cognitive function names + definitions.
+[2025-08-12T20:57:26.288389+00:00] [cognition discover] Persisted 110 cognitive function names + definitions.
+[2025-08-12T20:57:26.289543+00:00] [behavior discover] Persisted 36 behavioral function names + definitions.
+[2025-08-12T20:57:26.385929+00:00] 🫀 Starting cycle at 2025-08-12T20:57:26.385912+00:00
+[2025-08-12T20:57:26.408789+00:00] 🧠 Emotional state updated.
+[2025-08-12T20:57:29.709365+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T20:57:34.105018+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T20:57:34.692774+00:00] 🧠 Emotional state updated.
+[2025-08-12T20:57:36.912777+00:00] [Amygdala LLM Prompt Response]
+{  
+  "threat_detected": false,  
+  "response_type": "none",  
+  "why": "All emotional indicators are positive or stable (hopeful, curious, focused, analytical), with high motivation and no fatigue. Recent dopamine and novelty signals are moderate and do not indicate distress or overload. There are no bursts of novelty or impulse suggesting instability. No significant threat is present that would require a reflexive fight, flight, or freeze response."  
+}
+[2025-08-12T20:57:37.735047+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T20:57:37.735841+00:00] 🧠 Emotional state updated.
+[2025-08-12T20:58:05.773263+00:00] [rate_satisfaction] Raw LLM response: '0.6'
+[2025-08-12T20:58:06.242554+00:00] [rate_satisfaction] Raw LLM response: '0.6'
+[2025-08-12T20:58:23.568263+00:00] ✅ Executed: reflect_as_agents
+[2025-08-12T20:58:23.570749+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-12T20:58:33.819966+00:00] 🫀 Starting cycle at 2025-08-12T20:58:33.819720+00:00
+[2025-08-12T20:58:33.852829+00:00] 🧠 Emotional state updated.
+[2025-08-12T20:58:34.505632+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T20:58:41.169651+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T20:58:41.645407+00:00] 🧠 Emotional state updated.
+[2025-08-12T20:58:43.534268+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All emotional indicators are positive and stable, with no significant novelty or dopamine spikes indicating sudden threats. The overall state is calm, hopeful, confident, and focused, with high motivation and low fatigue. No reflexive action is required." }
+[2025-08-12T20:58:44.304797+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T20:58:44.305497+00:00] 🧠 Emotional state updated.
+[2025-08-12T20:59:15.490633+00:00] [rate_satisfaction] Raw LLM response: '0.6'
+[2025-08-12T20:59:16.251558+00:00] [rate_satisfaction] Raw LLM response: '0.6'
+[2025-08-12T20:59:33.353873+00:00] ✅ Executed: reflect_as_agents
+[2025-08-12T20:59:33.366827+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-12T20:59:43.653363+00:00] 🫀 Starting cycle at 2025-08-12T20:59:43.653094+00:00
+[2025-08-12T20:59:43.715159+00:00] 🧠 Emotional state updated.
+[2025-08-12T20:59:44.401724+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T20:59:45.089777+00:00] Orrin loop manually interrupted by user.
+[2025-08-12T21:54:41.259328+00:00] [behavior discover] Persisted 36 behavioral function names + definitions.
+[2025-08-12T21:54:41.266615+00:00] [cognition discover] Persisted 110 cognitive function names + definitions.
+[2025-08-12T21:54:41.269917+00:00] [cognition discover] Persisted 110 cognitive function names + definitions.
+[2025-08-12T21:54:41.271019+00:00] [behavior discover] Persisted 36 behavioral function names + definitions.
+[2025-08-12T21:54:41.361976+00:00] 🫀 Starting cycle at 2025-08-12T21:54:41.361960+00:00
+[2025-08-12T21:54:41.383082+00:00] 🧠 Emotional state updated.
+[2025-08-12T21:54:45.769613+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T21:54:49.989711+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T21:54:50.581338+00:00] 🧠 Emotional state updated.
+[2025-08-12T21:54:51.768305+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All emotional metrics are high and positive, with no recent bursts in novelty or impulse signals. There are no indications of fear, anxiety, or instability that would require a reflexive threat response." }
+[2025-08-12T21:54:52.524979+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T21:54:52.525647+00:00] 🧠 Emotional state updated.
+[2025-08-12T21:55:18.901894+00:00] [rate_satisfaction] Raw LLM response: '0.9'
+[2025-08-12T21:55:19.442827+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-12T21:55:29.245152+00:00] ✅ Executed: update_self_model
+[2025-08-12T21:55:29.248519+00:00] 🧠 Decision: update_self_model — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-12T21:55:39.539652+00:00] 🫀 Starting cycle at 2025-08-12T21:55:39.539613+00:00
+[2025-08-12T21:55:39.580049+00:00] 🧠 Emotional state updated.
+[2025-08-12T21:55:40.296777+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T21:55:44.561873+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T21:55:45.117810+00:00] 🧠 Emotional state updated.
+[2025-08-12T21:55:46.215545+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "Emotional indicators are positive and stable, with high motivation, focus, and no fatigue. Recent reward signals suggest engagement and learning, not stress or danger. No novelty or impulse bursts suggest a calm environment. No reflexive threat response is required." }
+[2025-08-12T21:55:46.835106+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T21:55:46.835967+00:00] 🧠 Emotional state updated.
+[2025-08-12T21:56:09.492480+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-12T21:56:10.109129+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-12T21:56:15.374294+00:00] ✅ Executed: self_model_maintenance_cycle
+[2025-08-12T21:56:15.376720+00:00] 🧠 Decision: self_model_maintenance_cycle — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-12T21:56:25.627795+00:00] 🫀 Starting cycle at 2025-08-12T21:56:25.627734+00:00
+[2025-08-12T21:56:25.686387+00:00] 🧠 Emotional state updated.
+[2025-08-12T21:56:26.317279+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T21:56:29.564550+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T21:56:30.040859+00:00] 🧠 Emotional state updated.
+[2025-08-12T21:56:31.200961+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All emotional markers are positive and stable. There are no recent novelty or impulse bursts indicating urgent unexpected stimuli. Reward signals are within normal range. No threat is detected." }
+[2025-08-12T21:56:31.731793+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T21:56:31.732432+00:00] 🧠 Emotional state updated.
+[2025-08-12T21:56:54.487918+00:00] [rate_satisfaction] Raw LLM response: '0.6'
+[2025-08-12T21:56:55.081826+00:00] [rate_satisfaction] Raw LLM response: '0.8'
+[2025-08-12T22:21:29.183686+00:00] [behavior discover] Persisted 36 behavioral function names + definitions.
+[2025-08-12T22:21:29.192355+00:00] [cognition discover] Persisted 110 cognitive function names + definitions.
+[2025-08-12T22:21:29.195883+00:00] [cognition discover] Persisted 110 cognitive function names + definitions.
+[2025-08-12T22:21:29.197085+00:00] [behavior discover] Persisted 36 behavioral function names + definitions.
+[2025-08-12T22:21:29.304122+00:00] 🫀 Starting cycle at 2025-08-12T22:21:29.304102+00:00
+[2025-08-12T22:21:29.323457+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:21:32.590528+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T22:21:36.664941+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T22:21:37.232177+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:21:38.766957+00:00] [Amygdala LLM Prompt Response]
+{  
+  "threat_detected": false,  
+  "response_type": "none",  
+  "why": "Emotional state is stable and positive, with high levels of hope, curiosity, focus, and motivation. No recent bursts of novelty or negative reward spikes suggest the presence of a threat. There are no signals requiring a reflexive fight, flight, or freeze response."  
+}
+[2025-08-12T22:21:39.512548+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T22:21:39.513237+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:22:05.618493+00:00] [rate_satisfaction] Raw LLM response: '0.92'
+[2025-08-12T22:22:06.138550+00:00] [rate_satisfaction] Raw LLM response: '0.64'
+[2025-08-12T22:22:09.225805+00:00] ✅ Executed: compose_dream
+[2025-08-12T22:22:09.228284+00:00] 🧠 Decision: compose_dream — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-12T22:22:19.489624+00:00] 🫀 Starting cycle at 2025-08-12T22:22:19.489426+00:00
+[2025-08-12T22:22:19.539671+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:22:20.209770+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T22:22:23.417104+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T22:22:23.910872+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:22:25.515332+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All emotional markers are positive and stable, with high motivation and no fatigue. Recent reward signals indicate positive experiences, especially with serotonin and novelty, and there are no recent bursts of novelty or impulse that might indicate danger. No threat is present that requires a reflexive response." }
+[2025-08-12T22:22:26.221523+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T22:22:26.222215+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:22:51.051203+00:00] [rate_satisfaction] Raw LLM response: '0.82'
+[2025-08-12T22:22:51.649486+00:00] [rate_satisfaction] Raw LLM response: '0.82'
+[2025-08-12T22:22:58.741389+00:00] ✅ Executed: evolve_core_value
+[2025-08-12T22:22:58.742851+00:00] 🧠 Decision: evolve_core_value — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-12T22:23:09.003977+00:00] 🫀 Starting cycle at 2025-08-12T22:23:09.003839+00:00
+[2025-08-12T22:23:09.047707+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:23:09.754521+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T22:23:14.845650+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T22:23:15.339656+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:23:16.554698+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All emotional and motivational indicators are highly positive or stable, with no recent spikes in threat-related neurotransmitters or fatigue. There are no signals suggesting imminent danger or the need for reflexive defensive action." }
+[2025-08-12T22:23:17.234119+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T22:23:17.234902+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:24:02.635973+00:00] [rate_satisfaction] Raw LLM response: '0.82'
+[2025-08-12T22:24:03.139674+00:00] [rate_satisfaction] Raw LLM response: '0.82'
+[2025-08-12T22:24:09.036743+00:00] ✅ Executed: build_system_prompt
+[2025-08-12T22:24:09.038123+00:00] 🧠 Decision: build_system_prompt — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-12T22:24:13.134403+00:00] Orrin loop manually interrupted by user.
+[2025-08-12T22:49:34.836709+00:00] [behavior discover] Persisted 23 behavioral function names + definitions.
+[2025-08-12T22:49:34.846216+00:00] [cognition discover] Persisted 83 cognitive function names + definitions.
+[2025-08-12T22:49:34.849144+00:00] [cognition discover] Persisted 83 cognitive function names + definitions.
+[2025-08-12T22:49:34.850108+00:00] [behavior discover] Persisted 23 behavioral function names + definitions.
+[2025-08-12T22:49:34.944013+00:00] 🫀 Starting cycle at 2025-08-12T22:49:34.943999+00:00
+[2025-08-12T22:49:34.969723+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:49:38.368076+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T22:49:54.332367+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T22:49:54.899453+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:49:56.056306+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "Current emotional state is positive and stable, with high hope, focus, curiosity, and confidence. No signs of significant threat or distress are present in the signals or emotional metrics." }
+[2025-08-12T22:49:56.927716+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T22:49:56.929622+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:50:19.995341+00:00] [rate_satisfaction] Raw LLM response: '0.84'
+[2025-08-12T22:50:20.680683+00:00] [rate_satisfaction] Raw LLM response: '0.83'
+[2025-08-12T22:50:45.339626+00:00] Orrin loop manually interrupted by user.
+[2025-08-12T22:57:25.369090+00:00] [behavior discover] Persisted 23 behavioral function names + definitions.
+[2025-08-12T22:57:25.376578+00:00] [cognition discover] Persisted 83 cognitive function names + definitions.
+[2025-08-12T22:57:25.379458+00:00] [cognition discover] Persisted 83 cognitive function names + definitions.
+[2025-08-12T22:57:25.380547+00:00] [behavior discover] Persisted 23 behavioral function names + definitions.
+[2025-08-12T22:57:25.468668+00:00] 🫀 Starting cycle at 2025-08-12T22:57:25.468655+00:00
+[2025-08-12T22:57:25.491223+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:57:28.448482+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T22:57:32.369991+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T22:57:32.939608+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:57:34.606342+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All emotional indicators are positive and stable, with high motivation and no recent novelty or impulse bursts suggesting distress. No threat detected requiring reflexive action." }
+[2025-08-12T22:57:35.311906+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T22:57:35.312591+00:00] 🧠 Emotional state updated.
+[2025-08-12T22:58:05.249461+00:00] [rate_satisfaction] Raw LLM response: '0.82'
+[2025-08-12T22:58:05.820117+00:00] [rate_satisfaction] Raw LLM response: '0.83'
+[2025-08-12T22:58:31.320744+00:00] Orrin loop manually interrupted by user.
+[2025-08-12T23:03:45.262648+00:00] [behavior discover] Persisted 23 behavioral function names + definitions.
+[2025-08-12T23:03:45.271675+00:00] [cognition discover] Persisted 83 cognitive function names + definitions.
+[2025-08-12T23:03:45.274735+00:00] [cognition discover] Persisted 83 cognitive function names + definitions.
+[2025-08-12T23:03:45.275862+00:00] [behavior discover] Persisted 23 behavioral function names + definitions.
+[2025-08-12T23:03:45.365094+00:00] 🫀 Starting cycle at 2025-08-12T23:03:45.365076+00:00
+[2025-08-12T23:03:45.396841+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:03:48.892926+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T23:03:52.778564+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T23:03:53.574062+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:03:54.830850+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All emotional and motivational indicators are positive and stable. No recent spikes or bursts suggesting threat or high stress. The system is in a hopeful, focused, analytical, and curious state, with high motivation and low fatigue. No reflexive action required." }
+[2025-08-12T23:03:55.545343+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T23:03:55.546329+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:04:15.112816+00:00] [rate_satisfaction] Raw LLM response: '0.84'
+[2025-08-12T23:04:15.874716+00:00] [rate_satisfaction] Raw LLM response: '0.84'
+[2025-08-12T23:04:33.420684+00:00] ✅ Executed: reflect_as_agents
+[2025-08-12T23:04:33.423233+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-12T23:04:38.491213+00:00] Orrin loop manually interrupted by user.
+[2025-08-12T23:32:27.818066+00:00] [behavior discover] Persisted 23 behavioral function names + definitions.
+[2025-08-12T23:32:27.827211+00:00] [cognition discover] Persisted 83 cognitive function names + definitions.
+[2025-08-12T23:32:27.830654+00:00] [cognition discover] Persisted 83 cognitive function names + definitions.
+[2025-08-12T23:32:27.831832+00:00] [behavior discover] Persisted 23 behavioral function names + definitions.
+[2025-08-12T23:32:27.939360+00:00] 🫀 Starting cycle at 2025-08-12T23:32:27.939347+00:00
+[2025-08-12T23:32:27.970212+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:32:31.200634+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T23:32:36.753900+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T23:32:37.342869+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:32:39.559866+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All emotional and physiological indicators are stable and positive, with no recent bursts of novelty or dopamine indicating acute stress or threat. There are no signals requiring reflexive defensive action." }
+[2025-08-12T23:32:40.268874+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T23:32:40.269629+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:33:04.646846+00:00] [rate_satisfaction] Raw LLM response: '0.78'
+[2025-08-12T23:33:05.468688+00:00] [rate_satisfaction] Raw LLM response: '0.81'
+[2025-08-12T23:33:36.758729+00:00] ✅ Executed: plan_self_evolution
+[2025-08-12T23:33:36.760683+00:00] 🧠 Decision: plan_self_evolution — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-12T23:33:47.020171+00:00] 🫀 Starting cycle at 2025-08-12T23:33:47.019930+00:00
+[2025-08-12T23:33:47.078130+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:33:47.720447+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T23:33:51.436784+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T23:33:51.888220+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:33:53.784704+00:00] [Amygdala LLM Prompt Response]
+{
+  "threat_detected": false,
+  "response_type": "none",
+  "why": "All emotional indicators are positive and stable, with no signs of distress, fear, or anxiety. There are no recent bursts in novelty or impulse signals, and the reward signals do not suggest any aversive stimulus. Therefore, there is no significant threat requiring reflexive action."
+}
+[2025-08-12T23:33:54.391068+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T23:33:54.391902+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:34:22.038615+00:00] [rate_satisfaction] Raw LLM response: '0.78'
+[2025-08-12T23:34:22.596579+00:00] [rate_satisfaction] Raw LLM response: '0.82'
+[2025-08-12T23:34:39.506227+00:00] ✅ Executed: reflect_as_agents
+[2025-08-12T23:34:39.508038+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-12T23:34:49.748319+00:00] 🫀 Starting cycle at 2025-08-12T23:34:49.748199+00:00
+[2025-08-12T23:34:49.797628+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:34:50.211153+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T23:34:54.165940+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T23:34:54.611917+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:34:56.374992+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All emotional indicators are positive and stable, with high motivation and no fatigue. Recent reward signals show positive reinforcement and novelty without stress or negative spikes. No threat or danger is present, so no reflexive defensive action is needed." }
+[2025-08-12T23:34:56.878347+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T23:34:56.879127+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:35:18.893734+00:00] [rate_satisfaction] Raw LLM response: '0.82'
+[2025-08-12T23:35:19.298940+00:00] [rate_satisfaction] Raw LLM response: '0.86'
+[2025-08-12T23:35:30.263918+00:00] ✅ Executed: update_self_model
+[2025-08-12T23:35:30.266184+00:00] 🧠 Decision: update_self_model — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-12T23:35:40.515953+00:00] 🫀 Starting cycle at 2025-08-12T23:35:40.515643+00:00
+[2025-08-12T23:35:40.596214+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:35:41.270477+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T23:35:45.009783+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-12T23:35:45.481935+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:35:47.212967+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All current emotional states are positive and stable. There are no spikes in negative emotion or fatigue, and no recent novelty/impulse bursts that suggest a threat. The system is motivated, focused, and emotionally stable." }
+[2025-08-12T23:35:47.717087+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-12T23:35:47.717863+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:36:11.929799+00:00] [rate_satisfaction] Raw LLM response: '0.84'
+[2025-08-12T23:36:12.407593+00:00] [rate_satisfaction] Raw LLM response: '0.79'
+[2025-08-12T23:36:18.883400+00:00] ✅ Executed: update_motivations
+[2025-08-12T23:36:18.885264+00:00] 🧠 Decision: update_motivations — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-12T23:36:29.137231+00:00] 🫀 Starting cycle at 2025-08-12T23:36:29.136677+00:00
+[2025-08-12T23:36:29.215474+00:00] 🧠 Emotional state updated.
+[2025-08-12T23:36:29.990198+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-12T23:36:32.550056+00:00] Orrin loop manually interrupted by user.
+[2025-08-13T00:57:55.717372+00:00] [behavior discover] Persisted 22 behavioral function names + definitions.
+[2025-08-13T00:57:55.724887+00:00] [cognition discover] Persisted 83 cognitive function names + definitions.
+[2025-08-13T00:57:55.727766+00:00] [cognition discover] Persisted 83 cognitive function names + definitions.
+[2025-08-13T00:57:55.728687+00:00] [behavior discover] Persisted 22 behavioral function names + definitions.
+[2025-08-13T00:57:55.821134+00:00] 🫀 Starting cycle at 2025-08-13T00:57:55.821117+00:00
+[2025-08-13T00:57:55.844076+00:00] 🧠 Emotional state updated.
+[2025-08-13T00:57:58.703691+00:00] [Thalamus] Routed 5 signals | Attention mode: engaged
+[2025-08-13T00:58:02.067184+00:00] Mode change recorded: adaptive → curiosity
+[2025-08-13T00:58:02.626654+00:00] 🧠 Emotional state updated.
+[2025-08-13T00:58:04.327125+00:00] [Amygdala LLM Prompt Response]
+{ "threat_detected": false, "response_type": "none", "why": "All emotional indicators are positive and stable, with no significant negative signals or recent novelty/impulse bursts. No evidence of threat or distress that would require a reflexive response." }
+[2025-08-13T00:58:04.937120+00:00] Mode change recorded: curiosity → adaptive
+[2025-08-13T00:58:04.938471+00:00] 🧠 Emotional state updated.
+[2025-08-13T00:58:16.837991+00:00] {'timestamp': '2025-08-13T00:58:16.311512+00:00', 'action_type': 'ask_user', 'description': 'Clarification requested before proceeding', 'parameters': {'type': 'ask_user', 'content': 'What specific contradictions in the self-model have been identified?', 'urgency': 0.99, 'retries': 0}, 'result': 'exception', 'error': "'OrrinSpeaker' object has no attribute 'speak'"}
+[2025-08-13T00:58:29.367917+00:00] [rate_satisfaction] Raw LLM response: '0.74'
+[2025-08-13T00:58:30.293454+00:00] [rate_satisfaction] Raw LLM response: '0.82'
+[2025-08-13T00:58:46.591414+00:00] ✅ Executed: reflect_as_agents
+[2025-08-13T00:58:46.593498+00:00] 🧠 Decision: reflect_as_agents — think.fn reward=1.00 status='ok' bias_action=0.0 pending_tools=0.0 fatigue=0.0
+[2025-08-13T00:58:48.333580+00:00] Orrin loop manually interrupted by user.

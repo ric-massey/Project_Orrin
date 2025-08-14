@@ -1,44 +1,49 @@
-import json
+# utils/load_utils.py
+from __future__ import annotations
 from pathlib import Path
+from typing import Any, Dict, Union
 
 from utils.json_utils import load_json
-from utils.log import (
-    log_error, 
-    log_model_issue
-)
-from paths import (
-    CONTEXT, MODEL_CONFIG_FILE
-)
+from utils.log import log_error, log_model_issue
+from paths import DATA_DIR, CONTEXT, MODEL_CONFIG_FILE
 
 
-def load_model_config():
+def load_model_config() -> Dict[str, Any]:
+    """
+    Load the model config; fall back to minimal defaults if unavailable.
+    """
     try:
         if MODEL_CONFIG_FILE.exists():
-            with MODEL_CONFIG_FILE.open("r", encoding="utf-8") as f:
-                return json.load(f)
+            cfg = load_json(MODEL_CONFIG_FILE, default_type=dict)
+            if isinstance(cfg, dict) and cfg:
+                return cfg
     except Exception as e:
         log_model_issue(f"[load_model_config] Failed to load model config: {e}")
-    
-    # fallback defaults
+
+    # Fallback defaults
     return {
         "thinking": "gpt-4.1",
-        "human_facing": "gpt-4.1"
+        "human_facing": "gpt-4.1",
     }
 
-def load_context():
+
+def load_context() -> Dict[str, Any]:
     return load_json(CONTEXT, default_type=dict)
 
 
-def load_all_known_json(data_dir="."):
+def load_all_known_json(base: Union[Path, str, None] = None) -> Dict[str, Any]:
     """
-    Loads all known JSON files from a given directory and returns them as a dict.
-    Each file is inferred by filename -> expected default type.
+    Load all *.json files from `base` (defaults to DATA_DIR) and return them in a dict keyed by stem.
+    No list is ever passed to Path.glob/rglob.
     """
-    known = {}
-    data_path = Path(data_dir)
+    base_path = Path(base) if base is not None else DATA_DIR
+
+    if not base_path.exists():
+        log_error(f"⚠️ Data directory does not exist: {base_path}")
+        return {}
 
     # Map of expected file base names to their default types
-    expected_types = {
+    expected_types: Dict[str, type] = {
         "activity_log": list,
         "context": dict,
         "core_memory": str,
@@ -64,15 +69,18 @@ def load_all_known_json(data_dir="."):
         "working_memory": list,
         "world_model": dict,
         "casual_rules": list,
-        "mode": dict
+        "mode": dict,
     }
 
-    for file_path in data_path.glob("*.json"):
-        key = file_path.stem
-        default_type = expected_types.get(key, dict)
-        try:
-            known[key] = load_json(file_path, default_type=default_type)
-        except Exception as e:
-            log_error(f"⚠️ Failed to load {file_path.name}: {e}")
+    out: Dict[str, Any] = {}
 
-    return known
+    # Only ever pass a string pattern to glob
+    for file_path in base_path.glob("*.json"):
+        try:
+            key = file_path.stem
+            default_type = expected_types.get(key, dict)
+            out[key] = load_json(file_path, default_type=default_type)
+        except Exception as e:
+            log_model_issue(f"[load_all_known_json] Failed to load {file_path}: {e}")
+
+    return out

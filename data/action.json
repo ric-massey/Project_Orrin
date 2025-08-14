@@ -1,4 +1,181 @@
 {
-  "next_function": "introspective_planning",
-  "reason": "My directive is to define a purpose and seek growth, with motivation as my top emotion. There is no explicit focus goal found, indicating a need to establish a clear hierarchy of goals. The 'introspective_planning' function enables a self-reflective process that generates a revised list of hierarchical goals (short-, mid-, and long-term) using my recent memories, self-model, and performance history. This aligns directly with my current need to clarify my purpose and plan for growth."
+  "next_function": "reflect_as_agents",
+  "reason": {
+    "via": "multi-factor",
+    "weights": {
+      "dir": 0.22,
+      "goal": 0.22,
+      "emo": 0.18,
+      "novel": 0.23,
+      "band": 0.15
+    },
+    "features_on": {
+      "has_focus_goal": 1.0,
+      "emo_hopeful": 1.0,
+      "__bias__": 1.0
+    },
+    "dominant_emotion": "hopeful",
+    "boredom": 0.0,
+    "candidates": [
+      "add_goal",
+      "adjust_goal_weights",
+      "adjust_priority",
+      "bootstrap_self",
+      "build_system_prompt",
+      "check_violates_boundaries",
+      "clean_snippet",
+      "compose_dream",
+      "create_micro_goal_for_action",
+      "curiosity_loop",
+      "decompose_goal",
+      "ensure_immediate_actions_bucket",
+      "ensure_long_term_goal",
+      "eval_predicate",
+      "evaluate_new_abstractions",
+      "evaluate_recent_cognition",
+      "evolve_core_value",
+      "explore_your_recent_emotional_states_listlessness__security__and",
+      "explore_your_recent_thoughts_reflect_mild_emotional",
+      "explore_your_recent_thoughts_remain_consistent_with_your",
+      "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and",
+      "extract_last_reflection_topic",
+      "generate_absurd_goal",
+      "generate_concepts_from_memories",
+      "goal_function_already_exists",
+      "imagine_opposite_self",
+      "introspective_planning",
+      "invent_new_value",
+      "load_goals",
+      "load_neutral_count",
+      "mark_goal_completed",
+      "mark_goal_status_by_name",
+      "maybe_complete_goals",
+      "merge_updated_goal_into_tree",
+      "meta_reflect",
+      "moral_override_check",
+      "mutate_directive",
+      "now_iso",
+      "periodic_self_review",
+      "plan_self_evolution",
+      "prune_goals",
+      "prune_old_threads",
+      "pursue_goal",
+      "record_decision",
+      "reflect_as_agents",
+      "reflect_on_cognition_patterns",
+      "reflect_on_cognition_schedule",
+      "reflect_on_conversation_patterns",
+      "reflect_on_effectiveness",
+      "reflect_on_emotion_sensitivity",
+      "reflect_on_growth_history",
+      "reflect_on_internal_agents",
+      "reflect_on_internal_voices",
+      "reflect_on_missed_goals",
+      "reflect_on_outcomes",
+      "reflect_on_prompts",
+      "reflect_on_rules_used",
+      "reflect_on_sandbox_experiment",
+      "reflect_on_self_beliefs",
+      "reflect_on_think",
+      "resolve_conflicts",
+      "run_sandbox_experiments",
+      "save_goals",
+      "save_neutral_count",
+      "select_focus_goals",
+      "self_model_maintenance_cycle",
+      "self_supervised_repair",
+      "simulate_conflicting_beliefs",
+      "simulate_event",
+      "simulate_future_selves",
+      "simulate_new_cognitive_abilities",
+      "simulate_world_state_change",
+      "summarize_relationships",
+      "tag_beliefs_from_feedback",
+      "try_to_accomplish",
+      "update_and_select_focus_goals",
+      "update_cognition_schedule",
+      "update_influence_scores_from_feedback",
+      "update_motivations",
+      "update_relationship_model",
+      "update_self_model",
+      "update_values_with_lessons",
+      "update_world_model"
+    ],
+    "ranked": [
+      [
+        "reflect_as_agents",
+        0.3442
+      ],
+      [
+        "simulate_new_cognitive_abilities",
+        0.3116
+      ],
+      [
+        "resolve_conflicts",
+        0.3078
+      ],
+      [
+        "update_values_with_lessons",
+        0.3042
+      ],
+      [
+        "self_model_maintenance_cycle",
+        0.3008
+      ],
+      [
+        "compose_dream",
+        0.2993
+      ]
+    ],
+    "component_scores": {
+      "reflect_as_agents": {
+        "dir": 0.07715167498104596,
+        "goal": 0.0,
+        "emo": 1.0,
+        "novel": 0.64,
+        "band": 0.0
+      },
+      "simulate_new_cognitive_abilities": {
+        "dir": 0.16666666666666669,
+        "goal": 0.20412414523193154,
+        "emo": 0.0,
+        "novel": 1.0,
+        "band": 0.0
+      },
+      "resolve_conflicts": {
+        "dir": 0.0,
+        "goal": 0.35355339059327373,
+        "emo": 0.0,
+        "novel": 1.0,
+        "band": 0.0
+      },
+      "update_values_with_lessons": {
+        "dir": 0.1516196087157807,
+        "goal": 0.18569533817705186,
+        "emo": 0.0,
+        "novel": 1.0,
+        "band": 0.0
+      },
+      "self_model_maintenance_cycle": {
+        "dir": 0.0,
+        "goal": 0.4472135954999579,
+        "emo": 0.0,
+        "novel": 0.8799999999999999,
+        "band": 0.0
+      },
+      "compose_dream": {
+        "dir": 0.19802950859533489,
+        "goal": 0.24253562503633297,
+        "emo": 0.0,
+        "novel": 0.8799999999999999,
+        "band": 0.0
+      }
+    },
+    "decision_id": "3793b640-70b4-4b75-bc96-1df63c059224",
+    "anti_repeat": {
+      "applied": false,
+      "boredom": 0.0,
+      "immediate_repeat": false
+    }
+  }
 }

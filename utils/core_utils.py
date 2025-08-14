@@ -1,81 +1,97 @@
 import os
 import re
 import time
-from datetime import datetime, timezone
 import random
 import uuid
+from datetime import datetime, timezone
+
 from dotenv import load_dotenv
-from openai import OpenAI
+
 from emotion.emotion import detect_emotion
-from utils.json_utils import (
-    load_json, 
-    save_json,
-    extract_json
-)
+from utils.json_utils import load_json, save_json, extract_json
 from core.config.settings import model_roles
-from utils.log import log_model_issue
+from utils.log import log_model_issue, log_activity
 from utils.generate_response import generate_response, get_thinking_model
-from paths import KNOWLEDGE 
+from paths import KNOWLEDGE
 
 load_dotenv()
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 def get_human_model():
     return model_roles.get("human_facing", "gpt-4.1")
 
-def extract_knowledge_from_reflection(reflection_text):
+def _normalize_text(s: str) -> str:
+    """Trim and collapse internal whitespace for reliable de-dup checks."""
+    return re.sub(r"\s+", " ", (s or "").strip())
+
+def extract_knowledge_from_reflection(reflection_text: str) -> None:
+    """
+    Ask the LLM to extract reusable knowledge snippets from a reflection and
+    append them to KNOWLEDGE, avoiding duplicates.
+    """
     prompt = (
         "Extract reusable insights or principles from the following:\n\n"
-        f"{reflection_text}\n\nRespond ONLY with a JSON list of short knowledge snippets."
+        f"{reflection_text}\n\n"
+        "Respond ONLY with a JSON list of short knowledge snippets."
     )
-    response = generate_response(prompt)
     try:
+        response = generate_response(prompt)
         snippets = extract_json(response)
         if not isinstance(snippets, list):
-            raise ValueError("Response is not a list")
+            raise ValueError("LLM did not return a JSON list.")
 
         existing = load_json(KNOWLEDGE, default_type=list)
-        existing_summaries = {e.get("summary") for e in existing if "summary" in e}
+        if not isinstance(existing, list):
+            existing = []
 
+        existing_summaries = { _normalize_text(e.get("summary", "")) for e in existing if isinstance(e, dict) }
+
+        added = 0
         for snippet in snippets:
-            text = snippet if isinstance(snippet, str) else snippet.get("summary", "")
-            if not text or text in existing_summaries:
-                continue  # skip empty or duplicates
+            text = snippet if isinstance(snippet, str) else (snippet or {}).get("summary", "")
+            norm = _normalize_text(text)
+            if not norm or norm in existing_summaries:
+                continue
 
-            # Basic keyword extraction fallback
-            keywords = set()
-            for word in text.lower().split():
-                if len(word) > 3 and word.isalpha():
-                    keywords.add(word)
-
-            # Alternatively, use extract_keywords() if you implement it
-            # keywords = extract_keywords(text)
+            # simple keyword fallback
+            keywords = sorted({w for w in norm.lower().split() if len(w) > 3 and w.isalpha()})
 
             entry = {
                 "id": str(uuid.uuid4()),
-                "summary": text,
-                "source": reflection_text[:80],  # Optionally hash for uniqueness
+                "summary": norm,
+                "source": reflection_text[:80],
                 "timestamp": datetime.now(timezone.utc).isoformat(),
                 "event_type": "reflection",
-                "emotion": detect_emotion(text),  # Emotion on snippet itself
-                "confidence": 0.8,  # Placeholder, adjust dynamically later
-                "relevance": list(keywords),
+                "emotion": detect_emotion(norm),   # ok if this returns str or dict in your schema
+                "confidence": 0.8,
+                "relevance": keywords,
                 "reference_count": 0,
             }
             existing.append(entry)
+            existing_summaries.add(norm)
+            added += 1
 
-        save_json(KNOWLEDGE, existing)
-
+        if added:
+            save_json(KNOWLEDGE, existing)
+            log_activity(f"[knowledge] Added {added} snippet(s) from reflection.")
     except Exception as e:
-        log_model_issue(f"[extract_knowledge_from_reflection] Failed to parse or save: {e}")
+        log_model_issue(f"[extract_knowledge_from_reflection] Failed: {e}")
 
-def extract_questions(text):
-    # Extract questions starting with capital letter and ending with ?
-    return [q.strip() for q in re.findall(r'([A-Z][^?!.]*\?)', text) if len(q.strip()) > 10]
+# Multiline, tolerant question extraction (captures sentences ending with '?')
+_QUESTION_RE = re.compile(r"(^|[.!\n]\s*)([^?.!\n][^?]*\?)", re.MULTILINE)
 
-import re
+def extract_questions(text: str):
+    # Return distinct, reasonably long questions
+    candidates = [m[1].strip() for m in _QUESTION_RE.findall(text or "")]
+    uniq = []
+    for q in candidates:
+        if len(q) > 10 and q not in uniq:
+            uniq.append(q)
+    return uniq
 
-def rate_satisfaction(thought):
+def rate_satisfaction(thought: str) -> float:
+    """
+    Ask the LLM to rate satisfaction 0..1. Returns 0.0 on parse error.
+    """
     prompt = (
         f"Reflect on this thought:\n{thought}\n\n"
         "On a scale from 0 to 1, how satisfying or complete is this answer?\n"
@@ -85,53 +101,56 @@ def rate_satisfaction(thought):
         model_name = get_thinking_model()
         if isinstance(model_name, dict):
             model_name = model_name.get("model", "gpt-4.1")
-        response = generate_response(prompt, model=model_name)
-        print(f"[rate_satisfaction] Raw LLM response: {repr(response)}")  # Debug
+        resp = generate_response(prompt, model=model_name)
+        log_activity(f"[rate_satisfaction] Raw LLM response: {repr(resp)}")
 
-        # Accept numbers like 1, 1.0, 0, 0.5, .8, etc.
-        match = re.search(r"\d*\.?\d+", response)
-        if match:
-            val = float(match.group())
-            if 0.0 <= val <= 1.0:
-                return val
-        # Final fallback: check if "1" or "0" is alone in the response
-        if response.strip() == "1":
-            return 1.0
-        if response.strip() == "0":
-            return 0.0
+        m = re.search(r"(?<!\d)(?:0(?:\.\d+)?|1(?:\.0+)?)|(?:\.\d+)", str(resp))
+        if m:
+            val = float(m.group())
+            # if we matched ".8", Python parses OK; clamp safety
+            return max(0.0, min(1.0, val))
+        # extreme minimal fallbacks
+        s = str(resp).strip()
+        if s == "1": return 1.0
+        if s == "0": return 0.0
     except Exception as e:
-        log_model_issue(f"[rate_satisfaction] Failed to parse float: {e}")
+        log_model_issue(f"[rate_satisfaction] parse error: {e}")
     return 0.0
 
-def delay_between_requests(min_sec=2, max_sec=5):
+def delay_between_requests(min_sec: float = 2, max_sec: float = 5) -> None:
     time.sleep(random.uniform(min_sec, max_sec))
 
 def extract_lessons(memories):
-    lessons = []
-    for m in memories:
+    """
+    Pull 'lesson' strings out of a list of memory dicts, via explicit key
+    or common textual prefix. Returns a list of normalized lessons.
+    """
+    out = []
+    for m in (memories or []):
         try:
-            # 1. Check explicit lesson key first (future-proof)
-            if "lesson" in m:
-                lesson_text = str(m["lesson"]).strip()
+            if isinstance(m, dict) and "lesson" in m:
+                lesson_text = _normalize_text(str(m["lesson"]))
                 if lesson_text:
-                    lessons.append(lesson_text)
+                    out.append(lesson_text)
                 continue
 
-            # 2. Fallback to 'content' text matching
-            content = m.get("content", "").strip()
-            # Lowercase and check for a few common patterns
+            content = _normalize_text(m.get("content", "")) if isinstance(m, dict) else ""
             lower = content.lower()
-            if lower.startswith("lesson:"):
-                lesson_text = content[7:].strip()
-                if lesson_text:
-                    lessons.append(lesson_text)
-            elif lower.startswith("lesson learned:"):
-                lesson_text = content[15:].strip()
-                if lesson_text:
-                    lessons.append(lesson_text)
-            # Optionally: Only pull from memories marked as event_type='lesson'
-            # if m.get("event_type") == "lesson":
-            #     lessons.append(content)
+            if lower.startswith("lesson learned:"):
+                text = _normalize_text(content[len("lesson learned:"):])
+                if text:
+                    out.append(text)
+            elif lower.startswith("lesson:"):
+                text = _normalize_text(content[len("lesson:"):])
+                if text:
+                    out.append(text)
         except Exception:
             continue
-    return lessons
+    # Optional de-dup
+    seen = set()
+    deduped = []
+    for l in out:
+        if l not in seen:
+            seen.add(l)
+            deduped.append(l)
+    return deduped

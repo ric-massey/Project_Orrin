@@ -1,0 +1,10 @@
+{
+  "name": "browsing",
+  "tasks": [
+    {
+      "id": "browse_title",
+      "prompt": "Fetch the title of example.com.",
+      "check": "stdout~=example"
+    }
+  ]
+}

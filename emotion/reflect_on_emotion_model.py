@@ -7,32 +7,45 @@ from utils.log_reflection import log_reflection
 from emotion.reward_signals.reward_signals import release_reward_signal
 
 def reflect_on_emotion_model(context, self_model, memory):
+    """
+    Reflect on the current emotion model and optionally trigger reward signals.
+    - Uses load_all_known_json() to fetch the latest emotion model.
+    - Logs a concise summary to working memory.
+    - Rewards successful reflection; smaller reward on failure.
+    """
+    in_ctx = context or {}  # keep caller's context intact
     all_data = load_all_known_json()
     emotion_model = all_data.get("emotion_model", {})
 
-    if not emotion_model:
+    # No emotion model found
+    if not isinstance(emotion_model, dict) or not emotion_model:
         update_working_memory({
             "content": "No emotion model available for reflection.",
             "event_type": "system",
             "importance": 1,
             "priority": 1,
             "agent": "orrin",
+            "timestamp": datetime.now(timezone.utc).isoformat()
         })
         return
 
-    summary = "\n".join(
-        f"- {emotion}: {', '.join(tags[:3])}..."
-        for emotion, tags in emotion_model.items() if isinstance(tags, list)
-    )
+    # Build a brief summary (first 3 tags per emotion)
+    lines = []
+    for emotion, tags in emotion_model.items():
+        if isinstance(tags, list):
+            sample = ", ".join(str(t) for t in tags[:3])
+            lines.append(f"- {emotion}: {sample}")
+    summary = "\n".join(lines)
 
-    context = {
+    # Build LLM prompt context separately (don’t overwrite caller context)
+    prompt_ctx = {
         **all_data,
         "emotion_model": emotion_model,
         "summary": summary,
         "instructions": (
             "These are my defined emotions and their linguistic associations:\n"
-            + summary +
-            "\n\nReflect on my emotional vocabulary:\n"
+            f"{summary}\n\n"
+            "Reflect on my emotional vocabulary:\n"
             "- Are there overlaps or redundancies?\n"
             "- Are any emotions missing or poorly defined?\n"
             "- Does the vocabulary reflect my lived experience?\n"
@@ -40,22 +53,32 @@ def reflect_on_emotion_model(context, self_model, memory):
         )
     }
 
-    response = generate_response_from_context(context)
+    try:
+        response = generate_response_from_context(prompt_ctx)
+    except Exception:
+        response = None
 
-    if response:
+    ts = datetime.now(timezone.utc).isoformat()
+
+    if isinstance(response, str) and response.strip():
+        text = response.strip()
+
         update_working_memory({
-            "content": "emotion model reflection: " + response,
+            "content": "emotion model reflection: " + text,
             "event_type": "emotion_model_reflection",
             "importance": 2,
             "priority": 2,
             "agent": "orrin",
+            "timestamp": ts
         })
-        log_private(f"[{datetime.now(timezone.utc)}] Orrin reflected on his emotion model:\n{response}")
-        log_reflection(f"Self-belief reflection: {response.strip()}")
 
+        log_private(f"[{ts}] Orrin reflected on his emotion model:\n{text}")
+        log_reflection(f"Self-belief reflection: {text}")
+
+        # Reward sizing: a bit larger effort if the vocabulary is richer
         effort = 0.7 if len(emotion_model) > 8 else 0.5
         release_reward_signal(
-            context=context,  # Pass full context here
+            context=in_ctx,          # use caller's context so traces accumulate
             signal_type="dopamine",
             actual_reward=0.65,
             expected_reward=0.5,
@@ -69,9 +92,10 @@ def reflect_on_emotion_model(context, self_model, memory):
             "importance": 1,
             "priority": 1,
             "agent": "orrin",
+            "timestamp": ts
         })
         release_reward_signal(
-            context=context,  # Pass full context here as well
+            context=in_ctx,
             signal_type="dopamine",
             actual_reward=0.2,
             expected_reward=0.5,

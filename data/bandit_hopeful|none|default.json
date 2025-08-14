@@ -1,0 +1,38 @@
+{
+  "reflect_as_agents": {
+    "n": 13,
+    "r": 5.180000000000001
+  },
+  "merge_updated_goal_into_tree": {
+    "n": 1,
+    "r": 0.8
+  },
+  "update_self_model": {
+    "n": 2,
+    "r": 1.6600000000000001
+  },
+  "self_model_maintenance_cycle": {
+    "n": 1,
+    "r": 0.8
+  },
+  "compose_dream": {
+    "n": 2,
+    "r": 1.44
+  },
+  "evolve_core_value": {
+    "n": 1,
+    "r": 0.82
+  },
+  "build_system_prompt": {
+    "n": 1,
+    "r": 0.82
+  },
+  "plan_self_evolution": {
+    "n": 3,
+    "r": 2.4699999999999998
+  },
+  "update_motivations": {
+    "n": 1,
+    "r": 0.79
+  }
+}

@@ -1,45 +1,75 @@
-import os
+# manager.py
+import importlib.util
+import sys
+from pathlib import Path
+from typing import Callable, Dict
+
 from utils.log import log_model_issue, log_private
-import importlib
+from paths import ROOT_DIR
 
+def load_custom_cognition() -> Dict[str, Callable]:
+    """
+    Dynamically load callable functions from cognition/custom_cognition/*.py.
 
+    - Honors __all__ if present.
+    - Otherwise exports all top-level callables that don't start with "_".
+    - Returns {function_name: callable}. Later files override earlier names (with a warning).
+    """
+    directory: Path = ROOT_DIR / "cognition" / "custom_cognition"
+    functions: Dict[str, Callable] = {}
 
-def load_custom_cognition():
-    directory = os.path.abspath("cognition/custom_cognition")
-    functions = {}
-
-    if not os.path.exists(directory):
+    if not directory.exists():
         log_model_issue(f"[load_custom_cognition] Directory not found: {directory}")
         return functions
 
-    for filename in os.listdir(directory):
-        if not filename.endswith(".py") or filename.startswith("_") or filename == "__init__.py":
+    # IMPORTANT: ensure this is a package for relative imports
+    init_file = directory / "__init__.py"
+    if not init_file.exists():
+        try:
+            init_file.write_text("# package marker for custom cognition\n", encoding="utf-8")
+            log_private("[load_custom_cognition] Created missing __init__.py in custom_cognition/")
+        except Exception as e:
+            log_model_issue(f"[load_custom_cognition] Could not create __init__.py: {e}")
+
+    for path in sorted(directory.iterdir()):
+        if not path.is_file() or path.suffix != ".py":
+            continue
+        if path.name.startswith("_") or path.name == "__init__.py":
             continue
 
-        filepath = os.path.join(directory, filename)
-        module_name = filename[:-3]
-
+        # Use the package name so relative imports work
+        module_name = f"cognition.custom_cognition.{path.stem}"
         try:
-            spec = importlib.util.spec_from_file_location(module_name, filepath)
+            spec = importlib.util.spec_from_file_location(module_name, str(path))
             if spec is None or spec.loader is None:
-                log_model_issue(f"[load_custom_cognition] Cannot load spec for: {filename}")
+                log_model_issue(f"[load_custom_cognition] Cannot load spec for: {path.name}")
                 continue
 
             module = importlib.util.module_from_spec(spec)
+            # Register early so intra-package relative imports can resolve
+            sys.modules[module_name] = module
             spec.loader.exec_module(module)
 
-            found = False
-            for name in dir(module):
-                obj = getattr(module, name)
-                if callable(obj) and not name.startswith("_"):
-                    functions[name] = obj
-                    found = True
-                    log_private(f"[load_custom_cognition] Loaded function '{name}' from {filename}")
+            exported = []
+            names = getattr(module, "__all__", None)
+            candidates = [n for n in names if isinstance(n, str)] if isinstance(names, (list, tuple)) \
+                        else [n for n in dir(module) if not n.startswith("_")]
 
-            if not found:
-                log_model_issue(f"[load_custom_cognition] No callable functions found in {filename}")
+            for name in candidates:
+                obj = getattr(module, name, None)
+                # If you want *only* plain functions, check types instead of callable()
+                if callable(obj):
+                    if name in functions and functions[name] is not obj:
+                        log_model_issue(f"[load_custom_cognition] '{name}' from {path.name} overwrote previous binding.")
+                    functions[name] = obj
+                    exported.append(name)
+
+            if exported:
+                log_private(f"[load_custom_cognition] {path.name}: exported {', '.join(exported)}")
+            else:
+                log_model_issue(f"[load_custom_cognition] No callable exports found in {path.name}")
 
         except Exception as e:
-            log_model_issue(f"[load_custom_cognition] Failed to load {filename}: {e}")
+            log_model_issue(f"[load_custom_cognition] Failed to load {path.name}: {e}")
 
     return functions

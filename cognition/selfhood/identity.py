@@ -1,11 +1,8 @@
 from datetime import datetime, timezone
 from utils.timing import get_time_since_last_active
-from utils.json_utils import (
-    load_json,
-    save_json, 
-)
+from utils.json_utils import load_json
 from utils.self_model import get_self_model, save_self_model
-from paths import SELF_MODEL_FILE, LOG_FILE, FEEDBACK_LOG
+from paths import LOG_FILE, FEEDBACK_LOG
 
 def build_system_prompt(self_model=None):
     if self_model is None:

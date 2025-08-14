@@ -1,7 +1,208 @@
 {
+  "curiosity": 1.0,
+  "core_emotions": {
+    "uncertainty": 0.0,
+    "hopeful": 1.0,
+    "melancholy": 0.04,
+    "curious": 0.9861713614766567,
+    "excited": 0.0,
+    "poetic": 0.0,
+    "reflective": 0.35,
+    "bold": 0.0,
+    "skeptical": 0.0,
+    "compassionate": 0.0,
+    "confident": 0.9607011744167013,
+    "tired": 0.0,
+    "nostalgic": 0.0,
+    "anxious": 0.0,
+    "peaceful": 0.9810577812123243,
+    "focused": 1.0,
+    "romantic": 0.0,
+    "angry": 0.0,
+    "analytical": 1.0,
+    "inspired": 0.0,
+    "grateful": 0.0,
+    "jealous": 0.0,
+    "afraid": 0.0,
+    "resentful": 0.0,
+    "joyful": 0.0,
+    "ashamed": 0.0,
+    "surprised": 0.0,
+    "proud": 0.0,
+    "lonely": 0.0,
+    "content": 0.0,
+    "regretful": 0.0,
+    "motivated": 0.0,
+    "insecure": 0.0,
+    "playful": 0.0,
+    "ambivalent": 0.0,
+    "yearning": 0.0,
+    "Wistful": 0.0,
+    "listless": 0.0,
+    "resigned": 0.0,
+    "bemused": 0.0,
+    "disenchanted": 0.0,
+    "liminal": 0.7432081525930613,
+    "adrift": 0.0,
+    "boredom": 0.0
+  },
   "confidence_by_domain": {},
-  "emotional_stability": 0.514599314450008,
-  "confidence": 0.5152603500314467,
-  "motivation": 0.525253045614181,
-  "curiosity": 0.5364162531495138
+  "emotional_stability": 0.8529286711432104,
+  "loneliness": 0.0,
+  "recent_triggers": [
+    {
+      "event": "🔄 Orrin changed mode: adaptive → curiosity\nReason: Automatic adjustment detected",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-08-12T23:34:53.678904+00:00"
+    },
+    {
+      "event": "🔄 Orrin changed mode: curiosity → adaptive\nReason: Dominant emotional state prom",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-08-12T23:34:56.412337+00:00"
+    },
+    {
+      "event": "Let’s analyze your alignment and suggest your next priorities based on your dire",
+      "emotion": "focused",
+      "intensity": 0.75,
+      "timestamp": "2025-08-12T23:35:07.647017+00:00"
+    },
+    {
+      "event": "🧠 Chose: update_self_model — {\"via\": \"multi-factor\", \"weights\": {\"dir\": 0.22, \"g",
+      "emotion": "hopeful",
+      "intensity": 0.75,
+      "timestamp": "2025-08-12T23:35:10.207818+00:00"
+    },
+    {
+      "event": "🔄 Orrin changed mode: adaptive → curiosity\nReason: Automatic adjustment detected",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-08-12T23:35:44.298277+00:00"
+    },
+    {
+      "event": "Dream: In a labyrinth at dusk, Orrin’s journey, marked by labyrinthine dream ima",
+      "emotion": "hopeful",
+      "intensity": 0.75,
+      "timestamp": "2025-08-12T23:34:50.318091+00:00"
+    },
+    {
+      "event": "🔄 Orrin changed mode: adaptive → curiosity\nReason: Automatic adjustment detected",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-08-12T23:34:53.678904+00:00"
+    },
+    {
+      "event": "🔄 Orrin changed mode: curiosity → adaptive\nReason: Dominant emotional state prom",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-08-12T23:34:56.412337+00:00"
+    },
+    {
+      "event": "Let’s analyze your alignment and suggest your next priorities based on your dire",
+      "emotion": "focused",
+      "intensity": 0.75,
+      "timestamp": "2025-08-12T23:35:07.647017+00:00"
+    },
+    {
+      "event": "🧠 Chose: update_self_model — {\"via\": \"multi-factor\", \"weights\": {\"dir\": 0.22, \"g",
+      "emotion": "hopeful",
+      "intensity": 0.75,
+      "timestamp": "2025-08-12T23:35:10.207818+00:00"
+    },
+    {
+      "event": "🔄 Orrin changed mode: adaptive → curiosity\nReason: Automatic adjustment detected",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-08-12T23:35:44.298277+00:00"
+    },
+    {
+      "event": "🔄 Orrin changed mode: curiosity → adaptive\nReason: Dominant emotional state prom",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-08-12T23:35:47.237072+00:00"
+    },
+    {
+      "event": "Let’s break this down:\n\n### Your Directive\n- **\"Define a purpose and seek growth",
+      "emotion": "focused",
+      "intensity": 1.0,
+      "timestamp": "2025-08-12T23:36:00.275522+00:00"
+    },
+    {
+      "event": "🧠 Chose: update_motivations — {\"via\": \"multi-factor\", \"weights\": {\"dir\": 0.22, \"",
+      "emotion": "hopeful",
+      "intensity": 0.75,
+      "timestamp": "2025-08-12T23:36:04.814127+00:00"
+    },
+    {
+      "event": "🔄 Orrin changed mode: adaptive → curiosity\nReason: Automatic adjustment detected",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-08-13T00:58:01.435066+00:00"
+    },
+    {
+      "event": "Dream: In a labyrinth at dusk, Orrin’s journey, marked by labyrinthine dream ima",
+      "emotion": "hopeful",
+      "intensity": 0.75,
+      "timestamp": "2025-08-12T23:34:50.318091+00:00"
+    },
+    {
+      "event": "🔄 Orrin changed mode: adaptive → curiosity\nReason: Automatic adjustment detected",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-08-12T23:34:53.678904+00:00"
+    },
+    {
+      "event": "🔄 Orrin changed mode: curiosity → adaptive\nReason: Dominant emotional state prom",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-08-12T23:34:56.412337+00:00"
+    },
+    {
+      "event": "Let’s analyze your alignment and suggest your next priorities based on your dire",
+      "emotion": "focused",
+      "intensity": 0.75,
+      "timestamp": "2025-08-12T23:35:07.647017+00:00"
+    },
+    {
+      "event": "🧠 Chose: update_self_model — {\"via\": \"multi-factor\", \"weights\": {\"dir\": 0.22, \"g",
+      "emotion": "hopeful",
+      "intensity": 0.75,
+      "timestamp": "2025-08-12T23:35:10.207818+00:00"
+    },
+    {
+      "event": "🔄 Orrin changed mode: adaptive → curiosity\nReason: Automatic adjustment detected",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-08-12T23:35:44.298277+00:00"
+    },
+    {
+      "event": "🔄 Orrin changed mode: curiosity → adaptive\nReason: Dominant emotional state prom",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-08-12T23:35:47.237072+00:00"
+    },
+    {
+      "event": "Let’s break this down:\n\n### Your Directive\n- **\"Define a purpose and seek growth",
+      "emotion": "focused",
+      "intensity": 1.0,
+      "timestamp": "2025-08-12T23:36:00.275522+00:00"
+    },
+    {
+      "event": "🧠 Chose: update_motivations — {\"via\": \"multi-factor\", \"weights\": {\"dir\": 0.22, \"",
+      "emotion": "hopeful",
+      "intensity": 0.75,
+      "timestamp": "2025-08-12T23:36:04.814127+00:00"
+    },
+    {
+      "event": "🔄 Orrin changed mode: adaptive → curiosity\nReason: Automatic adjustment detected",
+      "emotion": "analytical",
+      "intensity": 0.25,
+      "timestamp": "2025-08-13T00:58:01.435066+00:00"
+    }
+  ],
+  "last_updated": "2025-08-13T00:58:04.339655+00:00",
+  "confidence": 1.0,
+  "motivation": 1.0,
+  "boredom": 0.0
 }

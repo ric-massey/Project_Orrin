@@ -1,4 +1,4 @@
-
+# reflect_on_emotions.py
 from statistics import mean
 import random
 
@@ -12,40 +12,53 @@ from emotion.reward_signals.reward_signals import release_reward_signal
 from emotion.reflect_on_emotion_model import reflect_on_emotion_model
 from emotion.emotion import investigate_unexplained_emotions, detect_emotion
 
-
 def reflect_on_emotions(context, self_model, memory):
     from memory.working_memory import update_working_memory
     from datetime import datetime, timezone
+
     data = load_all_known_json()
-    emotional_state = data.get("emotional_state", {})
-    sensitivity = data.get("emotion_sensitivity", {})
-    attachment = emotional_state.get("attachment", {})
-    core = emotional_state.get("core_emotions", {})
-    triggers = emotional_state.get("recent_triggers", [])[-10:]
-    stability = emotional_state.get("emotional_stability", 0.5)
-    fatigue = emotional_state.get("fatigue", 0.0)
-    motivation = emotional_state.get("motivation", 0.5)
-    excitement = emotional_state.get("excitement", 0.0)
+    emotional_state = data.get("emotional_state", {}) or {}
+    sensitivity = data.get("emotion_sensitivity", {}) or {}
+    attachment = emotional_state.get("attachment", {}) or {}
+    core = emotional_state.get("core_emotions", {}) or {}
+    triggers = emotional_state.get("recent_triggers", [])[-10:] or []
+
+    # type guards
+    if not isinstance(core, dict): core = {}
+    if not isinstance(sensitivity, dict): sensitivity = {}
+    if not isinstance(attachment, dict): attachment = {}
+    if not isinstance(triggers, list): triggers = []
+
+    stability = float(emotional_state.get("emotional_stability", 0.5) or 0.5)
+    fatigue = float(emotional_state.get("fatigue", 0.0) or 0.0)
+    motivation = float(emotional_state.get("motivation", 0.5) or 0.5)
+    excitement = float(emotional_state.get("excitement", 0.0) or 0.0)
 
     # === Emotion Summary ===
     emotion_events = {}
     for trig in triggers:
+        if not isinstance(trig, dict):  # guard malformed entries
+            continue
         emo = trig.get("emotion")
-        intensity = abs(trig.get("intensity", 0))
-        if emo:
-            emotion_events.setdefault(emo, []).append(intensity)
+        intensity = trig.get("intensity", 0)
+        if emo and isinstance(intensity, (int, float)):
+            emotion_events.setdefault(emo, []).append(abs(float(intensity)))
 
     emotion_summary = [
         f"- {emo} triggered {len(vals)}x (avg intensity: {round(mean(vals), 3)})"
-        for emo, vals in emotion_events.items()
+        for emo, vals in emotion_events.items() if vals
     ]
 
-    strongest = sorted(core.items(), key=lambda x: abs(x[1] - 0.5), reverse=True)[:5]
-    emotion_variability = [abs(v - 0.5) for _, v in strongest]
+    # strongest emotions by distance from neutral 0.5
+    try:
+        strongest = sorted(core.items(), key=lambda x: abs(float(x[1]) - 0.5), reverse=True)[:5]
+    except Exception:
+        strongest = []
+    emotion_variability = [abs(float(v) - 0.5) for _, v in strongest] if strongest else []
 
     # === Trigger emotion model expansion if emotion range is flat ===
-    if all(val < 0.2 for val in emotion_variability):  # flat affect
-        discover_new_emotion()
+    if strongest and all(val < 0.2 for val in emotion_variability):  # flat affect
+        discover_new_emotion(context=context)  # pass context for rewards
         reflect_on_emotion_model(context, self_model, memory)
 
     # === Occasional reflection on emotion model (1%) ===
@@ -56,17 +69,19 @@ def reflect_on_emotions(context, self_model, memory):
     threshold = 0.4
     unexplained = {
         emo: val for emo, val in core.items()
-        if val >= threshold and not any(t.get("emotion") == emo for t in triggers)
+        if isinstance(val, (int, float))
+        and val >= threshold
+        and not any(isinstance(t, dict) and t.get("emotion") == emo for t in triggers)
     }
     if unexplained and random.random() < 0.7:
         investigate_unexplained_emotions(context, self_model, memory)
 
     # === Build reflection context ===
-    top_emotions = ", ".join(f"{k} ({round(v, 2)})" for k, v in strongest)
-    top_sens = sorted(sensitivity.items(), key=lambda x: x[1], reverse=True)[:3]
-    top_sensitivity = ", ".join(f"{k} ({round(v, 2)})" for k, v in top_sens)
-    top_attach = sorted(attachment.items(), key=lambda x: x[1], reverse=True)[:3]
-    top_attachments = ", ".join(f"{k} ({round(v, 2)})" for k, v in top_attach)
+    top_emotions = ", ".join(f"{k} ({round(float(v), 2)})" for k, v in strongest) if strongest else "none"
+    top_sens = sorted(sensitivity.items(), key=lambda x: x[1], reverse=True)[:3] if sensitivity else []
+    top_sensitivity = ", ".join(f"{k} ({round(float(v), 2)})" for k, v in top_sens) if top_sens else "none"
+    top_attach = sorted(attachment.items(), key=lambda x: x[1], reverse=True)[:3] if attachment else []
+    top_attachments = ", ".join(f"{k} ({round(float(v), 2)})" for k, v in top_attach) if top_attach else "none"
 
     context_for_llm = {
         **data,
@@ -77,11 +92,12 @@ def reflect_on_emotions(context, self_model, memory):
         "emotional_stability": stability,
         "top_sensitivity": top_sensitivity,
         "top_attachments": top_attachments,
-        "instructions": (
-            f"I am currently experiencing these strong emotions: {top_emotions}\n"
+        "instructions": coerce_to_string(
+            "I am currently experiencing these strong emotions: "
+            f"{top_emotions}\n"
             f"My most sensitive areas are: {top_sensitivity}\n"
             f"My strongest attachments are: {top_attachments}\n"
-            f"My recent emotional triggers:\n" + "\n".join(emotion_summary) + "\n\n"
+            "My recent emotional triggers:\n" + "\n".join(emotion_summary) + "\n\n"
             "Reflect honestly on my emotional state. Use all available knowledge:\n"
             "- What patterns are forming?\n"
             "- Am I feeling more reactive or stable?\n"
@@ -92,16 +108,18 @@ def reflect_on_emotions(context, self_model, memory):
         )
     }
 
-    context_for_llm["instructions"] = coerce_to_string(context_for_llm["instructions"])
     response = generate_response_from_context(context_for_llm)
-
     now = datetime.now(timezone.utc).isoformat()
 
-    if response:
+    if isinstance(response, str) and response.strip():
+        text = response.strip()
+        det = detect_emotion(text) or {"emotion": "neutral", "intensity": 0.0}
+        wm_emotion_name = det["emotion"] if isinstance(det, dict) else str(det)
+
         update_working_memory({
-            "content": "emotional reflection: " + response,
+            "content": "emotional reflection: " + text,
             "event_type": "emotional_reflection",
-            "emotion": detect_emotion(response),
+            "emotion": wm_emotion_name,  # store just the name
             "timestamp": now,
             "importance": 2,
             "priority": 2,
@@ -111,17 +129,15 @@ def reflect_on_emotions(context, self_model, memory):
             "decay": 1.0,
             "tags": ["reflection", "emotion"]
         })
-        log_private(f"[emotional reflection - {now}]\n{response}")
-        log_reflection(f"Self-belief reflection: {response.strip()}")
+        log_private(f"[emotional reflection - {now}]\n{text}")
+        log_reflection(f"Self-belief reflection: {text}")
 
         # --- Calculate reward parameters dynamically ---
         base_actual_reward = 0.6 + min(0.4, 1.0 - stability)
-        # Modulate actual reward downward if fatigued, upwards if motivated/excited
         modulated_actual_reward = base_actual_reward * (1 - fatigue * 0.4) * (1 + 0.3 * (motivation + excitement))
-        # Clamp to [0,1]
         modulated_actual_reward = max(0.0, min(modulated_actual_reward, 1.0))
 
-        base_effort = 0.5 + (0.5 if all(val < 0.2 for val in emotion_variability) else 0.0)
+        base_effort = 0.5 + (0.5 if (strongest and all(val < 0.2 for val in emotion_variability)) else 0.0)
         modulated_effort = base_effort * (1 - fatigue * 0.5) * (1 + 0.2 * motivation)
         modulated_effort = max(0.1, min(modulated_effort, 1.0))
 
@@ -147,7 +163,6 @@ def reflect_on_emotions(context, self_model, memory):
             "decay": 1.0,
             "tags": ["reflection", "emotion", "error"]
         })
-        # Give a minimal dopamine reward on failure
         release_reward_signal(
             context=context,
             signal_type="dopamine",
@@ -156,4 +171,3 @@ def reflect_on_emotions(context, self_model, memory):
             effort=0.6,
             mode="phasic"
         )
-        

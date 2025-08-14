@@ -4,56 +4,70 @@ from utils.json_utils import load_json, save_json
 
 # Max functions to keep per emotion
 MAX_ASSOCIATIONS_PER_EMOTION = 5
-# Minimum times a function must be reinforced to remain
+# Minimum times a function must be reinforced to remain (except the one we just updated)
 MIN_REINFORCEMENT_THRESHOLD = 2
+DECAY_RATE = 0.05  # 5% decay per update
 
-def update_emotion_function_map(emotion, function_name, reward_signal=None):
+def update_emotion_function_map(emotion: str, function_name: str, reward_signal=None):
     """
-    Updates the emotion-function map by reinforcing useful functions with reward_signal scaling.
-    Prunes rarely used ones to keep the mapping adaptive and relevant.
+    Reinforce (emotion -> function) with optional reward scaling.
+    Apply gentle decay to others. Prune rarely-used entries, but
+    never drop the function we just reinforced this cycle.
     """
-
     if not emotion or not function_name:
         return
 
+    # Optional normalization to avoid duplicates like "Joy" vs "joy"
+    emotion_key = str(emotion).strip().lower()
+    fn_key = str(function_name).strip()
+
     raw_map = load_json(EMOTION_FUNCTION_MAP_FILE, default_type=dict)
+    if not isinstance(raw_map, dict):
+        raw_map = {}
 
-    if emotion not in raw_map:
-        raw_map[emotion] = {}
-
-    emotion_dict = raw_map[emotion]
+    emotion_dict = raw_map.get(emotion_key) or {}
+    if not isinstance(emotion_dict, dict):
+        emotion_dict = {}
 
     # Determine reinforcement increment scaled by reward_signal
-    increment = 1.0  # default increment
+    increment = 1.0
     if reward_signal is not None:
         try:
             increment = float(reward_signal)
-            # Clamp increment to reasonable range, e.g. 0.1 to 5.0
-            increment = max(0.1, min(increment, 5.0))
+            increment = max(0.1, min(increment, 5.0))  # clamp
         except Exception:
             pass
 
-    # Decay existing counts slightly to simulate forgetting
-    DECAY_RATE = 0.05  # 5% decay per update
+    # Decay existing counts a bit (simulate forgetting)
     for fn in list(emotion_dict.keys()):
-        emotion_dict[fn] = max(0, emotion_dict[fn] * (1 - DECAY_RATE))
+        try:
+            emotion_dict[fn] = max(0.0, float(emotion_dict[fn]) * (1 - DECAY_RATE))
+        except Exception:
+            # If something bad is in the file, reset that entry
+            emotion_dict[fn] = 0.0
 
-    # Reinforce the function with scaled increment
-    if function_name in emotion_dict:
-        emotion_dict[function_name] += increment
-    else:
-        emotion_dict[function_name] = increment
+    # Reinforce the current function
+    emotion_dict[fn_key] = float(emotion_dict.get(fn_key, 0.0)) + increment
 
-    # Prune: keep only top N by reinforcement, and drop any below min threshold
-    sorted_funcs = sorted(
-        emotion_dict.items(), key=lambda x: x[1], reverse=True
-    )
+    # Prune: keep top N, but don't drop the just-updated function,
+    # and never prune down to zero entries.
+    sorted_funcs = sorted(emotion_dict.items(), key=lambda x: x[1], reverse=True)
 
-    pruned = {
-        func: count
-        for func, count in sorted_funcs[:MAX_ASSOCIATIONS_PER_EMOTION]
-        if count >= MIN_REINFORCEMENT_THRESHOLD
-    }
+    pruned = {}
+    for func, count in sorted_funcs:
+        if len(pruned) >= MAX_ASSOCIATIONS_PER_EMOTION and func != fn_key:
+            continue  # keep capacity for the updated fn if needed
+        # keep entries above threshold, or the updated one regardless
+        if count >= MIN_REINFORCEMENT_THRESHOLD or func == fn_key:
+            pruned[func] = count
 
-    raw_map[emotion] = pruned
+    # Ensure at least one entry remains
+    if not pruned and sorted_funcs:
+        # keep the highest-count entry
+        best_func, best_count = sorted_funcs[0]
+        pruned[best_func] = best_count
+
+    raw_map[emotion_key] = pruned
     save_json(EMOTION_FUNCTION_MAP_FILE, raw_map)
+
+    return pruned  # optional: return the updated mapping for this emotion

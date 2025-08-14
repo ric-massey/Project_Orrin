@@ -2,20 +2,12 @@
 import json
 from cognition.reflection.meta_reflect import meta_reflect
 from memory.working_memory import update_working_memory
-from utils.json_utils import (
-    save_json,
-    extract_json
-)
-from utils.log import (
-    log_error,
-    log_private
-)
+from utils.json_utils import save_json, extract_json
+from utils.log import log_error, log_private
 from utils.log_reflection import log_reflection
 from utils.load_utils import load_all_known_json
 from utils.response_utils import generate_response_from_context
-from paths import (
-    COGN_SCHEDULE_FILE
-)
+from paths import COGN_SCHEDULE_FILE
 
 def reflect_on_cognition_schedule():
     """

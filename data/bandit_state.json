@@ -1,0 +1,91 @@
+{
+  "weights": {
+    "reflect_as_agents": {
+      "bias_action": 0.0,
+      "pending_tools": 0.0,
+      "fatigue": 0.0,
+      "has_focus_goal": 2.6651907530434884,
+      "emo_focused": 0.7852473897800314,
+      "__bias__": 2.6651907530434884,
+      "emo_uncertainty": 0.09782294672887405,
+      "emo_curious": 0.39335776719156346,
+      "emo_hopeful": 1.2901535856431186,
+      "emo_confident": 0.0986090636999001
+    },
+    "reflect_on_cognition_patterns": {
+      "bias_action": 0.0,
+      "pending_tools": 0.0,
+      "fatigue": 0.0,
+      "has_focus_goal": 0.1,
+      "emo_focused": 0.1,
+      "__bias__": 0.1
+    },
+    "update_self_model": {
+      "bias_action": 0.0,
+      "pending_tools": 0.0,
+      "fatigue": 0.0,
+      "has_focus_goal": 0.19990000000000002,
+      "emo_hopeful": 0.19990000000000002,
+      "__bias__": 0.19990000000000002
+    },
+    "self_model_maintenance_cycle": {
+      "bias_action": 0.0,
+      "pending_tools": 0.0,
+      "fatigue": 0.0,
+      "has_focus_goal": 0.1,
+      "emo_hopeful": 0.1,
+      "__bias__": 0.1
+    },
+    "compose_dream": {
+      "bias_action": 0.0,
+      "pending_tools": 0.0,
+      "fatigue": 0.0,
+      "has_focus_goal": 0.1,
+      "emo_hopeful": 0.1,
+      "__bias__": 0.1
+    },
+    "evolve_core_value": {
+      "bias_action": 0.0,
+      "pending_tools": 0.0,
+      "fatigue": 0.0,
+      "has_focus_goal": 0.1,
+      "emo_neutral": 0.1,
+      "__bias__": 0.1
+    },
+    "build_system_prompt": {
+      "bias_action": 0.0,
+      "pending_tools": 0.0,
+      "fatigue": 0.0,
+      "has_focus_goal": 0.1,
+      "emo_hopeful": 0.1,
+      "__bias__": 0.1
+    },
+    "plan_self_evolution": {
+      "bias_action": 0.0,
+      "pending_tools": 0.0,
+      "fatigue": 0.0,
+      "has_focus_goal": 0.1,
+      "emo_hopeful": 0.1,
+      "__bias__": 0.1
+    },
+    "update_motivations": {
+      "bias_action": 0.0,
+      "pending_tools": 0.0,
+      "fatigue": 0.0,
+      "has_focus_goal": 0.1,
+      "emo_hopeful": 0.1,
+      "__bias__": 0.1
+    }
+  },
+  "counts": {
+    "reflect_as_agents": 27,
+    "reflect_on_cognition_patterns": 1,
+    "update_self_model": 2,
+    "self_model_maintenance_cycle": 1,
+    "compose_dream": 1,
+    "evolve_core_value": 1,
+    "build_system_prompt": 1,
+    "plan_self_evolution": 1,
+    "update_motivations": 1
+  }
+}

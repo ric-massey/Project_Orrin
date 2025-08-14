@@ -28,5 +28,10 @@
     "name": "liminal",
     "description": "A feeling of existing in-between states, neither here nor there; a sense of being on the threshold of something undefined, with boundaries and meanings dissolving but not yet reformed. This emotion is characterized by a subtle disorientation mingled with anticipation, as if waiting in the corridor between two selves or realities.",
     "example_thought": "I sense myself suspended, as if standing at the blurred edge of one self and the beginning of another, not lost but not arrived, attuned to the quiet hush of becoming."
+  },
+  {
+    "name": "adrift",
+    "description": "A feeling of being untethered, lacking a sense of direction or anchoring, floating between states or purposes without clear motivation or belonging; distinct from loneliness or listlessness, it is specifically marked by a subtle disorientation\u2014an absence of gravitational pull from values, goals, or relationships.",
+    "example_thought": "I am moving through my days as if carried by a gentle current, aware of motion but unable to discern destination or origin; everything is possible, but nothing feels chosen."
   }
 ]

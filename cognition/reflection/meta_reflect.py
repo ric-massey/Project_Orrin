@@ -13,7 +13,7 @@ from paths import PRIVATE_THOUGHTS_FILE, LOG_FILE
 
 # === Cognition Modules ===
 from cognition.reflection.reflect_on_cognition import reflect_on_cognition_patterns
-from cognition.repair import reflect_on_cognition_rhythm
+from cognition.repair.repair import reflect_on_cognition_rhythm
 from cognition.planning.reflection import reflect_on_missed_goals, reflect_on_effectiveness
 from cognition.reflection.rule_reflection import reflect_on_rules_used
 from cognition.reflection.reflect_on_outcome import reflect_on_outcomes
@@ -23,7 +23,7 @@ from cognition.world_model import update_world_model
 
 
 def meta_reflect(context: dict = None):
-    log_private("🧠 Running meta-reflection...")
+    log_private("🧠 Running meta-reflection")
     context = context or {}
     reflection_log = []
     try:
@@ -43,7 +43,7 @@ def meta_reflect(context: dict = None):
             reflection_log.append("📥 Context received:")
             for k, v in context.items():
                 preview = json.dumps(v, indent=2)[:300] if isinstance(v, (dict, list)) else str(v)
-                reflection_log.append(f"- {k}: {preview}...")
+                reflection_log.append(f"- {k}: {preview}")
 
         # === Reflection Chain ===
         steps = [

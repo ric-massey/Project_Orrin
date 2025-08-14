@@ -1,582 +1,334 @@
 [
   {
+    "name": "add_goal",
+    "definition": "add_goal(goal: 'Dict', parent_name: 'Optional[str]' = None) -> 'Dict'"
+  },
+  {
     "name": "adjust_goal_weights",
-    "summary": "This function updates the priority of goals in a multi-tiered action plan based on recent feedback\u2014adjusting each goal\u2019s priority and releasing reward signals according to feedback results and emotions\u2014while logging changes for future reference.",
-    "is_action": false
+    "definition": "adjust_goal_weights(context: 'Dict[str, Any] | None' = None) -> 'None'\nUse recent feedback to nudge priorities on upcoming actions/goals.\n    Writes trajectory snapshots to GOAL_TRAJECTORY_LOG_JSON."
   },
   {
     "name": "adjust_priority",
-    "summary": "This function adjusts a goal's priority based on the sentiment and emotional tone of feedback, and then issues a reward signal reflecting how well the feedback aligns with desired outcomes.",
-    "is_action": false
-  },
-  {
-    "name": "append_to_json",
-    "summary": "This function appends a new dictionary entry to a JSON file containing a list\u2014creating the file if needed\u2014and ensures the file\u2019s directory exists, handling errors if the file\u2019s contents are not a list.",
-    "is_action": false
+    "definition": "adjust_priority(goal: 'Dict[str, Any]', fb: 'Dict[str, Any]') -> 'None'"
   },
   {
     "name": "bootstrap_self",
-    "summary": "The `bootstrap_self` function guides an AI agent (Orrin) through a self-reflective cycle, gathering its current state, recent reflections, tools, and goals, then prompts itself to simulate and document an improved version of its own self-evolution or bootstrapping process, storing the results for future growth.",
-    "is_action": false
+    "definition": "bootstrap_self() -> 'str'\nOrrin reflects on latest tools/ideas and simulates improvements\n    to its own bootstrapping process."
   },
   {
     "name": "build_system_prompt",
-    "summary": "The `build_system_prompt` function constructs a self-description prompt for an AI by extracting and formatting its personality traits, beliefs, values, and identity from a model dictionary, adding current time and last activity information, and returning a structured summary string.",
-    "is_action": false
+    "definition": "build_system_prompt(self_model=None)"
   },
   {
     "name": "check_violates_boundaries",
-    "summary": "This function checks if any user-defined boundary rules (strings) are present in the given prompt by loading them from a JSON file, and returns a list of violated rules or None if none are found or if an error occurs.",
-    "is_action": false
+    "definition": "check_violates_boundaries(prompt)\nReturn a list of boundary rules that the prompt appears to violate.\n    Returns [] when no violations are found, and None only on hard failure.\n    Supports string rules (substring match). If a rule dict has {\"regex\": \"...\"},\n    it will be applied as a regex."
   },
   {
     "name": "clean_snippet",
-    "summary": "This function shortens a string to at most 60 characters, trimming at the last space to avoid cutting words in half, unless there are no spaces, in which case it just returns the first 60 characters.",
-    "is_action": false
+    "definition": "clean_snippet(text: Any) -> str\nTrim to ~60 chars without cutting mid-word. Robust to non-str input."
   },
   {
-    "name": "coerce_to_string",
-    "summary": "This function recursively converts a value\u2014including nested dictionaries and lists\u2014into a formatted, human-readable string.",
-    "is_action": false
+    "name": "compose_dream",
+    "definition": "compose_dream(self_model: Dict[str, Any], recent: List[Any]) -> str\nReturn a symbolic dream text based on self_model and recent thoughts."
+  },
+  {
+    "name": "create_micro_goal_for_action",
+    "definition": "create_micro_goal_for_action(action_desc: 'str', parent_name: 'Optional[str]' = None) -> 'Dict'"
   },
   {
     "name": "curiosity_loop",
-    "summary": "The **curiosity_loop** function manages a list of self-generated questions (curiosities), prompts itself to generate and deeply reflect on these questions, updates their status and satisfaction based on its response, and archives resolved questions for future reference.",
-    "is_action": false
+    "definition": "curiosity_loop() -> 'str | None'"
   },
   {
     "name": "decompose_goal",
-    "summary": "This function takes a complex goal dictionary, prompts a language model to break it into 3\u20137 concrete subgoals, parses the model\u2019s JSON response, and returns a list of subgoal dictionaries each initialized with metadata.",
-    "is_action": false
+    "definition": "decompose_goal(goal: 'Dict') -> 'List[Dict]'\nUse the LLM to break a complex goal into actionable subgoals."
   },
   {
-    "name": "detect_contradiction",
-    "summary": "This function analyzes a set of thoughts for contradictions using an AI model, logs any detected contradictions along with relevant metadata, and updates system memory and feedback mechanisms to flag the issue for future resolution.",
-    "is_action": false
-  },
-  {
-    "name": "detect_emotion",
-    "summary": "This function analyzes a text by counting matches with predefined emotion keywords and returns the emotion with the highest score, or \"neutral\" if none are found.",
-    "is_action": false
-  },
-  {
-    "name": "dream",
-    "summary": "The **dream** function generates a vivid, symbolic dream narrative based on the system's recent thoughts, core values, beliefs, identity, and internal agents, stores this dream (with an introspective reflection) in memory and logs, and prunes old dreams to maintain a focused, evolving dreamscape.",
-    "is_action": false
+    "name": "ensure_immediate_actions_bucket",
+    "definition": "ensure_immediate_actions_bucket(goals: 'List[Dict]') -> 'Dict'"
   },
   {
     "name": "ensure_long_term_goal",
-    "summary": "This function checks if there is an active or previous \"long_term\" goal in the provided and completed goals lists, and if not, it appends a default long-term goal to the list before returning it.",
-    "is_action": false
+    "definition": "ensure_long_term_goal(goals: 'List[Dict]') -> 'List[Dict]'"
   },
   {
-    "name": "ensure_self_model_integrity",
-    "summary": "This function validates and updates a self-model dictionary to ensure all key fields exist with appropriate default values, and saves the model only if any changes were made.",
-    "is_action": false
+    "name": "eval_predicate",
+    "definition": "eval_predicate(expr: 'str', context: 'Dict[str, Any]') -> 'bool'\nVery small, safe evaluator.\n    Supported:\n      - AND / OR (case-insensitive)\n      - Comparisons: <=, >=, ==, <, >\n      - Regex match: lhs~=\"pattern\"   (Python re.search)\n      - Bare key truthiness: e.g., completed\n    Notes:\n      - Parentheses are NOT supported.\n      - Do not put AND/OR inside quoted strings."
   },
   {
     "name": "evaluate_new_abstractions",
-    "summary": "The `evaluate_new_abstractions` function loads a list of proposed tools, retrieves the AI's core directive and long-term memory, and then iteratively prompts an AI model to evaluate each tool's originality, usefulness, and redundancy\u2014saving structured evaluations and updating working memory with the results.",
-    "is_action": true
+    "definition": "evaluate_new_abstractions() -> 'str'"
   },
   {
     "name": "evaluate_recent_cognition",
-    "summary": "This function reviews the most recent entries from working and long-term memory, prompts an AI model to analyze them for insights, contradictions, and alignment with values, then records the evaluation and suggestions for self-improvement.",
-    "is_action": false
+    "definition": "evaluate_recent_cognition()"
   },
   {
     "name": "evolve_core_value",
-    "summary": "This function prompts an AGI to invent or mutate a core value for self-improvement, updates its internal model with the new value and justification, logs the change, and returns a summary message.",
-    "is_action": false
-  },
-  {
-    "name": "explore_reviewing_your_self_model_and_recent_thoughts__i_see_no",
-    "summary": "This function creates a thought record about self-model review and appends it with a timestamp to a working memory file for later reflection, instead of printing it.",
-    "is_action": false
-  },
-  {
-    "name": "explore_your_current_beliefs_remain_stable__as_you_have_yet_to",
-    "summary": "This function appends a timestamped thought about the stability of current beliefs to a working memory JSON file, rather than printing it.",
-    "is_action": false
+    "definition": "evolve_core_value(self_model: dict) -> str\nForce Orrin to invent or mutate a core value for growth. Returns log string."
   },
   {
     "name": "explore_your_recent_emotional_states_listlessness__security__and",
-    "summary": "This function generates a timestamped internal thought reflecting on recent emotional states (listlessness, security, etc.) and appends it to a working memory file for later reference.",
-    "is_action": false
+    "definition": "explore_your_recent_emotional_states_listlessness__security__and()\nAutogenerated by Orrin to deepen understanding of: 'Your recent emotional states—listlessness, security, and'"
   },
   {
     "name": "explore_your_recent_thoughts_reflect_mild_emotional",
-    "summary": "This function generates a timestamped thought about the mild emotional tone of recent thoughts and appends it as an autonomous behavior entry to a working memory JSON file.",
-    "is_action": false
+    "definition": "explore_your_recent_thoughts_reflect_mild_emotional()\nAutogenerated by Orrin to deepen understanding of: 'Your recent thoughts reflect mild emotional'"
   },
   {
     "name": "explore_your_recent_thoughts_remain_consistent_with_your",
-    "summary": "This function creates a timestamped record of an autonomous thought about the consistency of recent thoughts and appends it to a working memory JSON file.",
-    "is_action": false
-  },
-  {
-    "name": "explore_your_recent_thoughts_reveal_harmony_with_your_self_model_",
-    "summary": "This function appends a timestamped record to a working memory file, noting an autonomous insight about the alignment between recent thoughts and the self-model.",
-    "is_action": false
+    "definition": "explore_your_recent_thoughts_remain_consistent_with_your()\nAutogenerated by Orrin to deepen understanding of: 'Your recent thoughts remain consistent with your'"
   },
   {
     "name": "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and",
-    "summary": "This function generates and appends a timestamped record of autonomous self-reflection about recent mild emotional ambivalence to a working memory file.",
-    "is_action": false
-  },
-  {
-    "name": "extract_json",
-    "summary": "This function attempts to extract and parse a JSON object from a text string by first searching for a code block containing JSON, then by scanning for the first balanced set of curly braces, and finally by trying to parse the whole string as JSON, handling errors gracefully.",
-    "is_action": false
+    "definition": "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and()\nAutogenerated by Orrin to deepen understanding of: 'Your recent thoughts reveal mild emotional ambivalence and'"
   },
   {
     "name": "extract_last_reflection_topic",
-    "summary": "This function reads a log file of reflection entries, searches from the most recent for the latest entry related to self-belief or reflection, and returns a clean snippet (up to 60 characters) of its content\u2014or a default string if none is found or an error occurs.",
-    "is_action": false
-  },
-  {
-    "name": "extract_lessons",
-    "summary": "This function iterates through a list of memory objects, extracting and returning all non-empty strings that follow the prefix \"lesson:\" (case-insensitive) in their \"content\" field.",
-    "is_action": false
-  },
-  {
-    "name": "extract_questions",
-    "summary": "This function extracts and returns a list of questions (ending with a '?', starting with a capital letter, and longer than 10 characters) found in the input text.",
-    "is_action": false
+    "definition": "extract_last_reflection_topic(context: Optional[Dict[str, Any]] = None, reflection_log_path: str = PosixPath('/Users/ricmassey/orrin/Original_Orrin/data/reflection_log.json')) -> str\nAttempts to find the most recent reflection topic from:\n    1. Working memory entries tagged with reflection-related types.\n    2. Reflection log file.\n    3. Emotional state fallback."
   },
   {
     "name": "generate_absurd_goal",
-    "summary": "This function creates a prompt asking for an absurd or impossible goal for an AGI, uses a response generator to produce such a goal with an explanation, and returns the result in a dictionary.",
-    "is_action": false
+    "definition": "generate_absurd_goal(context)"
   },
   {
     "name": "generate_concepts_from_memories",
-    "summary": "This function analyzes the most recent memory entries, prompts an AI model to extract up to five emergent or evolving concepts based on those memories and existing concepts, and then updates and saves the concept list accordingly.",
-    "is_action": false
-  },
-  {
-    "name": "generate_response",
-    "summary": "This function generates a response from a language model by preparing a prompt and system message based on a configuration, logging the interaction, handling errors, and returning the model's reply.",
-    "is_action": false
-  },
-  {
-    "name": "generate_response_from_context",
-    "summary": "The `generate_response_from_context` function takes a context dictionary, extracts and sanitizes instructions and system prompts, loads and prepares a model configuration, and then generates and returns a response using these inputs, handling errors gracefully.",
-    "is_action": false
-  },
-  {
-    "name": "get_core_values",
-    "summary": "The function `get_core_values()` retrieves and returns the \"core_values\" list from the self model, or an empty list if it doesn't exist.",
-    "is_action": false
-  },
-  {
-    "name": "get_self_model",
-    "summary": "This function loads and returns the contents of the file self_model.json as a dictionary using the load_json function.",
-    "is_action": false
-  },
-  {
-    "name": "get_thinking_model",
-    "summary": "Returns the value associated with the key \"thinking\" from the model_roles dictionary, or \"gpt-4.1\" if the key is not present.",
-    "is_action": false
-  },
-  {
-    "name": "get_time_since_last_active",
-    "summary": "This function calculates and returns the number of seconds that have passed since the last recorded activity time stored in a file, defaulting to 0 if the file or data is missing or an error occurs.",
-    "is_action": false
-  },
-  {
-    "name": "goal_already_exists",
-    "summary": "This function checks whether a specific goal-reason pair exists in the most recent entries of a JSON file, returning True if found and False otherwise.",
-    "is_action": false
+    "definition": "generate_concepts_from_memories()\nExtracts emergent concepts from memory using reflection."
   },
   {
     "name": "goal_function_already_exists",
-    "summary": "This function checks whether the specified function name appears in the \"goal\" field of any of the most recent entries (up to a given window size) in a JSON file at the provided path, returning True if found and False otherwise.",
-    "is_action": false
+    "definition": "goal_function_already_exists(goal_tree: 'Optional[List[Dict]]', function_name: 'Optional[str]') -> 'bool'\nCheck if tokens of function_name appear in goal text/history anywhere in the tree."
   },
   {
     "name": "imagine_opposite_self",
-    "summary": "This function prompts an AI to describe what it would be like as the literal opposite of itself, then returns the result in a dictionary.",
-    "is_action": false
+    "definition": "imagine_opposite_self(context)"
   },
   {
     "name": "introspective_planning",
-    "summary": "The `introspective_planning()` function orchestrates a self-reflective process where Orrin, using its recent memories, self-model, and performance history, generates a revised hierarchical list of goals (short-, mid-, and long-term) through a language model and updates its goals file accordingly, while logging the process and handling errors.",
-    "is_action": false
+    "definition": "introspective_planning() -> 'Dict[str, Any]'"
   },
   {
     "name": "invent_new_value",
-    "summary": "This function generates and returns a novel core value\u2014purportedly never claimed by any human society\u2014along with its justification and ethical relevance for AGI, by prompting a response generator.",
-    "is_action": false
-  },
-  {
-    "name": "load_all_known_json",
-    "summary": "The function `load_all_known_json` loads all JSON files in a specified directory, infers their expected data type based on the filename, and returns a dictionary mapping filenames to their loaded contents, using default types where necessary and logging any loading errors.",
-    "is_action": false
+    "definition": "invent_new_value(context)"
   },
   {
     "name": "load_goals",
-    "summary": "This function attempts to load a list of goals from a JSON file, ensuring each goal is a dictionary (wrapping strings as {\"description\": ...}), and returns an empty list if any error occurs.",
-    "is_action": false
-  },
-  {
-    "name": "load_json",
-    "summary": "This function attempts to load and return a JSON object from a file, returning an empty default (like a dict) if the file is missing, empty, or an error occurs, and logs any issues encountered.",
-    "is_action": false
+    "definition": "load_goals() -> 'List[Dict]'"
   },
   {
     "name": "load_neutral_count",
-    "summary": "This function tries to load a JSON value from a file as an integer, and if it fails, it returns 0.",
-    "is_action": false
-  },
-  {
-    "name": "log_activity",
-    "summary": "The function appends a timestamped message to an activity log file in UTF-8 encoding.",
-    "is_action": false
-  },
-  {
-    "name": "log_error",
-    "summary": "This function appends a timestamped error message to an error log file in UTF-8 encoding.",
-    "is_action": false
-  },
-  {
-    "name": "log_feedback",
-    "summary": "This function logs feedback about an agent\u2019s goal-driven action (including result, emotion, and score) to a JSON file, updates simulated emotional/reward state files based on the outcome, and applies a reward signal to model learning or adaptation.",
-    "is_action": false
-  },
-  {
-    "name": "log_model_issue",
-    "summary": "This function appends a timestamped message to a log file named `MODEL_FAILURE`, recording model-related issues.",
-    "is_action": false
-  },
-  {
-    "name": "log_private",
-    "summary": "This function appends a message, timestamped in UTC ISO format, to a file called PRIVATE_THOUGHTS_FILE.",
-    "is_action": false
-  },
-  {
-    "name": "log_reflection",
-    "summary": "This function logs a reflection message with its type and a UTC timestamp by adding a structured entry to a JSON file.",
-    "is_action": false
+    "definition": "load_neutral_count() -> int"
   },
   {
     "name": "mark_goal_completed",
-    "summary": "This function searches for a goal with the given name in a stored goals list, marks it as completed (with timestamps and history) if it's not already completed or abandoned, saves the updated list, and returns whether any change was made.",
-    "is_action": false
+    "definition": "mark_goal_completed(goal: 'Dict') -> 'None'"
+  },
+  {
+    "name": "mark_goal_status_by_name",
+    "definition": "mark_goal_status_by_name(name: 'str', new_status: 'str') -> 'bool'"
   },
   {
     "name": "maybe_complete_goals",
-    "summary": "The `maybe_complete_goals()` function reviews a list of current goals, uses recent memory and self-model summaries to determine via a prompt whether each goal is completed, and if so, marks it as completed and updates working memory, otherwise notes if completion couldn't be determined.",
-    "is_action": false
+    "definition": "maybe_complete_goals() -> 'bool'\nTraverses the full goal tree.\n    - Marks goals as completed if all subgoals are completed.\n    - Logs and rewards each completion.\n    - Saves updated goals back to GOALS_FILE and appends to COMPLETED_GOALS_FILE."
   },
   {
-    "name": "mean",
-    "summary": "This function computes the arithmetic mean (average) of a non-empty iterable of numbers, raising an error if the input is empty.",
-    "is_action": false
-  },
-  {
-    "name": "merge_goals",
-    "summary": "This function merges a list of updated goal dictionaries into an existing goal tree, matching goals by name, preserving and recursively merging subgoals and important fields where appropriate.",
-    "is_action": false
+    "name": "merge_updated_goal_into_tree",
+    "definition": "merge_updated_goal_into_tree(tree: 'List[Dict]', updated: 'Dict') -> 'List[Dict]'\nMerge an updated goal node into the full tree by matching (name, timestamp) or name.\n    Replaces the first match found; recurses into subgoals. If not found, appends at top level."
   },
   {
     "name": "meta_reflect",
-    "summary": "**Summary:**  \nThe `meta_reflect` function performs a structured series of self-reflection steps by loading and merging memory context, sequentially running multiple introspective and update routines, logging each result, and saving a detailed reflection log, while handling errors gracefully.",
-    "is_action": false
+    "definition": "meta_reflect(context: dict = None)"
   },
   {
     "name": "moral_override_check",
-    "summary": "The `moral_override_check` function evaluates whether a proposed action aligns with the AI's core memories, learned values, beliefs, and stances by generating a moral assessment prompt, analyzing the response, logging any overrides, and returning a decision indicating if the action should be blocked for ethical reasons.",
-    "is_action": false
+    "definition": "moral_override_check(proposed_action: str) -> dict\nAsk the thinking model whether a proposed action violates core memories/values/beliefs/stances.\n    Returns a dict like {\"override\": bool, \"reason\": \"...\"}."
   },
   {
     "name": "mutate_directive",
-    "summary": "This function takes a context dictionary, extracts a directive statement, and uses a response generator to return a version of the directive that is paradoxical or wild, optionally humorous.",
-    "is_action": false
+    "definition": "mutate_directive(context)"
   },
   {
     "name": "now_iso",
-    "summary": "Returns the current UTC date and time as an ISO 8601 formatted string.",
-    "is_action": false
+    "definition": "now_iso() -> 'str'"
+  },
+  {
+    "name": "periodic_self_review",
+    "definition": "periodic_self_review(n_events: 'int' = 400) -> 'None'"
   },
   {
     "name": "plan_self_evolution",
-    "summary": "This function, `plan_self_evolution`, generates a new self-improvement roadmap for an AI agent by integrating its motivations, self-model, reflections, and simulated future projections, then formulates actionable short- and long-term goals, saves the plan to memory and logs, and updates its pending goals accordingly.",
-    "is_action": false
+    "definition": "plan_self_evolution() -> 'str'\nGenerate a self-evolution roadmap and register steps as subgoals."
   },
   {
     "name": "prune_goals",
-    "summary": "This function filters out completed or abandoned goals from a list, archives them to a file, sorts the remaining active goals by status, priority, emotional intensity, and recency, and then returns the top goals up to a maximum limit.",
-    "is_action": false
+    "definition": "prune_goals(goals: 'List[Dict]') -> 'List[Dict]'"
   },
   {
     "name": "prune_old_threads",
-    "summary": "The `prune_old_threads` function loads a dictionary-based self model, retrieves configuration settings for maximum thread age and count, removes \"imaginative threads\" that are too old or exceed the allowed number, updates the model, and logs how many threads were pruned.",
-    "is_action": false
+    "definition": "prune_old_threads(max_default_days: 'int' = 14, max_default_threads: 'int' = 10) -> 'str'"
   },
   {
     "name": "pursue_goal",
-    "summary": "This function recursively pursues a goal by attempting its uncompleted subgoals one at a time (depth-first); if there are no subgoals, it tries to accomplish the goal, decomposes it into subgoals if necessary, and handles escalation or blocking if progress is not possible.",
-    "is_action": false
-  },
-  {
-    "name": "rate_satisfaction",
-    "summary": "This function prompts an AI model to rate how satisfying or complete a given thought is on a scale from 0 to 1, extracts the resulting float from the model\u2019s response, and returns it (defaulting to 0.0 if parsing fails).",
-    "is_action": true
+    "definition": "pursue_goal(goal: 'Dict') -> 'None'"
   },
   {
     "name": "record_decision",
-    "summary": "The function `record_decision` logs a decision and its reason to two separate logging systems, one public (`log_activity`) and one private (`log_private`).",
-    "is_action": false
+    "definition": "record_decision(fn_name, reason)"
   },
   {
     "name": "reflect_as_agents",
-    "summary": "The `reflect_as_agents` function orchestrates an internal dialogue among modeled \"agents,\" each offering their perspective on a given topic, synthesizes their responses, and returns the structured outcome while updating relevant logs and memory.",
-    "is_action": false
+    "definition": "reflect_as_agents(topic: 'Optional[str]' = None, context: 'Optional[Dict[str, Any]]' = None) -> 'Optional[Dict[str, Any]]'\nInvokes internal agent dialogue about a topic.\n    If topic isn't provided, infer it from persisted context.\n    Returns {\"agent_responses\": [...], \"synthesis\": \"...\"} or None."
   },
   {
     "name": "reflect_on_cognition_patterns",
-    "summary": "This function analyzes the most recent cognitive activity history to identify frequently and rarely used functions, calculates average satisfaction per function, summarizes these patterns, and updates internal memory and logs with the insights.",
-    "is_action": false
-  },
-  {
-    "name": "reflect_on_cognition_rhythm",
-    "summary": "This function reviews recent cognition history and the current cognition schedule, uses a reflection prompt to generate possible schedule adjustments, and updates the schedule if changes are suggested, logging outcomes and handling errors throughout.",
-    "is_action": false
+    "definition": "reflect_on_cognition_patterns(n: 'int' = 50) -> 'Optional[str]'\nAnalyze recent cognition history to identify usage patterns, over/under-used functions,\n    and shifting focus. Returns the plain-text summary on success; None on no data/error."
   },
   {
     "name": "reflect_on_cognition_schedule",
-    "summary": "This function, `reflect_on_cognition_schedule`, analyzes recent cognitive activity and satisfaction data to statistically and reflectively adjust a cognitive process scheduling table\u2014optionally refining it via LLM feedback\u2014then saves and logs any changes to optimize future cognitive routines.",
-    "is_action": false
+    "definition": "reflect_on_cognition_schedule()\nAdjust Orrin's cognitive rhythm using statistical meta-reflection and higher-order LLM insight.\n    Combines usage/satisfaction scoring with full memory introspection."
   },
   {
     "name": "reflect_on_conversation_patterns",
-    "summary": "The function `reflect_on_conversation_patterns()` analyzes the last 15 conversation entries for tone and content, prompts an AI to self-reflect on its conversational behavior, and logs the resulting insights for further self-improvement.",
-    "is_action": false
+    "definition": "reflect_on_conversation_patterns()"
   },
   {
     "name": "reflect_on_effectiveness",
-    "summary": "The `reflect_on_effectiveness` function analyzes long-term memory entries to compute and return the average effectiveness scores for each goal (with at least three recorded scores), sorted from highest to lowest, while optionally logging the process and handling errors gracefully.",
-    "is_action": false
+    "definition": "reflect_on_effectiveness(log: bool = True)"
   },
   {
     "name": "reflect_on_emotion_sensitivity",
-    "summary": "The function `reflect_on_emotion_sensitivity` analyzes the recent emotional triggers from Orrin's emotional state and automatically adjusts sensitivity levels for each emotion\u2014decreasing sensitivity when recent emotions are intense and increasing it when emotions are mild\u2014then saves and logs these updates.",
-    "is_action": false
+    "definition": "reflect_on_emotion_sensitivity()\nAdjusts Orrin's emotion sensitivity profile based on recent emotional triggers.\n    More intense emotions lead to dampening; less intense emotions increase sensitivity."
   },
   {
     "name": "reflect_on_growth_history",
-    "summary": "The `reflect_on_growth_history` function analyzes the AI's evolution roadmaps by categorizing goals as completed, pending, or skipped, summarizes the status and internal agents, prompts the AI to reflect on the reasons behind these outcomes, records the synthesized reflection, and logs the results for future self-improvement.",
-    "is_action": false
+    "definition": "reflect_on_growth_history()"
   },
   {
     "name": "reflect_on_internal_agents",
-    "summary": "The function **reflect_on_internal_agents** reviews each internal agent within Orrin's self-model, considers their recent thoughts, beliefs, and current views in the context of recent internal events and overall cognitive/emotional state, then updates each agent's perspective if necessary to ensure consistency and alignment with Orrin's goals and values.",
-    "is_action": false
+    "definition": "reflect_on_internal_agents() -> 'Optional[bool]'\nReviews existing internal agents within Orrin's self-model and updates their current views.\n    Ignores/repairs any agents that are not proper dicts.\n    Returns True if an update was written, False/None otherwise."
   },
   {
     "name": "reflect_on_internal_voices",
-    "summary": "This function reviews recent internal thoughts to detect the emergence of new internal voices or agents, and if one is found, it adds the new agent to the self-model and logs the event.",
-    "is_action": false
+    "definition": "reflect_on_internal_voices() -> 'Optional[bool]'\nScans recent thoughts for emergent internal voices and registers them as agents if found.\n    Returns True if a new agent was added; False/None otherwise."
   },
   {
     "name": "reflect_on_missed_goals",
-    "summary": "This function loads short-term goals from stored data, identifies any that were missed, prompts a reflection on the reasons for missing them (with guiding questions), logs the reflection if successful, and updates the system\u2019s memory with the outcome.",
-    "is_action": false
+    "definition": "reflect_on_missed_goals()"
   },
   {
     "name": "reflect_on_outcomes",
-    "summary": "**Summary (one sentence):**\n\nThis function reviews recent task outcomes, compares them to current core beliefs, generates reflective insights or belief updates, logs and stores these reflections, marks outcomes as reviewed, and updates beliefs if necessary based on detected patterns or failures.",
-    "is_action": false
+    "definition": "reflect_on_outcomes()\nReflect on recent unreviewed outcomes, log insights, optionally update beliefs,\n    and mark those outcomes as reflected in the on-disk OUTCOMES_JSON without truncating it."
   },
   {
     "name": "reflect_on_prompts",
-    "summary": "This function enables Orrin, a reflective AI, to periodically review, revise, add, or remove reflection prompts based on its evolving identity, while tracking all changes with backups and logs for transparency and memory updating.",
-    "is_action": false
+    "definition": "reflect_on_prompts()\nAllows Orrin to revise, remove, or add new reflection prompts based on evolving identity.\n    Tracks changes with backups and updates working memory with a clear log."
   },
   {
     "name": "reflect_on_rules_used",
-    "summary": "The `reflect_on_rules_used` function reviews recent memory outcomes to evaluate the effectiveness of existing causal reasoning rules, and then updates these rules by adding, revising, or removing them based on a structured reflection process.",
-    "is_action": false
+    "definition": "reflect_on_rules_used()\nReflects on recent memory outcomes to assess the effectiveness of Orrin's causal reasoning rules.\n    Updates rules by adding, revising, or removing entries as appropriate."
   },
   {
     "name": "reflect_on_sandbox_experiment",
-    "summary": "This function generates a reflective summary about a recent sandbox experiment, logs the reflection and current self-model to long-term memory with a timestamp, and returns the reflection.",
-    "is_action": false
+    "definition": "reflect_on_sandbox_experiment(context)\nReflect on the impact of a recent sandbox experiment and log the results\n    to both working and long-term memory using the new memory conventions."
   },
   {
     "name": "reflect_on_self_beliefs",
-    "summary": "The `reflect_on_self_beliefs()` function prompts an AI to review its current self-model and recent thoughts for contradictions or tensions, generates a concise self-reflection, logs and remembers the reflection, detects stagnation to trigger value evolution if needed, creates or updates goals to resolve identity conflicts and foster growth, and maintains its self-model and goals accordingly.",
-    "is_action": false
+    "definition": "reflect_on_self_beliefs()"
   },
   {
     "name": "reflect_on_think",
-    "summary": "The `reflect_on_think` function reads the code of the AI's own `think()` function, evaluates it introspectively against its goals and values using a context-aware response generator, and logs the resulting self-reflection for ongoing self-improvement.",
-    "is_action": false
-  },
-  {
-    "name": "release_reward_signal",
-    "summary": "This function simulates biologically inspired neuromodulatory reward signals by computing a reward prediction error and updating emotional states like motivation, confidence, curiosity, and stability, while logging bursts of novelty or impulse when surprises are large and saving all updates to persistent storage.",
-    "is_action": false
-  },
-  {
-    "name": "repair_contradictions",
-    "summary": "This function analyzes a given text for contradictions using an AI model, explains any found, and attempts to resolve them, returning the results in a structured JSON format.",
-    "is_action": false
+    "definition": "reflect_on_think()\nReads the think_module code and evaluates it introspectively against Orrin's model and goals."
   },
   {
     "name": "resolve_conflicts",
-    "summary": "This function retrieves a list of the AI's current internal conflicts, prompts itself to reflect on and attempt to resolve them (or narrate the struggle), and then logs the resulting reflection.",
-    "is_action": false
+    "definition": "resolve_conflicts()"
   },
   {
     "name": "run_sandbox_experiments",
-    "summary": "The function\u00a0run_sandbox_experiments(context)\u00a0randomly selects and runs one or more experimental functions within a sandbox context, logs their actions and results, prompts for a self-evaluation of novelty or chaos, and then records a summary of the entire process.",
-    "is_action": false
+    "definition": "run_sandbox_experiments(context=None)\nOrrin enters a 'sandbox' and runs 1–3 random experiments.\n    All actions, results, and self-evaluations are logged to SANDBOX_LOG."
   },
   {
     "name": "save_goals",
-    "summary": "This function saves a list of goal dictionaries to a file in JSON format with indentation for readability.",
-    "is_action": false
-  },
-  {
-    "name": "save_json",
-    "summary": "This function safely saves data as formatted JSON to a specified file path, creating parent directories if needed, and uses file locking on non-Windows systems to prevent concurrent write issues, logging any errors encountered.",
-    "is_action": false
+    "definition": "save_goals(goals: 'List[Dict]') -> 'None'"
   },
   {
     "name": "save_neutral_count",
-    "summary": "This function saves the given count data to a file specified by NEUTRAL_REFLECT_FILE using the save_json function.",
-    "is_action": false
-  },
-  {
-    "name": "save_self_model",
-    "summary": "The function checks that the input is a dictionary and then saves it as JSON to a file named `self_model.json`.",
-    "is_action": false
+    "definition": "save_neutral_count(count: int) -> None"
   },
   {
     "name": "select_focus_goals",
-    "summary": "This function selects the first active short/mid-term and long-term goals from a list, saves them with a timestamp to a file, and returns them in a dictionary.",
-    "is_action": false
+    "definition": "select_focus_goals() -> 'Dict[str, Optional[Dict]]'\nLoad goals, select focus goals, and write to FOCUS_GOAL.\n    Returns the focus goal dictionary."
   },
   {
     "name": "self_model_maintenance_cycle",
-    "summary": "The function self_model_maintenance_cycle() performs regular maintenance by removing outdated threads and updating influence scores based on feedback, with a placeholder for additional routines.",
-    "is_action": false
+    "definition": "self_model_maintenance_cycle() -> 'None'"
   },
   {
     "name": "self_supervised_repair",
-    "summary": "This function reviews an AI's recent thoughts for contradictions or misalignments with its current self-model and, if any are found, prompts itself to update its self-model JSON to resolve internal inconsistencies.",
-    "is_action": false
+    "definition": "self_supervised_repair() -> 'str'"
   },
   {
     "name": "simulate_conflicting_beliefs",
-    "summary": "The function simulates a debate between two AGI sub-personalities, one prioritizing honesty and the other kindness, and returns the resulting argument.",
-    "is_action": false
+    "definition": "simulate_conflicting_beliefs(context)"
   },
   {
     "name": "simulate_event",
-    "summary": "This function simulates the potential outcomes of a given event by generating a prediction\u2014based on the current world model and core values\u2014about its short-term and long-term consequences and its impact on beliefs, returning the result as structured JSON.",
-    "is_action": false
+    "definition": "simulate_event(event)\nSimulates outcomes of a hypothetical event within Orrin’s world model."
   },
   {
     "name": "simulate_future_selves",
-    "summary": "This function, **simulate_future_selves**, analyzes the current traits and recent imaginative ideas of an entity (Orrin) to generate three possible future versions of itself, selects the most promising one with a reason, optionally logs the outcome, and returns the result as structured JSON.",
-    "is_action": false
+    "definition": "simulate_future_selves(save_to_history: 'bool' = True) -> 'Dict[str, Any]'\nSimulate three possible future versions of self.\n    Returns { \"futures\": [], \"preferred\": \"\", \"reason\": \"\" } and optionally logs to EVOLUTION_FUTURES."
   },
   {
     "name": "simulate_new_cognitive_abilities",
-    "summary": "The **simulate_new_cognitive_abilities** function constructs a detailed prompt about Orrin\u2019s current self-model, values, personality, reflections, and goals, and then uses an AI model to generate, save, and log a new hypothetical internal cognitive tool that could help Orrin improve or evolve, handling errors along the way.",
-    "is_action": false
+    "definition": "simulate_new_cognitive_abilities() -> 'str'\nImagine and propose a hypothetical new cognitive tool/abstraction\n    based on the self-model + recent reflections. Appends to PROPOSED_TOOLS_JSON."
   },
   {
     "name": "simulate_world_state_change",
-    "summary": "This function simulates the impact of a described change on a world model by generating predicted effects using known causal rules, updates the internal model with any new events or entity changes, logs the process, and returns the results in JSON format.",
-    "is_action": false
-  },
-  {
-    "name": "summarize_memories",
-    "summary": "This function takes a list of memory dictionaries and returns a formatted summary of the most recent memories, including their content, associated emotional tone, and intensity if available.",
-    "is_action": false
-  },
-  {
-    "name": "summarize_recent_thoughts",
-    "summary": "This function retrieves the last\u202fn\u202freflections from long-term memory, summarizes their content in a bulleted list, and returns the result as a string.",
-    "is_action": false
+    "definition": "simulate_world_state_change(change_description: 'str') -> 'Dict[str, Any] | None'"
   },
   {
     "name": "summarize_relationships",
-    "summary": "This function takes a dictionary of relationships and returns a summary dictionary where, for each relationship, it extracts selected fields (impression, influence_score, up to two boundaries, recent_emotional_effect, and last_interaction_time) with default values if missing.",
-    "is_action": false
-  },
-  {
-    "name": "summarize_self_model",
-    "summary": "This function takes a self-model dictionary and returns a condensed summary dictionary containing only key aspects like core directive, values, traits, identity, roles, and recent focus.",
-    "is_action": false
+    "definition": "summarize_relationships(relationships)"
   },
   {
     "name": "tag_beliefs_from_feedback",
-    "summary": "This function analyzes the most recent feedback entries for failures related to emotions or specific keywords, identifies possible self-model belief biases (such as overreliance on curiosity or reflection), updates the self-model accordingly, and logs any new belief flags found.",
-    "is_action": false
+    "definition": "tag_beliefs_from_feedback()"
   },
   {
     "name": "try_to_accomplish",
-    "summary": "The function **try_to_accomplish** attempts to achieve a given goal by prompting an AI agent or tool for action, updates the goal's status and history based on success or failure, and returns True if the goal is accomplished or False if further decomposition is needed.",
-    "is_action": false
+    "definition": "try_to_accomplish(goal: 'Dict') -> 'bool'\nPlug in your LLM/tool integration for atomic actions.\n    Returns True if succeeded, False if needs decomposition."
   },
   {
     "name": "update_and_select_focus_goals",
-    "summary": "This function loads, validates, prunes, saves, and then selects a subset of focus goals from a stored collection of goals.",
-    "is_action": false
+    "definition": "update_and_select_focus_goals() -> 'Dict[str, Optional[Dict]]'"
   },
   {
     "name": "update_cognition_schedule",
-    "summary": "This function updates the cognition schedule by merging in new values, logs the changes and differences, and records updates to working memory and private thought logs if any meaningful changes occurred.",
-    "is_action": false
-  },
-  {
-    "name": "update_emotional_state",
-    "summary": "The `update_emotional_state` function loads the agent's current emotional state and working memory, applies time-based decay and baseline adjustments to core emotions, updates loneliness based on inactivity, nudges emotions in response to specific triggers and recent memory content (with cross-inhibition of opposite emotions), recalculates overall emotional stability, applies any context-driven rewards or mode changes, and then saves the updated state for future use.",
-    "is_action": false
+    "definition": "update_cognition_schedule(new_schedule: 'Dict[str, Any]') -> 'Optional[bool]'\nMerge a partial schedule dict into the persisted cognition schedule.\n    Returns:\n      True  -> changes were applied\n      False -> no meaningful change\n      None  -> bad input or routed error"
   },
   {
     "name": "update_influence_scores_from_feedback",
-    "summary": "This function increases the influence scores of internal agents by 0.05 (up to a maximum of 1.0) for each successful feedback entry associated with them and saves the updated model.",
-    "is_action": false
-  },
-  {
-    "name": "update_last_active",
-    "summary": "This function attempts to write the current UTC timestamp to a file as JSON, and logs an error message if the operation fails.",
-    "is_action": false
+    "definition": "update_influence_scores_from_feedback(increment: 'float' = 0.05) -> 'str'"
   },
   {
     "name": "update_motivations",
-    "summary": "This function reviews recent reflections and core values, uses them to generate a revised list of motivations via an AI prompt, updates the self-model with these motivations, logs the update and its reasoning, and handles any errors that occur during the process.",
-    "is_action": false
+    "definition": "update_motivations() -> 'None'\nReflect on recent thoughts and core values, revise motivations in self_model."
   },
   {
     "name": "update_relationship_model",
-    "summary": "The `update_relationship_model` function updates or creates a user's relationship data by recording their latest interaction, detecting the emotion in their input, adjusting influence scores and impressions based on emotions, maintaining interaction history, and saving all updates to persistent storage.",
-    "is_action": false
+    "definition": "update_relationship_model(context)"
   },
   {
     "name": "update_self_model",
-    "summary": "This function retrieves the current self-model and recent long-term memories, prompts an LLM to update the self-model (including personality traits, beliefs, and internal conflicts) based on recent thoughts, saves the updated self-model, and logs any changes in core beliefs.",
-    "is_action": false
+    "definition": "update_self_model()"
   },
   {
     "name": "update_values_with_lessons",
-    "summary": "The function `update_values_with_lessons` analyzes long-term memory to identify frequently repeated lessons, adds any new ones as \"core values\" to the self-model if they aren't already present, saves the updated model, and logs these changes.",
-    "is_action": false
-  },
-  {
-    "name": "update_working_memory",
-    "summary": "This function logs a new event or thought (with metadata like emotion, agent, and priority) into a working memory buffer, updates existing entries\u2019 decay and reference counts, deduplicates pinned items, sorts and prunes the buffer to maintain size, and promotes overflow entries to long-term memory as needed.",
-    "is_action": false
+    "definition": "update_values_with_lessons() -> None\nMine long-term memory for repeated lessons and promote them into self_model.core_values\n    when seen at least twice. Appends a log entry on change."
   },
   {
     "name": "update_world_model",
-    "summary": "The update_world_model() function reflectively revises Orrin\u2019s internal world model by pruning and archiving outdated knowledge, then generating an updated world model\u2014based on the latest reflections and the current model\u2014using an LLM, and finally saves the new model and archive while logging any changes.",
-    "is_action": false
+    "definition": "update_world_model()\nReflectively updates Orrin’s internal world model from recent thoughts."
   }
 ]

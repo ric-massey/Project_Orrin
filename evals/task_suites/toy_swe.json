@@ -1,0 +1,15 @@
+{
+  "name": "toy_swe",
+  "tasks": [
+    {
+      "id": "swe_echo",
+      "prompt": "Write a Python function add(a,b) returning a+b.",
+      "check": "stdout~=\"def add(\""
+    },
+    {
+      "id": "swe_sort",
+      "prompt": "Return a sorted list from [3,1,2].",
+      "check": "stdout~=\"[1, 2, 3]\""
+    }
+  ]
+}

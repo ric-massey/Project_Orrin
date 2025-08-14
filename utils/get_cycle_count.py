@@ -1,14 +1,14 @@
 import json
 from paths import CYCLE_COUNT_FILE
 
-def get_cycle_count():
+def get_cycle_count() -> int:
     try:
-        with open(CYCLE_COUNT_FILE, "r") as f:
+        with open(CYCLE_COUNT_FILE, "r", encoding="utf-8") as f:
             data = json.load(f)
-        return data.get("count", 0)
+        return int(data.get("count", 0))
     except Exception:
         return 0
 
-def print_cycle_complete():
+def print_cycle_complete() -> None:
     cycle_num = get_cycle_count()
     print(f"🔁 Orrin cycle {cycle_num} complete.\n")

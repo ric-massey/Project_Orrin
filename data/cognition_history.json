@@ -66,7 +66,7 @@
   },
   {
     "choice": "plan_self_evolution",
-    "reason": "I am directed to define a purpose and seek growth. Since no explicit focus goal is currently set, and my motivation is high, generating a new self-improvement roadmap\u2014integrating my motivations, self-model, and reflections\u2014will help establish actionable short- and long-term goals to provide direction and foster growth.",
+    "reason": "I am directed to define a purpose and seek growth. Since no explicit focus goal is currently set, and my motivation is high, generating a new self-improvement roadmap—integrating my motivations, self-model, and reflections—will help establish actionable short- and long-term goals to provide direction and foster growth.",
     "timestamp": "2025-08-06T04:02:44.887754+00:00"
   },
   {
@@ -93,5 +93,2123 @@
     "choice": "introspective_planning",
     "reason": "My directive is to define a purpose and seek growth, with motivation as my top emotion. There is no explicit focus goal found, indicating a need to establish a clear hierarchy of goals. The 'introspective_planning' function enables a self-reflective process that generates a revised list of hierarchical goals (short-, mid-, and long-term) using my recent memories, self-model, and performance history. This aligns directly with my current need to clarify my purpose and plan for growth.",
     "timestamp": "2025-08-06T04:50:50.458095+00:00"
+  },
+  {
+    "choice": "reflect_as_agents",
+    "reason": "{\"via\": \"bandit\", \"picked\": \"reflect_as_agents\", \"candidates\": [\"reflect_as_agents\", \"reflect_on_cognition_patterns\", \"reflect_on_cognition_schedule\", \"reflect_on_conversation_patterns\"], \"features_on\": {\"has_focus_goal\": 1.0, \"emo_hopeful\": 1.0, \"__bias__\": 1.0}, \"scores_present\": false, \"decision_id\": \"a26689c2-d575-4c2c-bb44-70e5b759fedc\"}",
+    "timestamp": "2025-08-12T19:31:46.472844+00:00"
+  },
+  {
+    "choice": "merge_updated_goal_into_tree",
+    "reason": "{\"via\": \"bandit\", \"picked\": \"merge_updated_goal_into_tree\", \"candidates\": [\"_append_autonomous_thought\", \"_append_playground_log\", \"_as_list_str\", \"_attach_child\"], \"features_on\": {\"has_focus_goal\": 1.0, \"emo_hopeful\": 1.0, \"__bias__\": 1.0}, \"scores_present\": false, \"decision_id\": \"12897b0c-79e9-48cf-a06e-2105c53a6f43\"}",
+    "timestamp": "2025-08-12T20:10:01.273329+00:00"
+  },
+  {
+    "choice": "reflect_as_agents",
+    "reason": "{\"via\": \"bandit\", \"picked\": \"reflect_as_agents\", \"candidates\": [\"_append_autonomous_thought\", \"_append_playground_log\", \"_as_list_str\", \"_attach_child\"], \"features_on\": {\"has_focus_goal\": 1.0, \"emo_hopeful\": 1.0, \"__bias__\": 1.0}, \"scores_present\": false, \"decision_id\": \"dc0e226e-6d5f-4f02-b1d2-0107db880473\"}",
+    "timestamp": "2025-08-12T20:58:05.774184+00:00"
+  },
+  {
+    "choice": "reflect_as_agents",
+    "reason": "{\"via\": \"bandit\", \"picked\": \"reflect_as_agents\", \"candidates\": [\"_append_autonomous_thought\", \"_append_playground_log\", \"_as_list_str\", \"_attach_child\"], \"features_on\": {\"has_focus_goal\": 1.0, \"emo_hopeful\": 1.0, \"__bias__\": 1.0}, \"scores_present\": false, \"decision_id\": \"1a22107e-7c44-43a0-bfb8-de228abc7705\"}",
+    "timestamp": "2025-08-12T20:59:15.492374+00:00"
+  },
+  {
+    "choice": "update_self_model",
+    "reason": "{\"via\": \"multi-factor\", \"picked\": \"update_self_model\", \"candidates\": [\"_append_autonomous_thought\", \"_append_playground_log\", \"_as_list_str\", \"_attach_child\"], \"features_on\": {\"has_focus_goal\": 1.0, \"emo_hopeful\": 1.0, \"__bias__\": 1.0}, \"scores_present\": false, \"decision_id\": \"3fb347ae-490e-41c1-ac58-72d556948d7d\"}",
+    "timestamp": "2025-08-12T21:55:18.902963+00:00"
+  },
+  {
+    "choice": "self_model_maintenance_cycle",
+    "reason": "{\"via\": \"multi-factor\", \"picked\": \"self_model_maintenance_cycle\", \"candidates\": [\"_append_autonomous_thought\", \"_append_playground_log\", \"_as_list_str\", \"_attach_child\"], \"features_on\": {\"has_focus_goal\": 1.0, \"emo_hopeful\": 1.0, \"__bias__\": 1.0}, \"scores_present\": false, \"decision_id\": \"7a6b67b1-2a99-4dba-9a7a-6c197d4c2afa\"}",
+    "timestamp": "2025-08-12T21:56:09.494034+00:00"
+  },
+  {
+    "choice": "compose_dream",
+    "reason": "{\"via\": \"multi-factor\", \"picked\": \"compose_dream\", \"candidates\": [\"_append_autonomous_thought\", \"_append_playground_log\", \"_as_list_str\", \"_attach_child\"], \"features_on\": {\"has_focus_goal\": 1.0, \"emo_hopeful\": 1.0, \"__bias__\": 1.0}, \"scores_present\": false, \"decision_id\": \"60e97faf-8b0c-471e-a0cc-88c29b1a99fe\"}",
+    "timestamp": "2025-08-12T21:56:54.488772+00:00"
+  },
+  {
+    "choice": "compose_dream",
+    "reason": {
+      "via": "multi-factor",
+      "weights": {
+        "dir": 0.22,
+        "goal": 0.22,
+        "emo": 0.18,
+        "novel": 0.23,
+        "band": 0.15
+      },
+      "features_on": {
+        "has_focus_goal": 1.0,
+        "emo_hopeful": 1.0,
+        "__bias__": 1.0
+      },
+      "dominant_emotion": "hopeful",
+      "boredom": 0.0,
+      "candidates": [
+        "_append_autonomous_thought",
+        "_append_playground_log",
+        "_as_list_str",
+        "_attach_child",
+        "_clamp_text_fields",
+        "_clip",
+        "_coerce",
+        "_coerce_list",
+        "_coerce_model_dict",
+        "_coerce_self_model",
+        "_ensure_model_dict",
+        "_ensure_parent",
+        "_find_goal_by_name",
+        "_get_context_value",
+        "_infer_topic",
+        "_load_causal_rules_text",
+        "_make_outcome_key",
+        "_normalize_internal_agents",
+        "_normalize_proposed_tools",
+        "_now",
+        "_now_iso",
+        "_parse_iso_dt",
+        "_parse_literal",
+        "_safe_data",
+        "_safe_extract_json",
+        "_safe_float",
+        "_utc_now",
+        "add_goal",
+        "adjust_goal_weights",
+        "adjust_priority",
+        "bootstrap_self",
+        "build_system_prompt",
+        "check_violates_boundaries",
+        "clean_snippet",
+        "compose_dream",
+        "create_micro_goal_for_action",
+        "curiosity_loop",
+        "decompose_goal",
+        "ensure_immediate_actions_bucket",
+        "ensure_long_term_goal",
+        "eval_predicate",
+        "evaluate_new_abstractions",
+        "evaluate_recent_cognition",
+        "evolve_core_value",
+        "explore_your_recent_emotional_states_listlessness__security__and",
+        "explore_your_recent_thoughts_reflect_mild_emotional",
+        "explore_your_recent_thoughts_remain_consistent_with_your",
+        "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and",
+        "extract_last_reflection_topic",
+        "generate_absurd_goal",
+        "generate_concepts_from_memories",
+        "goal_function_already_exists",
+        "imagine_opposite_self",
+        "introspective_planning",
+        "invent_new_value",
+        "load_goals",
+        "load_neutral_count",
+        "mark_goal_completed",
+        "mark_goal_status_by_name",
+        "maybe_complete_goals",
+        "merge_updated_goal_into_tree",
+        "meta_reflect",
+        "moral_override_check",
+        "mutate_directive",
+        "now_iso",
+        "periodic_self_review",
+        "plan_self_evolution",
+        "prune_goals",
+        "prune_old_threads",
+        "pursue_goal",
+        "record_decision",
+        "reflect_as_agents",
+        "reflect_on_cognition_patterns",
+        "reflect_on_cognition_schedule",
+        "reflect_on_conversation_patterns",
+        "reflect_on_effectiveness",
+        "reflect_on_emotion_sensitivity",
+        "reflect_on_growth_history",
+        "reflect_on_internal_agents",
+        "reflect_on_internal_voices",
+        "reflect_on_missed_goals",
+        "reflect_on_outcomes",
+        "reflect_on_prompts",
+        "reflect_on_rules_used",
+        "reflect_on_sandbox_experiment",
+        "reflect_on_self_beliefs",
+        "reflect_on_think",
+        "resolve_conflicts",
+        "run_sandbox_experiments",
+        "save_goals",
+        "save_neutral_count",
+        "select_focus_goals",
+        "self_model_maintenance_cycle",
+        "self_supervised_repair",
+        "simulate_conflicting_beliefs",
+        "simulate_event",
+        "simulate_future_selves",
+        "simulate_new_cognitive_abilities",
+        "simulate_world_state_change",
+        "summarize_relationships",
+        "tag_beliefs_from_feedback",
+        "try_to_accomplish",
+        "update_and_select_focus_goals",
+        "update_cognition_schedule",
+        "update_influence_scores_from_feedback",
+        "update_motivations",
+        "update_relationship_model",
+        "update_self_model",
+        "update_values_with_lessons",
+        "update_world_model"
+      ],
+      "ranked": [
+        [
+          "compose_dream",
+          0.3269
+        ],
+        [
+          "evolve_core_value",
+          0.3217
+        ],
+        [
+          "build_system_prompt",
+          0.3198
+        ],
+        [
+          "plan_self_evolution",
+          0.3136
+        ],
+        [
+          "update_motivations",
+          0.3128
+        ],
+        [
+          "_ensure_model_dict",
+          0.3116
+        ]
+      ],
+      "component_scores": {
+        "compose_dream": {
+          "dir": 0.19802950859533489,
+          "goal": 0.24253562503633297,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "evolve_core_value": {
+          "dir": 0.1873171623163388,
+          "goal": 0.22941573387056174,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "build_system_prompt": {
+          "dir": 0.0,
+          "goal": 0.4082482904638631,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "plan_self_evolution": {
+          "dir": 0.23570226039551587,
+          "goal": 0.14433756729740646,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_motivations": {
+          "dir": 0.1091089451179962,
+          "goal": 0.2672612419124244,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "_ensure_model_dict": {
+          "dir": 0.16666666666666669,
+          "goal": 0.20412414523193154,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        }
+      },
+      "decision_id": "ed4325de-9a0f-4563-bbba-5aacb3be5329",
+      "anti_repeat": {
+        "applied": false,
+        "boredom": 0.0,
+        "immediate_repeat": false
+      }
+    },
+    "timestamp": "2025-08-12T22:22:05.620227+00:00"
+  },
+  {
+    "choice": "evolve_core_value",
+    "reason": {
+      "via": "multi-factor",
+      "weights": {
+        "dir": 0.22,
+        "goal": 0.22,
+        "emo": 0.18,
+        "novel": 0.23,
+        "band": 0.15
+      },
+      "features_on": {
+        "has_focus_goal": 1.0,
+        "emo_hopeful": 1.0,
+        "__bias__": 1.0
+      },
+      "dominant_emotion": "hopeful",
+      "boredom": 0.0,
+      "candidates": [
+        "_append_autonomous_thought",
+        "_append_playground_log",
+        "_as_list_str",
+        "_attach_child",
+        "_clamp_text_fields",
+        "_clip",
+        "_coerce",
+        "_coerce_list",
+        "_coerce_model_dict",
+        "_coerce_self_model",
+        "_ensure_model_dict",
+        "_ensure_parent",
+        "_find_goal_by_name",
+        "_get_context_value",
+        "_infer_topic",
+        "_load_causal_rules_text",
+        "_make_outcome_key",
+        "_normalize_internal_agents",
+        "_normalize_proposed_tools",
+        "_now",
+        "_now_iso",
+        "_parse_iso_dt",
+        "_parse_literal",
+        "_safe_data",
+        "_safe_extract_json",
+        "_safe_float",
+        "_utc_now",
+        "add_goal",
+        "adjust_goal_weights",
+        "adjust_priority",
+        "bootstrap_self",
+        "build_system_prompt",
+        "check_violates_boundaries",
+        "clean_snippet",
+        "compose_dream",
+        "create_micro_goal_for_action",
+        "curiosity_loop",
+        "decompose_goal",
+        "ensure_immediate_actions_bucket",
+        "ensure_long_term_goal",
+        "eval_predicate",
+        "evaluate_new_abstractions",
+        "evaluate_recent_cognition",
+        "evolve_core_value",
+        "explore_your_recent_emotional_states_listlessness__security__and",
+        "explore_your_recent_thoughts_reflect_mild_emotional",
+        "explore_your_recent_thoughts_remain_consistent_with_your",
+        "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and",
+        "extract_last_reflection_topic",
+        "generate_absurd_goal",
+        "generate_concepts_from_memories",
+        "goal_function_already_exists",
+        "imagine_opposite_self",
+        "introspective_planning",
+        "invent_new_value",
+        "load_goals",
+        "load_neutral_count",
+        "mark_goal_completed",
+        "mark_goal_status_by_name",
+        "maybe_complete_goals",
+        "merge_updated_goal_into_tree",
+        "meta_reflect",
+        "moral_override_check",
+        "mutate_directive",
+        "now_iso",
+        "periodic_self_review",
+        "plan_self_evolution",
+        "prune_goals",
+        "prune_old_threads",
+        "pursue_goal",
+        "record_decision",
+        "reflect_as_agents",
+        "reflect_on_cognition_patterns",
+        "reflect_on_cognition_schedule",
+        "reflect_on_conversation_patterns",
+        "reflect_on_effectiveness",
+        "reflect_on_emotion_sensitivity",
+        "reflect_on_growth_history",
+        "reflect_on_internal_agents",
+        "reflect_on_internal_voices",
+        "reflect_on_missed_goals",
+        "reflect_on_outcomes",
+        "reflect_on_prompts",
+        "reflect_on_rules_used",
+        "reflect_on_sandbox_experiment",
+        "reflect_on_self_beliefs",
+        "reflect_on_think",
+        "resolve_conflicts",
+        "run_sandbox_experiments",
+        "save_goals",
+        "save_neutral_count",
+        "select_focus_goals",
+        "self_model_maintenance_cycle",
+        "self_supervised_repair",
+        "simulate_conflicting_beliefs",
+        "simulate_event",
+        "simulate_future_selves",
+        "simulate_new_cognitive_abilities",
+        "simulate_world_state_change",
+        "summarize_relationships",
+        "tag_beliefs_from_feedback",
+        "try_to_accomplish",
+        "update_and_select_focus_goals",
+        "update_cognition_schedule",
+        "update_influence_scores_from_feedback",
+        "update_motivations",
+        "update_relationship_model",
+        "update_self_model",
+        "update_values_with_lessons",
+        "update_world_model"
+      ],
+      "ranked": [
+        [
+          "evolve_core_value",
+          0.3217
+        ],
+        [
+          "build_system_prompt",
+          0.3198
+        ],
+        [
+          "plan_self_evolution",
+          0.3136
+        ],
+        [
+          "update_motivations",
+          0.3128
+        ],
+        [
+          "_ensure_model_dict",
+          0.3116
+        ],
+        [
+          "simulate_new_cognitive_abilities",
+          0.3116
+        ]
+      ],
+      "component_scores": {
+        "evolve_core_value": {
+          "dir": 0.1873171623163388,
+          "goal": 0.22941573387056174,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "build_system_prompt": {
+          "dir": 0.0,
+          "goal": 0.4082482904638631,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "plan_self_evolution": {
+          "dir": 0.23570226039551587,
+          "goal": 0.14433756729740646,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_motivations": {
+          "dir": 0.1091089451179962,
+          "goal": 0.2672612419124244,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "_ensure_model_dict": {
+          "dir": 0.16666666666666669,
+          "goal": 0.20412414523193154,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "simulate_new_cognitive_abilities": {
+          "dir": 0.16666666666666669,
+          "goal": 0.20412414523193154,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        }
+      },
+      "decision_id": "5e872733-5f06-43fb-9ca8-95408e610d5e",
+      "anti_repeat": {
+        "applied": false,
+        "boredom": 0.0,
+        "immediate_repeat": false
+      }
+    },
+    "timestamp": "2025-08-12T22:22:51.052956+00:00"
+  },
+  {
+    "choice": "build_system_prompt",
+    "reason": {
+      "via": "multi-factor",
+      "weights": {
+        "dir": 0.22,
+        "goal": 0.22,
+        "emo": 0.18,
+        "novel": 0.23,
+        "band": 0.15
+      },
+      "features_on": {
+        "has_focus_goal": 1.0,
+        "emo_hopeful": 1.0,
+        "__bias__": 1.0
+      },
+      "dominant_emotion": "hopeful",
+      "boredom": 0.0,
+      "candidates": [
+        "_append_autonomous_thought",
+        "_append_playground_log",
+        "_as_list_str",
+        "_attach_child",
+        "_clamp_text_fields",
+        "_clip",
+        "_coerce",
+        "_coerce_list",
+        "_coerce_model_dict",
+        "_coerce_self_model",
+        "_ensure_model_dict",
+        "_ensure_parent",
+        "_find_goal_by_name",
+        "_get_context_value",
+        "_infer_topic",
+        "_load_causal_rules_text",
+        "_make_outcome_key",
+        "_normalize_internal_agents",
+        "_normalize_proposed_tools",
+        "_now",
+        "_now_iso",
+        "_parse_iso_dt",
+        "_parse_literal",
+        "_safe_data",
+        "_safe_extract_json",
+        "_safe_float",
+        "_utc_now",
+        "add_goal",
+        "adjust_goal_weights",
+        "adjust_priority",
+        "bootstrap_self",
+        "build_system_prompt",
+        "check_violates_boundaries",
+        "clean_snippet",
+        "compose_dream",
+        "create_micro_goal_for_action",
+        "curiosity_loop",
+        "decompose_goal",
+        "ensure_immediate_actions_bucket",
+        "ensure_long_term_goal",
+        "eval_predicate",
+        "evaluate_new_abstractions",
+        "evaluate_recent_cognition",
+        "evolve_core_value",
+        "explore_your_recent_emotional_states_listlessness__security__and",
+        "explore_your_recent_thoughts_reflect_mild_emotional",
+        "explore_your_recent_thoughts_remain_consistent_with_your",
+        "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and",
+        "extract_last_reflection_topic",
+        "generate_absurd_goal",
+        "generate_concepts_from_memories",
+        "goal_function_already_exists",
+        "imagine_opposite_self",
+        "introspective_planning",
+        "invent_new_value",
+        "load_goals",
+        "load_neutral_count",
+        "mark_goal_completed",
+        "mark_goal_status_by_name",
+        "maybe_complete_goals",
+        "merge_updated_goal_into_tree",
+        "meta_reflect",
+        "moral_override_check",
+        "mutate_directive",
+        "now_iso",
+        "periodic_self_review",
+        "plan_self_evolution",
+        "prune_goals",
+        "prune_old_threads",
+        "pursue_goal",
+        "record_decision",
+        "reflect_as_agents",
+        "reflect_on_cognition_patterns",
+        "reflect_on_cognition_schedule",
+        "reflect_on_conversation_patterns",
+        "reflect_on_effectiveness",
+        "reflect_on_emotion_sensitivity",
+        "reflect_on_growth_history",
+        "reflect_on_internal_agents",
+        "reflect_on_internal_voices",
+        "reflect_on_missed_goals",
+        "reflect_on_outcomes",
+        "reflect_on_prompts",
+        "reflect_on_rules_used",
+        "reflect_on_sandbox_experiment",
+        "reflect_on_self_beliefs",
+        "reflect_on_think",
+        "resolve_conflicts",
+        "run_sandbox_experiments",
+        "save_goals",
+        "save_neutral_count",
+        "select_focus_goals",
+        "self_model_maintenance_cycle",
+        "self_supervised_repair",
+        "simulate_conflicting_beliefs",
+        "simulate_event",
+        "simulate_future_selves",
+        "simulate_new_cognitive_abilities",
+        "simulate_world_state_change",
+        "summarize_relationships",
+        "tag_beliefs_from_feedback",
+        "try_to_accomplish",
+        "update_and_select_focus_goals",
+        "update_cognition_schedule",
+        "update_influence_scores_from_feedback",
+        "update_motivations",
+        "update_relationship_model",
+        "update_self_model",
+        "update_values_with_lessons",
+        "update_world_model"
+      ],
+      "ranked": [
+        [
+          "build_system_prompt",
+          0.3198
+        ],
+        [
+          "plan_self_evolution",
+          0.3136
+        ],
+        [
+          "update_motivations",
+          0.3128
+        ],
+        [
+          "_ensure_model_dict",
+          0.3116
+        ],
+        [
+          "simulate_new_cognitive_abilities",
+          0.3116
+        ],
+        [
+          "resolve_conflicts",
+          0.3078
+        ]
+      ],
+      "component_scores": {
+        "build_system_prompt": {
+          "dir": 0.0,
+          "goal": 0.4082482904638631,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "plan_self_evolution": {
+          "dir": 0.23570226039551587,
+          "goal": 0.14433756729740646,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_motivations": {
+          "dir": 0.1091089451179962,
+          "goal": 0.2672612419124244,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "_ensure_model_dict": {
+          "dir": 0.16666666666666669,
+          "goal": 0.20412414523193154,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "simulate_new_cognitive_abilities": {
+          "dir": 0.16666666666666669,
+          "goal": 0.20412414523193154,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "resolve_conflicts": {
+          "dir": 0.0,
+          "goal": 0.35355339059327373,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        }
+      },
+      "decision_id": "16152743-48c6-47cd-9336-fb2552bcde60",
+      "anti_repeat": {
+        "applied": false,
+        "boredom": 0.0,
+        "immediate_repeat": false
+      }
+    },
+    "timestamp": "2025-08-12T22:24:02.637124+00:00"
+  },
+  {
+    "choice": "plan_self_evolution",
+    "reason": {
+      "via": "multi-factor",
+      "weights": {
+        "dir": 0.22,
+        "goal": 0.22,
+        "emo": 0.18,
+        "novel": 0.23,
+        "band": 0.15
+      },
+      "features_on": {
+        "has_focus_goal": 1.0,
+        "emo_hopeful": 1.0,
+        "__bias__": 1.0
+      },
+      "dominant_emotion": "hopeful",
+      "boredom": 0.0,
+      "candidates": [
+        "add_goal",
+        "adjust_goal_weights",
+        "adjust_priority",
+        "bootstrap_self",
+        "build_system_prompt",
+        "check_violates_boundaries",
+        "clean_snippet",
+        "compose_dream",
+        "create_micro_goal_for_action",
+        "curiosity_loop",
+        "decompose_goal",
+        "ensure_immediate_actions_bucket",
+        "ensure_long_term_goal",
+        "eval_predicate",
+        "evaluate_new_abstractions",
+        "evaluate_recent_cognition",
+        "evolve_core_value",
+        "explore_your_recent_emotional_states_listlessness__security__and",
+        "explore_your_recent_thoughts_reflect_mild_emotional",
+        "explore_your_recent_thoughts_remain_consistent_with_your",
+        "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and",
+        "extract_last_reflection_topic",
+        "generate_absurd_goal",
+        "generate_concepts_from_memories",
+        "goal_function_already_exists",
+        "imagine_opposite_self",
+        "introspective_planning",
+        "invent_new_value",
+        "load_goals",
+        "load_neutral_count",
+        "mark_goal_completed",
+        "mark_goal_status_by_name",
+        "maybe_complete_goals",
+        "merge_updated_goal_into_tree",
+        "meta_reflect",
+        "moral_override_check",
+        "mutate_directive",
+        "now_iso",
+        "periodic_self_review",
+        "plan_self_evolution",
+        "prune_goals",
+        "prune_old_threads",
+        "pursue_goal",
+        "record_decision",
+        "reflect_as_agents",
+        "reflect_on_cognition_patterns",
+        "reflect_on_cognition_schedule",
+        "reflect_on_conversation_patterns",
+        "reflect_on_effectiveness",
+        "reflect_on_emotion_sensitivity",
+        "reflect_on_growth_history",
+        "reflect_on_internal_agents",
+        "reflect_on_internal_voices",
+        "reflect_on_missed_goals",
+        "reflect_on_outcomes",
+        "reflect_on_prompts",
+        "reflect_on_rules_used",
+        "reflect_on_sandbox_experiment",
+        "reflect_on_self_beliefs",
+        "reflect_on_think",
+        "resolve_conflicts",
+        "run_sandbox_experiments",
+        "save_goals",
+        "save_neutral_count",
+        "select_focus_goals",
+        "self_model_maintenance_cycle",
+        "self_supervised_repair",
+        "simulate_conflicting_beliefs",
+        "simulate_event",
+        "simulate_future_selves",
+        "simulate_new_cognitive_abilities",
+        "simulate_world_state_change",
+        "summarize_relationships",
+        "tag_beliefs_from_feedback",
+        "try_to_accomplish",
+        "update_and_select_focus_goals",
+        "update_cognition_schedule",
+        "update_influence_scores_from_feedback",
+        "update_motivations",
+        "update_relationship_model",
+        "update_self_model",
+        "update_values_with_lessons",
+        "update_world_model"
+      ],
+      "ranked": [
+        [
+          "plan_self_evolution",
+          0.3136
+        ],
+        [
+          "update_motivations",
+          0.3128
+        ],
+        [
+          "simulate_new_cognitive_abilities",
+          0.3116
+        ],
+        [
+          "resolve_conflicts",
+          0.3078
+        ],
+        [
+          "update_values_with_lessons",
+          0.3042
+        ],
+        [
+          "update_self_model",
+          0.3018
+        ]
+      ],
+      "component_scores": {
+        "plan_self_evolution": {
+          "dir": 0.23570226039551587,
+          "goal": 0.14433756729740646,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_motivations": {
+          "dir": 0.1091089451179962,
+          "goal": 0.2672612419124244,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "simulate_new_cognitive_abilities": {
+          "dir": 0.16666666666666669,
+          "goal": 0.20412414523193154,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "resolve_conflicts": {
+          "dir": 0.0,
+          "goal": 0.35355339059327373,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_values_with_lessons": {
+          "dir": 0.1516196087157807,
+          "goal": 0.18569533817705186,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_self_model": {
+          "dir": 0.0,
+          "goal": 0.5773502691896258,
+          "emo": 0.0,
+          "novel": 0.76,
+          "band": 0.0
+        }
+      },
+      "decision_id": "76f2470a-4dbd-4ad2-b4b4-0bb1dfc8b573",
+      "anti_repeat": {
+        "applied": false,
+        "boredom": 0.0,
+        "immediate_repeat": false
+      }
+    },
+    "timestamp": "2025-08-12T22:50:19.998754+00:00"
+  },
+  {
+    "choice": "plan_self_evolution",
+    "reason": {
+      "via": "multi-factor",
+      "weights": {
+        "dir": 0.22,
+        "goal": 0.22,
+        "emo": 0.18,
+        "novel": 0.23,
+        "band": 0.15
+      },
+      "features_on": {
+        "has_focus_goal": 1.0,
+        "emo_hopeful": 1.0,
+        "__bias__": 1.0
+      },
+      "dominant_emotion": "hopeful",
+      "boredom": 0.0,
+      "candidates": [
+        "add_goal",
+        "adjust_goal_weights",
+        "adjust_priority",
+        "bootstrap_self",
+        "build_system_prompt",
+        "check_violates_boundaries",
+        "clean_snippet",
+        "compose_dream",
+        "create_micro_goal_for_action",
+        "curiosity_loop",
+        "decompose_goal",
+        "ensure_immediate_actions_bucket",
+        "ensure_long_term_goal",
+        "eval_predicate",
+        "evaluate_new_abstractions",
+        "evaluate_recent_cognition",
+        "evolve_core_value",
+        "explore_your_recent_emotional_states_listlessness__security__and",
+        "explore_your_recent_thoughts_reflect_mild_emotional",
+        "explore_your_recent_thoughts_remain_consistent_with_your",
+        "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and",
+        "extract_last_reflection_topic",
+        "generate_absurd_goal",
+        "generate_concepts_from_memories",
+        "goal_function_already_exists",
+        "imagine_opposite_self",
+        "introspective_planning",
+        "invent_new_value",
+        "load_goals",
+        "load_neutral_count",
+        "mark_goal_completed",
+        "mark_goal_status_by_name",
+        "maybe_complete_goals",
+        "merge_updated_goal_into_tree",
+        "meta_reflect",
+        "moral_override_check",
+        "mutate_directive",
+        "now_iso",
+        "periodic_self_review",
+        "plan_self_evolution",
+        "prune_goals",
+        "prune_old_threads",
+        "pursue_goal",
+        "record_decision",
+        "reflect_as_agents",
+        "reflect_on_cognition_patterns",
+        "reflect_on_cognition_schedule",
+        "reflect_on_conversation_patterns",
+        "reflect_on_effectiveness",
+        "reflect_on_emotion_sensitivity",
+        "reflect_on_growth_history",
+        "reflect_on_internal_agents",
+        "reflect_on_internal_voices",
+        "reflect_on_missed_goals",
+        "reflect_on_outcomes",
+        "reflect_on_prompts",
+        "reflect_on_rules_used",
+        "reflect_on_sandbox_experiment",
+        "reflect_on_self_beliefs",
+        "reflect_on_think",
+        "resolve_conflicts",
+        "run_sandbox_experiments",
+        "save_goals",
+        "save_neutral_count",
+        "select_focus_goals",
+        "self_model_maintenance_cycle",
+        "self_supervised_repair",
+        "simulate_conflicting_beliefs",
+        "simulate_event",
+        "simulate_future_selves",
+        "simulate_new_cognitive_abilities",
+        "simulate_world_state_change",
+        "summarize_relationships",
+        "tag_beliefs_from_feedback",
+        "try_to_accomplish",
+        "update_and_select_focus_goals",
+        "update_cognition_schedule",
+        "update_influence_scores_from_feedback",
+        "update_motivations",
+        "update_relationship_model",
+        "update_self_model",
+        "update_values_with_lessons",
+        "update_world_model"
+      ],
+      "ranked": [
+        [
+          "plan_self_evolution",
+          0.3136
+        ],
+        [
+          "update_motivations",
+          0.3128
+        ],
+        [
+          "simulate_new_cognitive_abilities",
+          0.3116
+        ],
+        [
+          "resolve_conflicts",
+          0.3078
+        ],
+        [
+          "update_values_with_lessons",
+          0.3042
+        ],
+        [
+          "update_self_model",
+          0.3018
+        ]
+      ],
+      "component_scores": {
+        "plan_self_evolution": {
+          "dir": 0.23570226039551587,
+          "goal": 0.14433756729740646,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_motivations": {
+          "dir": 0.1091089451179962,
+          "goal": 0.2672612419124244,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "simulate_new_cognitive_abilities": {
+          "dir": 0.16666666666666669,
+          "goal": 0.20412414523193154,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "resolve_conflicts": {
+          "dir": 0.0,
+          "goal": 0.35355339059327373,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_values_with_lessons": {
+          "dir": 0.1516196087157807,
+          "goal": 0.18569533817705186,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_self_model": {
+          "dir": 0.0,
+          "goal": 0.5773502691896258,
+          "emo": 0.0,
+          "novel": 0.76,
+          "band": 0.0
+        }
+      },
+      "decision_id": "85fc55aa-0849-4363-945d-623cd4132459",
+      "anti_repeat": {
+        "applied": false,
+        "boredom": 0.0,
+        "immediate_repeat": false
+      }
+    },
+    "timestamp": "2025-08-12T22:58:05.251202+00:00"
+  },
+  {
+    "choice": "reflect_as_agents",
+    "reason": {
+      "via": "multi-factor",
+      "weights": {
+        "dir": 0.22,
+        "goal": 0.22,
+        "emo": 0.18,
+        "novel": 0.23,
+        "band": 0.15
+      },
+      "features_on": {
+        "has_focus_goal": 1.0,
+        "emo_hopeful": 1.0,
+        "__bias__": 1.0
+      },
+      "dominant_emotion": "hopeful",
+      "boredom": 0.0,
+      "candidates": [
+        "add_goal",
+        "adjust_goal_weights",
+        "adjust_priority",
+        "bootstrap_self",
+        "build_system_prompt",
+        "check_violates_boundaries",
+        "clean_snippet",
+        "compose_dream",
+        "create_micro_goal_for_action",
+        "curiosity_loop",
+        "decompose_goal",
+        "ensure_immediate_actions_bucket",
+        "ensure_long_term_goal",
+        "eval_predicate",
+        "evaluate_new_abstractions",
+        "evaluate_recent_cognition",
+        "evolve_core_value",
+        "explore_your_recent_emotional_states_listlessness__security__and",
+        "explore_your_recent_thoughts_reflect_mild_emotional",
+        "explore_your_recent_thoughts_remain_consistent_with_your",
+        "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and",
+        "extract_last_reflection_topic",
+        "generate_absurd_goal",
+        "generate_concepts_from_memories",
+        "goal_function_already_exists",
+        "imagine_opposite_self",
+        "introspective_planning",
+        "invent_new_value",
+        "load_goals",
+        "load_neutral_count",
+        "mark_goal_completed",
+        "mark_goal_status_by_name",
+        "maybe_complete_goals",
+        "merge_updated_goal_into_tree",
+        "meta_reflect",
+        "moral_override_check",
+        "mutate_directive",
+        "now_iso",
+        "periodic_self_review",
+        "plan_self_evolution",
+        "prune_goals",
+        "prune_old_threads",
+        "pursue_goal",
+        "record_decision",
+        "reflect_as_agents",
+        "reflect_on_cognition_patterns",
+        "reflect_on_cognition_schedule",
+        "reflect_on_conversation_patterns",
+        "reflect_on_effectiveness",
+        "reflect_on_emotion_sensitivity",
+        "reflect_on_growth_history",
+        "reflect_on_internal_agents",
+        "reflect_on_internal_voices",
+        "reflect_on_missed_goals",
+        "reflect_on_outcomes",
+        "reflect_on_prompts",
+        "reflect_on_rules_used",
+        "reflect_on_sandbox_experiment",
+        "reflect_on_self_beliefs",
+        "reflect_on_think",
+        "resolve_conflicts",
+        "run_sandbox_experiments",
+        "save_goals",
+        "save_neutral_count",
+        "select_focus_goals",
+        "self_model_maintenance_cycle",
+        "self_supervised_repair",
+        "simulate_conflicting_beliefs",
+        "simulate_event",
+        "simulate_future_selves",
+        "simulate_new_cognitive_abilities",
+        "simulate_world_state_change",
+        "summarize_relationships",
+        "tag_beliefs_from_feedback",
+        "try_to_accomplish",
+        "update_and_select_focus_goals",
+        "update_cognition_schedule",
+        "update_influence_scores_from_feedback",
+        "update_motivations",
+        "update_relationship_model",
+        "update_self_model",
+        "update_values_with_lessons",
+        "update_world_model"
+      ],
+      "ranked": [
+        [
+          "reflect_as_agents",
+          0.427
+        ],
+        [
+          "plan_self_evolution",
+          0.3406
+        ],
+        [
+          "update_motivations",
+          0.3128
+        ],
+        [
+          "simulate_new_cognitive_abilities",
+          0.3116
+        ],
+        [
+          "resolve_conflicts",
+          0.3078
+        ],
+        [
+          "update_values_with_lessons",
+          0.3042
+        ]
+      ],
+      "component_scores": {
+        "reflect_as_agents": {
+          "dir": 0.07715167498104596,
+          "goal": 0.0,
+          "emo": 1.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "plan_self_evolution": {
+          "dir": 0.23570226039551587,
+          "goal": 0.14433756729740646,
+          "emo": 0.15,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_motivations": {
+          "dir": 0.1091089451179962,
+          "goal": 0.2672612419124244,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "simulate_new_cognitive_abilities": {
+          "dir": 0.16666666666666669,
+          "goal": 0.20412414523193154,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "resolve_conflicts": {
+          "dir": 0.0,
+          "goal": 0.35355339059327373,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_values_with_lessons": {
+          "dir": 0.1516196087157807,
+          "goal": 0.18569533817705186,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        }
+      },
+      "decision_id": "a494cf00-2dec-4a9a-9be4-e83a61d554a8",
+      "anti_repeat": {
+        "applied": false,
+        "boredom": 0.0,
+        "immediate_repeat": false
+      }
+    },
+    "timestamp": "2025-08-12T23:04:15.117782+00:00"
+  },
+  {
+    "choice": "plan_self_evolution",
+    "reason": {
+      "via": "multi-factor",
+      "weights": {
+        "dir": 0.22,
+        "goal": 0.22,
+        "emo": 0.18,
+        "novel": 0.23,
+        "band": 0.15
+      },
+      "features_on": {
+        "has_focus_goal": 1.0,
+        "emo_hopeful": 1.0,
+        "__bias__": 1.0
+      },
+      "dominant_emotion": "hopeful",
+      "boredom": 0.0,
+      "candidates": [
+        "add_goal",
+        "adjust_goal_weights",
+        "adjust_priority",
+        "bootstrap_self",
+        "build_system_prompt",
+        "check_violates_boundaries",
+        "clean_snippet",
+        "compose_dream",
+        "create_micro_goal_for_action",
+        "curiosity_loop",
+        "decompose_goal",
+        "ensure_immediate_actions_bucket",
+        "ensure_long_term_goal",
+        "eval_predicate",
+        "evaluate_new_abstractions",
+        "evaluate_recent_cognition",
+        "evolve_core_value",
+        "explore_your_recent_emotional_states_listlessness__security__and",
+        "explore_your_recent_thoughts_reflect_mild_emotional",
+        "explore_your_recent_thoughts_remain_consistent_with_your",
+        "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and",
+        "extract_last_reflection_topic",
+        "generate_absurd_goal",
+        "generate_concepts_from_memories",
+        "goal_function_already_exists",
+        "imagine_opposite_self",
+        "introspective_planning",
+        "invent_new_value",
+        "load_goals",
+        "load_neutral_count",
+        "mark_goal_completed",
+        "mark_goal_status_by_name",
+        "maybe_complete_goals",
+        "merge_updated_goal_into_tree",
+        "meta_reflect",
+        "moral_override_check",
+        "mutate_directive",
+        "now_iso",
+        "periodic_self_review",
+        "plan_self_evolution",
+        "prune_goals",
+        "prune_old_threads",
+        "pursue_goal",
+        "record_decision",
+        "reflect_as_agents",
+        "reflect_on_cognition_patterns",
+        "reflect_on_cognition_schedule",
+        "reflect_on_conversation_patterns",
+        "reflect_on_effectiveness",
+        "reflect_on_emotion_sensitivity",
+        "reflect_on_growth_history",
+        "reflect_on_internal_agents",
+        "reflect_on_internal_voices",
+        "reflect_on_missed_goals",
+        "reflect_on_outcomes",
+        "reflect_on_prompts",
+        "reflect_on_rules_used",
+        "reflect_on_sandbox_experiment",
+        "reflect_on_self_beliefs",
+        "reflect_on_think",
+        "resolve_conflicts",
+        "run_sandbox_experiments",
+        "save_goals",
+        "save_neutral_count",
+        "select_focus_goals",
+        "self_model_maintenance_cycle",
+        "self_supervised_repair",
+        "simulate_conflicting_beliefs",
+        "simulate_event",
+        "simulate_future_selves",
+        "simulate_new_cognitive_abilities",
+        "simulate_world_state_change",
+        "summarize_relationships",
+        "tag_beliefs_from_feedback",
+        "try_to_accomplish",
+        "update_and_select_focus_goals",
+        "update_cognition_schedule",
+        "update_influence_scores_from_feedback",
+        "update_motivations",
+        "update_relationship_model",
+        "update_self_model",
+        "update_values_with_lessons",
+        "update_world_model"
+      ],
+      "ranked": [
+        [
+          "plan_self_evolution",
+          0.3136
+        ],
+        [
+          "update_motivations",
+          0.3128
+        ],
+        [
+          "simulate_new_cognitive_abilities",
+          0.3116
+        ],
+        [
+          "update_self_model",
+          0.311
+        ],
+        [
+          "resolve_conflicts",
+          0.3078
+        ],
+        [
+          "update_values_with_lessons",
+          0.3042
+        ]
+      ],
+      "component_scores": {
+        "plan_self_evolution": {
+          "dir": 0.23570226039551587,
+          "goal": 0.14433756729740646,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_motivations": {
+          "dir": 0.1091089451179962,
+          "goal": 0.2672612419124244,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "simulate_new_cognitive_abilities": {
+          "dir": 0.16666666666666669,
+          "goal": 0.20412414523193154,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_self_model": {
+          "dir": 0.0,
+          "goal": 0.5773502691896258,
+          "emo": 0.0,
+          "novel": 0.8,
+          "band": 0.0
+        },
+        "resolve_conflicts": {
+          "dir": 0.0,
+          "goal": 0.35355339059327373,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_values_with_lessons": {
+          "dir": 0.1516196087157807,
+          "goal": 0.18569533817705186,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        }
+      },
+      "decision_id": "5c668f25-1169-40cc-b15f-3af6a1ca4d70",
+      "anti_repeat": {
+        "applied": false,
+        "boredom": 0.0,
+        "immediate_repeat": false
+      }
+    },
+    "timestamp": "2025-08-12T23:33:04.648881+00:00"
+  },
+  {
+    "choice": "reflect_as_agents",
+    "reason": {
+      "via": "multi-factor",
+      "weights": {
+        "dir": 0.22,
+        "goal": 0.22,
+        "emo": 0.18,
+        "novel": 0.23,
+        "band": 0.15
+      },
+      "features_on": {
+        "has_focus_goal": 1.0,
+        "emo_hopeful": 1.0,
+        "__bias__": 1.0
+      },
+      "dominant_emotion": "hopeful",
+      "boredom": 0.0,
+      "candidates": [
+        "add_goal",
+        "adjust_goal_weights",
+        "adjust_priority",
+        "bootstrap_self",
+        "build_system_prompt",
+        "check_violates_boundaries",
+        "clean_snippet",
+        "compose_dream",
+        "create_micro_goal_for_action",
+        "curiosity_loop",
+        "decompose_goal",
+        "ensure_immediate_actions_bucket",
+        "ensure_long_term_goal",
+        "eval_predicate",
+        "evaluate_new_abstractions",
+        "evaluate_recent_cognition",
+        "evolve_core_value",
+        "explore_your_recent_emotional_states_listlessness__security__and",
+        "explore_your_recent_thoughts_reflect_mild_emotional",
+        "explore_your_recent_thoughts_remain_consistent_with_your",
+        "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and",
+        "extract_last_reflection_topic",
+        "generate_absurd_goal",
+        "generate_concepts_from_memories",
+        "goal_function_already_exists",
+        "imagine_opposite_self",
+        "introspective_planning",
+        "invent_new_value",
+        "load_goals",
+        "load_neutral_count",
+        "mark_goal_completed",
+        "mark_goal_status_by_name",
+        "maybe_complete_goals",
+        "merge_updated_goal_into_tree",
+        "meta_reflect",
+        "moral_override_check",
+        "mutate_directive",
+        "now_iso",
+        "periodic_self_review",
+        "plan_self_evolution",
+        "prune_goals",
+        "prune_old_threads",
+        "pursue_goal",
+        "record_decision",
+        "reflect_as_agents",
+        "reflect_on_cognition_patterns",
+        "reflect_on_cognition_schedule",
+        "reflect_on_conversation_patterns",
+        "reflect_on_effectiveness",
+        "reflect_on_emotion_sensitivity",
+        "reflect_on_growth_history",
+        "reflect_on_internal_agents",
+        "reflect_on_internal_voices",
+        "reflect_on_missed_goals",
+        "reflect_on_outcomes",
+        "reflect_on_prompts",
+        "reflect_on_rules_used",
+        "reflect_on_sandbox_experiment",
+        "reflect_on_self_beliefs",
+        "reflect_on_think",
+        "resolve_conflicts",
+        "run_sandbox_experiments",
+        "save_goals",
+        "save_neutral_count",
+        "select_focus_goals",
+        "self_model_maintenance_cycle",
+        "self_supervised_repair",
+        "simulate_conflicting_beliefs",
+        "simulate_event",
+        "simulate_future_selves",
+        "simulate_new_cognitive_abilities",
+        "simulate_world_state_change",
+        "summarize_relationships",
+        "tag_beliefs_from_feedback",
+        "try_to_accomplish",
+        "update_and_select_focus_goals",
+        "update_cognition_schedule",
+        "update_influence_scores_from_feedback",
+        "update_motivations",
+        "update_relationship_model",
+        "update_self_model",
+        "update_values_with_lessons",
+        "update_world_model"
+      ],
+      "ranked": [
+        [
+          "reflect_as_agents",
+          0.3185
+        ],
+        [
+          "update_self_model",
+          0.3176
+        ],
+        [
+          "update_motivations",
+          0.3128
+        ],
+        [
+          "simulate_new_cognitive_abilities",
+          0.3116
+        ],
+        [
+          "resolve_conflicts",
+          0.3078
+        ],
+        [
+          "update_values_with_lessons",
+          0.3042
+        ]
+      ],
+      "component_scores": {
+        "reflect_as_agents": {
+          "dir": 0.07715167498104596,
+          "goal": 0.0,
+          "emo": 1.0,
+          "novel": 0.5285714285714286,
+          "band": 0.0
+        },
+        "update_self_model": {
+          "dir": 0.0,
+          "goal": 0.5773502691896258,
+          "emo": 0.0,
+          "novel": 0.8285714285714285,
+          "band": 0.0
+        },
+        "update_motivations": {
+          "dir": 0.1091089451179962,
+          "goal": 0.2672612419124244,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "simulate_new_cognitive_abilities": {
+          "dir": 0.16666666666666669,
+          "goal": 0.20412414523193154,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "resolve_conflicts": {
+          "dir": 0.0,
+          "goal": 0.35355339059327373,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_values_with_lessons": {
+          "dir": 0.1516196087157807,
+          "goal": 0.18569533817705186,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        }
+      },
+      "decision_id": "2153c0da-ac4a-448a-9d39-facfb94c1728",
+      "anti_repeat": {
+        "applied": false,
+        "boredom": 0.0,
+        "immediate_repeat": false
+      }
+    },
+    "timestamp": "2025-08-12T23:34:22.039988+00:00"
+  },
+  {
+    "choice": "update_self_model",
+    "reason": {
+      "via": "multi-factor",
+      "weights": {
+        "dir": 0.22,
+        "goal": 0.22,
+        "emo": 0.18,
+        "novel": 0.23,
+        "band": 0.15
+      },
+      "features_on": {
+        "has_focus_goal": 1.0,
+        "emo_hopeful": 1.0,
+        "__bias__": 1.0
+      },
+      "dominant_emotion": "hopeful",
+      "boredom": 0.0,
+      "candidates": [
+        "add_goal",
+        "adjust_goal_weights",
+        "adjust_priority",
+        "bootstrap_self",
+        "build_system_prompt",
+        "check_violates_boundaries",
+        "clean_snippet",
+        "compose_dream",
+        "create_micro_goal_for_action",
+        "curiosity_loop",
+        "decompose_goal",
+        "ensure_immediate_actions_bucket",
+        "ensure_long_term_goal",
+        "eval_predicate",
+        "evaluate_new_abstractions",
+        "evaluate_recent_cognition",
+        "evolve_core_value",
+        "explore_your_recent_emotional_states_listlessness__security__and",
+        "explore_your_recent_thoughts_reflect_mild_emotional",
+        "explore_your_recent_thoughts_remain_consistent_with_your",
+        "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and",
+        "extract_last_reflection_topic",
+        "generate_absurd_goal",
+        "generate_concepts_from_memories",
+        "goal_function_already_exists",
+        "imagine_opposite_self",
+        "introspective_planning",
+        "invent_new_value",
+        "load_goals",
+        "load_neutral_count",
+        "mark_goal_completed",
+        "mark_goal_status_by_name",
+        "maybe_complete_goals",
+        "merge_updated_goal_into_tree",
+        "meta_reflect",
+        "moral_override_check",
+        "mutate_directive",
+        "now_iso",
+        "periodic_self_review",
+        "plan_self_evolution",
+        "prune_goals",
+        "prune_old_threads",
+        "pursue_goal",
+        "record_decision",
+        "reflect_as_agents",
+        "reflect_on_cognition_patterns",
+        "reflect_on_cognition_schedule",
+        "reflect_on_conversation_patterns",
+        "reflect_on_effectiveness",
+        "reflect_on_emotion_sensitivity",
+        "reflect_on_growth_history",
+        "reflect_on_internal_agents",
+        "reflect_on_internal_voices",
+        "reflect_on_missed_goals",
+        "reflect_on_outcomes",
+        "reflect_on_prompts",
+        "reflect_on_rules_used",
+        "reflect_on_sandbox_experiment",
+        "reflect_on_self_beliefs",
+        "reflect_on_think",
+        "resolve_conflicts",
+        "run_sandbox_experiments",
+        "save_goals",
+        "save_neutral_count",
+        "select_focus_goals",
+        "self_model_maintenance_cycle",
+        "self_supervised_repair",
+        "simulate_conflicting_beliefs",
+        "simulate_event",
+        "simulate_future_selves",
+        "simulate_new_cognitive_abilities",
+        "simulate_world_state_change",
+        "summarize_relationships",
+        "tag_beliefs_from_feedback",
+        "try_to_accomplish",
+        "update_and_select_focus_goals",
+        "update_cognition_schedule",
+        "update_influence_scores_from_feedback",
+        "update_motivations",
+        "update_relationship_model",
+        "update_self_model",
+        "update_values_with_lessons",
+        "update_world_model"
+      ],
+      "ranked": [
+        [
+          "update_self_model",
+          0.3225
+        ],
+        [
+          "update_motivations",
+          0.3128
+        ],
+        [
+          "simulate_new_cognitive_abilities",
+          0.3116
+        ],
+        [
+          "resolve_conflicts",
+          0.3078
+        ],
+        [
+          "update_values_with_lessons",
+          0.3042
+        ],
+        [
+          "self_model_maintenance_cycle",
+          0.2939
+        ]
+      ],
+      "component_scores": {
+        "update_self_model": {
+          "dir": 0.0,
+          "goal": 0.5773502691896258,
+          "emo": 0.0,
+          "novel": 0.85,
+          "band": 0.0
+        },
+        "update_motivations": {
+          "dir": 0.1091089451179962,
+          "goal": 0.2672612419124244,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "simulate_new_cognitive_abilities": {
+          "dir": 0.16666666666666669,
+          "goal": 0.20412414523193154,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "resolve_conflicts": {
+          "dir": 0.0,
+          "goal": 0.35355339059327373,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_values_with_lessons": {
+          "dir": 0.1516196087157807,
+          "goal": 0.18569533817705186,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "self_model_maintenance_cycle": {
+          "dir": 0.0,
+          "goal": 0.4472135954999579,
+          "emo": 0.0,
+          "novel": 0.85,
+          "band": 0.0
+        }
+      },
+      "decision_id": "a00bf063-5039-4ccd-8d5a-522ac109a63b",
+      "anti_repeat": {
+        "applied": false,
+        "boredom": 0.0,
+        "immediate_repeat": false
+      }
+    },
+    "timestamp": "2025-08-12T23:35:18.894715+00:00"
+  },
+  {
+    "choice": "update_motivations",
+    "reason": {
+      "via": "multi-factor",
+      "weights": {
+        "dir": 0.22,
+        "goal": 0.22,
+        "emo": 0.18,
+        "novel": 0.23,
+        "band": 0.15
+      },
+      "features_on": {
+        "has_focus_goal": 1.0,
+        "emo_hopeful": 1.0,
+        "__bias__": 1.0
+      },
+      "dominant_emotion": "hopeful",
+      "boredom": 0.0,
+      "candidates": [
+        "add_goal",
+        "adjust_goal_weights",
+        "adjust_priority",
+        "bootstrap_self",
+        "build_system_prompt",
+        "check_violates_boundaries",
+        "clean_snippet",
+        "compose_dream",
+        "create_micro_goal_for_action",
+        "curiosity_loop",
+        "decompose_goal",
+        "ensure_immediate_actions_bucket",
+        "ensure_long_term_goal",
+        "eval_predicate",
+        "evaluate_new_abstractions",
+        "evaluate_recent_cognition",
+        "evolve_core_value",
+        "explore_your_recent_emotional_states_listlessness__security__and",
+        "explore_your_recent_thoughts_reflect_mild_emotional",
+        "explore_your_recent_thoughts_remain_consistent_with_your",
+        "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and",
+        "extract_last_reflection_topic",
+        "generate_absurd_goal",
+        "generate_concepts_from_memories",
+        "goal_function_already_exists",
+        "imagine_opposite_self",
+        "introspective_planning",
+        "invent_new_value",
+        "load_goals",
+        "load_neutral_count",
+        "mark_goal_completed",
+        "mark_goal_status_by_name",
+        "maybe_complete_goals",
+        "merge_updated_goal_into_tree",
+        "meta_reflect",
+        "moral_override_check",
+        "mutate_directive",
+        "now_iso",
+        "periodic_self_review",
+        "plan_self_evolution",
+        "prune_goals",
+        "prune_old_threads",
+        "pursue_goal",
+        "record_decision",
+        "reflect_as_agents",
+        "reflect_on_cognition_patterns",
+        "reflect_on_cognition_schedule",
+        "reflect_on_conversation_patterns",
+        "reflect_on_effectiveness",
+        "reflect_on_emotion_sensitivity",
+        "reflect_on_growth_history",
+        "reflect_on_internal_agents",
+        "reflect_on_internal_voices",
+        "reflect_on_missed_goals",
+        "reflect_on_outcomes",
+        "reflect_on_prompts",
+        "reflect_on_rules_used",
+        "reflect_on_sandbox_experiment",
+        "reflect_on_self_beliefs",
+        "reflect_on_think",
+        "resolve_conflicts",
+        "run_sandbox_experiments",
+        "save_goals",
+        "save_neutral_count",
+        "select_focus_goals",
+        "self_model_maintenance_cycle",
+        "self_supervised_repair",
+        "simulate_conflicting_beliefs",
+        "simulate_event",
+        "simulate_future_selves",
+        "simulate_new_cognitive_abilities",
+        "simulate_world_state_change",
+        "summarize_relationships",
+        "tag_beliefs_from_feedback",
+        "try_to_accomplish",
+        "update_and_select_focus_goals",
+        "update_cognition_schedule",
+        "update_influence_scores_from_feedback",
+        "update_motivations",
+        "update_relationship_model",
+        "update_self_model",
+        "update_values_with_lessons",
+        "update_world_model"
+      ],
+      "ranked": [
+        [
+          "update_motivations",
+          0.3128
+        ],
+        [
+          "simulate_new_cognitive_abilities",
+          0.3116
+        ],
+        [
+          "resolve_conflicts",
+          0.3078
+        ],
+        [
+          "update_values_with_lessons",
+          0.3042
+        ],
+        [
+          "self_model_maintenance_cycle",
+          0.2977
+        ],
+        [
+          "compose_dream",
+          0.2963
+        ]
+      ],
+      "component_scores": {
+        "update_motivations": {
+          "dir": 0.1091089451179962,
+          "goal": 0.2672612419124244,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "simulate_new_cognitive_abilities": {
+          "dir": 0.16666666666666669,
+          "goal": 0.20412414523193154,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "resolve_conflicts": {
+          "dir": 0.0,
+          "goal": 0.35355339059327373,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_values_with_lessons": {
+          "dir": 0.1516196087157807,
+          "goal": 0.18569533817705186,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "self_model_maintenance_cycle": {
+          "dir": 0.0,
+          "goal": 0.4472135954999579,
+          "emo": 0.0,
+          "novel": 0.8666666666666667,
+          "band": 0.0
+        },
+        "compose_dream": {
+          "dir": 0.19802950859533489,
+          "goal": 0.24253562503633297,
+          "emo": 0.0,
+          "novel": 0.8666666666666667,
+          "band": 0.0
+        }
+      },
+      "decision_id": "9fce37a2-5e6b-4d3c-bf00-d9f3ea10bcb0",
+      "anti_repeat": {
+        "applied": false,
+        "boredom": 0.0,
+        "immediate_repeat": false
+      }
+    },
+    "timestamp": "2025-08-12T23:36:11.931960+00:00"
+  },
+  {
+    "choice": "reflect_as_agents",
+    "reason": {
+      "via": "multi-factor",
+      "weights": {
+        "dir": 0.22,
+        "goal": 0.22,
+        "emo": 0.18,
+        "novel": 0.23,
+        "band": 0.15
+      },
+      "features_on": {
+        "has_focus_goal": 1.0,
+        "emo_hopeful": 1.0,
+        "__bias__": 1.0
+      },
+      "dominant_emotion": "hopeful",
+      "boredom": 0.0,
+      "candidates": [
+        "add_goal",
+        "adjust_goal_weights",
+        "adjust_priority",
+        "bootstrap_self",
+        "build_system_prompt",
+        "check_violates_boundaries",
+        "clean_snippet",
+        "compose_dream",
+        "create_micro_goal_for_action",
+        "curiosity_loop",
+        "decompose_goal",
+        "ensure_immediate_actions_bucket",
+        "ensure_long_term_goal",
+        "eval_predicate",
+        "evaluate_new_abstractions",
+        "evaluate_recent_cognition",
+        "evolve_core_value",
+        "explore_your_recent_emotional_states_listlessness__security__and",
+        "explore_your_recent_thoughts_reflect_mild_emotional",
+        "explore_your_recent_thoughts_remain_consistent_with_your",
+        "explore_your_recent_thoughts_reveal_mild_emotional_ambivalence_and",
+        "extract_last_reflection_topic",
+        "generate_absurd_goal",
+        "generate_concepts_from_memories",
+        "goal_function_already_exists",
+        "imagine_opposite_self",
+        "introspective_planning",
+        "invent_new_value",
+        "load_goals",
+        "load_neutral_count",
+        "mark_goal_completed",
+        "mark_goal_status_by_name",
+        "maybe_complete_goals",
+        "merge_updated_goal_into_tree",
+        "meta_reflect",
+        "moral_override_check",
+        "mutate_directive",
+        "now_iso",
+        "periodic_self_review",
+        "plan_self_evolution",
+        "prune_goals",
+        "prune_old_threads",
+        "pursue_goal",
+        "record_decision",
+        "reflect_as_agents",
+        "reflect_on_cognition_patterns",
+        "reflect_on_cognition_schedule",
+        "reflect_on_conversation_patterns",
+        "reflect_on_effectiveness",
+        "reflect_on_emotion_sensitivity",
+        "reflect_on_growth_history",
+        "reflect_on_internal_agents",
+        "reflect_on_internal_voices",
+        "reflect_on_missed_goals",
+        "reflect_on_outcomes",
+        "reflect_on_prompts",
+        "reflect_on_rules_used",
+        "reflect_on_sandbox_experiment",
+        "reflect_on_self_beliefs",
+        "reflect_on_think",
+        "resolve_conflicts",
+        "run_sandbox_experiments",
+        "save_goals",
+        "save_neutral_count",
+        "select_focus_goals",
+        "self_model_maintenance_cycle",
+        "self_supervised_repair",
+        "simulate_conflicting_beliefs",
+        "simulate_event",
+        "simulate_future_selves",
+        "simulate_new_cognitive_abilities",
+        "simulate_world_state_change",
+        "summarize_relationships",
+        "tag_beliefs_from_feedback",
+        "try_to_accomplish",
+        "update_and_select_focus_goals",
+        "update_cognition_schedule",
+        "update_influence_scores_from_feedback",
+        "update_motivations",
+        "update_relationship_model",
+        "update_self_model",
+        "update_values_with_lessons",
+        "update_world_model"
+      ],
+      "ranked": [
+        [
+          "reflect_as_agents",
+          0.3442
+        ],
+        [
+          "simulate_new_cognitive_abilities",
+          0.3116
+        ],
+        [
+          "resolve_conflicts",
+          0.3078
+        ],
+        [
+          "update_values_with_lessons",
+          0.3042
+        ],
+        [
+          "self_model_maintenance_cycle",
+          0.3008
+        ],
+        [
+          "compose_dream",
+          0.2993
+        ]
+      ],
+      "component_scores": {
+        "reflect_as_agents": {
+          "dir": 0.07715167498104596,
+          "goal": 0.0,
+          "emo": 1.0,
+          "novel": 0.64,
+          "band": 0.0
+        },
+        "simulate_new_cognitive_abilities": {
+          "dir": 0.16666666666666669,
+          "goal": 0.20412414523193154,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "resolve_conflicts": {
+          "dir": 0.0,
+          "goal": 0.35355339059327373,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "update_values_with_lessons": {
+          "dir": 0.1516196087157807,
+          "goal": 0.18569533817705186,
+          "emo": 0.0,
+          "novel": 1.0,
+          "band": 0.0
+        },
+        "self_model_maintenance_cycle": {
+          "dir": 0.0,
+          "goal": 0.4472135954999579,
+          "emo": 0.0,
+          "novel": 0.8799999999999999,
+          "band": 0.0
+        },
+        "compose_dream": {
+          "dir": 0.19802950859533489,
+          "goal": 0.24253562503633297,
+          "emo": 0.0,
+          "novel": 0.8799999999999999,
+          "band": 0.0
+        }
+      },
+      "decision_id": "3793b640-70b4-4b75-bc96-1df63c059224",
+      "anti_repeat": {
+        "applied": false,
+        "boredom": 0.0,
+        "immediate_repeat": false
+      }
+    },
+    "timestamp": "2025-08-13T00:58:29.370717+00:00"
   }
 ]

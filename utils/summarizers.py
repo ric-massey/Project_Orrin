@@ -1,59 +1,91 @@
 # == Imports
+from __future__ import annotations
+
+from typing import Optional, Dict, Any, List
 from utils.json_utils import load_json
-from paths import LONG_MEMORY_FILE 
+from paths import LONG_MEMORY_FILE
 
 # == Functions
-def summarize_recent_thoughts(n: int = 5, event_type_filter: str = None) -> str:
+def summarize_recent_thoughts(n: int = 5, event_type_filter: Optional[str] = None) -> str:
     """
-    Returns a short summary of the most recent reflections (optionally filtered by event_type)
-    from long-term memory.
+    Return a short summary of the most recent long-memory entries (optionally filtered by event_type).
+    Most recent entries appear first. If no entries, returns a friendly message.
     """
-    long_memory = load_json(LONG_MEMORY_FILE, default_type=list)
-    if not long_memory:
+    if not isinstance(n, int) or n <= 0:
+        n = 5
+
+    long_memory: List[Dict[str, Any]] = load_json(LONG_MEMORY_FILE, default_type=list)
+    if not isinstance(long_memory, list) or not long_memory:
         return "No recent thoughts found."
 
-    # Optionally filter by event_type
+    # Filter to dict entries with content
     if event_type_filter:
-        filtered = [item for item in long_memory if isinstance(item, dict) and item.get('event_type') == event_type_filter]
+        filtered = [m for m in long_memory if isinstance(m, dict) and m.get("event_type") == event_type_filter and "content" in m]
     else:
-        filtered = [item for item in long_memory if isinstance(item, dict) and 'content' in item]
+        filtered = [m for m in long_memory if isinstance(m, dict) and "content" in m]
 
-    recent = filtered[-n:]
+    if not filtered:
+        return "No recent thoughts with content."
 
-    summary_lines = []
-    for item in recent:
-        content = item.get('content', '')
-        # Unpack emotion if present and dict
-        emotion = item.get('emotion')
-        if isinstance(emotion, dict):
-            emotion_str = emotion.get('emotion')
-            intensity = emotion.get('intensity')
+    # Take last n (most recent), then reverse to show newest first
+    recent = list(reversed(filtered[-n:]))
+
+    lines: List[str] = []
+    for m in recent:
+        content = m.get("content", "")
+        if not isinstance(content, str):
+            content = str(content)
+        content = content.strip()
+
+        # Emotion can be a dict or a string
+        emo = m.get("emotion")
+        intensity = None
+        if isinstance(emo, dict):
+            emotion_str = emo.get("emotion")
+            intensity = emo.get("intensity")
         else:
-            emotion_str = emotion
-            intensity = None
+            emotion_str = emo
+
         line = f"- {content}"
         if emotion_str:
             line += f" (felt {emotion_str})"
-        if intensity is not None:
-            line += f" [intensity: {round(float(intensity),2)}]"
-        # Optionally add event_type or timestamp
-        # line += f" {{{item.get('event_type', '')}}}"
-        summary_lines.append(line)
+        try:
+            if intensity is not None:
+                line += f" [intensity: {round(float(intensity), 2)}]"
+        except (TypeError, ValueError):
+            # skip bad intensity values silently
+            pass
 
-    return "\n".join(summary_lines) if summary_lines else "No recent thoughts with content."
+        # If you ever want timestamps or event_type, uncomment:
+        # ts = m.get("timestamp", "")
+        # et = m.get("event_type", "")
+        # if et: line += f" {{{et}}}"
+        # if ts: line += f" @ {ts}"
 
-def summarize_self_model(self_model: dict) -> dict:
+        lines.append(line)
+
+    return "\n".join(lines)
+
+
+def summarize_self_model(self_model: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Condenses the full self-model into a lightweight summary for prompting.
+    Condense the self model into a lightweight dict for prompting.
+    Uses canonical keys used elsewhere in the codebase.
     """
     if not isinstance(self_model, dict):
         return {}
 
+    core_dir = self_model.get("core_directive", {})
+    if isinstance(core_dir, str):
+        core_statement = core_dir or "Not found"
+    else:
+        core_statement = core_dir.get("statement", "Not found")
+
     return {
-        "core_directive": self_model.get("core_directive", {}).get("statement", "Not found"),
+        "core_directive": core_statement,
         "core_values": self_model.get("core_values", []),
-        "traits": self_model.get("personality_traits", []),
-        "identity": self_model.get("identity_story", "An evolving reflective AI"),
-        "known_roles": self_model.get("roles", []),
-        "recent_focus": self_model.get("recent_focus", [])
+        "traits": self_model.get("traits", []),                # <- canonical key
+        "identity": self_model.get("identity", "An evolving reflective AI"),
+        "known_roles": self_model.get("known_roles", []),      # <- canonical key
+        "recent_focus": self_model.get("recent_focus", []),
     }

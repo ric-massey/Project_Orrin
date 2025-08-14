@@ -1,0 +1,10 @@
+{
+  "name": "ifollow",
+  "tasks": [
+    {
+      "id": "count_words",
+      "prompt": "Count words in 'one two three'. Output only the number.",
+      "check": "stdout~=3"
+    }
+  ]
+}

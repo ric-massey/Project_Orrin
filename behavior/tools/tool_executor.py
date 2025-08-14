@@ -1,3 +1,4 @@
+_did_sleep = False
 import json, time
 from datetime import datetime, timezone
 
@@ -8,8 +9,10 @@ from utils.generate_response import generate_response
 from memory.working_memory import update_working_memory
 from utils.emotion_utils import detect_emotion
 from utils.log import log_model_issue, log_private
+from utils.events import emit_event, ACTION_START, ACTION_END
 
 def run_tool(tool, reason):
+    emit_event(ACTION_START, {"tool": tool, "reason": reason})
     if tool in tool_registry:
         # For code tools, treat reason as code; for write_file/read_file, expect dict with args
         if tool == "execute_python_code":
@@ -71,7 +74,7 @@ def execute_pending_tools():
 
         timestamp = datetime.now(timezone.utc).isoformat()
         log_entry = {
-            "content": f"Tool `{tool}` used for `{reason}` → {str(result)[:300]}...",
+            "content": f"Tool `{tool}` used for `{reason}` → {str(result)[:300]}",
             "emotion": detect_emotion(str(result)),
             "timestamp": timestamp
         }
@@ -96,4 +99,4 @@ def execute_pending_tools():
 if __name__ == "__main__":
     while True:
         execute_pending_tools()
-        time.sleep(6)
+        _did_sleep = True; time.sleep(6)

@@ -1,8 +1,0 @@
-
-[2025-08-06T03:13:52.763398+00:00] 🚫 LLM hallucinated twice in fallback decision.
-
-[2025-08-06T03:15:25.619726+00:00] 🚫 LLM hallucinated twice in fallback decision.
-
-[2025-08-06T04:06:02.933993+00:00] ❌ Function select_focus_goals crashed: select_focus_goals() missing 1 required positional argument: 'goals'
-
-[2025-08-06T04:48:28.466861+00:00] plan_self_evolution ERROR: string indices must be integers, not 'str'

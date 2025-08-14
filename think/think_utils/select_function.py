@@ -1,272 +1,381 @@
-import json
-from utils.generate_response import generate_response
-from utils.json_utils import extract_json, load_json
-from utils.log import log_error
-from utils.memory_utils import format_memories_for_prompt
-from utils.summarizers import summarize_self_model
-from utils.self_model import ensure_self_model_integrity
-from utils.knowledge_utils import recall_relevant_knowledge
-from utils.emotion_utils import detect_emotion, dominant_emotion
+# think/think_utils/select_function.py
+from __future__ import annotations
+from typing import Dict, List, Tuple, Union, Any
+import uuid
+import re
+
+from paths import (
+    COGNITIVE_FUNCTIONS_LIST_FILE,
+    FOCUS_GOAL,
+    EMOTIONAL_STATE_FILE,
+    SELF_MODEL_FILE,    
+    EMOTION_FUNCTION_MAP_FILE
+)
+from utils.json_utils import load_json
 from utils.goals import extract_current_focus_goal
-from emotion.reward_signals.reward_signals import release_reward_signal, novelty_penalty
-from core.drive import persistent_drive_loop
-from paths import EMOTION_FUNCTION_MAP_FILE, COGNITIVE_FUNCTIONS_LIST_FILE, FOCUS_GOAL
+from think.bandit import contextual_bandit as bandit
 
-def select_function(
-    context,
-    self_model,
-    emotional_state,
-    long_memory,
-    working_memory,
-    relationships,
-    available_functions,
-    last_choice,
-    cognition_log,
-    tool_requests,
-    amygdala_response=None,
-    speaker=None
-):
-    self_model = ensure_self_model_integrity(self_model)
-    # Defensive: ensure dict structure
-    if not isinstance(available_functions, dict):
-        available_functions = {fn: {"function": fn, "is_action": False} for fn in available_functions}
+FALLBACK_ACTIONS = ["reflect_on_directive", "plan_next_step", "summarize_memory"]
 
-    # Initialize last_choice and context_hash safely
-    if last_choice is None:
-        last_choice = ""
-    context_hash = hash(json.dumps({
-        "self_model": self_model,
-        "emotions": [e[0] for e in sorted(emotional_state.get("core_emotions", {}).items(), key=lambda x: x[1], reverse=True)[:3]] if emotional_state else [],
-        "pending_requests": [r for r in tool_requests if not r.get("executed", False)] if tool_requests else []
-    }, sort_keys=True))
 
-    # Handle Signals
-    filtered_signals = context.get("filtered_signals", [])
-    for signal in filtered_signals:
-        content = signal.get("content", "")
-        if signal.get("source") != "user_input" or not content.strip():
-            continue
-        if context.get("check_violates_boundaries", lambda x: False)(content):
-            if callable(context.get("update_working_memory")):
-                context["update_working_memory"]("⚠️ Input violated boundaries. Skipped.")
-            continue
+# -------------------- basic loaders (unchanged API) --------------------
+def _load_actions() -> List[str]:
+    items = load_json(COGNITIVE_FUNCTIONS_LIST_FILE, default_type=list)
+    if not isinstance(items, list) or not items:
+        return FALLBACK_ACTIONS
+    names: List[str] = []
+    for it in items:
+        if isinstance(it, dict) and "name" in it:
+            names.append(str(it["name"]))
+        elif isinstance(it, str):
+            names.append(it)
+    return names or FALLBACK_ACTIONS
 
-        # Unified rich memory recall and marking
-        relevant_memories = recall_relevant_knowledge(content, long_memory=long_memory, working_memory=working_memory, max_items=8)
-        for mem in relevant_memories:
-            mem["referenced"] = mem.get("referenced", 0) + 1
-            mem["recall_count"] = mem.get("recall_count", 0) + 1
 
-        prompt = (
-            f"User said: {content}\n"
-            f"Self-model: {json.dumps(summarize_self_model(self_model))}\n"
-            f"Relevant memories:\n{format_memories_for_prompt(relevant_memories)}\n"
-            f"Relationships: {relationships}\n"
-        )
-        response = generate_response(prompt)
-        if response and not context.get("moral_override_check", lambda x: {"override": False})(response).get("override"):
-            if not context.get("speech_done") and speaker:
-                spoken = speaker.should_speak(response, emotional_state, context)
-                if spoken and callable(context.get("update_working_memory")):
-                    context["update_working_memory"](spoken)
-                    if callable(context.get("update_emotional_state")):
-                        context["update_emotional_state"]()
-            contradiction = context.get("repair_contradictions", lambda x: {})(response)
-            if contradiction.get("repair_attempt") and callable(context.get("update_working_memory")):
-                context["update_working_memory"](contradiction["repair_attempt"])
-            if callable(context.get("set_current_mode")):
-                context["set_current_mode"](detect_emotion(response))
-            if callable(context.get("update_last_active")):
-                context["update_last_active"]()
-            if amygdala_response and amygdala_response.get("threat_detected"):
-                shortcut = amygdala_response.get("shortcut_function")
-                tags = amygdala_response.get("threat_tags", [])
-                spike = amygdala_response.get("spike_intensity", 0.0)
-                if callable(context.get("update_working_memory")):
-                    context["update_working_memory"](
-                        f"⚠️ Amygdala triggered {tags[0]} response. Intensity: {spike}. Redirecting to: {shortcut}."
-                    )
-                return shortcut, f"Amygdala threat reflex ({tags[0]})", False
+def _dominant_emotion() -> str:
+    emo = load_json(EMOTIONAL_STATE_FILE, default_type=dict) or {}
+    core = emo.get("core_emotions", {})
+    if isinstance(core, dict) and core:
+        try:
+            return max(core.items(), key=lambda kv: kv[1])[0]
+        except Exception:
+            pass
+    return str(emo.get("dominant", "neutral"))
 
-    # Anti-stagnation Check
-    core_emotions = emotional_state.get("core_emotions", {}) if emotional_state else {}
-    top_emotions = sorted(core_emotions.items(), key=lambda x: x[1], reverse=True)[:3]
-    top_emotion_names = [e[0] for e in top_emotions] if top_emotions else [dominant_emotion(emotional_state)]
-    recent_choices = [entry.get("choice") for entry in cognition_log[-5:]] if cognition_log else []
-    recent_choices_str = ", ".join(recent_choices) if recent_choices else "none"
 
-    context.setdefault("boredom_count", 0)
-    context.setdefault("sandbox_mode", False)
-    if last_choice == context.get("last_cognition_choice"):
-        repeat_count = context.get("repeat_count", 0) + 1
-    else:
-        repeat_count = 1
-
-    if repeat_count >= 2 or context_hash == context.get("last_context_hash", ""):
-        context["boredom_count"] += 1
-    else:
-        context["boredom_count"] = 0
-
-    if context["boredom_count"] >= 3:
-        context["sandbox_mode"] = True
-        if callable(context.get("update_working_memory")):
-            context["update_working_memory"]("⚡ Chaos trigger activated: Entering sandbox mode.")
-        context["boredom_count"] = 0
-
-    if context.get("sandbox_mode", False):
-        if callable(context.get("update_working_memory")):
-            context["update_working_memory"](
-                "🧪 [Sandbox] Orrin is experimenting with weirdness due to boredom."
-            )
-        func_name, reason = context.get("run_sandbox_experiments", lambda ctx: ("persistent_drive_loop", "sandbox"))(context)
-        return func_name, reason, False
-    elif repeat_count >= 3 or context_hash == context.get("last_context_hash", ""):
-        return "revise_think", "Breaking stagnation.", False
-
-    # Gradient Emotion Mapping
+def _focus_goal_name() -> str:
+    fg = load_json(FOCUS_GOAL, default_type=dict) or {}
     try:
-        emotion_map = load_json(EMOTION_FUNCTION_MAP_FILE, default_type=dict)
-        weighted_options = {}
-        for emotion, intensity in top_emotions:
-            for option in emotion_map.get(emotion, []):
-                if option in available_functions.keys():
-                    weighted_options[option] = weighted_options.get(option, 0) + intensity
-        if weighted_options:
-            sorted_options = sorted(weighted_options.items(), key=lambda x: x[1], reverse=True)
-            chosen, score = sorted_options[0]
-            if callable(context.get("update_working_memory")):
-                context["update_working_memory"](
-                    f"🎯 Weighted emotion-linked function: {chosen} from emotions {top_emotion_names}"
-                )
-            is_action = available_functions.get(chosen, {}).get("is_action", False)
-            return chosen, f"Emotion-weighted decision: {chosen} via {top_emotion_names}", is_action
-    except Exception as e:
-        if callable(context.get("update_working_memory")):
-            context["update_working_memory"](f"⚠️ Emotion map load failed: {e}")
+        s = extract_current_focus_goal(fg)
+        if s:
+            return str(s)
+    except Exception:
+        pass
+    return str(fg.get("name", ""))
 
-    # Internal Drive Check
-    if "fear" in top_emotion_names or "sadness" in top_emotion_names:
-        if not any("dream" in m.get("content", "") for m in working_memory[-10:]):
-            return "dream", "Emotion-triggered dream.", False
 
-    drive_choice = persistent_drive_loop(self_model, emotional_state, long_memory[-10:])
-    if isinstance(drive_choice, str) and drive_choice:
-        if callable(context.get("update_working_memory")):
-            context["update_working_memory"](f"🔥 Internal drive chose: {drive_choice}")
-        is_action = available_functions.get(drive_choice, {}).get("is_action", False)
-        return drive_choice, "Driven by internal need", is_action
+# -------------------- small helpers (additive) --------------------
+def _tokenize(text: str) -> List[str]:
+    if not isinstance(text, str) or not text:
+        return []
+    return re.findall(r"[a-z0-9]+", text.lower())
 
-    # LLM-Based Planning Fallback with Forced Validation
 
-    # Build focus_goal_str dynamically so it is always up to date
-    focus_goal = load_json(FOCUS_GOAL)
-    current_goal_str = extract_current_focus_goal(focus_goal)
-    if current_goal_str:
-        focus_goal_str = f"Focus Goal: \"{current_goal_str}\""
-    else:
-        focus_goal_str = "No explicit focus goal found."
+def _kw_overlap_score(candidate_text: str, ref_text: str) -> float:
+    """soft keyword overlap in [0..1]. Works even if defs are short."""
+    a = set(_tokenize(candidate_text))
+    b = set(_tokenize(ref_text))
+    if not a or not b:
+        return 0.0
+    inter = len(a & b)
+    denom = (len(a) ** 0.5) * (len(b) ** 0.5)
+    return inter / denom if denom else 0.0
 
+
+def _load_action_defs() -> Tuple[List[str], Dict[str, str]]:
+    """
+    Returns (names, defs). Supports:
+      - ['name', ...]
+      - [{'name': 'fn', 'definition': '...'}, ...]
+    Falls back to using the name as the definition.
+    """
+    items = load_json(COGNITIVE_FUNCTIONS_LIST_FILE, default_type=list)
+    if not isinstance(items, list) or not items:
+        return (list(FALLBACK_ACTIONS), {n: n for n in FALLBACK_ACTIONS})
+
+    names: List[str] = []
+    defs: Dict[str, str] = {}
+    for it in items:
+        if isinstance(it, dict) and "name" in it:
+            nm = str(it["name"])
+            names.append(nm)
+            defs[nm] = str(it.get("definition") or nm)
+        elif isinstance(it, str):
+            names.append(it)
+            defs[it] = it
+
+    if len(names) < 2:
+        for fb in FALLBACK_ACTIONS:
+            if fb not in names:
+                names.append(fb)
+                defs[fb] = fb
+    return names, defs
+
+
+def _get_directive_text() -> str:
+    sm = load_json(SELF_MODEL_FILE, default_type=dict) or {}
+    cd = sm.get("core_directive")
+    if isinstance(cd, dict):
+        return str(cd.get("statement", "")) or ""
+    if isinstance(cd, str):
+        return cd
+    return ""
+
+
+def _get_focus_goal_text() -> str:
+    fg = load_json(FOCUS_GOAL, default_type=dict) or {}
     try:
-        func_descriptions = load_json(COGNITIVE_FUNCTIONS_LIST_FILE, default_type=list)
-        formatted_options = [
-            f"- {entry['name']}: {entry.get('summary', 'No summary.')}"
-            for entry in func_descriptions
-            if entry['name'] in available_functions.keys()
-        ]
-        if not formatted_options:
-            raise ValueError("No valid function descriptions matched available_functions.")
-        options_str = "\n".join(formatted_options)
-    except Exception as e:
-        log_error(f"⚠️ Failed to load function summaries for fallback prompt: {e}")
-        options_str = "\n".join(f"- {func}" for func in available_functions.keys())
+        s = extract_current_focus_goal(fg)
+        if s:
+            return str(s)
+    except Exception:
+        pass
+    name = str(fg.get("name", "") or "")
+    desc = str(fg.get("description", "") or "")
+    return (name + " " + desc).strip()
 
-    def strict_choice_prompt(warning=""):
-        prompt = (
-            "I am Orrin, a reflective AI.\n"
-            f"My top emotions are: {', '.join(top_emotion_names)}.\n"
-            f"Directive: {self_model.get('core_directive', {}).get('statement', 'undefined')}.\n"
-            f"{focus_goal_str}\n\n"
-            f"Here are my cognition function options:\n{options_str}\n"
-            f"Here are my last 5 choices: {recent_choices_str}\n"
-            f"{warning}\n"
-            "Respond ONLY as JSON: {{ \"choice\": \"function_name\", \"reason\": \"...\" }}\n"
-            "The function name MUST be chosen from the list above EXACTLY."
-        )
-        result = generate_response(prompt)
-        return extract_json(result) if result else {}
 
-    choice = strict_choice_prompt("⚠️ Choose ONLY from the list above.")
-    if not isinstance(choice, dict) or "choice" not in choice or choice["choice"] not in available_functions.keys():
-        choice = strict_choice_prompt("❌ Invalid choice. Try again. Use EXACTLY one of the options above.")
-        if not isinstance(choice, dict) or "choice" not in choice or choice["choice"] not in available_functions.keys():
-            log_error("🚫 LLM hallucinated twice in fallback decision.")
-            return "persistent_drive_loop", "Fallback: hallucination protection triggered.", False
+def _dominant_emotion_and_boredom() -> Tuple[str, float]:
+    emo = load_json(EMOTIONAL_STATE_FILE, default_type=dict) or {}
+    core = emo.get("core_emotions", {}) or {}
+    boredom = float(core.get("boredom", emo.get("boredom", 0.0)) or 0.0)
+    dom = None
+    try:
+        if isinstance(core, dict) and core:
+            dom = max(core.items(), key=lambda kv: kv[1])[0]
+    except Exception:
+        dom = None
+    return (dom or str(emo.get("dominant", "neutral"))), max(0.0, min(1.0, boredom))
 
-    next_function = choice["choice"]
-    reason = choice.get("reason", "No reason returned.")
-    is_action = available_functions.get(next_function, {}).get("is_action", False)
 
-    novelty_score = novelty_penalty(last_choice, next_function, recent_choices, emotional_state, context)
-    if novelty_score < 0:
-        release_reward_signal(
-            context,
-            signal_type="dopamine",
-            actual_reward=0.1 + novelty_score,
-            expected_reward=0.7,
-            effort=0.4,
-            mode="phasic",
-            source="repetition_penalty"
-        )
-        if callable(context.get("update_working_memory")):
-            context["update_working_memory"](
-                f"🌀 Repetition penalty: {next_function} — I just wanted something different."
-            )
-        if "No reason" in reason or "fallback" in reason.lower():
-            reason = "Avoiding repetition — I just wanted something different."
-    elif novelty_score > 0:
-        release_reward_signal(
-            context,
-            signal_type="novelty",
-            actual_reward=1.0,
-            expected_reward=0.5,
-            effort=0.5,
-            mode="phasic",
-            source="novelty_reward"
-        )
-        from emotion.emotion_learning import update_emotion_function_map
-        if top_emotions:
-            update_emotion_function_map(top_emotions[0][0], next_function, reward_signal="novelty")
-        else:
-            if callable(context.get("update_working_memory")):
-                context["update_working_memory"](
-                    f"⚠️ Skipped emotion-function map update: no top emotions available."
-                )
-        if callable(context.get("update_working_memory")):
-            context["update_working_memory"](
-                f"🌱 Novelty reward: {next_function} — It just felt good."
-            )
-        if "No reason" in reason or "fallback" in reason.lower():
-            reason = "Dopamine-driven curiosity — it just felt good."
+def _recent_picks_from_ctx(ctx: Dict[str, Any]) -> List[str]:
+    rp = ctx.get("recent_picks", [])
+    return rp if isinstance(rp, list) else []
 
-    decision_check = generate_response(
-        f"I am Orrin. I chose '{next_function}' because: {reason}.\n"
-        "Does this align with my directive, beliefs, and emotions? Respond as JSON: { \"approved\": true/false, \"why\": \"...\", \"override_function\": \"...\" }"
+
+def _emotion_pref_scores_for_dominant(actions: List[str]) -> Dict[str, float]:
+    """
+    Use *only existing state* to bias functions by emotion:
+    - First look inside EMOTIONAL_STATE_FILE:
+        - emotion_function_map[dominant] / function_preferences[dominant] / emotion_function_weights[dominant]
+    - Then (fallback) look inside EMOTION_FUNCTION_MAP_FILE if present.
+    Normalizes to [0..1] with a floor, and handles singletons.
+    """
+    emo_state = load_json(EMOTIONAL_STATE_FILE, default_type=dict) or {}
+    dom = _dominant_emotion()
+    candidates = (
+        (emo_state.get("emotion_function_map") or {}),
+        (emo_state.get("function_preferences") or {}),
+        (emo_state.get("emotion_function_weights") or {}),
     )
-    result = extract_json(decision_check)
-    if result and not result.get("approved", True):
-        override = result.get("override_function", "reflect_on_emotions")
-        if callable(context.get("update_working_memory")):
-            context["update_working_memory"](
-                f"🧭 Overridden to {override}: {result.get('why', '')}"
-            )
-        return override, f"Override: {result.get('why', '')}", False
+    pref: Dict[str, float] = {}
+    for block in candidates:
+        if isinstance(block, dict) and isinstance(block.get(dom), dict):
+            for fn, wt in block[dom].items():  # type: ignore[index]
+                if fn in actions and isinstance(wt, (int, float)):
+                    pref[fn] = float(wt)
+            break
 
-    if last_choice == next_function:
-        repeat_count = context.get("repeat_count", 0) + 1
-    else:
-        repeat_count = 1
+    # 🔁 fallback: dedicated map file produced by update_emotion_function_map(...)
+    if not pref and EMOTION_FUNCTION_MAP_FILE:
+        try:
+            external_map = load_json(EMOTION_FUNCTION_MAP_FILE, default_type=dict) or {}
+            block = external_map.get(dom)
+            if isinstance(block, dict):
+                for fn, wt in block.items():
+                    if fn in actions and isinstance(wt, (int, float)):
+                        pref[fn] = float(wt)
+        except Exception:
+            pass
 
-    context["last_cognition_choice"] = next_function
-    context["repeat_count"] = repeat_count
-    context["last_context_hash"] = context_hash
-    return next_function, reason, is_action
+    if not pref:
+        return {}
+
+    vals = list(pref.values())
+    if len(vals) == 1:               # singleton → full weight
+        k = next(iter(pref))
+        return {k: 1.0}
+
+    lo, hi = min(vals), max(vals)
+    span = (hi - lo) or 1.0
+    return {k: 0.15 + 0.85 * ((v - lo) / span) for k, v in pref.items()}  # small floor so emo signal shows up
+
+
+
+
+def _novelty_score(name: str, recent: List[str]) -> float:
+    """
+    High if not used recently or rarely used.
+    Combines recency distance and inverse frequency within a window.
+    """
+    if not recent:
+        return 1.0
+    try:
+        idx = len(recent) - 1 - recent[::-1].index(name)
+        distance = len(recent) - 1 - idx
+    except ValueError:
+        distance = len(recent)  # never seen → maximum novelty
+
+    window = recent[-32:]
+    freq = window.count(name)
+    # recency: farther back → higher
+    r = min(1.0, distance / max(4.0, len(window) / 4.0))
+    # frequency: fewer occurrences → higher
+    f = 1.0 - min(1.0, (freq - 0.0) / max(1.0, len(window) / 3.0))
+    return max(0.0, min(1.0, 0.6 * r + 0.4 * f))
+
+
+def _bandit_pick_with_info(actions: List[str], feats: Dict[str, float]) -> Tuple[str, Dict[str, Any]]:
+    """
+    Try to get (picked, info) from the bandit; degrade gracefully to just a choice.
+    `info` may contain 'scores', 'epsilon', etc., if supported by the bandit.
+    """
+    if hasattr(bandit, "choose"):
+        # Prefer newer signature that can return scores
+        try:
+            picked, info = bandit.choose(actions, feats, return_scores=True)  # type: ignore
+            if not isinstance(info, dict):
+                info = {"_info": info}
+            return picked, info
+        except TypeError:
+            res = bandit.choose(actions, feats)  # type: ignore
+            if isinstance(res, tuple) and len(res) >= 2:
+                return res[0], {"scores": res[1]}
+            return res, {}
+    if hasattr(bandit, "pick"):
+        return bandit.pick(actions, feats), {}
+    return (actions[0] if actions else ""), {}
+
+
+def _bandit_hint_scores(actions: List[str], feats: Dict[str, float]) -> Dict[str, float]:
+    """Normalize bandit scores to [0..1] for use as a hint (not the decider)."""
+    chosen, info = _bandit_pick_with_info(actions, feats)
+    scores = info.get("scores") if isinstance(info, dict) else None
+    if not isinstance(scores, dict) or not scores:
+        return {}
+    vals = list(scores.values())
+    lo, hi = min(vals), max(vals)
+    span = (hi - lo) or 1.0
+    return {k: (v - lo) / span for k, v in scores.items()}
+
+
+def _ensure_min_candidates(actions: List[str]) -> List[str]:
+    """Guarantee at least 2 options to avoid collapsing into auto-select."""
+    if len(actions) >= 2:
+        return list(dict.fromkeys(actions))  # de-dupe preserve order
+    seeded = list(dict.fromkeys([*actions, *FALLBACK_ACTIONS]))
+    return seeded[:2] if len(seeded) >= 2 else seeded
+
+
+# -------------------- public features (your original, unchanged) --------------------
+def extract_features(context: Dict) -> Dict[str, float]:
+    ctx = context or {}
+    es = ctx.get("emotional_state", {}) or {}
+    features: Dict[str, float] = {
+        "bias_action": float(ctx.get("bias_action", 0.0) or 0.0),
+        "pending_tools": float(len(ctx.get("pending_tools", []) or [])),
+        "fatigue": float(es.get("fatigue", 0.0) or 0.0),
+        "has_focus_goal": 1.0 if _focus_goal_name() else 0.0,
+    }
+    emo = _dominant_emotion()
+    features[f"emo_{emo}"] = 1.0
+    # Explicit intercept so the bandit can learn a baseline
+    features["__bias__"] = 1.0
+    return features
+
+
+# -------------------- main selection (multi-factor) --------------------
+def select_function(context: Dict, *args: Any, **kwargs: Any) -> Union[str, Tuple[str, Dict, bool]]:
+    """
+    Back-compat selector with multi-factor scoring (no new files):
+      - Directive alignment (keyword overlap)
+      - Focus-goal alignment (keyword overlap)
+      - Emotion bias (if EMOTIONAL_STATE_FILE holds per-emotion fn weights)
+      - Novelty/recency (rare & not recently used → higher)
+      - Boredom boosts novelty weight
+      - Bandit scores used as a hint (small weight), not the decider
+
+    - New style: select_function(context) -> "fn_name"
+    - Legacy: select_function(context, ...) -> (fn_name, reason, is_action)
+    """
+    # Candidates + definitions (if present in JSON)
+    actions, defs = _load_action_defs()
+    actions = _ensure_min_candidates(actions)
+
+    feats = extract_features(context)
+
+    # Legacy signals from kwargs (if present)
+    if "amygdala_response" in kwargs:
+        try:
+            feats["amygdala_response"] = float(kwargs["amygdala_response"])
+        except Exception:
+            feats["amygdala_response"] = 0.0
+
+    is_legacy = bool(args) or bool(kwargs)
+    decision_id = str(uuid.uuid4())
+
+    # Multi-factor data
+    directive = _get_directive_text()
+    focus_goal_text = _get_focus_goal_text()
+    recent = _recent_picks_from_ctx(context)
+    dominant, boredom = _dominant_emotion_and_boredom()
+    emo_pref = _emotion_pref_scores_for_dominant(actions)
+    band_hint = _bandit_hint_scores(actions, feats)
+
+    # Weights (boredom increases novelty’s contribution)
+    w_dir = 0.22
+    w_goal = 0.22
+    w_emo = 0.18
+    base_w_novel = 0.23
+    w_novel = min(0.45, base_w_novel * (1.0 + 1.5 * boredom))
+    w_band = 0.15  # hint only
+
+    # Score each action
+    scored: List[Tuple[str, float, Dict[str, float]]] = []
+    for name in actions:
+        definition = defs.get(name, name)
+        s_dir = _kw_overlap_score(definition, directive)
+        s_goal = _kw_overlap_score(definition, focus_goal_text)
+        s_emo = float(emo_pref.get(name, 0.0))
+        s_nov = _novelty_score(name, recent)
+        s_band = float(band_hint.get(name, 0.0))
+
+        total = (w_dir * s_dir) + (w_goal * s_goal) + (w_emo * s_emo) + (w_novel * s_nov) + (w_band * s_band)
+        scored.append((name, total, {"dir": s_dir, "goal": s_goal, "emo": s_emo, "novel": s_nov, "band": s_band}))
+
+    scored.sort(key=lambda t: t[1], reverse=True)
+    chosen = scored[0][0] if scored else (actions[0] if actions else "")
+
+    # Optional tiny anti-repeat guard: only if immediate repeat and boredom is high
+    override_applied = False
+    immediate_repeat = False
+    try:
+        immediate_repeat = bool(recent and chosen == recent[-1])
+        if actions and (immediate_repeat and boredom >= 0.6):
+            alts = [a for a in actions if a != chosen]
+            if alts:
+                # pick most novel among alternatives
+                alts_scored = [(a, _novelty_score(a, recent)) for a in alts]
+                alts_scored.sort(key=lambda t: t[1], reverse=True)
+                new_choice = alts_scored[0][0]
+                if new_choice != chosen:
+                    chosen = new_choice
+                    override_applied = True
+    except Exception:
+        pass
+
+    # Reason payload
+    features_on = {k: v for k, v in feats.items() if isinstance(v, (int, float)) and abs(v) > 0}
+    ranked = [(n, round(s, 4)) for n, s, _ in scored[:6]]
+    comp = {n: cs for (n, _, cs) in scored[:6]}
+
+    reason = {
+        "via": "multi-factor",
+        "weights": {"dir": w_dir, "goal": w_goal, "emo": w_emo, "novel": w_novel, "band": w_band},
+        "features_on": features_on,
+        "dominant_emotion": dominant,
+        "boredom": boredom,
+        "candidates": list(actions),
+        "ranked": ranked,
+        "component_scores": comp,
+        "decision_id": decision_id,
+        "anti_repeat": {
+            "applied": override_applied,
+            "boredom": boredom,
+            "immediate_repeat": immediate_repeat,
+        },
+    }
+
+    if is_legacy:
+        return chosen, reason, False
+    return chosen

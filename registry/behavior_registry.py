@@ -1,96 +1,118 @@
-import os
-import importlib.util
+# registry/behavior_registry.py
+from __future__ import annotations
 import inspect
-import json
-from utils.log import log_error
-from utils.generate_response import generate_response
+from typing import Dict, Callable, List, Tuple
+from registry.utils import iter_modules, safe_import, extract_callables
 from paths import BEHAVIORAL_FUNCTIONS_LIST_FILE
+from utils.json_utils import save_json
+from utils.log import log_error, log_activity
 
-BEHAVIORAL_FUNCTIONS = {}
+_ALLOWED_PREFIXES: Tuple[str, ...] = ("act_", "tool_", "execute_", "say_", "report_", "sandbox_", "call_")
 
-def discover_behavioral_functions(package):
+def _is_action(fn: Callable) -> bool:
+    # Prefer a manifest flag if you use your @manifest decorator elsewhere
+    mf = getattr(fn, "__manifest__", None)
+    if mf and hasattr(mf, "is_action"):
+        try:
+            return bool(mf.is_action)
+        except Exception:
+            pass
+    # Fallback: treat discovered behavior callables as actions by default
+    return True
+
+def discover_behavioral_functions() -> Dict[str, Dict[str, object]]:
     """
-    Discovers all behavioral function files and loads them.
-    Stores as: {'function': fn, 'is_action': True/False}
-    Also generates or loads a summary for each function.
+    Returns a mapping:
+      name -> {"function": callable, "is_action": bool}
+
+    Scans ALL modules under the 'behavior' package (including subfolders).
+    First collects functions matched by _ALLOWED_PREFIXES via extract_callables(...),
+    then adds ANY other *public* functions defined in the module (keep-first).
+    Private helpers (names starting with '_') are excluded.
     """
-    global BEHAVIORAL_FUNCTIONS
+    funcs: Dict[str, Dict[str, object]] = {}
+    for mod_name in iter_modules("behavior"):
+        mod = safe_import(mod_name)
+        if not mod:
+            continue
 
-    try:
-        with open(BEHAVIORAL_FUNCTIONS_LIST_FILE, "r") as f:
-            existing_entries = json.load(f)
-    except Exception:
-        existing_entries = []
+        # 1) Prefix-based discovery
+        try:
+            raw_found = extract_callables(mod, _ALLOWED_PREFIXES)  # {name: callable}
+        except Exception:
+            raw_found = {}
 
-    existing_summaries = {
-        entry["name"]: entry.get("summary", "")
-        for entry in existing_entries if "name" in entry
-    }
-
-    found_functions = {}
-    updated_entries = []
-    base_path = package.__path__[0]
-
-    for root, _, files in os.walk(base_path):
-        for file in files:
-            if file.endswith(".py") and not file.startswith("_") and file != "__init__.py":
-                full_path = os.path.join(root, file)
-                rel_path = os.path.relpath(full_path, base_path)
-                module_name = f"{package.__name__}." + rel_path.replace(os.sep, ".").replace(".py", "")
-
+        for name, fn in raw_found.items():
+            if not isinstance(name, str) or name.startswith("_"):
+                continue  # skip private helpers
+            if name in funcs:
                 try:
-                    spec = importlib.util.spec_from_file_location(module_name, full_path)
-                    module = importlib.util.module_from_spec(spec)
-                    spec.loader.exec_module(module)
+                    log_error(f"[behavior discover] Duplicate function name '{name}' from {mod_name} ignored (keeping first).")
+                except Exception:
+                    pass
+                continue
+            funcs[name] = {"function": fn, "is_action": _is_action(fn)}
 
-                    for name, func in inspect.getmembers(module, inspect.isfunction):
-                        if not name.startswith("_"):
-                            # Detect 'is_action' as in cognitive loader
-                            is_action = True  # For behavioral, default to True unless noted
-                            doc = func.__doc__ or ""
-                            if "no_action" in name or "@no_action" in doc:
-                                is_action = False
+        # 2) Add other public functions defined in this module (exclude re-exported/imported & private)
+        try:
+            for name, fn in inspect.getmembers(mod, inspect.isfunction):
+                if getattr(fn, "__module__", None) != getattr(mod, "__name__", None):
+                    continue  # only functions defined in this module
+                if not isinstance(name, str) or name.startswith("_"):
+                    continue  # skip private helpers
+                if name in funcs:
+                    continue  # keep-first
+                funcs[name] = {"function": fn, "is_action": _is_action(fn)}
+        except Exception:
+            # best-effort; don't fail discovery because of one bad module
+            pass
 
-                            BEHAVIORAL_FUNCTIONS[name] = {
-                                "function": func,
-                                "is_action": is_action
-                            }
-                            found_functions[name] = func
+    return funcs
 
-                            if name in existing_summaries:
-                                summary = existing_summaries[name]
-                            else:
-                                try:
-                                    code = inspect.getsource(func)
-                                    prompt = f"Explain this Python function in one sentence:\n\n{code}\n\nSummary:"
-                                    summary = generate_response(prompt).strip()
-                                except Exception as e:
-                                    summary = f"⚠️ Failed to summarize: {e}"
-
-                            updated_entries.append({"name": name, "summary": summary, "is_action": is_action})
-
-                except Exception as e:
-                    log_error(f"⚠️ Failed to load {module_name}: {e}")
-
-    # Add untouched summaries for functions that still exist
-    untouched_entries = [
-        {"name": name, "summary": summary, "is_action": True}
-        for name, summary in existing_summaries.items()
-        if name not in found_functions
-    ]
-
-    all_entries = updated_entries + untouched_entries
-
-    # DEDUPLICATE
-    deduped = {}
-    for entry in all_entries:
-        deduped[entry["name"]] = entry
-
-    all_entries = list(deduped.values())
-    all_entries = sorted(all_entries, key=lambda x: x["name"])
-
+def persist_names(funcs: Dict[str, Dict[str, object]]) -> List[str]:
+    # Persist only public names (no leading underscore)
+    names = sorted(n for n in funcs.keys() if isinstance(n, str) and not n.startswith("_"))
     try:
-        with open(BEHAVIORAL_FUNCTIONS_LIST_FILE, "w") as f:
-            json.dump(all_entries, f, indent=2)
+        # Write full catalog entries the LLM can read (name + definition),
+        # while still returning just the names for callers.
+        items: List[Dict[str, str]] = []
+        for name in names:
+            meta = funcs.get(name, {})
+            fn = meta.get("function") if isinstance(meta, dict) else None
+            definition = name  # fallback
+            if callable(fn):
+                try:
+                    sig = str(inspect.signature(fn))
+                except Exception:
+                    sig = "()"
+                doc = (fn.__doc__ or "").strip()
+                definition = f"{name}{sig}\n{doc}" if doc else f"{name}{sig}"
+            items.append({"name": name, "definition": definition})
+        save_json(BEHAVIORAL_FUNCTIONS_LIST_FILE, items)
+        try:
+            log_activity(f"[behavior discover] Persisted {len(names)} behavioral function names + definitions.")
+        except Exception:
+            pass
     except Exception as e:
-        log_error(f"⚠️ Failed to write behavioral functions list: {e}")
+        try:
+            log_error(f"[behavior discover] Failed to persist names/definitions: {e}")
+        except Exception:
+            pass
+    return names
+
+
+# Build cache at import (simple and fast for your layout)
+BEHAVIORAL_FUNCTIONS: Dict[str, Dict[str, object]] = discover_behavioral_functions()
+persist_names(BEHAVIORAL_FUNCTIONS)
+
+def refresh() -> Dict[str, Dict[str, object]]:
+    """Optional: call if you hot-reload behaviors at runtime."""
+    global BEHAVIORAL_FUNCTIONS
+    BEHAVIORAL_FUNCTIONS = discover_behavioral_functions()
+    persist_names(BEHAVIORAL_FUNCTIONS)
+    return BEHAVIORAL_FUNCTIONS
+
+import traceback, sys
+def discover() -> Dict[str, Dict[str, object]]:
+    sys.stderr.write("[TRACE] behavior_registry.discover() called\n" + "".join(traceback.format_stack(limit=8)))
+    return discover_behavioral_functions()

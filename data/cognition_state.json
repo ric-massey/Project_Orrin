@@ -1,6 +1,30 @@
 {
-  "last_cognition_choice": "introspective_planning",
+  "last_cognition_choice": "reflect_as_agents",
   "repeat_count": 1,
-  "last_context_hash": 7551664871870245337,
-  "satisfaction": 0.8
+  "last_context_hash": -7479520997386250742,
+  "satisfaction": 0.74,
+  "recent_picks": [
+    "update_self_model",
+    "update_self_model",
+    "self_model_maintenance_cycle",
+    "self_model_maintenance_cycle",
+    "compose_dream",
+    "compose_dream",
+    "evolve_core_value",
+    "evolve_core_value",
+    "build_system_prompt",
+    "build_system_prompt",
+    "reflect_as_agents",
+    "reflect_as_agents",
+    "plan_self_evolution",
+    "plan_self_evolution",
+    "reflect_as_agents",
+    "reflect_as_agents",
+    "update_self_model",
+    "update_self_model",
+    "update_motivations",
+    "update_motivations",
+    "reflect_as_agents",
+    "reflect_as_agents"
+  ]
 }

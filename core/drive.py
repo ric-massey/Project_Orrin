@@ -1,3 +1,4 @@
+# drive.py
 from datetime import datetime, timezone
 from utils.log import log_private, log_error
 from utils.json_utils import extract_json
@@ -15,13 +16,15 @@ def persistent_drive_loop(context, self_model, memory):
             tags = amygdala_response.get("threat_tags", [])
             spike = amygdala_response.get("spike_intensity", 0.0)
             update_working_memory({
-                "content": f"⚠️ Amygdala override: Detected {tags[0]} threat. Spike: {spike}. Redirecting to: {shortcut}.",
+                "content": f"⚠️ Amygdala override: Detected {tags[0] if tags else 'unknown'} threat. "
+                           f"Spike: {spike}. Redirecting to: {shortcut}.",
                 "event_type": "amygdala_override",
                 "intensity": spike,
                 "priority": 3,
                 "timestamp": datetime.now(timezone.utc).isoformat()
             })
-            return shortcut
+            return shortcut  # always return a function name
+
         # === Optional: Bypass if emotionally secure
         stability = context.get("emotional_state", {}).get("emotional_stability", 1.0)
         if stability > 0.8:
@@ -31,20 +34,21 @@ def persistent_drive_loop(context, self_model, memory):
                 "priority": 1,
                 "timestamp": datetime.now(timezone.utc).isoformat()
             })
-            return None, "Emotionally stable — no internal drive needed."
+            return "choose_next_cognition"  # keep return type consistent
 
         # === 2. Snapshot directive + reflection
         directive = self_model.get("core_directive", {}).get("statement", "")
         identity = self_model.get("identity", "")
-        recent = "\n".join(f"- {m.get('content', '')}" for m in memory[-25:] if m.get("content"))
+        recent_mem = "\n".join(
+            f"- {m.get('content', '')}" for m in memory[-25:] if isinstance(m, dict) and m.get("content")
+        )
 
         summary = meta_reflect({
             "goal": "Evaluate internal state and directive alignment",
             "core_directive": directive,
             "identity": identity,
-            "recent_memory": recent
+            "recent_memory": recent_mem
         })
-
         if not summary or not isinstance(summary, str):
             raise ValueError("meta_reflect() returned invalid summary")
 
@@ -57,9 +61,18 @@ def persistent_drive_loop(context, self_model, memory):
         log_private(f"\n[{datetime.now(timezone.utc)}] Persistent drive summary:\n{summary}")
 
         # === 3. LLM-Based Decision: What cognition is needed most?
-        available_functions = context.get("available_functions", {})
+        available_functions = context.get("available_functions", {}) or {}
+        if not available_functions:
+            update_working_memory({
+                "content": "ℹ️ No available functions provided; defaulting to introspective_planning.",
+                "event_type": "drive_choice",
+                "importance": 1,
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            })
+            return "introspective_planning"
+
         past_choices = context.get("cognition_log", [])[-5:]
-        recent = ", ".join([c.get("choice", "") for c in past_choices])
+        recent_choices = ", ".join([c.get("choice", "") for c in past_choices if isinstance(c, dict)])
 
         options_str = "\n".join(f"- {fn}" for fn in available_functions.keys())
 
@@ -67,12 +80,12 @@ def persistent_drive_loop(context, self_model, memory):
             "You are Orrin, an autonomous AI.\n"
             f"Directive: {directive}\n"
             f"Identity: {identity}\n"
-            f"Recent cognition: {recent or 'none'}\n"
+            f"Recent cognition: {recent_choices or 'none'}\n"
             f"Summary of internal reflection:\n{summary}\n\n"
             f"Available functions:\n{options_str}\n"
             "Based on your state and goals, which cognitive function should come next?\n"
             "Avoid repeating the same action too often.\n"
-            "Respond as JSON: {\"choice\": \"function_name\", \"reason\": \"...\"}"
+            "Respond as JSON: {\"choice\": \"function_name\", \"reason\": \"\"}"
         )
 
         response = generate_response(prompt)
@@ -80,7 +93,7 @@ def persistent_drive_loop(context, self_model, memory):
 
         if not isinstance(decision, dict) or "choice" not in decision:
             update_working_memory({
-                "content": "⚠️ Invalid decision in drive loop.",
+                "content": "⚠️ Invalid decision in drive loop; defaulting to introspective_planning.",
                 "event_type": "drive_loop",
                 "priority": 2,
                 "timestamp": datetime.now(timezone.utc).isoformat()

@@ -6,9 +6,10 @@ from emotion.model import load_emotion_keywords
 from emotion.reward_signals.reward_signals import release_reward_signal
 from utils.self_model import get_self_model
 from paths import (
-    WORKING_MEMORY_FILE,
     EMOTIONAL_STATE_FILE,
-    MODE_FILE
+    WORKING_MEMORY_FILE,
+    MODE_FILE,
+    EMOTIONAL_SENSITIVITY_FILE, 
 )
 
 def decay_emotional_state():
@@ -16,41 +17,42 @@ def decay_emotional_state():
     if not state.get("emotional_decay", False):
         return
 
-    decay_rate = state.get("stability_decay_rate", 0.01)
-    core = state.get("core_emotions", {})
+    decay_rate = float(state.get("stability_decay_rate", 0.01))
+    core = dict(state.get("core_emotions", {}))
 
-    for emotion, value in core.items():
-        drift = (0.5 - value) * decay_rate  # Pull toward neutrality
-        core[emotion] = round(value + drift, 4)
+    for emotion, value in list(core.items()):
+        drift = (0.5 - float(value)) * decay_rate  # pull toward neutrality
+        core[emotion] = round(float(value) + drift, 4)
 
     state["core_emotions"] = core
     state["emotional_stability"] = round(
-        max(0.0, state.get("emotional_stability", 1.0) - decay_rate), 4
+        max(0.0, float(state.get("emotional_stability", 1.0)) - decay_rate), 4
     )
     state["last_updated"] = datetime.now(timezone.utc).isoformat()
-
     save_json(EMOTIONAL_STATE_FILE, state)
     log_private("Emotional state decayed.")
 
 
-def adjust_emotional_state(emotion, amount, reason="", context=None):
-    EMOTIONAL_STATE_FILE = "Emotional_state.json"
-    SENSITIVITY_FILE = "emotion_sensitivity.json"
-
+def adjust_emotional_state(emotion: str, amount: float, reason: str = "", context=None):
+    """Adjust a single core emotion with sensitivity, clamped to [0,1]."""
     if reason == "user_command":
         log_private(f"Refused to change emotion '{emotion}' due to direct user command.")
         return
 
-    state = load_json(EMOTIONAL_STATE_FILE, default_type=dict)
-    sensitivity = load_json(SENSITIVITY_FILE, default_type=dict)
-    core = state.get("core_emotions", {})
+    state_path = EMOTIONAL_STATE_FILE
+    sensitivity_path = EMOTIONAL_SENSITIVITY_FILE
 
-    sens = sensitivity.get(emotion, 1.0)
-    scaled_amount = amount * sens
+    state = load_json(state_path, default_type=dict)
+    sensitivity = load_json(sensitivity_path, default_type=dict)
+    core = dict(state.get("core_emotions", {}))
+
+    sens = float(sensitivity.get(emotion, 1.0))
+    scaled_amount = float(amount) * sens
 
     if emotion not in core:
         core[emotion] = 0.5
 
+    # If it's already very strong, tiny nudges are skipped
     if abs(scaled_amount) < 0.1 and abs(core[emotion] - 0.5) > 0.4:
         log_private(f"Emotion '{emotion}' too strong to shift by {scaled_amount}. Skipped.")
         return
@@ -58,7 +60,7 @@ def adjust_emotional_state(emotion, amount, reason="", context=None):
     new_value = round(core[emotion] + scaled_amount, 4)
     core[emotion] = max(0.0, min(1.0, new_value))
 
-    stability = state.get("emotional_stability", 1.0)
+    stability = float(state.get("emotional_stability", 1.0))
     if scaled_amount > 0:
         stability = min(1.0, stability + (scaled_amount * 0.1))
     elif scaled_amount < 0:
@@ -71,26 +73,25 @@ def adjust_emotional_state(emotion, amount, reason="", context=None):
         "event": reason or f"adjusted_{emotion}",
         "emotion": emotion,
         "intensity": round(scaled_amount, 4),
-        "timestamp": datetime.now(timezone.utc).isoformat()
+        "timestamp": datetime.now(timezone.utc).isoformat(),
     })
 
-    save_json(EMOTIONAL_STATE_FILE, state)
-    log_private(f"Emotion adjusted: {emotion} by {round(scaled_amount, 4)} due to {reason}")
+    save_json(state_path, state)
+    log_private(f"Emotion adjusted: {emotion} by {round(scaled_amount, 4)} due to {reason or 'unspecified'}")
 
-    # --- New: Add signal to thalamus if context is available
+    # Add a thalamus signal if a context is provided
     if context is not None:
         context.setdefault("raw_signals", []).append({
             "source": "emotion",
-            "content": f"Emotion adjusted: {emotion} by {round(scaled_amount, 4)} due to {reason}",
+            "content": f"Emotion adjusted: {emotion} by {round(scaled_amount, 4)} due to {reason or 'unspecified'}",
             "signal_strength": min(max(abs(scaled_amount), 0.3), 1.0),
-            "tags": ["emotion", "internal", emotion, reason]
+            "tags": ["emotion", "internal", str(emotion), str(reason or "adjustment")],
         })
 
 
-def detect_emotion(text):
-    text = text.lower()
+def detect_emotion(text: str) -> str:
+    text = (text or "").lower()
     emotion_keywords = load_emotion_keywords()
-
     if not emotion_keywords:
         log_error(f"⚠️ No emotion keywords loaded — returning 'neutral' for: {text[:100]}")
         return "neutral"
@@ -101,144 +102,131 @@ def detect_emotion(text):
             if word in text:
                 emotion_scores[emotion] += 1
 
-    if not any(score > 0 for score in emotion_scores.values()):
-        return "neutral"
+    return max(emotion_scores, key=emotion_scores.get) if any(emotion_scores.values()) else "neutral"
 
-    return max(emotion_scores, key=emotion_scores.get)
 
-def log_pain(context, emotion="frustration", increment=0.3):
-    # Always load full emotional state from file
+def log_pain(context, emotion: str = "frustration", increment: float = 0.3):
     from utils.json_utils import load_json, save_json
-    from paths import EMOTIONAL_STATE_FILE
+    from paths import EMOTIONAL_STATE_FILE as _STATE_FILE
 
-    # Load full state, not just from context
-    full_state = load_json(EMOTIONAL_STATE_FILE, default_type=dict)
-    core_emotions = full_state.get("core_emotions", {})
+    full_state = load_json(_STATE_FILE, default_type=dict)
+    core_emotions = dict(full_state.get("core_emotions", {}))
 
-    # Increment the correct emotion
-    core_emotions[emotion] = min(core_emotions.get(emotion, 0.0) + increment, 1.0)
+    core_emotions[emotion] = min(core_emotions.get(emotion, 0.0) + float(increment), 1.0)
     full_state["core_emotions"] = core_emotions
-
-    # Update context, too (so it's in sync)
     context["emotional_state"] = full_state
 
-    # Save and log
-    save_json(EMOTIONAL_STATE_FILE, full_state)
+    save_json(_STATE_FILE, full_state)
     log_private(f"⚠️ Pain signal: {emotion} increased to {core_emotions[emotion]}")
 
-    # Add pain signal to thalamus
     context.setdefault("raw_signals", []).append({
         "source": "emotion",
         "content": f"Pain signal: {emotion} increased to {core_emotions[emotion]}",
-        "signal_strength": min(max(increment, 0.3), 1.0),
-        "tags": ["emotion", "pain", "internal", emotion]
+        "signal_strength": min(max(float(increment), 0.3), 1.0),
+        "tags": ["emotion", "pain", "internal", str(emotion)],
     })
-    
-def log_uncertainty_spike(context, increment=0.2):
+
+
+def log_uncertainty_spike(context, increment: float = 0.2):
     log_private("😵 Disorientation: No function selected by think()")
     log_pain(context, emotion="uncertainty", increment=increment)
 
-def contextual_emotion_priming(context, persist=True):
-    """
-    Affective priming system that dynamically adjusts emotional valence based on:
-    - recent working memory valence traces
-    - recent emotional triggers
-    - goal alignment (from self model)
-    - active cognitive mode
-    - reward reinforcement for dynamic adaptation
-    """
 
-    # === Load context ===
+def contextual_emotion_priming(context, persist: bool = True):
+    """Affective priming based on working memory, triggers, goals, and mode."""
     emotional_state = load_json(EMOTIONAL_STATE_FILE, default_type=dict)
     working_memory = load_json(WORKING_MEMORY_FILE, default_type=list)[-12:]
-    self_model = get_self_model()  # <---- ONLY use the helper!
+    self_model = get_self_model()
     mode = load_json(MODE_FILE, default_type=dict).get("mode", "neutral")
 
-    # === Get core emotions + motivations
-    core_emotions = emotional_state.get("core_emotions", {})
+    core_emotions = dict(emotional_state.get("core_emotions", {}))
     recent_triggers = emotional_state.get("recent_triggers", [])[-10:]
     motivations = [m.lower() for m in self_model.get("motivations", []) if isinstance(m, str)]
 
     influence_map = {}
 
-    # === 1. Working memory priming (emotional echoes)
+    # 1) Working memory echoes
     for memory in working_memory:
-    # Try new-style emotion dict
-            emotion_data = memory.get("emotion")
-            if isinstance(emotion_data, dict):
-                emotion = emotion_data.get("emotion")
-                intensity = emotion_data.get("intensity", 0.5)
-                if emotion:
-                    influence_map[emotion] = influence_map.get(emotion, 0.0) + intensity * 0.5
-            # Optionally support old "emotional_valence" as backup
-            valence = memory.get("emotional_valence", {})
-            for emotion, intensity in valence.items():
-                influence_map[emotion] = influence_map.get(emotion, 0.0) + intensity * 0.5
+        # new-style emotion dict
+        emotion_data = memory.get("emotion")
+        if isinstance(emotion_data, dict):
+            em = emotion_data.get("emotion")
+            intensity = float(emotion_data.get("intensity", 0.5))
+            if em:
+                influence_map[em] = influence_map.get(em, 0.0) + intensity * 0.5
 
-    # === 2. Trigger-based echo
+        # fallback old-style valence
+        valence = memory.get("emotional_valence", {})
+        if isinstance(valence, dict):
+            for em, intensity in valence.items():
+                influence_map[em] = influence_map.get(em, 0.0) + float(intensity) * 0.5
+
+    # 2) Trigger echoes
     for trig in recent_triggers:
-        emotion = trig.get("emotion")
-        intensity = trig.get("intensity", 0.5)
-        if emotion:
-            influence_map[emotion] = influence_map.get(emotion, 0.0) + intensity * 0.4
+        em = trig.get("emotion")
+        intensity = float(trig.get("intensity", 0.5))
+        if em:
+            influence_map[em] = influence_map.get(em, 0.0) + intensity * 0.4
 
-    # === 3. Goal-based semantic priming (dynamic)
+    # 3) Goal-based semantic priming
     goal_bias_map = {
         "connection": "affection",
         "achievement": "pride",
         "progress": "motivation",
         "safety": "anxiety",
-        "stability": "security"
+        "stability": "security",
     }
-
     for goal in motivations:
         for keyword, bias_emotion in goal_bias_map.items():
             if keyword in goal:
                 influence_map[bias_emotion] = influence_map.get(bias_emotion, 0.0) + 0.3
 
-    # === 4. Mode-based affective modulation
+    # 4) Mode-based modulation
     mode_bias = {
         "creative": "curiosity",
         "critical": "frustration",
         "adaptive": "neutral",
         "philosophical": "melancholy",
-        "exploratory": "surprise"
+        "exploratory": "surprise",
     }
-
     mode_emotion = mode_bias.get(mode)
     if mode_emotion:
         influence_map[mode_emotion] = influence_map.get(mode_emotion, 0.0) + 0.2
 
-    # === 5. Apply updates to core emotions (clamped)
+    # 5) Apply updates
     total_delta = 0.0
-    for emotion, delta in influence_map.items():
-        previous = core_emotions.get(emotion, 0.5)
-        updated = min(1.0, max(0.0, previous + delta * 0.2))
-        total_delta += abs(updated - previous)
-        core_emotions[emotion] = round(updated, 3)
+    for em, delta in influence_map.items():
+        prev = float(core_emotions.get(em, 0.5))
+        updated = min(1.0, max(0.0, prev + delta * 0.2))
+        total_delta += abs(updated - prev)
+        core_emotions[em] = round(updated, 3)
 
     emotional_state["core_emotions"] = core_emotions
 
-    # === 6. Reward feedback loop (scales to total adjustment)
+    # 6) Reward feedback loop
     reward_strength = min(1.0, total_delta / max(len(influence_map), 1))
     release_reward_signal(
-        context=emotional_state,
+        context=context,  # use the actual context for consistency
         signal_type="dopamine",
         actual_reward=reward_strength,
         expected_reward=0.5,
         effort=0.4,
-        mode="tonic"
+        mode="tonic",
     )
 
-    # === 7. Save and inject
+    # 7) Save and inject
     if persist:
         save_json(EMOTIONAL_STATE_FILE, emotional_state)
 
     context["emotional_state"] = emotional_state
     log_activity("[Priming] Contextual emotion priming dynamically updated emotional profile.")
 
-def dominant_emotion(emotional_state):
+
+def dominant_emotion(emotional_state) -> str:
+    """Return the dominant emotion from a full emotional_state dict."""
     if not isinstance(emotional_state, dict):
         return "neutral"
-    weights = {k: v for k, v in emotional_state.items() if isinstance(v, (int, float))}
-    return max(weights, key=weights.get) if weights else "neutral"
+    core = emotional_state.get("core_emotions", {})
+    if not isinstance(core, dict) or not core:
+        return "neutral"
+    return max(core, key=core.get)
